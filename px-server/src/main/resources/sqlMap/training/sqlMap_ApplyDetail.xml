@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="applyDetail" isRead="true" dsName="test-read">
+
+	<sql id="insertApplyDetail" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO px_apply_detail(address, `name`, id, mobile, applyId, certificateType, certificateCode) 
+			values (:address, :name, :id, :mobile, :applyId, :certificateType, :certificateCode)
+		]]>
+	</sql>
+
+	<sql id="updateApplyDetail" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE px_apply_detail SET address = :address
+				<#if name?exists && name != "">
+					, `name` = :name
+				</#if>
+				<#if mobile?exists && mobile != "">
+					, mobile = :mobile
+				</#if>
+				<#if applyId?exists && applyId != "">
+					, applyId = :applyId
+				</#if>
+				<#if certificateType?exists && certificateType != "">
+					, certificateType = :certificateType
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					, certificateCode = :certificateCode
+				</#if>
+			WHERE id = :id
+		]]>
+	</sql>
+
+	<sql id="deleteApplyDetail" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM px_apply_detail
+			WHERE 1=1
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if applyId?exists && applyId != "">
+					AND applyId = :applyId
+				</#if>
+				<#if certificateType?exists && certificateType != "">
+					AND certificateType = :certificateType
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					AND certificateCode = :certificateCode
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleApplyDetailList">
+		<![CDATA[
+			SELECT 
+				address, 
+				`name`, 
+				id, 
+				mobile, 
+				applyId, 
+				certificateType, 
+				certificateCode
+			FROM px_apply_detail
+			WHERE 1=1
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if applyId?exists && applyId != "">
+					AND applyId = :applyId
+				</#if>
+				<#if certificateType?exists && certificateType != "">
+					AND certificateType = :certificateType
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					AND certificateCode = :certificateCode
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleApplyDetailListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM px_apply_detail
+			WHERE 1=1
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if applyId?exists && applyId != "">
+					AND applyId = :applyId
+				</#if>
+				<#if certificateType?exists && certificateType != "">
+					AND certificateType = :certificateType
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					AND certificateCode = :certificateCode
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getApplyDetailList">
+		<![CDATA[
+			SELECT 
+				address, 
+				`name`, 
+				id, 
+				mobile, 
+				applyId, 
+				certificateType, 
+				certificateCode
+			FROM px_apply_detail
+			WHERE 1=1
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if applyId?exists && applyId != "">
+					AND applyId = :applyId
+				</#if>
+				<#if certificateType?exists && certificateType != "">
+					AND certificateType = :certificateType
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					AND certificateCode = :certificateCode
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getApplyDetailListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM px_apply_detail
+			WHERE 1=1
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if applyId?exists && applyId != "">
+					AND applyId = :applyId
+				</#if>
+				<#if certificateType?exists && certificateType != "">
+					AND certificateType = :certificateType
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					AND certificateCode = :certificateCode
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

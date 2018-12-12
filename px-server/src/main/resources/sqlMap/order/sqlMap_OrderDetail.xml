@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="orderDetail" isRead="true" dsName="test-read">
+
+	<sql id="insertOrderDetail" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO order_detail(price, quantity, productId, productType, productName, orderId, amount) 
+			values (:price, :quantity, :productId, :productType, :productName, :orderId, :amount)
+		]]>
+	</sql>
+
+	<sql id="updateOrderDetail" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE order_detail SET price = :price
+				<#if quantity?exists && quantity != "">
+					, quantity = :quantity
+				</#if>
+				<#if productId?exists && productId != "">
+					, productId = :productId
+				</#if>
+				<#if productType?exists && productType != "">
+					, productType = :productType
+				</#if>
+				<#if productName?exists && productName != "">
+					, productName = :productName
+				</#if>
+				<#if orderId?exists && orderId != "">
+					, orderId = :orderId
+				</#if>
+				<#if amount?exists && amount != "">
+					, amount = :amount
+				</#if>
+			WHERE id = :id
+		]]>
+	</sql>
+
+	<sql id="deleteOrderDetail" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM order_detail
+			WHERE 1=1
+			<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+				<#if quantity?exists && quantity != "">
+					AND quantity = :quantity
+				</#if>
+				<#if productId?exists && productId != "">
+					AND productId = :productId
+				</#if>
+				<#if productType?exists && productType != "">
+					AND productType = :productType
+				</#if>
+				<#if productName?exists && productName != "">
+					AND productName = :productName
+				</#if>
+				<#if orderId?exists && orderId != "">
+					AND orderId = :orderId
+				</#if>
+				<#if amount?exists && amount != "">
+					AND amount = :amount
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleOrderDetailList">
+		<![CDATA[
+			SELECT 
+				id, 
+				price, 
+				quantity, 
+				productId, 
+				productType, 
+				productName, 
+				orderId, 
+				amount
+			FROM order_detail
+			WHERE 1=1
+			<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+				<#if quantity?exists && quantity != "">
+					AND quantity = :quantity
+				</#if>
+				<#if productId?exists && productId != "">
+					AND productId = :productId
+				</#if>
+				<#if productType?exists && productType != "">
+					AND productType = :productType
+				</#if>
+				<#if productName?exists && productName != "">
+					AND productName = :productName
+				</#if>
+				<#if orderId?exists && orderId != "">
+					AND orderId = :orderId
+				</#if>
+				<#if amount?exists && amount != "">
+					AND amount = :amount
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleOrderDetailListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM order_detail
+			WHERE 1=1
+			<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+				<#if quantity?exists && quantity != "">
+					AND quantity = :quantity
+				</#if>
+				<#if productId?exists && productId != "">
+					AND productId = :productId
+				</#if>
+				<#if productType?exists && productType != "">
+					AND productType = :productType
+				</#if>
+				<#if productName?exists && productName != "">
+					AND productName = :productName
+				</#if>
+				<#if orderId?exists && orderId != "">
+					AND orderId = :orderId
+				</#if>
+				<#if amount?exists && amount != "">
+					AND amount = :amount
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getOrderDetailList">
+		<![CDATA[
+			SELECT 
+				id, 
+				price, 
+				quantity, 
+				productId, 
+				productType, 
+				productName, 
+				orderId, 
+				amount
+			FROM order_detail
+			WHERE 1=1
+			<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+				<#if quantity?exists && quantity != "">
+					AND quantity = :quantity
+				</#if>
+				<#if productId?exists && productId != "">
+					AND productId = :productId
+				</#if>
+				<#if productType?exists && productType != "">
+					AND productType = :productType
+				</#if>
+				<#if productName?exists && productName != "">
+					AND productName = :productName
+				</#if>
+				<#if orderId?exists && orderId != "">
+					AND orderId = :orderId
+				</#if>
+				<#if amount?exists && amount != "">
+					AND amount = :amount
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getOrderDetailListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM order_detail
+			WHERE 1=1
+			<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+				<#if quantity?exists && quantity != "">
+					AND quantity = :quantity
+				</#if>
+				<#if productId?exists && productId != "">
+					AND productId = :productId
+				</#if>
+				<#if productType?exists && productType != "">
+					AND productType = :productType
+				</#if>
+				<#if productName?exists && productName != "">
+					AND productName = :productName
+				</#if>
+				<#if orderId?exists && orderId != "">
+					AND orderId = :orderId
+				</#if>
+				<#if amount?exists && amount != "">
+					AND amount = :amount
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

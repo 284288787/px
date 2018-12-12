@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="trainingItem" isRead="true" dsName="test-read">
+
+	<sql id="insertTrainingItem" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO px_training_item(type, notice, endTime, itemId, createUser, intro, title, beginTime, createTime, areaId, price, address) 
+			values (:type, :notice, :endTime, :itemId, :createUser, :intro, :title, :beginTime, :createTime, :areaId)
+		]]>
+	</sql>
+
+	<sql id="updateTrainingItem" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE px_training_item SET createUser = createUser
+				<#if notice?exists && notice != "">
+					, notice = :notice
+				</#if>
+				<#if endTime?exists && endTime != "">
+					, endTime = :endTime
+				</#if>
+				<#if type?exists && type != "">
+					, type = :type
+				</#if>
+				<#if intro?exists && intro != "">
+					, intro = :intro
+				</#if>
+				<#if title?exists && title != "">
+					, title = :title
+				</#if>
+				<#if beginTime?exists && beginTime != "">
+					, beginTime = :beginTime
+				</#if>
+				<#if createTime?exists && createTime != "">
+					, createTime = :createTime
+				</#if>
+				<#if areaId?exists && areaId != "">
+					, areaId = :areaId
+				</#if>
+				<#if deleted?exists && deleted != "">
+					, deleted = :deleted
+				</#if>
+				<#if enabled?exists && enabled != "">
+					, enabled = :enabled
+				</#if>
+				<#if price?exists && price != "">
+					, price = :price
+				</#if>
+				<#if address?exists && address != "">
+					, address = :address
+				</#if>
+			WHERE 
+				<#if itemId?exists && itemId != "">
+					itemId = :itemId
+				<#else>
+					itemId in (${itemIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteTrainingItem" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM px_training_item
+			WHERE 1=1
+			<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if notice?exists && notice != "">
+					AND notice = :notice
+				</#if>
+				<#if endTime?exists && endTime != "">
+					AND endTime = :endTime
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+				<#if title?exists && title != "">
+					AND title = :title
+				</#if>
+				<#if beginTime?exists && beginTime != "">
+					AND beginTime = :beginTime
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if areaId?exists && areaId != "">
+					AND areaId = :areaId
+				</#if>
+			<#if itemId?exists && itemId != "">
+				AND itemId = :itemId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleTrainingItemList">
+		<![CDATA[
+			SELECT 
+				type, 
+				notice, 
+				endTime, 
+				itemId, 
+				createUser, 
+				intro, 
+				title, 
+				beginTime, 
+				createTime, 
+				areaId, enabled, deleted, price, address,
+				(select shortName from pub_area a where a.areaId = px_training_item.areaId) areaName
+			FROM px_training_item
+			WHERE 1=1
+				<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if notice?exists && notice != "">
+					AND notice = :notice
+				</#if>
+				<#if endTime?exists && endTime != "">
+					AND endTime = :endTime
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+				<#if title?exists && title != "">
+					AND title = :title
+				</#if>
+				<#if beginTime?exists && beginTime != "">
+					AND beginTime = :beginTime
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if areaId?exists && areaId != "">
+					AND areaId = :areaId
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if itemId?exists && itemId != "">
+					AND itemId = :itemId
+				</#if>
+			ORDER BY itemId desc
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleTrainingItemListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM px_training_item
+			WHERE 1=1
+			<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if notice?exists && notice != "">
+					AND notice = :notice
+				</#if>
+				<#if endTime?exists && endTime != "">
+					AND endTime = :endTime
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+				<#if title?exists && title != "">
+					AND title = :title
+				</#if>
+				<#if beginTime?exists && beginTime != "">
+					AND beginTime = :beginTime
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if areaId?exists && areaId != "">
+					AND areaId = :areaId
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+			<#if itemId?exists && itemId != "">
+				AND itemId = :itemId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getTrainingItemList">
+		<![CDATA[
+			SELECT 
+				type, 
+				notice, 
+				endTime, 
+				itemId, 
+				createUser, 
+				intro, 
+				title, 
+				beginTime, 
+				createTime, price, address, 
+				areaId, enabled, deleted,
+				(select shortName from pub_area a where a.areaId = px_training_item.areaId) areaName
+			FROM px_training_item
+			WHERE 1=1
+			<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if notice?exists && notice != "">
+					AND notice = :notice
+				</#if>
+				<#if endTime?exists && endTime != "">
+					AND endTime = :endTime
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+				<#if title?exists && title != "">
+					AND title = :title
+				</#if>
+				<#if beginTime?exists && beginTime != "">
+					AND beginTime = :beginTime
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if areaId?exists && areaId != "">
+					AND areaId = :areaId
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+			<#if itemId?exists && itemId != "">
+				AND itemId = :itemId
+			</#if>
+			ORDER BY itemId desc
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getTrainingItemListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM px_training_item
+			WHERE 1=1
+			<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if notice?exists && notice != "">
+					AND notice = :notice
+				</#if>
+				<#if endTime?exists && endTime != "">
+					AND endTime = :endTime
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+				<#if title?exists && title != "">
+					AND title = :title
+				</#if>
+				<#if beginTime?exists && beginTime != "">
+					AND beginTime = :beginTime
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if areaId?exists && areaId != "">
+					AND areaId = :areaId
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+			<#if itemId?exists && itemId != "">
+				AND itemId = :itemId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

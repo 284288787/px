@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="parent" isRead="true" dsName="test-read">
+
+	<sql id="insertParent" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO kindergarten_parent(`name`, createTime, mobile, age, parentId, pic) 
+			values (:name, :createTime, :mobile, :age, :parentId, :pic)
+		]]>
+	</sql>
+
+	<sql id="updateParent" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE kindergarten_parent SET createTime = createTime
+				<#if name?exists && name != "">
+					, `name` = :name
+				</#if>
+				<#if mobile?exists && mobile != "">
+					, mobile = :mobile
+				</#if>
+				<#if age?exists && age != "">
+					, age = :age
+				</#if>
+				<#if pic?exists && pic != "">
+					, pic = :pic
+				</#if>
+			WHERE 
+				<#if parentId?exists && parentId != "">
+					parentId = :parentId
+				<#else>
+					parentId in (${parentIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteParent" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM kindergarten_parent
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if age?exists && age != "">
+					AND age = :age
+				</#if>
+				<#if pic?exists && pic != "">
+					AND pic = :pic
+				</#if>
+			<#if parentId?exists && parentId != "">
+				AND parentId = :parentId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleParentList">
+		<![CDATA[
+			SELECT 
+				`name`, 
+				createTime, 
+				mobile, 
+				age, 
+				parentId, 
+				pic
+			FROM kindergarten_parent
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if age?exists && age != "">
+					AND age = :age
+				</#if>
+				<#if pic?exists && pic != "">
+					AND pic = :pic
+				</#if>
+			<#if parentId?exists && parentId != "">
+				AND parentId = :parentId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleParentListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM kindergarten_parent
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if age?exists && age != "">
+					AND age = :age
+				</#if>
+				<#if pic?exists && pic != "">
+					AND pic = :pic
+				</#if>
+			<#if parentId?exists && parentId != "">
+				AND parentId = :parentId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getParentList">
+		<![CDATA[
+			SELECT 
+				`name`, 
+				createTime, 
+				mobile, 
+				age, 
+				parentId, 
+				pic
+			FROM kindergarten_parent
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if age?exists && age != "">
+					AND age = :age
+				</#if>
+				<#if pic?exists && pic != "">
+					AND pic = :pic
+				</#if>
+			<#if parentId?exists && parentId != "">
+				AND parentId = :parentId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getParentListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM kindergarten_parent
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if age?exists && age != "">
+					AND age = :age
+				</#if>
+				<#if pic?exists && pic != "">
+					AND pic = :pic
+				</#if>
+			<#if parentId?exists && parentId != "">
+				AND parentId = :parentId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

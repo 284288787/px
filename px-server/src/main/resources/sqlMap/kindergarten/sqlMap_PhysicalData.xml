@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="physicalData" isRead="true" dsName="test-read">
+
+	<sql id="insertPhysicalData" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO kindergarten_physical_data(testTime, id, enabled, deleted, createTime, intro, studentId, stature, weight, sitReach, jump, throwTennis, doubleJump, balance, run10, sitReachScore, jumpScore, throwTennisScore, doubleJumpScore, balanceScore, run10Score, statureScore,weightScore) 
+			values (:testTime, :id, :enabled, :deleted, :createTime, :intro, :studentId, :stature, :weight, :sitReach, :jump, :throwTennis, :doubleJump, :balance, :run10, :sitReachScore, :jumpScore, :throwTennisScore, :doubleJumpScore, :balanceScore, :run10Score,:statureScore,:weightScore)
+		]]>
+	</sql>
+
+	<sql id="updatePhysicalData" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE kindergarten_physical_data SET createTime = createTime
+				<#if enabled?exists && enabled != "">
+					, enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					, deleted = :deleted
+				</#if>
+				<#if intro?exists && intro != "">
+					, intro = :intro
+				</#if>
+				<#if studentId?exists && studentId != "">
+					, studentId = :studentId
+				</#if>
+				<#if stature?exists && stature != "">
+					, stature = :stature
+				</#if>
+				<#if weight?exists && weight != "">
+					, weight = :weight
+				</#if>
+				<#if sitReach?exists && sitReach != "">
+					, sitReach = :sitReach
+				</#if>
+				<#if jump?exists && jump != "">
+					, jump = :jump
+				</#if>
+				<#if throwTennis?exists && throwTennis != "">
+					, throwTennis = :throwTennis
+				</#if>
+				<#if doubleJump?exists && doubleJump != "">
+					, doubleJump = :doubleJump
+				</#if>
+				<#if balance?exists && balance != "">
+					, balance = :balance
+				</#if>
+				<#if run10?exists && run10 != "">
+					, run10 = :run10
+				</#if>
+				<#if sitReachScore?exists && sitReachScore != "">
+					, sitReachScore = :sitReachScore
+				</#if>
+				<#if jumpScore?exists && jumpScore != "">
+					, jumpScore = :jumpScore
+				</#if>
+				<#if throwTennisScore?exists && throwTennisScore != "">
+					, throwTennisScore = :throwTennisScore
+				</#if>
+				<#if doubleJumpScore?exists && doubleJumpScore != "">
+					, doubleJumpScore = :doubleJumpScore
+				</#if>
+				<#if balanceScore?exists && balanceScore != "">
+					, balanceScore = :balanceScore
+				</#if>
+				<#if run10Score?exists && run10Score != "">
+					, run10Score = :run10Score
+				</#if>
+				<#if statureScore?exists && statureScore != "">
+					, statureScore = :statureScore
+				</#if>
+				<#if weightScore?exists && weightScore != "">
+					, weightScore = :weightScore
+				</#if>
+			WHERE 
+				<#if id?exists && id != "">
+					id = :id
+				<#else>
+					id in (${ids})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deletePhysicalData" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM kindergarten_physical_data
+			WHERE 1=1
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+				<#if studentId?exists && studentId != "">
+					AND studentId = :studentId
+				</#if>
+				<#if stature?exists && stature != "">
+					AND stature = :stature
+				</#if>
+				<#if weight?exists && weight != "">
+					AND weight = :weight
+				</#if>
+				<#if sitReach?exists && sitReach != "">
+					AND sitReach = :sitReach
+				</#if>
+				<#if jump?exists && jump != "">
+					AND jump = :jump
+				</#if>
+				<#if throwTennis?exists && throwTennis != "">
+					AND throwTennis = :throwTennis
+				</#if>
+				<#if doubleJump?exists && doubleJump != "">
+					AND doubleJump = :doubleJump
+				</#if>
+				<#if balance?exists && balance != "">
+					AND balance = :balance
+				</#if>
+				<#if run10?exists && run10 != "">
+					AND run10 = :run10
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimplePhysicalDataList">
+		<![CDATA[
+			SELECT 
+				s.`name`, 
+				id, 
+				s.birth, 
+				s.sex,
+				kindergarten_physical_data.enabled, 
+				kindergarten_physical_data.deleted, 
+				kindergarten_physical_data.createTime, 
+				kindergarten_physical_data.intro, 
+				kindergarten_physical_data.studentId, 
+				kindergarten_physical_data.stature, 
+				kindergarten_physical_data.weight, 
+				kindergarten_physical_data.sitReach, 
+				kindergarten_physical_data.jump, 
+				kindergarten_physical_data.throwTennis, 
+				kindergarten_physical_data.doubleJump, 
+				kindergarten_physical_data.balance, 
+				kindergarten_physical_data.run10,
+				kindergarten_physical_data.sitReachScore, 
+				kindergarten_physical_data.jumpScore, 
+				kindergarten_physical_data.throwTennisScore, 
+				kindergarten_physical_data.doubleJumpScore, 
+				kindergarten_physical_data.balanceScore, 
+				kindergarten_physical_data.run10Score,
+				kindergarten_physical_data.statureScore,
+				kindergarten_physical_data.weightScore,
+				kindergarten_physical_data.testTime,
+				(select t.name from kindergarten_parent t, kindergarten_student_parent b where t.parentId = b.parentId and b.studentId = s.studentId and t.mobile = s.guardianMobile) guardianName,
+				s.guardianMobile,
+				k.name schoolName,
+				k.schoolId schoolId,
+				c.classId,
+				c.`name` className
+			FROM kindergarten_physical_data, kindergarten_student s, kindergarten_info k, kindergarten_class c
+			WHERE s.studentId = kindergarten_physical_data.studentId and s.schoolId = k.schoolId and s.classId = c.classId
+				<#if beginTime?exists && beginTime != "">
+					AND kindergarten_physical_data.testTime >= :beginTime
+				</#if>
+				<#if endTime?exists && endTime != "">
+					AND kindergarten_physical_data.testTime <= :endTime
+				</#if>
+				<#if name?exists && name != "">
+					AND s.`name` = :name
+				</#if>
+				<#if guardianName?exists && guardianName != "">
+					AND s.guardianName = :guardianName
+				</#if>
+				<#if guardianMobile?exists && guardianMobile != "">
+					AND s.guardianMobile = :guardianMobile
+				</#if>
+				<#if schoolName?exists && schoolName != "">
+					AND k.`name` = :schoolName
+				</#if>
+				<#if schoolId?exists && schoolId != "">
+					AND k.schoolId = :schoolId
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND kindergarten_physical_data.enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND kindergarten_physical_data.deleted = :deleted
+				</#if>
+				<#if intro?exists && intro != "">
+					AND kindergarten_physical_data.intro = :intro
+				</#if>
+				<#if studentId?exists && studentId != "">
+					AND kindergarten_physical_data.studentId = :studentId
+				</#if>
+				<#if stature?exists && stature != "">
+					AND kindergarten_physical_data.stature = :stature
+				</#if>
+				<#if weight?exists && weight != "">
+					AND kindergarten_physical_data.weight = :weight
+				</#if>
+				<#if sitReach?exists && sitReach != "">
+					AND kindergarten_physical_data.sitReach = :sitReach
+				</#if>
+				<#if jump?exists && jump != "">
+					AND kindergarten_physical_data.jump = :jump
+				</#if>
+				<#if throwTennis?exists && throwTennis != "">
+					AND kindergarten_physical_data.throwTennis = :throwTennis
+				</#if>
+				<#if doubleJump?exists && doubleJump != "">
+					AND kindergarten_physical_data.doubleJump = :doubleJump
+				</#if>
+				<#if balance?exists && balance != "">
+					AND kindergarten_physical_data.balance = :balance
+				</#if>
+				<#if run10?exists && run10 != "">
+					AND kindergarten_physical_data.run10 = :run10
+				</#if>
+				<#if id?exists && id != "">
+					AND kindergarten_physical_data.id = :id
+				</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY ${orderBy}
+				<#if orderType?exists && orderType !="" >
+					${orderType}
+				</#if>
+			<#else>
+       ORDER BY kindergarten_physical_data.createTime desc
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			<#else>
+          <#if _num?exists && _num !="">
+            LIMIT :_num
+          </#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimplePhysicalDataListCount">
+		<![CDATA[
+			SELECT COUNT(1) 
+			FROM kindergarten_physical_data, kindergarten_student s, kindergarten_info k, kindergarten_class c
+			WHERE s.studentId = kindergarten_physical_data.studentId and s.schoolId = k.schoolId and s.classId = c.classId
+				<#if beginTime?exists && beginTime != "">
+					AND kindergarten_physical_data.testTime >= :beginTime
+				</#if>
+				<#if endTime?exists && endTime != "">
+					AND kindergarten_physical_data.testTime <= :endTime
+				</#if>
+				<#if name?exists && name != "">
+					AND s.`name` = :name
+				</#if>
+				<#if guardianName?exists && guardianName != "">
+					AND s.guardianName = :guardianName
+				</#if>
+				<#if guardianMobile?exists && guardianMobile != "">
+					AND s.guardianMobile = :guardianMobile
+				</#if>
+				<#if schoolName?exists && schoolName != "">
+					AND k.`name` = :schoolName
+				</#if>
+				<#if schoolId?exists && schoolId != "">
+					AND k.schoolId = :schoolId
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND kindergarten_physical_data.enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND kindergarten_physical_data.deleted = :deleted
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND kindergarten_physical_data.createTime = :createTime
+				</#if>
+				<#if intro?exists && intro != "">
+					AND kindergarten_physical_data.intro = :intro
+				</#if>
+				<#if studentId?exists && studentId != "">
+					AND kindergarten_physical_data.studentId = :studentId
+				</#if>
+				<#if stature?exists && stature != "">
+					AND kindergarten_physical_data.stature = :stature
+				</#if>
+				<#if weight?exists && weight != "">
+					AND kindergarten_physical_data.weight = :weight
+				</#if>
+				<#if sitReach?exists && sitReach != "">
+					AND kindergarten_physical_data.sitReach = :sitReach
+				</#if>
+				<#if jump?exists && jump != "">
+					AND kindergarten_physical_data.jump = :jump
+				</#if>
+				<#if throwTennis?exists && throwTennis != "">
+					AND kindergarten_physical_data.throwTennis = :throwTennis
+				</#if>
+				<#if doubleJump?exists && doubleJump != "">
+					AND kindergarten_physical_data.doubleJump = :doubleJump
+				</#if>
+				<#if balance?exists && balance != "">
+					AND kindergarten_physical_data.balance = :balance
+				</#if>
+				<#if run10?exists && run10 != "">
+					AND kindergarten_physical_data.run10 = :run10
+				</#if>
+			<#if id?exists && id != "">
+				AND kindergarten_physical_data.id = :id
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getPhysicalDataList">
+		<![CDATA[
+			SELECT 
+				s.`name`, 
+				kindergarten_physical_data.id, 
+				kindergarten_physical_data.enabled, 
+				kindergarten_physical_data.deleted, 
+				kindergarten_physical_data.createTime, 
+				kindergarten_physical_data.intro, 
+				kindergarten_physical_data.studentId, 
+				kindergarten_physical_data.stature, 
+				kindergarten_physical_data.weight, 
+				kindergarten_physical_data.sitReach, 
+				kindergarten_physical_data.jump, 
+				s.birth, 
+				s.sex,
+				kindergarten_physical_data.throwTennis, 
+				kindergarten_physical_data.doubleJump, 
+				kindergarten_physical_data.balance, 
+				kindergarten_physical_data.run10,
+				kindergarten_physical_data.testTime,
+				kindergarten_physical_data.sitReachScore, 
+				kindergarten_physical_data.jumpScore, 
+				kindergarten_physical_data.throwTennisScore, 
+				kindergarten_physical_data.doubleJumpScore, 
+				kindergarten_physical_data.balanceScore, 
+				kindergarten_physical_data.run10Score,
+				kindergarten_physical_data.statureScore,
+				kindergarten_physical_data.weightScore,
+				s.guardianName,
+				s.guardianMobile,
+				k.name schoolName,
+				k.schoolId schoolId,
+				c.classId,
+				c.`name` className
+			FROM kindergarten_physical_data, kindergarten_student s, kindergarten_info k, kindergarten_class c
+			WHERE s.studentId = kindergarten_physical_data.studentId and s.schoolId = k.schoolId and s.classId = c.classId
+				<#if name?exists && name != "">
+					AND s.`name` = :name
+				</#if>
+				<#if guardianName?exists && guardianName != "">
+					AND s.guardianName = :guardianName
+				</#if>
+				<#if guardianMobile?exists && guardianMobile != "">
+					AND s.guardianMobile = :guardianMobile
+				</#if>
+				<#if schoolName?exists && schoolName != "">
+					AND k.`name` = :schoolName
+				</#if>
+				<#if schoolId?exists && schoolId != "">
+					AND k.schoolId = :schoolId
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND kindergarten_physical_data.enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND kindergarten_physical_data.deleted = :deleted
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND kindergarten_physical_data.createTime = :createTime
+				</#if>
+				<#if intro?exists && intro != "">
+					AND kindergarten_physical_data.intro = :intro
+				</#if>
+				<#if studentId?exists && studentId != "">
+					AND kindergarten_physical_data.studentId = :studentId
+				</#if>
+				<#if stature?exists && stature != "">
+					AND kindergarten_physical_data.stature = :stature
+				</#if>
+				<#if weight?exists && weight != "">
+					AND kindergarten_physical_data.weight = :weight
+				</#if>
+				<#if sitReach?exists && sitReach != "">
+					AND kindergarten_physical_data.sitReach = :sitReach
+				</#if>
+				<#if jump?exists && jump != "">
+					AND kindergarten_physical_data.jump = :jump
+				</#if>
+				<#if birth?exists && birth != "">
+					AND kindergarten_physical_data.birth = :birth
+				</#if>
+				<#if throwTennis?exists && throwTennis != "">
+					AND kindergarten_physical_data.throwTennis = :throwTennis
+				</#if>
+				<#if doubleJump?exists && doubleJump != "">
+					AND kindergarten_physical_data.doubleJump = :doubleJump
+				</#if>
+				<#if balance?exists && balance != "">
+					AND kindergarten_physical_data.balance = :balance
+				</#if>
+				<#if run10?exists && run10 != "">
+					AND kindergarten_physical_data.run10 = :run10
+				</#if>
+			<#if id?exists && id != "">
+				AND kindergarten_physical_data.id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY ${orderBy} ${orderType}
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getPhysicalDataListCount">
+		<![CDATA[
+			SELECT COUNT(1) 
+			FROM kindergarten_physical_data, kindergarten_student s, kindergarten_info k, kindergarten_class c
+			WHERE s.studentId = kindergarten_physical_data.studentId and s.schoolId = k.schoolId and s.classId = c.classId
+				<#if name?exists && name != "">
+					AND s.`name` = :name
+				</#if>
+				<#if guardianName?exists && guardianName != "">
+					AND s.guardianName = :guardianName
+				</#if>
+				<#if guardianMobile?exists && guardianMobile != "">
+					AND s.guardianMobile = :guardianMobile
+				</#if>
+				<#if schoolName?exists && schoolName != "">
+					AND k.`name` = :schoolName
+				</#if>
+				<#if schoolId?exists && schoolId != "">
+					AND k.schoolId = :schoolId
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND kindergarten_physical_data.enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND kindergarten_physical_data.deleted = :deleted
+				</#if>
+				<#if intro?exists && intro != "">
+					AND kindergarten_physical_data.intro = :intro
+				</#if>
+				<#if studentId?exists && studentId != "">
+					AND kindergarten_physical_data.studentId = :studentId
+				</#if>
+				<#if stature?exists && stature != "">
+					AND kindergarten_physical_data.stature = :stature
+				</#if>
+				<#if weight?exists && weight != "">
+					AND kindergarten_physical_data.weight = :weight
+				</#if>
+				<#if sitReach?exists && sitReach != "">
+					AND kindergarten_physical_data.sitReach = :sitReach
+				</#if>
+				<#if jump?exists && jump != "">
+					AND kindergarten_physical_data.jump = :jump
+				</#if>
+				<#if throwTennis?exists && throwTennis != "">
+					AND kindergarten_physical_data.throwTennis = :throwTennis
+				</#if>
+				<#if doubleJump?exists && doubleJump != "">
+					AND kindergarten_physical_data.doubleJump = :doubleJump
+				</#if>
+				<#if balance?exists && balance != "">
+					AND kindergarten_physical_data.balance = :balance
+				</#if>
+				<#if run10?exists && run10 != "">
+					AND kindergarten_physical_data.run10 = :run10
+				</#if>
+			<#if id?exists && id != "">
+				AND kindergarten_physical_data.id = :id
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

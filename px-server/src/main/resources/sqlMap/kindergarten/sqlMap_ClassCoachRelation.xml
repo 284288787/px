@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="classCoachRelation" isRead="true" dsName="test-read">
+
+	<sql id="insertClassCoachRelation" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO kindergarten_class_coach(id, coachId, classId) 
+			values (:id, :coachId, :classId)
+		]]>
+	</sql>
+
+	<sql id="updateClassCoachRelation" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE kindergarten_class_coach SET coachId = :coachId
+				<#if classId?exists && classId != "">
+					, classId = :classId
+				</#if>
+			WHERE 
+				<#if id?exists && id != "">
+					id = :id
+				<#else>
+					id in (${ids})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteClassCoachRelation" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM kindergarten_class_coach
+			WHERE 1=1
+			<#if coachId?exists && coachId != "">
+					AND coachId = :coachId
+				</#if>
+				<#if classId?exists && classId != "">
+					AND classId = :classId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleClassCoachRelationList">
+		<![CDATA[
+			SELECT 
+				id, 
+				coachId, 
+				classId
+			FROM kindergarten_class_coach
+			WHERE 1=1
+			<#if coachId?exists && coachId != "">
+					AND coachId = :coachId
+				</#if>
+				<#if classId?exists && classId != "">
+					AND classId = :classId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleClassCoachRelationListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM kindergarten_class_coach
+			WHERE 1=1
+			<#if coachId?exists && coachId != "">
+					AND coachId = :coachId
+				</#if>
+				<#if classId?exists && classId != "">
+					AND classId = :classId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getClassCoachRelationList">
+		<![CDATA[
+			SELECT 
+				id, 
+				coachId, 
+				classId
+			FROM kindergarten_class_coach
+			WHERE 1=1
+			<#if coachId?exists && coachId != "">
+					AND coachId = :coachId
+				</#if>
+				<#if classId?exists && classId != "">
+					AND classId = :classId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getClassCoachRelationListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM kindergarten_class_coach
+			WHERE 1=1
+			<#if coachId?exists && coachId != "">
+					AND coachId = :coachId
+				</#if>
+				<#if classId?exists && classId != "">
+					AND classId = :classId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteClassCoachRelationByParams" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM kindergarten_class_coach
+			WHERE 1=1
+				<#if classId?exists && classId != "">
+					AND classId = :classId
+				</#if>
+				<#if coachId?exists && coachId != "">
+					AND coachId = :coachId
+				</#if>
+				<#if id?exists && id != "">
+					AND id = :id
+				</#if>
+		]]>
+	</sql>
+</sqlMap>

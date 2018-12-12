@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="customer" isRead="true" dsName="test-read">
+
+	<sql id="insertCustomer" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO mgr_customer(type, memberId, peopleNum, contactPhone, orgName, orgAddress, contactName) 
+			values (:type, :memberId, :peopleNum, :contactPhone, :orgName, :orgAddress, :contactName)
+		]]>
+	</sql>
+
+	<sql id="updateCustomer" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE mgr_customer SET type = :type
+				<#if peopleNum?exists && peopleNum != "">
+					, peopleNum = :peopleNum
+				</#if>
+				<#if contactPhone?exists && contactPhone != "">
+					, contactPhone = :contactPhone
+				</#if>
+				<#if orgName?exists && orgName != "">
+					, orgName = :orgName
+				</#if>
+				<#if orgAddress?exists && orgAddress != "">
+					, orgAddress = :orgAddress
+				</#if>
+				<#if contactName?exists && contactName != "">
+					, contactName = :contactName
+				</#if>
+			WHERE 
+				<#if memberId?exists && memberId != "">
+					memberId = :memberId
+				<#else>
+					memberId in (${memberIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteCustomer" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM mgr_customer
+			WHERE 1=1
+			<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if peopleNum?exists && peopleNum != "">
+					AND peopleNum = :peopleNum
+				</#if>
+				<#if contactPhone?exists && contactPhone != "">
+					AND contactPhone = :contactPhone
+				</#if>
+				<#if orgName?exists && orgName != "">
+					AND orgName = :orgName
+				</#if>
+				<#if orgAddress?exists && orgAddress != "">
+					AND orgAddress = :orgAddress
+				</#if>
+				<#if contactName?exists && contactName != "">
+					AND contactName = :contactName
+				</#if>
+			<#if memberId?exists && memberId != "">
+				AND memberId = :memberId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleCustomerList">
+		<![CDATA[
+			SELECT 
+				type, 
+				m.memberId, 
+				peopleNum, 
+				contactPhone, 
+				orgName, 
+				orgAddress, 
+				contactName,
+			IFNULL(m.mobile, m.beforeDeletedMobile) mobile,
+                m.name,
+                m.identity,
+                m.enabled,
+                m.deleted,
+                m.beforeDeletedMobile,
+                m.createTime,
+                m.updateTime
+			FROM mgr_customer, mgr_member m
+			WHERE mgr_customer.memberId = m.memberId
+			<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if peopleNum?exists && peopleNum != "">
+					AND peopleNum = :peopleNum
+				</#if>
+				<#if contactPhone?exists && contactPhone != "">
+					AND contactPhone = :contactPhone
+				</#if>
+				<#if orgName?exists && orgName != "">
+					AND orgName = :orgName
+				</#if>
+				<#if orgAddress?exists && orgAddress != "">
+					AND orgAddress = :orgAddress
+				</#if>
+				<#if contactName?exists && contactName != "">
+					AND contactName = :contactName
+				</#if>
+			<#if memberId?exists && memberId != "">
+				AND m.memberId = :memberId
+			</#if>
+			<#if mobile?exists && mobile != "">
+				AND (m.mobile = :mobile or m.beforeDeletedMobile = :mobile)
+			</#if>
+			<#if identity?exists && identity != "">
+				AND m.identity = :identity
+			</#if>
+			<#if enabled?exists && enabled != "">
+				AND m.enabled = :enabled
+			</#if>
+			<#if deleted?exists && deleted != "">
+				AND m.deleted = :deleted
+			</#if>
+			<#if name?exists && name != "">
+				AND m.name = :name
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleCustomerListCount">
+		<![CDATA[
+			SELECT COUNT(1) 
+      FROM mgr_customer, mgr_member m
+      WHERE mgr_customer.memberId = m.memberId
+			<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if peopleNum?exists && peopleNum != "">
+					AND peopleNum = :peopleNum
+				</#if>
+				<#if contactPhone?exists && contactPhone != "">
+					AND contactPhone = :contactPhone
+				</#if>
+				<#if orgName?exists && orgName != "">
+					AND orgName = :orgName
+				</#if>
+				<#if orgAddress?exists && orgAddress != "">
+					AND orgAddress = :orgAddress
+				</#if>
+				<#if contactName?exists && contactName != "">
+					AND contactName = :contactName
+				</#if>
+			<#if memberId?exists && memberId != "">
+				AND m.memberId = :memberId
+			</#if>
+			<#if mobile?exists && mobile != "">
+				AND (m.mobile = :mobile or m.beforeDeletedMobile = :mobile)
+			</#if>
+			<#if identity?exists && identity != "">
+				AND m.identity = :identity
+			</#if>
+			<#if enabled?exists && enabled != "">
+				AND m.enabled = :enabled
+			</#if>
+			<#if deleted?exists && deleted != "">
+				AND m.deleted = :deleted
+			</#if>
+			<#if name?exists && name != "">
+				AND m.name = :name
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getCustomerList">
+		<![CDATA[
+			SELECT 
+				type, 
+				m.memberId, 
+				peopleNum, 
+				contactPhone, 
+				orgName, 
+				orgAddress, 
+				contactName,
+			IFNULL(m.mobile, m.beforeDeletedMobile) mobile,
+                m.name,
+                m.identity,
+                m.enabled,
+                m.deleted,
+                m.beforeDeletedMobile,
+                m.createTime,
+                m.updateTime
+			FROM mgr_customer, mgr_member m
+			WHERE mgr_customer.memberId = m.memberId
+			<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if peopleNum?exists && peopleNum != "">
+					AND peopleNum = :peopleNum
+				</#if>
+				<#if contactPhone?exists && contactPhone != "">
+					AND contactPhone = :contactPhone
+				</#if>
+				<#if orgName?exists && orgName != "">
+					AND orgName = :orgName
+				</#if>
+				<#if orgAddress?exists && orgAddress != "">
+					AND orgAddress = :orgAddress
+				</#if>
+				<#if contactName?exists && contactName != "">
+					AND contactName = :contactName
+				</#if>
+			<#if memberId?exists && memberId != "">
+				AND m.memberId = :memberId
+			</#if>
+			<#if mobile?exists && mobile != "">
+				AND (m.mobile = :mobile or m.beforeDeletedMobile = :mobile)
+			</#if>
+			<#if identity?exists && identity != "">
+				AND m.identity = :identity
+			</#if>
+			<#if enabled?exists && enabled != "">
+				AND m.enabled = :enabled
+			</#if>
+			<#if deleted?exists && deleted != "">
+				AND m.deleted = :deleted
+			</#if>
+			<#if name?exists && name != "">
+				AND m.name = :name
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getCustomerListCount">
+		<![CDATA[
+			SELECT COUNT(1)
+			FROM mgr_customer, mgr_member m
+			WHERE mgr_customer.memberId = m.memberId
+			<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if peopleNum?exists && peopleNum != "">
+					AND peopleNum = :peopleNum
+				</#if>
+				<#if contactPhone?exists && contactPhone != "">
+					AND contactPhone = :contactPhone
+				</#if>
+				<#if orgName?exists && orgName != "">
+					AND orgName = :orgName
+				</#if>
+				<#if orgAddress?exists && orgAddress != "">
+					AND orgAddress = :orgAddress
+				</#if>
+				<#if contactName?exists && contactName != "">
+					AND contactName = :contactName
+				</#if>
+			<#if memberId?exists && memberId != "">
+				AND m.memberId = :memberId
+			</#if>
+			<#if mobile?exists && mobile != "">
+				AND (m.mobile = :mobile or m.beforeDeletedMobile = :mobile)
+			</#if>
+			<#if identity?exists && identity != "">
+				AND m.identity = :identity
+			</#if>
+			<#if enabled?exists && enabled != "">
+				AND m.enabled = :enabled
+			</#if>
+			<#if deleted?exists && deleted != "">
+				AND m.deleted = :deleted
+			</#if>
+			<#if name?exists && name != "">
+				AND m.name = :name
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

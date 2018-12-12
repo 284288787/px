@@ -1,0 +1,1 @@
+var teamIdentity=[{identity:3, caption:'球员'},{identity:5, caption:'队长'},{identity:1, caption:'教练'},{identity:6, caption:'领队'},{identity:7, caption:'守门员'},{identity:4, caption:'后勤'},{identity:2, caption:'医疗'}]

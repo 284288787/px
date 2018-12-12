@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="pointLevel" isRead="true" dsName="test-read">
+
+	<sql id="insertPointLevel" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO point_level(`name`, id, pointStep, level, icon, calorieStep, distanceStep, point) 
+			values (:name, :id, :pointStep, :level, :icon, :calorieStep, :distanceStep, :point)
+		]]>
+	</sql>
+
+	<sql id="updatePointLevel" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE point_level SET `name` = :name
+				<#if pointStep?exists && pointStep != "">
+					, pointStep = :pointStep
+				</#if>
+				<#if level?exists && level != "">
+					, level = :level
+				</#if>
+				<#if icon?exists && icon != "">
+					, icon = :icon
+				</#if>
+				<#if calorieStep?exists && calorieStep != "">
+					, calorieStep = :calorieStep
+				</#if>
+				<#if distanceStep?exists && distanceStep != "">
+					, distanceStep = :distanceStep
+				</#if>
+				<#if point?exists && point != "">
+					, point = :point
+				</#if>
+			WHERE 
+				<#if id?exists && id != "">
+					id = :id
+				<#else>
+					id in (${ids})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deletePointLevel" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM point_level
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if pointStep?exists && pointStep != "">
+					AND pointStep = :pointStep
+				</#if>
+				<#if level?exists && level != "">
+					AND level = :level
+				</#if>
+				<#if icon?exists && icon != "">
+					AND icon = :icon
+				</#if>
+				<#if calorieStep?exists && calorieStep != "">
+					AND calorieStep = :calorieStep
+				</#if>
+				<#if distanceStep?exists && distanceStep != "">
+					AND distanceStep = :distanceStep
+				</#if>
+				<#if point?exists && point != "">
+					AND point = :point
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimplePointLevelList">
+		<![CDATA[
+			SELECT 
+				`name`, 
+				id, 
+				pointStep, 
+				level, 
+				icon, 
+				calorieStep, 
+				distanceStep, 
+				point
+			FROM point_level
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if pointStep?exists && pointStep != "">
+					AND pointStep = :pointStep
+				</#if>
+				<#if level?exists && level != "">
+					AND level = :level
+				</#if>
+				<#if icon?exists && icon != "">
+					AND icon = :icon
+				</#if>
+				<#if calorieStep?exists && calorieStep != "">
+					AND calorieStep = :calorieStep
+				</#if>
+				<#if distanceStep?exists && distanceStep != "">
+					AND distanceStep = :distanceStep
+				</#if>
+				<#if point?exists && point != "">
+					AND point = :point
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimplePointLevelListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM point_level
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if pointStep?exists && pointStep != "">
+					AND pointStep = :pointStep
+				</#if>
+				<#if level?exists && level != "">
+					AND level = :level
+				</#if>
+				<#if icon?exists && icon != "">
+					AND icon = :icon
+				</#if>
+				<#if calorieStep?exists && calorieStep != "">
+					AND calorieStep = :calorieStep
+				</#if>
+				<#if distanceStep?exists && distanceStep != "">
+					AND distanceStep = :distanceStep
+				</#if>
+				<#if point?exists && point != "">
+					AND point = :point
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getByLevel">
+		<![CDATA[
+			SELECT `name`, id, pointStep, level, icon, calorieStep, distanceStep, point FROM point_level
+			WHERE level = :level or level = 0
+      order by id desc
+			LIMIT 1
+		]]>
+	</sql>
+
+	<sql id="getPointLevelList">
+		<![CDATA[
+			SELECT 
+				`name`, 
+				id, 
+				pointStep, 
+				level, 
+				icon, 
+				calorieStep, 
+				distanceStep, 
+				point
+			FROM point_level
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if pointStep?exists && pointStep != "">
+					AND pointStep = :pointStep
+				</#if>
+				<#if level?exists && level != "">
+					AND level = :level
+				</#if>
+				<#if icon?exists && icon != "">
+					AND icon = :icon
+				</#if>
+				<#if calorieStep?exists && calorieStep != "">
+					AND calorieStep = :calorieStep
+				</#if>
+				<#if distanceStep?exists && distanceStep != "">
+					AND distanceStep = :distanceStep
+				</#if>
+				<#if point?exists && point != "">
+					AND point = :point
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getPointLevelListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM point_level
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if pointStep?exists && pointStep != "">
+					AND pointStep = :pointStep
+				</#if>
+				<#if level?exists && level != "">
+					AND level = :level
+				</#if>
+				<#if icon?exists && icon != "">
+					AND icon = :icon
+				</#if>
+				<#if calorieStep?exists && calorieStep != "">
+					AND calorieStep = :calorieStep
+				</#if>
+				<#if distanceStep?exists && distanceStep != "">
+					AND distanceStep = :distanceStep
+				</#if>
+				<#if point?exists && point != "">
+					AND point = :point
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

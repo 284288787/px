@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="coach" isRead="true" dsName="test-read">
+
+	<sql id="insertCoach" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO kindergarten_coach(address, `name`, coachId, certificateType, certificateCode, trainingRecord, workExperience, sex, mobile, createTime, age, level, pic, updateTime, enabled, deleted) 
+			values (:address, :name, :coachId, :certificateType, :certificateCode, :trainingRecord, :workExperience, :sex, :mobile, :createTime, :age, :level, :pic, :updateTime, 1, 0)
+		]]>
+	</sql>
+
+	<sql id="updateCoach" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE kindergarten_coach SET updateTime = now()
+				<#if name?exists && name != "">
+					, `name` = :name
+				</#if>
+				<#if certificateType?exists && certificateType != "">
+					, certificateType = :certificateType
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					, certificateCode = :certificateCode
+				</#if>
+				<#if trainingRecord?exists && trainingRecord != "">
+					, trainingRecord = :trainingRecord
+				</#if>
+				<#if workExperience?exists && workExperience != "">
+					, workExperience = :workExperience
+				</#if>
+				<#if sex?exists && sex != "">
+					, sex = :sex
+				</#if>
+				<#if mobile?exists && mobile != "">
+					, mobile = :mobile
+				</#if>
+				<#if age?exists && age != "">
+					, age = :age
+				</#if>
+				<#if level?exists && level != "">
+					, level = :level
+				</#if>
+				<#if pic?exists && pic != "">
+					, pic = :pic
+				</#if>
+				<#if address?exists && address != "">
+					, address = :address
+				</#if>
+				<#if deleted?exists && deleted != "">
+					, deleted = :deleted
+				</#if>
+				<#if enabled?exists && enabled != "">
+					, enabled = :enabled
+				</#if>
+			WHERE 
+				<#if coachId?exists && coachId != "">
+					coachId = :coachId
+				<#else>
+					coachId in (${coachIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteCoach" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM kindergarten_coach
+			WHERE 1=1
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if certificateType?exists && certificateType != "">
+					AND certificateType = :certificateType
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					AND certificateCode = :certificateCode
+				</#if>
+				<#if trainingRecord?exists && trainingRecord != "">
+					AND trainingRecord = :trainingRecord
+				</#if>
+				<#if workExperience?exists && workExperience != "">
+					AND workExperience = :workExperience
+				</#if>
+				<#if sex?exists && sex != "">
+					AND sex = :sex
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if age?exists && age != "">
+					AND age = :age
+				</#if>
+				<#if level?exists && level != "">
+					AND level = :level
+				</#if>
+				<#if pic?exists && pic != "">
+					AND pic = :pic
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+			<#if coachId?exists && coachId != "">
+				AND coachId = :coachId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleCoachList">
+		<![CDATA[
+			SELECT 
+				address, 
+				`name`, 
+				coachId, 
+				certificateType, 
+				certificateCode, 
+				trainingRecord, 
+				workExperience, 
+				sex, 
+				mobile, 
+				createTime, 
+				age, 
+				level, 
+				pic, 
+				updateTime,
+				enabled,
+				deleted
+			FROM kindergarten_coach
+			WHERE 1=1
+				<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if certificateType?exists && certificateType != "">
+					AND certificateType = :certificateType
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					AND certificateCode = :certificateCode
+				</#if>
+				<#if trainingRecord?exists && trainingRecord != "">
+					AND trainingRecord = :trainingRecord
+				</#if>
+				<#if workExperience?exists && workExperience != "">
+					AND workExperience = :workExperience
+				</#if>
+				<#if sex?exists && sex != "">
+					AND sex = :sex
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if age?exists && age != "">
+					AND age = :age
+				</#if>
+				<#if level?exists && level != "">
+					AND level = :level
+				</#if>
+				<#if pic?exists && pic != "">
+					AND pic = :pic
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+			<#if coachId?exists && coachId != "">
+				AND coachId = :coachId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleCoachListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM kindergarten_coach
+			WHERE 1=1
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if certificateType?exists && certificateType != "">
+					AND certificateType = :certificateType
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					AND certificateCode = :certificateCode
+				</#if>
+				<#if trainingRecord?exists && trainingRecord != "">
+					AND trainingRecord = :trainingRecord
+				</#if>
+				<#if workExperience?exists && workExperience != "">
+					AND workExperience = :workExperience
+				</#if>
+				<#if sex?exists && sex != "">
+					AND sex = :sex
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if age?exists && age != "">
+					AND age = :age
+				</#if>
+				<#if level?exists && level != "">
+					AND level = :level
+				</#if>
+				<#if pic?exists && pic != "">
+					AND pic = :pic
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+			<#if coachId?exists && coachId != "">
+				AND coachId = :coachId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getCoachList">
+		<![CDATA[
+			SELECT 
+				address, 
+				`name`, 
+				coachId, 
+				certificateType, 
+				certificateCode, 
+				trainingRecord, 
+				workExperience, 
+				sex, 
+				mobile, 
+				createTime, 
+				age, 
+				level, 
+				pic, 
+				updateTime,
+				enabled, deleted
+			FROM kindergarten_coach
+			WHERE 1=1
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if certificateType?exists && certificateType != "">
+					AND certificateType = :certificateType
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					AND certificateCode = :certificateCode
+				</#if>
+				<#if trainingRecord?exists && trainingRecord != "">
+					AND trainingRecord = :trainingRecord
+				</#if>
+				<#if workExperience?exists && workExperience != "">
+					AND workExperience = :workExperience
+				</#if>
+				<#if sex?exists && sex != "">
+					AND sex = :sex
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if age?exists && age != "">
+					AND age = :age
+				</#if>
+				<#if level?exists && level != "">
+					AND level = :level
+				</#if>
+				<#if pic?exists && pic != "">
+					AND pic = :pic
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+			<#if coachId?exists && coachId != "">
+				AND coachId = :coachId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getCoachListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM kindergarten_coach
+			WHERE 1=1
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if certificateType?exists && certificateType != "">
+					AND certificateType = :certificateType
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					AND certificateCode = :certificateCode
+				</#if>
+				<#if trainingRecord?exists && trainingRecord != "">
+					AND trainingRecord = :trainingRecord
+				</#if>
+				<#if workExperience?exists && workExperience != "">
+					AND workExperience = :workExperience
+				</#if>
+				<#if sex?exists && sex != "">
+					AND sex = :sex
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if age?exists && age != "">
+					AND age = :age
+				</#if>
+				<#if level?exists && level != "">
+					AND level = :level
+				</#if>
+				<#if pic?exists && pic != "">
+					AND pic = :pic
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+			<#if coachId?exists && coachId != "">
+				AND coachId = :coachId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

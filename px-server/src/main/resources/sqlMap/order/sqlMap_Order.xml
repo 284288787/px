@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="order" isRead="true" dsName="test-read">
+
+	<sql id="insertOrder" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO order_info(subject, outTradeNo, orderNo, payType, type, userId, createTime, remark, payTime, `status`, totalMoney, businessId, couponMoney, couponCodes, couponCardIds) 
+			values (:subject, :outTradeNo, :orderNo, :payType, :type, :userId, now(), :remark, :payTime, :status, :totalMoney, :businessId, :couponMoney, :couponCodes, :couponCardIds)
+		]]>
+	</sql>
+
+	<sql id="updateOrder" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE order_info SET orderId = orderId
+				<#if outTradeNo?exists && outTradeNo != "">
+					, outTradeNo = :outTradeNo
+				</#if>
+				<#if orderNo?exists && orderNo != "">
+					, orderNo = :orderNo
+				</#if>
+				<#if payType?exists && payType != "">
+					, payType = :payType
+				</#if>
+				<#if type?exists && type != "">
+					, type = :type
+				</#if>
+				<#if userId?exists && userId != "">
+					, userId = :userId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					, createTime = :createTime
+				</#if>
+				<#if remark?exists && remark != "">
+					, remark = :remark
+				</#if>
+				<#if payTime?exists && payTime != "">
+					, payTime = :payTime
+				</#if>
+				<#if status?exists && status != "">
+					, `status` = :status
+				</#if>
+				<#if totalMoney?exists && totalMoney != "">
+					, totalMoney = :totalMoney
+				</#if>
+				<#if businessId?exists && businessId != "">
+					, businessId = :businessId
+				</#if>
+			WHERE orderId = :orderId
+		]]>
+	</sql>
+
+	<sql id="deleteOrder" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM order_info
+			WHERE 1=1
+			<#if subject?exists && subject != "">
+					AND subject = :subject
+				</#if>
+				<#if outTradeNo?exists && outTradeNo != "">
+					AND outTradeNo = :outTradeNo
+				</#if>
+				<#if orderNo?exists && orderNo != "">
+					AND orderNo = :orderNo
+				</#if>
+				<#if payType?exists && payType != "">
+					AND payType = :payType
+				</#if>
+				<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if remark?exists && remark != "">
+					AND remark = :remark
+				</#if>
+				<#if payTime?exists && payTime != "">
+					AND payTime = :payTime
+				</#if>
+				<#if status?exists && status != "">
+					AND `status` = :status
+				</#if>
+				<#if totalMoney?exists && totalMoney != "">
+					AND totalMoney = :totalMoney
+				</#if>
+				<#if businessId?exists && businessId != "">
+					AND businessId = :businessId
+				</#if>
+			<#if orderId?exists && orderId != "">
+				AND orderId = :orderId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleOrderList">
+		<![CDATA[
+			SELECT 
+				subject, 
+				outTradeNo, 
+				orderId, 
+				orderNo, 
+				payType, 
+				type, 
+				userId,
+				createTime, 
+				remark, 
+				payTime, 
+				`status`, 
+				totalMoney,
+				businessId,couponMoney, couponCodes, couponCardIds
+			FROM order_info
+			WHERE 1=1
+			<#if subject?exists && subject != "">
+					AND subject = :subject
+				</#if>
+				<#if outTradeNo?exists && outTradeNo != "">
+					AND outTradeNo = :outTradeNo
+				</#if>
+				<#if orderNo?exists && orderNo != "">
+					AND orderNo = :orderNo
+				</#if>
+				<#if payType?exists && payType != "">
+					AND payType = :payType
+				</#if>
+				<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if remark?exists && remark != "">
+					AND remark = :remark
+				</#if>
+				<#if payTime?exists && payTime != "">
+					AND payTime = :payTime
+				</#if>
+				<#if status?exists && status != "">
+					AND `status` = :status
+				</#if>
+				<#if totalMoney?exists && totalMoney != "">
+					AND totalMoney = :totalMoney
+				</#if>
+				<#if businessId?exists && businessId != "">
+					AND businessId = :businessId
+				</#if>
+			<#if orderId?exists && orderId != "">
+				AND orderId = :orderId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleOrderListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM order_info
+			WHERE 1=1
+			<#if subject?exists && subject != "">
+					AND subject = :subject
+				</#if>
+				<#if outTradeNo?exists && outTradeNo != "">
+					AND outTradeNo = :outTradeNo
+				</#if>
+				<#if orderNo?exists && orderNo != "">
+					AND orderNo = :orderNo
+				</#if>
+				<#if payType?exists && payType != "">
+					AND payType = :payType
+				</#if>
+				<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if remark?exists && remark != "">
+					AND remark = :remark
+				</#if>
+				<#if payTime?exists && payTime != "">
+					AND payTime = :payTime
+				</#if>
+				<#if status?exists && status != "">
+					AND `status` = :status
+				</#if>
+				<#if totalMoney?exists && totalMoney != "">
+					AND totalMoney = :totalMoney
+				</#if>
+				<#if businessId?exists && businessId != "">
+					AND businessId = :businessId
+				</#if>
+			<#if orderId?exists && orderId != "">
+				AND orderId = :orderId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getOrderList">
+		<![CDATA[
+			SELECT 
+				o.subject, 
+				o.outTradeNo, 
+				o.orderId, 
+				o.orderNo, 
+				o.payType, 
+				o.type, 
+				o.userId, 
+				u.`name` userName,
+				u.mobile,
+				o.createTime, 
+				o.remark, 
+				o.payTime, 
+				o.`status`, 
+				o.totalMoney,
+				businessId, couponMoney, couponCodes, couponCardIds
+			FROM order_info o, px_member u
+			WHERE o.userId = u.memberId
+				<#if userName?exists && userName != "">
+					AND u.`name` like "%":userName"%"
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND u.mobile = :mobile
+				</#if>
+				<#if subject?exists && subject != "">
+					AND o.subject = :subject
+				</#if>
+				<#if outTradeNo?exists && outTradeNo != "">
+					AND o.outTradeNo = :outTradeNo
+				</#if>
+				<#if orderNo?exists && orderNo != "">
+					AND o.orderNo = :orderNo
+				</#if>
+				<#if payType?exists && payType != "">
+					AND o.payType = :payType
+				</#if>
+				<#if type?exists && type != "">
+					AND o.type = :type
+				</#if>
+				<#if userId?exists && userId != "">
+					AND o.userId = :userId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND o.createTime = :createTime
+				</#if>
+				<#if remark?exists && remark != "">
+					AND o.remark = :remark
+				</#if>
+				<#if payTime?exists && payTime != "">
+					AND o.payTime = :payTime
+				</#if>
+				<#if status?exists && status != "">
+					AND o.`status` = :status
+				</#if>
+				<#if totalMoney?exists && totalMoney != "">
+					AND o.totalMoney = :totalMoney
+				</#if>
+				<#if orderId?exists && orderId != "">
+					AND o.orderId = :orderId
+				</#if>
+				<#if businessId?exists && businessId != "">
+					AND o.businessId = :businessId
+				</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			<#else>
+				ORDER BY o.createTime desc
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getOrderListCount">
+		<![CDATA[
+			SELECT COUNT(1) 
+			FROM order_info o, px_member u
+			WHERE o.userId = u.memberId
+				<#if userName?exists && userName != "">
+					AND u.`name` like "%":userName"%"
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND u.mobile = :mobile
+				</#if>
+				<#if subject?exists && subject != "">
+					AND o.subject = :subject
+				</#if>
+				<#if outTradeNo?exists && outTradeNo != "">
+					AND o.outTradeNo = :outTradeNo
+				</#if>
+				<#if orderNo?exists && orderNo != "">
+					AND o.orderNo = :orderNo
+				</#if>
+				<#if payType?exists && payType != "">
+					AND o.payType = :payType
+				</#if>
+				<#if type?exists && type != "">
+					AND o.type = :type
+				</#if>
+				<#if userId?exists && userId != "">
+					AND o.userId = :userId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND o.createTime = :createTime
+				</#if>
+				<#if remark?exists && remark != "">
+					AND o.remark = :remark
+				</#if>
+				<#if payTime?exists && payTime != "">
+					AND o.payTime = :payTime
+				</#if>
+				<#if status?exists && status != "">
+					AND o.`status` = :status
+				</#if>
+				<#if totalMoney?exists && totalMoney != "">
+					AND o.totalMoney = :totalMoney
+				</#if>
+				<#if orderId?exists && orderId != "">
+					AND o.orderId = :orderId
+				</#if>
+				<#if businessId?exists && businessId != "">
+					AND o.businessId = :businessId
+				</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			<#else>
+				ORDER BY o.createTime desc
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

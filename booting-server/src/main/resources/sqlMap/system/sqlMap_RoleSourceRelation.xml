@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="roleSourceRelation" isRead="true" dsName="test-read">
+
+	<sql id="insertRoleSourceRelation" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO sys_role_source_relation(id, createTime, createUser, sourceId, roleId) 
+			values (:id, :createTime, :createUser, :sourceId, :roleId)
+		]]>
+	</sql>
+
+	<sql id="updateRoleSourceRelation" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE sys_role_source_relation SET createTime = :createTime
+				<#if createUser?exists && createUser != "">
+					, createUser = :createUser
+				</#if>
+				<#if sourceId?exists && sourceId != "">
+					, sourceId = :sourceId
+				</#if>
+				<#if roleId?exists && roleId != "">
+					, roleId = :roleId
+				</#if>
+			WHERE id = :id
+		]]>
+	</sql>
+
+	<sql id="deleteRoleSourceRelation" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM sys_role_source_relation
+			WHERE 1=1
+			<#if sourceId?exists && sourceId != "">
+				AND sourceId = :sourceId
+			</#if>
+			<#if roleId?exists && roleId != "">
+				AND roleId = :roleId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleRoleSourceRelationList">
+		<![CDATA[
+			SELECT 
+				id, 
+				createTime, 
+				createUser, 
+				sourceId, 
+				roleId
+			FROM sys_role_source_relation
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+				<#if sourceId?exists && sourceId != "">
+					AND sourceId = :sourceId
+				</#if>
+				<#if roleId?exists && roleId != "">
+					AND roleId = :roleId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY ${orderBy}
+				<#if orderType?exists && orderType !="" >
+					${orderType}
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleRoleSourceRelationListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM sys_role_source_relation
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+				<#if sourceId?exists && sourceId != "">
+					AND sourceId = :sourceId
+				</#if>
+				<#if roleId?exists && roleId != "">
+					AND roleId = :roleId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY ${orderBy}
+				<#if orderType?exists && orderType !="" >
+					${orderType}
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getRoleSourceRelationList">
+		<![CDATA[
+			SELECT 
+				id, 
+				createTime, 
+				createUser, 
+				sourceId, 
+				roleId
+			FROM sys_role_source_relation
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+				<#if sourceId?exists && sourceId != "">
+					AND sourceId = :sourceId
+				</#if>
+				<#if roleId?exists && roleId != "">
+					AND roleId = :roleId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY ${orderBy} ${orderType}
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getRoleSourceRelationListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM sys_role_source_relation
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+				<#if sourceId?exists && sourceId != "">
+					AND sourceId = :sourceId
+				</#if>
+				<#if roleId?exists && roleId != "">
+					AND roleId = :roleId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY ${orderBy} ${orderType}
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getRoleSourcesList">
+		<![CDATA[
+			SELECT
+				t.sourceId,
+				t.sourceName,
+				t.sourceUrl,
+				t.sourceRemark,
+				t.parentId,
+				t.type,
+				(select roleId from sys_role_source_relation r where r.sourceId = t.sourceId and r.roleId = :roleId) roleId
+			FROM
+				`sys_resource` t
+			WHERE
+				t.enabled = 1
+			<#if sourceName?exists && sourceName != "">
+				AND t.sourceName like "%":sourceName "%"
+			</#if>
+			<#if parentId?exists && parentId != "">
+				AND t.parentId = :parentId
+			</#if>
+			<#if type?exists && type != "">
+				AND t.type = :type
+			</#if>
+			order by t.sourceId
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getRoleSourcesListCount">
+		<![CDATA[
+			SELECT
+				count(1)
+			FROM
+				`sys_resource` t
+			WHERE
+				t.enabled = 1
+			<#if sourceName?exists && sourceName != "">
+				AND t.sourceName like "%":sourceName "%"
+			</#if>
+			<#if parentId?exists && parentId != "">
+				AND t.parentId = :parentId
+			</#if>
+			<#if type?exists && type != "">
+				AND t.type = :type
+			</#if>
+			order by t.sourceId
+		]]>
+	</sql>
+
+	<sql id="getRoleSourceList">
+		<![CDATA[
+			SELECT
+				t.sourceId,
+				t.sourceName,
+				t.sourceUrl,
+				t.sourceRemark,
+				t.parentId,
+				t.type,
+				s.roleId
+			FROM
+				`sys_resource` t, sys_role_source_relation s
+			WHERE
+				t.enabled = 1 and t.sourceId = s.sourceId and s.roleId = :roleId
+			<#if sourceName?exists && sourceName != "">
+				AND t.sourceName like "%":sourceName "%"
+			</#if>
+			<#if parentId?exists && parentId != "">
+				AND t.parentId = :parentId
+			</#if>
+			<#if type?exists && type != "">
+				AND t.type = :type
+			</#if>
+			order by t.sourceId
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+	
+	<sql id="getRoleSourceListCount">
+		<![CDATA[
+			SELECT
+				count(1)
+			FROM
+				`sys_resource` t, sys_role_source_relation s
+			WHERE
+				t.enabled = 1 and t.sourceId = s.sourceId and s.roleId = :roleId
+			<#if sourceName?exists && sourceName != "">
+				AND t.sourceName like "%":sourceName "%"
+			</#if>
+			<#if parentId?exists && parentId != "">
+				AND t.parentId = :parentId
+			</#if>
+			<#if type?exists && type != "">
+				AND t.type = :type
+			</#if>
+			order by t.sourceId
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+	
+	<sql id="getAllRoleSourceRelation">
+		<![CDATA[
+			SELECT
+				t.sourceId,
+				t.sourceName,
+				t.sourceUrl,
+				t.sourceRemark,
+				t.parentId,
+				t.type,
+				s.roleId,
+				o.roleName,
+				o.roleRemark
+			FROM
+				`sys_resource` t, sys_role_source_relation s, sys_role o
+			WHERE
+				t.enabled = 1 and t.sourceId = s.sourceId and s.roleId = o.roleId
+			<#if sourceName?exists && sourceName != "">
+				AND t.sourceName like "%":sourceName "%"
+			</#if>
+			<#if parentId?exists && parentId != "">
+				AND t.parentId = :parentId
+			</#if>
+			<#if type?exists && type != "">
+				AND t.type = :type
+			</#if>
+			order by t.sourceId
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+	
+	<sql id="getUserResources">
+		<![CDATA[
+			SELECT
+				t.sourceId,
+				t.sourceName,
+				t.sourceUrl,
+				t.sourceRemark,
+				t.sourceIcoCls,
+				t.parentId,
+				t.type
+			FROM
+				`sys_resource` t
+			WHERE
+				t.enabled = 1 and t.sourceId in (SELECT DISTINCT sourceId FROM `sys_role_source_relation` t where t.roleId in (${roleIds}))
+			ORDER BY t.sourceId
+		]]>
+	</sql>
+	
+</sqlMap>

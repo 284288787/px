@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="businessPicture" isRead="true" dsName="test-read">
+
+	<sql id="insertBusinessPicture" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO mgr_business_picture(id, type, memberId, childTypeName, picPath, childType) 
+			values (:id, :type, :memberId, :childTypeName, :picPath, :childType)
+		]]>
+	</sql>
+
+	<sql id="updateBusinessPicture" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE mgr_business_picture SET type = :type
+				<#if memberId?exists && memberId != "">
+					, memberId = :memberId
+				</#if>
+				<#if childTypeName?exists && childTypeName != "">
+					, childTypeName = :childTypeName
+				</#if>
+				<#if picPath?exists && picPath != "">
+					, picPath = :picPath
+				</#if>
+				<#if childType?exists && childType != "">
+					, childType = :childType
+				</#if>
+			WHERE 
+				<#if id?exists && id != "">
+					id = :id
+				<#else>
+					id in (${ids})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteBusinessPicture" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM mgr_business_picture
+			WHERE 1=1
+			<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if memberId?exists && memberId != "">
+					AND memberId = :memberId
+				</#if>
+				<#if childTypeName?exists && childTypeName != "">
+					AND childTypeName = :childTypeName
+				</#if>
+				<#if picPath?exists && picPath != "">
+					AND picPath = :picPath
+				</#if>
+				<#if childType?exists && childType != "">
+					AND childType = :childType
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleBusinessPictureList">
+		<![CDATA[
+			SELECT 
+				id, 
+				type, 
+				memberId, 
+				childTypeName, 
+				picPath, 
+				childType
+			FROM mgr_business_picture
+			WHERE 1=1
+			<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if memberId?exists && memberId != "">
+					AND memberId = :memberId
+				</#if>
+				<#if childTypeName?exists && childTypeName != "">
+					AND childTypeName = :childTypeName
+				</#if>
+				<#if picPath?exists && picPath != "">
+					AND picPath = :picPath
+				</#if>
+				<#if childType?exists && childType != "">
+					AND childType = :childType
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleBusinessPictureListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM mgr_business_picture
+			WHERE 1=1
+			<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if memberId?exists && memberId != "">
+					AND memberId = :memberId
+				</#if>
+				<#if childTypeName?exists && childTypeName != "">
+					AND childTypeName = :childTypeName
+				</#if>
+				<#if picPath?exists && picPath != "">
+					AND picPath = :picPath
+				</#if>
+				<#if childType?exists && childType != "">
+					AND childType = :childType
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getBusinessPictureList">
+		<![CDATA[
+			SELECT 
+				id, 
+				type, 
+				memberId, 
+				childTypeName, 
+				picPath, 
+				childType
+			FROM mgr_business_picture
+			WHERE 1=1
+			<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if memberId?exists && memberId != "">
+					AND memberId = :memberId
+				</#if>
+				<#if childTypeName?exists && childTypeName != "">
+					AND childTypeName = :childTypeName
+				</#if>
+				<#if picPath?exists && picPath != "">
+					AND picPath = :picPath
+				</#if>
+				<#if childType?exists && childType != "">
+					AND childType = :childType
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getBusinessPictureListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM mgr_business_picture
+			WHERE 1=1
+			<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if memberId?exists && memberId != "">
+					AND memberId = :memberId
+				</#if>
+				<#if childTypeName?exists && childTypeName != "">
+					AND childTypeName = :childTypeName
+				</#if>
+				<#if picPath?exists && picPath != "">
+					AND picPath = :picPath
+				</#if>
+				<#if childType?exists && childType != "">
+					AND childType = :childType
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

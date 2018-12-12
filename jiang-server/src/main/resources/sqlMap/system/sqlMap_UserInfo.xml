@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="userInfo" isRead="true" dsName="test-read">
+
+	<sql id="insertUserInfo" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO sys_userinfo(sourceFrom, remark, address, `name`, lastModifyTime, userId, mobile, identity, sex, photo, age) 
+			values (:sourceFrom, :remark, :address, :name, :lastModifyTime, :userId, :mobile, :identity, :sex, :photo, :age)
+		]]>
+	</sql>
+
+	<sql id="updateUserInfo" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE sys_userinfo SET lastModifyTime = now()
+				<#if address?exists && address != "">
+					, address = :address
+				</#if>
+				<#if name?exists && name != "">
+					, `name` = :name
+				</#if>
+				<#if certificateType?exists && certificateType != "">
+					, `certificateType` = :certificateType
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					, `certificateCode` = :certificateCode
+				</#if>
+				<#if mobile?exists && mobile != "">
+					, mobile = :mobile
+				</#if>
+				<#if identity?exists && identity != "">
+					, identity = :identity
+				</#if>
+				<#if sex?exists && sex != "">
+					, sex = :sex
+				</#if>
+				<#if photo?exists && photo != "">
+					, photo = :photo
+				</#if>
+				<#if age?exists && age != "">
+					, age = :age
+				</#if>
+				<#if clientid?exists && clientid != "">
+					, clientid = :clientid
+				</#if>
+				<#if sourceFrom?exists && sourceFrom != "">
+					, sourceFrom = :sourceFrom
+				</#if>
+				<#if remark?exists && remark != "">
+					, remark = :remark
+				</#if>
+			WHERE userId = :userId
+		]]>
+	</sql>
+
+	<sql id="deleteUserInfo" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM sys_userinfo
+			WHERE userId = :userId
+		]]>
+	</sql>
+
+	<sql id="getSimpleUserInfoList">
+		<![CDATA[
+			SELECT 
+				address, 
+				`name`, 
+				lastModifyTime, 
+				userId, 
+				mobile,
+				identity, sex, photo, age, clientid, remark, sourceFrom, certificateType, certificateCode
+			FROM sys_userinfo
+			WHERE 1=1
+				<#if certificateType?exists && certificateType != "">
+					AND certificateType = :certificateType
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					AND certificateCode = :certificateCode
+				</#if>
+				<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if identity?exists && identity != "">
+					AND identity = :identity
+				</#if>
+				<#if sex?exists && sex != "">
+					AND sex = :sex
+				</#if>
+				<#if userIds?exists && userIds != "">
+					AND userId in (${userIds})
+				</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY ${orderBy}
+				<#if orderType?exists && orderType !="" >
+					${orderType}
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleUserInfoListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM sys_userinfo
+			WHERE 1=1
+				<#if certificateType?exists && certificateType != "">
+					AND certificateType = :certificateType
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					AND certificateCode = :certificateCode
+				</#if>
+				<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if identity?exists && identity != "">
+					AND identity = :identity
+				</#if>
+				<#if sex?exists && sex != "">
+					AND sex = :sex
+				</#if>
+				<#if userIds?exists && userIds != "">
+					AND userId in (${userIds})
+				</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY ${orderBy}
+				<#if orderType?exists && orderType !="" >
+					${orderType}
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getUserInfoList">
+		<![CDATA[
+			SELECT 
+				address, 
+				`name`, 
+				lastModifyTime, 
+				userId, 
+				mobile,
+				identity, sex, photo, age, clientid, remark, sourceFrom, certificateType, certificateCode
+			FROM sys_userinfo
+			WHERE 1=1
+				<#if certificateType?exists && certificateType != "">
+					AND certificateType = :certificateType
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					AND certificateCode = :certificateCode
+				</#if>
+				<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if identity?exists && identity != "">
+					AND identity = :identity
+				</#if>
+				<#if sex?exists && sex != "">
+					AND sex = :sex
+				</#if>
+				<#if userIds?exists && userIds != "">
+					AND userId in (${userIds})
+				</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY ${orderBy} ${orderType}
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getUserInfoListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM sys_userinfo
+			WHERE 1=1
+				<#if certificateType?exists && certificateType != "">
+					AND certificateType = :certificateType
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					AND certificateCode = :certificateCode
+				</#if>
+				<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if name?exists && name != "">
+					AND `name` = :name
+				</#if> 
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if identity?exists && identity != "">
+					AND identity = :identity
+				</#if>
+				<#if sex?exists && sex != "">
+					AND sex = :sex
+				</#if>
+				<#if userIds?exists && userIds != "">
+					AND userId in (${userIds})
+				</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY ${orderBy} ${orderType}
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

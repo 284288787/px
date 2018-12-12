@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="teamHabitTime" isRead="true" dsName="test-read">
+
+	<sql id="insertTeamHabitTime" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO team_habit_time(id, teamId, modifyTime, createTime, week, userId, beginMinute, endMinute, intro) 
+			values (:id, :teamId, now(), now(), :week, :userId, :beginMinute, :endMinute, :intro)
+		]]>
+	</sql>
+
+	<sql id="updateTeamHabitTime" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE team_habit_time SET teamId = :teamId
+				<#if modifyTime?exists && modifyTime != "">
+					, modifyTime = :modifyTime
+				</#if>
+				<#if intro?exists && intro != "">
+					, intro = :intro
+				</#if>
+				<#if createTime?exists && createTime != "">
+					, createTime = :createTime
+				</#if>
+				<#if week?exists && week != "">
+					, week = :week
+				</#if>
+				<#if userId?exists && userId != "">
+					, userId = :userId
+				</#if>
+				<#if beginMinute?exists && beginMinute != "">
+					, beginMinute = :beginMinute
+				</#if>
+				<#if endMinute?exists && endMinute != "">
+					, endMinute = :endMinute
+				</#if>
+			WHERE id = :id
+		]]>
+	</sql>
+
+	<sql id="deleteTeamHabitTime" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM team_habit_time
+			WHERE 1=1
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND modifyTime = :modifyTime
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if week?exists && week != "">
+					AND week = :week
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if beginMinute?exists && beginMinute != "">
+					AND beginMinute = :beginMinute
+				</#if>
+				<#if endMinute?exists && endMinute != "">
+					AND endMinute = :endMinute
+				</#if>
+				<#if id?exists && id != "">
+					AND id = :id
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleTeamHabitTimeList">
+		<![CDATA[
+			SELECT 
+				id, 
+				teamId, 
+				modifyTime, 
+				createTime, 
+				week, 
+				userId, 
+				beginMinute, 
+				endMinute,
+				intro
+			FROM team_habit_time
+			WHERE 1=1
+			<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND modifyTime = :modifyTime
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if week?exists && week != "">
+					AND week = :week
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if beginMinute?exists && beginMinute != "">
+					AND beginMinute = :beginMinute
+				</#if>
+				<#if endMinute?exists && endMinute != "">
+					AND endMinute = :endMinute
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleTeamHabitTimeListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM team_habit_time
+			WHERE 1=1
+			<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND modifyTime = :modifyTime
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if week?exists && week != "">
+					AND week = :week
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if beginMinute?exists && beginMinute != "">
+					AND beginMinute = :beginMinute
+				</#if>
+				<#if endMinute?exists && endMinute != "">
+					AND endMinute = :endMinute
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getTeamHabitTimeList">
+		<![CDATA[
+			SELECT 
+				id, 
+				teamId, 
+				modifyTime, 
+				createTime, 
+				week, 
+				userId, 
+				beginMinute, 
+				endMinute,
+				intro
+			FROM team_habit_time
+			WHERE 1=1
+			<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND modifyTime = :modifyTime
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if week?exists && week != "">
+					AND week = :week
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if beginMinute?exists && beginMinute != "">
+					AND beginMinute = :beginMinute
+				</#if>
+				<#if endMinute?exists && endMinute != "">
+					AND endMinute = :endMinute
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getTeamHabitTimeListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM team_habit_time
+			WHERE 1=1
+			<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND modifyTime = :modifyTime
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if week?exists && week != "">
+					AND week = :week
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if beginMinute?exists && beginMinute != "">
+					AND beginMinute = :beginMinute
+				</#if>
+				<#if endMinute?exists && endMinute != "">
+					AND endMinute = :endMinute
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

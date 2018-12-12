@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="teacher" isRead="true" dsName="test-read">
+
+	<sql id="insertTeacher" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO kindergarten_teacher(enabled, deleted, teacherName, teacherId, schoolId, createTime, intro, teacherMobile, pic) 
+			values (:enabled, :deleted, :teacherName, :teacherId, :schoolId, :createTime, :intro, :teacherMobile, :pic)
+		]]>
+	</sql>
+
+	<sql id="updateTeacher" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE kindergarten_teacher SET createTime = createTime
+				<#if deleted?exists && deleted != "">
+					, deleted = :deleted
+				</#if>
+				<#if teacherName?exists && teacherName != "">
+					, teacherName = :teacherName
+				</#if>
+				<#if schoolId?exists && schoolId != "">
+					, schoolId = :schoolId
+				</#if>
+				<#if enabled?exists && enabled != "">
+					, enabled = :enabled
+				</#if>
+				<#if intro?exists && intro != "">
+					, intro = :intro
+				</#if>
+				<#if teacherMobile?exists && teacherMobile != "">
+					, teacherMobile = :teacherMobile
+				</#if>
+				<#if pic?exists && pic != "">
+					, pic = :pic
+				</#if>
+			WHERE 
+				<#if teacherId?exists && teacherId != "">
+					teacherId = :teacherId
+				<#else>
+					teacherId in (${teacherIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteTeacher" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM kindergarten_teacher
+			WHERE 1=1
+			<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if teacherName?exists && teacherName != "">
+					AND teacherName = :teacherName
+				</#if>
+				<#if schoolId?exists && schoolId != "">
+					AND schoolId = :schoolId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+				<#if teacherMobile?exists && teacherMobile != "">
+					AND teacherMobile = :teacherMobile
+				</#if>
+				<#if pic?exists && pic != "">
+					AND pic = :pic
+				</#if>
+			<#if teacherId?exists && teacherId != "">
+				AND teacherId = :teacherId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleTeacherList">
+		<![CDATA[
+			SELECT 
+				enabled, 
+				deleted, 
+				teacherName, 
+				teacherId, 
+				schoolId, 
+				createTime, 
+				intro, 
+				teacherMobile, 
+				pic,
+				(select s.name from kindergarten_info s where s.schoolId = kindergarten_teacher.schoolId) schoolName
+			FROM kindergarten_teacher
+			WHERE 1=1
+			<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if teacherName?exists && teacherName != "">
+					AND teacherName = :teacherName
+				</#if>
+				<#if schoolId?exists && schoolId != "">
+					AND schoolId = :schoolId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+				<#if teacherMobile?exists && teacherMobile != "">
+					AND teacherMobile = :teacherMobile
+				</#if>
+				<#if pic?exists && pic != "">
+					AND pic = :pic
+				</#if>
+			<#if teacherId?exists && teacherId != "">
+				AND teacherId = :teacherId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleTeacherListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM kindergarten_teacher
+			WHERE 1=1
+			<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if teacherName?exists && teacherName != "">
+					AND teacherName = :teacherName
+				</#if>
+				<#if schoolId?exists && schoolId != "">
+					AND schoolId = :schoolId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+				<#if teacherMobile?exists && teacherMobile != "">
+					AND teacherMobile = :teacherMobile
+				</#if>
+				<#if pic?exists && pic != "">
+					AND pic = :pic
+				</#if>
+			<#if teacherId?exists && teacherId != "">
+				AND teacherId = :teacherId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getTeacherList">
+		<![CDATA[
+			SELECT 
+				enabled, 
+				deleted, 
+				teacherName, 
+				teacherId, 
+				schoolId, 
+				createTime, 
+				intro, 
+				teacherMobile, 
+				pic
+			FROM kindergarten_teacher
+			WHERE 1=1
+			<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if teacherName?exists && teacherName != "">
+					AND teacherName = :teacherName
+				</#if>
+				<#if schoolId?exists && schoolId != "">
+					AND schoolId = :schoolId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+				<#if teacherMobile?exists && teacherMobile != "">
+					AND teacherMobile = :teacherMobile
+				</#if>
+				<#if pic?exists && pic != "">
+					AND pic = :pic
+				</#if>
+			<#if teacherId?exists && teacherId != "">
+				AND teacherId = :teacherId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getTeacherListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM kindergarten_teacher
+			WHERE 1=1
+			<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if teacherName?exists && teacherName != "">
+					AND teacherName = :teacherName
+				</#if>
+				<#if schoolId?exists && schoolId != "">
+					AND schoolId = :schoolId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+				<#if teacherMobile?exists && teacherMobile != "">
+					AND teacherMobile = :teacherMobile
+				</#if>
+				<#if pic?exists && pic != "">
+					AND pic = :pic
+				</#if>
+			<#if teacherId?exists && teacherId != "">
+				AND teacherId = :teacherId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

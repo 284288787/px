@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	version="2.0"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd">
+	<description><![CDATA["自定义标签1.0"]]></description>
+	<display-name>hn Tags</display-name>
+	<tlib-version>1.0</tlib-version>
+	<short-name>hn</short-name>
+	<uri>http://www.99love.net/jsp/tag/star-tags</uri>
+	
+	<tag>
+		<description><![CDATA[分页标签]]></description>
+		<name>page</name>
+		<tag-class>com.star.framework.tag.PageListTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description><![CDATA[pageNumber]]></description>
+			<name>pageNumber</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description><![CDATA[totalPage]]></description>
+			<name>totalPage</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description><![CDATA[url]]></description>
+			<name>url</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description><![CDATA[parentClass]]></description>
+			<name>parentClass</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description><![CDATA[prevBtnClass]]></description>
+			<name>prevBtnClass</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description><![CDATA[nextBtnClass]]></description>
+			<name>nextBtnClass</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description><![CDATA[lineClass]]></description>
+			<name>lineClass</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description><![CDATA[curClass]]></description>
+			<name>curClass</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description><![CDATA[pagesTo]]></description>
+			<name>pagesTo</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description><![CDATA[pagesToIpt]]></description>
+			<name>pagesToIpt</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description><![CDATA[pagesToBtn]]></description>
+			<name>pagesToBtn</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<dynamic-attributes>false</dynamic-attributes>
+	</tag>
+	
+	<tag>
+		<description><![CDATA[param标签]]></description>
+		<name>paramView</name>
+		<tag-class>com.star.framework.tag.ParamViewTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description><![CDATA[detail]]></description>
+			<name>detail</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<dynamic-attributes>false</dynamic-attributes>
+	</tag>
+	
+	<tag>
+		<description><![CDATA[param标签]]></description>
+		<name>paramEdit</name>
+		<tag-class>com.star.framework.tag.ParamEditTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description><![CDATA[detail]]></description>
+			<name>detail</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<dynamic-attributes>false</dynamic-attributes>
+	</tag>
+</taglib>
+
+
+

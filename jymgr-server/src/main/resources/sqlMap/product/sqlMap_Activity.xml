@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="activity" isRead="true" dsName="test-read">
+
+	<sql id="insertActivity" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO mgr_product_activity(`name`, state, content, deleted, activityId, effectiveTime, createTime, price, enabled, updateTime, typeId, intro, failureTime) 
+			values (:name, :state, :content, :deleted, :activityId, :effectiveTime, :createTime, :price, :enabled, :updateTime, :typeId, :intro, :failureTime)
+		]]>
+	</sql>
+
+	<sql id="updateActivity" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE mgr_product_activity SET updateTime = now()
+				<#if state?exists && state != "">
+					, state = :state
+				</#if>
+				<#if content?exists && content != "">
+					, content = :content
+				</#if>
+				<#if deleted?exists && deleted != "">
+					, deleted = :deleted
+				</#if>
+				<#if effectiveTime?exists && effectiveTime != "">
+					, effectiveTime = :effectiveTime
+				</#if>
+				<#if price?exists && price != "">
+					, price = :price
+				</#if>
+				<#if enabled?exists && enabled != "">
+					, enabled = :enabled
+				</#if>
+				<#if name?exists && name != "">
+					, `name` = :name
+				</#if>
+				<#if typeId?exists && typeId != "">
+					, typeId = :typeId
+				</#if>
+				<#if intro?exists && intro != "">
+					, intro = :intro
+				</#if>
+				<#if failureTime?exists && failureTime != "">
+					, failureTime = :failureTime
+				</#if>
+			WHERE 
+				<#if activityId?exists && activityId != "">
+					activityId = :activityId
+				<#else>
+					activityId in (${activityIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteActivity" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM mgr_product_activity
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if state?exists && state != "">
+					AND state = :state
+				</#if>
+				<#if content?exists && content != "">
+					AND content = :content
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if effectiveTime?exists && effectiveTime != "">
+					AND effectiveTime = :effectiveTime
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if typeId?exists && typeId != "">
+					AND typeId = :typeId
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+				<#if failureTime?exists && failureTime != "">
+					AND failureTime = :failureTime
+				</#if>
+			<#if activityId?exists && activityId != "">
+				AND activityId = :activityId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleActivityList">
+		<![CDATA[
+			SELECT 
+				`name`, 
+				state, 
+				content, 
+				deleted, 
+				activityId, 
+				effectiveTime, 
+				createTime, 
+				price, 
+				enabled, 
+				updateTime, 
+				typeId, 
+        (select t.typeName from mgr_product_type t where t.typeId = mgr_product_activity.typeId) typeName,
+        (if(state = 1, 1, if(effectiveTime <= now() and now() <= failureTime, 1, 0))) valid,
+				intro, 
+				failureTime
+			FROM mgr_product_activity
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if state?exists && state != "">
+					AND state = :state
+				</#if>
+				<#if content?exists && content != "">
+					AND content = :content
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if effectiveTime?exists && effectiveTime != "">
+					AND effectiveTime = :effectiveTime
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if typeId?exists && typeId != "">
+					AND typeId = :typeId
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+				<#if failureTime?exists && failureTime != "">
+					AND failureTime = :failureTime
+				</#if>
+			<#if activityId?exists && activityId != "">
+				AND activityId = :activityId
+			</#if>
+			<#if valid?exists>
+              <#if valid == 1>
+        		AND effectiveTime <= now() and now() <= failureTime
+              <#else>
+                AND (effectiveTime > now() or now() > failureTime)
+              </#if>
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleActivityListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM mgr_product_activity
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if state?exists && state != "">
+					AND state = :state
+				</#if>
+				<#if content?exists && content != "">
+					AND content = :content
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if effectiveTime?exists && effectiveTime != "">
+					AND effectiveTime = :effectiveTime
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if typeId?exists && typeId != "">
+					AND typeId = :typeId
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+				<#if failureTime?exists && failureTime != "">
+					AND failureTime = :failureTime
+				</#if>
+			<#if activityId?exists && activityId != "">
+				AND activityId = :activityId
+			</#if>
+      <#if valid?exists>
+              <#if valid == 1>
+            AND effectiveTime <= now() and now() <= failureTime
+              <#else>
+                AND (effectiveTime > now() or now() > failureTime)
+              </#if>
+      </#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getActivityList">
+		<![CDATA[
+			SELECT 
+				`name`, 
+				state, 
+				content, 
+				deleted, 
+				activityId, 
+				effectiveTime, 
+				createTime, 
+				price, 
+				enabled, 
+				updateTime, 
+				typeId, 
+        (select t.typeName from mgr_product_type t where t.typeId = mgr_product_activity.typeId) typeName,
+        (if(state = 1, 1, if(effectiveTime <= now() and now() <= failureTime, 1, 0))) valid,
+				intro, 
+				failureTime
+			FROM mgr_product_activity
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if state?exists && state != "">
+					AND state = :state
+				</#if>
+				<#if content?exists && content != "">
+					AND content = :content
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if effectiveTime?exists && effectiveTime != "">
+					AND effectiveTime = :effectiveTime
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if typeId?exists && typeId != "">
+					AND typeId = :typeId
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+				<#if failureTime?exists && failureTime != "">
+					AND failureTime = :failureTime
+				</#if>
+			<#if activityId?exists && activityId != "">
+				AND activityId = :activityId
+			</#if>
+      <#if valid?exists>
+              <#if valid == 1>
+            AND effectiveTime <= now() and now() <= failureTime
+              <#else>
+                AND (effectiveTime > now() or now() > failureTime)
+              </#if>
+      </#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getActivityListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM mgr_product_activity
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if state?exists && state != "">
+					AND state = :state
+				</#if>
+				<#if content?exists && content != "">
+					AND content = :content
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if effectiveTime?exists && effectiveTime != "">
+					AND effectiveTime = :effectiveTime
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if typeId?exists && typeId != "">
+					AND typeId = :typeId
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+				<#if failureTime?exists && failureTime != "">
+					AND failureTime = :failureTime
+				</#if>
+			<#if activityId?exists && activityId != "">
+				AND activityId = :activityId
+			</#if>
+      <#if valid?exists>
+              <#if valid == 1>
+            AND effectiveTime <= now() and now() <= failureTime
+              <#else>
+                AND (effectiveTime > now() or now() > failureTime)
+              </#if>
+      </#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

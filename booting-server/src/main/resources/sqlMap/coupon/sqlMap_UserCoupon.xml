@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="userCoupon" isRead="true" dsName="test-read">
+
+	<sql id="insertUserCoupon" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO coupon_user(teamId, orderId, quantity, couponId, valueType, deadTime, couponValue, couponScope, couponIntro, validTime, `status`, couponType, userId, drawTime) 
+			values (:teamId, :orderId, :quantity, :couponId, :valueType, :deadTime, :couponValue, :couponScope, :couponIntro, :validTime, :status, :couponType, :userId, :drawTime)
+		]]>
+	</sql>
+
+	<sql id="updateUserCoupon" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE coupon_user SET couponId = :couponId
+				<#if valueType?exists && valueType != "">
+					, valueType = :valueType
+				</#if>
+				<#if deadTime?exists && deadTime != "">
+					, deadTime = :deadTime
+				</#if>
+				<#if couponValue?exists && couponValue != "">
+					, couponValue = :couponValue
+				</#if>
+				<#if couponScope?exists && couponScope != "">
+					, couponScope = :couponScope
+				</#if>
+				<#if couponIntro?exists && couponIntro != "">
+					, couponIntro = :couponIntro
+				</#if>
+				<#if validTime?exists && validTime != "">
+					, validTime = :validTime
+				</#if>
+				<#if status?exists && status != "">
+					, `status` = :status
+				</#if>
+				<#if couponType?exists && couponType != "">
+					, couponType = :couponType
+				</#if>
+				<#if userId?exists && userId != "">
+					, userId = :userId
+				</#if>
+				<#if drawTime?exists && drawTime != "">
+					, drawTime = :drawTime
+				</#if>
+			WHERE id = :id
+		]]>
+	</sql>
+
+	<sql id="deleteUserCoupon" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM coupon_user
+			WHERE 1=1
+			<#if couponId?exists && couponId != "">
+					AND couponId = :couponId
+				</#if>
+				<#if valueType?exists && valueType != "">
+					AND valueType = :valueType
+				</#if>
+				<#if deadTime?exists && deadTime != "">
+					AND deadTime = :deadTime
+				</#if>
+				<#if couponValue?exists && couponValue != "">
+					AND couponValue = :couponValue
+				</#if>
+				<#if couponScope?exists && couponScope != "">
+					AND couponScope = :couponScope
+				</#if>
+				<#if couponIntro?exists && couponIntro != "">
+					AND couponIntro = :couponIntro
+				</#if>
+				<#if validTime?exists && validTime != "">
+					AND validTime = :validTime
+				</#if>
+				<#if status?exists && status != "">
+					AND `status` = :status
+				</#if>
+				<#if couponType?exists && couponType != "">
+					AND couponType = :couponType
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if drawTime?exists && drawTime != "">
+					AND drawTime = :drawTime
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleUserCouponList">
+		<![CDATA[
+			SELECT 
+				id, 
+				couponId, 
+				valueType, 
+				deadTime, 
+				couponValue, 
+				couponScope, 
+				couponIntro, 
+				validTime, 
+				`status`, 
+				couponType, 
+				userId, 
+				drawTime,
+				IFNULL(sum(quantity),0) quantity,
+				orderId,
+				teamId
+			FROM coupon_user
+			WHERE 1=1
+			<#if couponId?exists && couponId != "">
+					AND couponId = :couponId
+				</#if>
+				<#if valueType?exists && valueType != "">
+					AND valueType = :valueType
+				</#if>
+				<#if deadTime?exists && deadTime != "">
+					AND deadTime = :deadTime
+				</#if>
+				<#if couponValue?exists && couponValue != "">
+					AND couponValue = :couponValue
+				</#if>
+				<#if couponScope?exists && couponScope != "">
+					AND couponScope = :couponScope
+				</#if>
+				<#if couponIntro?exists && couponIntro != "">
+					AND couponIntro = :couponIntro
+				</#if>
+				<#if validTime?exists && validTime != "">
+					AND validTime = :validTime
+				</#if>
+				<#if status?exists && status != "">
+					AND `status` = :status
+				</#if>
+				<#if couponType?exists && couponType != "">
+					AND couponType = :couponType
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if drawTime?exists && drawTime != "">
+					AND drawTime = :drawTime
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleUserCouponListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM coupon_user
+			WHERE 1=1
+			<#if couponId?exists && couponId != "">
+					AND couponId = :couponId
+				</#if>
+				<#if valueType?exists && valueType != "">
+					AND valueType = :valueType
+				</#if>
+				<#if deadTime?exists && deadTime != "">
+					AND deadTime = :deadTime
+				</#if>
+				<#if couponValue?exists && couponValue != "">
+					AND couponValue = :couponValue
+				</#if>
+				<#if couponScope?exists && couponScope != "">
+					AND couponScope = :couponScope
+				</#if>
+				<#if couponIntro?exists && couponIntro != "">
+					AND couponIntro = :couponIntro
+				</#if>
+				<#if validTime?exists && validTime != "">
+					AND validTime = :validTime
+				</#if>
+				<#if status?exists && status != "">
+					AND `status` = :status
+				</#if>
+				<#if couponType?exists && couponType != "">
+					AND couponType = :couponType
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if drawTime?exists && drawTime != "">
+					AND drawTime = :drawTime
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getUserCouponList">
+		<![CDATA[
+			SELECT 
+				id, 
+				couponId, 
+				valueType, 
+				deadTime, 
+				couponValue, 
+				couponScope, 
+				couponIntro, 
+				validTime, 
+				`status`, 
+				couponType, 
+				userId, 
+				drawTime,
+				quantity,
+				orderId,
+				teamId
+			FROM coupon_user
+			WHERE 1=1
+			<#if couponId?exists && couponId != "">
+					AND couponId = :couponId
+				</#if>
+				<#if valueType?exists && valueType != "">
+					AND valueType = :valueType
+				</#if>
+				<#if deadTime?exists && deadTime != "">
+					AND deadTime = :deadTime
+				</#if>
+				<#if couponValue?exists && couponValue != "">
+					AND couponValue = :couponValue
+				</#if>
+				<#if couponScope?exists && couponScope != "">
+					AND couponScope = :couponScope
+				</#if>
+				<#if couponIntro?exists && couponIntro != "">
+					AND couponIntro = :couponIntro
+				</#if>
+				<#if validTime?exists && validTime != "">
+					AND validTime = :validTime
+				</#if>
+				<#if status?exists && status != "">
+					AND `status` = :status
+				</#if>
+				<#if couponType?exists && couponType != "">
+					AND couponType = :couponType
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if drawTime?exists && drawTime != "">
+					AND drawTime = :drawTime
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getUserCouponListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM coupon_user
+			WHERE 1=1
+			<#if couponId?exists && couponId != "">
+					AND couponId = :couponId
+				</#if>
+				<#if valueType?exists && valueType != "">
+					AND valueType = :valueType
+				</#if>
+				<#if deadTime?exists && deadTime != "">
+					AND deadTime = :deadTime
+				</#if>
+				<#if couponValue?exists && couponValue != "">
+					AND couponValue = :couponValue
+				</#if>
+				<#if couponScope?exists && couponScope != "">
+					AND couponScope = :couponScope
+				</#if>
+				<#if couponIntro?exists && couponIntro != "">
+					AND couponIntro = :couponIntro
+				</#if>
+				<#if validTime?exists && validTime != "">
+					AND validTime = :validTime
+				</#if>
+				<#if status?exists && status != "">
+					AND `status` = :status
+				</#if>
+				<#if couponType?exists && couponType != "">
+					AND couponType = :couponType
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if drawTime?exists && drawTime != "">
+					AND drawTime = :drawTime
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

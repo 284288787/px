@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="goldDrawDetail" isRead="true" dsName="test-read">
+
+	<sql id="insertGoldDrawDetail" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO lottery_gold_draw_detail(id, userId, createTime, goldNum, rmb) 
+			values (:id, :userId, :createTime, :goldNum, :rmb)
+		]]>
+	</sql>
+
+	<sql id="updateGoldDrawDetail" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE lottery_gold_draw_detail SET userId = :userId
+				<#if createTime?exists && createTime != "">
+					, createTime = :createTime
+				</#if>
+				<#if goldNum?exists && goldNum != "">
+					, goldNum = :goldNum
+				</#if>
+				<#if rmb?exists && rmb != "">
+					, rmb = :rmb
+				</#if>
+			WHERE 
+				<#if id?exists && id != "">
+					id = :id
+				<#else>
+					id in (${ids})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteGoldDrawDetail" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM lottery_gold_draw_detail
+			WHERE 1=1
+			<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if goldNum?exists && goldNum != "">
+					AND goldNum = :goldNum
+				</#if>
+				<#if rmb?exists && rmb != "">
+					AND rmb = :rmb
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleGoldDrawDetailList">
+		<![CDATA[
+			SELECT 
+				id, 
+				userId, 
+				createTime, 
+				goldNum, 
+				rmb
+			FROM lottery_gold_draw_detail
+			WHERE 1=1
+			<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if goldNum?exists && goldNum != "">
+					AND goldNum = :goldNum
+				</#if>
+				<#if rmb?exists && rmb != "">
+					AND rmb = :rmb
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if s_orderBy?exists && s_orderBy !="" >
+				ORDER BY ${s_orderBy}
+				<#if s_orderType?exists && s_orderType !="" >
+					${s_orderType}
+				</#if>
+			<#else>
+				order by id desc
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleGoldDrawDetailListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM lottery_gold_draw_detail
+			WHERE 1=1
+			<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if goldNum?exists && goldNum != "">
+					AND goldNum = :goldNum
+				</#if>
+				<#if rmb?exists && rmb != "">
+					AND rmb = :rmb
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getGoldDrawDetailList">
+		<![CDATA[
+			SELECT 
+				id, 
+				userId, 
+				createTime, 
+				goldNum, 
+				rmb
+			FROM lottery_gold_draw_detail
+			WHERE 1=1
+			<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if goldNum?exists && goldNum != "">
+					AND goldNum = :goldNum
+				</#if>
+				<#if rmb?exists && rmb != "">
+					AND rmb = :rmb
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getGoldDrawDetailListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM lottery_gold_draw_detail
+			WHERE 1=1
+			<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if goldNum?exists && goldNum != "">
+					AND goldNum = :goldNum
+				</#if>
+				<#if rmb?exists && rmb != "">
+					AND rmb = :rmb
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

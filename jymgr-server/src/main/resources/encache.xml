@@ -1,0 +1,28 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../config/ehcache.xsd">
+
+  <cacheManagerPeerProviderFactory class= "net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory" 
+    properties="peerDiscovery=manual,rmiUrls=//47.94.0.136:1111/member_info|///47.94.0.136:1111/franchisee_info"/>  
+  
+  <cacheManagerPeerListenerFactory class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"  
+    properties="hostName=localhost,port=40001, socketTimeoutMillis=120000"/>
+
+  <cache name="member_info"
+         maxElementsInMemory="10000"
+         eternal="false"
+         timeToIdleSeconds="50"
+         timeToLiveSeconds="50"
+         overflowToDisk="false"
+         memoryStoreEvictionPolicy="LRU">
+     <cacheEventListenerFactory class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"/>
+  </cache>
+         
+  <cache name="franchisee_info"
+         maxElementsInMemory="10000"
+         eternal="false"
+         timeToIdleSeconds="50"
+         timeToLiveSeconds="50"
+         overflowToDisk="false"
+         memoryStoreEvictionPolicy="LRU">
+     <cacheEventListenerFactory class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"/>
+  </cache>
+</ehcache>

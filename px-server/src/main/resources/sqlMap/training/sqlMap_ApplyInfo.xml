@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="applyInfo" isRead="true" dsName="test-read">
+
+	<sql id="insertApplyInfo" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO px_apply_info(itemId, address, `name`, type, mobile, applyId, certificateType, certificateCode, createTime, sourceFrom, organizationName,userId) 
+			values (:itemId, :address, :name, :type, :mobile, :applyId, :certificateType, :certificateCode, :createTime, :sourceFrom, :organizationName, :userId)
+		]]>
+	</sql>
+
+	<sql id="updateApplyInfo" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE px_apply_info SET address = :address
+				<#if name?exists && name != "">
+					, `name` = :name
+				</#if>
+				<#if type?exists && type != "">
+					, type = :type
+				</#if>
+				<#if mobile?exists && mobile != "">
+					, mobile = :mobile
+				</#if>
+				<#if certificateType?exists && certificateType != "">
+					, certificateType = :certificateType
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					, certificateCode = :certificateCode
+				</#if>
+				<#if createTime?exists && createTime != "">
+					, createTime = :createTime
+				</#if>
+				<#if sourceFrom?exists && sourceFrom != "">
+					, sourceFrom = :sourceFrom
+				</#if>
+				<#if organizationName?exists && organizationName != "">
+					, organizationName = :organizationName
+				</#if>
+				<#if status?exists && status != "">
+					, `status` = :status
+				</#if>
+				<#if userId?exists && userId != "">
+					, userId = :userId
+				</#if>
+			WHERE applyId = :applyId
+		]]>
+	</sql>
+
+	<sql id="deleteApplyInfo" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM px_apply_info
+			WHERE 1=1
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if itemId?exists && itemId != "">
+					AND `itemId` = :itemId
+				</#if>
+				<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if certificateType?exists && certificateType != "">
+					AND certificateType = :certificateType
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					AND certificateCode = :certificateCode
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if sourceFrom?exists && sourceFrom != "">
+					AND sourceFrom = :sourceFrom
+				</#if>
+				<#if organizationName?exists && organizationName != "">
+					AND organizationName = :organizationName
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+			<#if applyId?exists && applyId != "">
+				AND applyId = :applyId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleApplyInfoList">
+		<![CDATA[
+			SELECT 
+				address, 
+				itemId,
+				`name`, 
+				userId,
+				type, 
+				mobile, 
+				applyId, 
+				certificateType, 
+				certificateCode, 
+				createTime, 
+				sourceFrom, 
+				organizationName, status
+			FROM px_apply_info
+			WHERE 1=1
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if certificateType?exists && certificateType != "">
+					AND certificateType = :certificateType
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					AND certificateCode = :certificateCode
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if sourceFrom?exists && sourceFrom != "">
+					AND sourceFrom = :sourceFrom
+				</#if>
+				<#if organizationName?exists && organizationName != "">
+					AND organizationName = :organizationName
+				</#if>
+				<#if status?exists && status != "">
+					AND status = :status
+				</#if>
+			<#if applyId?exists && applyId != "">
+				AND applyId = :applyId
+			</#if>
+			<#if itemId?exists && itemId != "">
+				AND itemId = :itemId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleApplyInfoListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM px_apply_info
+			WHERE 1=1
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if certificateType?exists && certificateType != "">
+					AND certificateType = :certificateType
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					AND certificateCode = :certificateCode
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if sourceFrom?exists && sourceFrom != "">
+					AND sourceFrom = :sourceFrom
+				</#if>
+				<#if organizationName?exists && organizationName != "">
+					AND organizationName = :organizationName
+				</#if>
+				<#if status?exists && status != "">
+					AND status = :status
+				</#if>
+			<#if applyId?exists && applyId != "">
+				AND applyId = :applyId
+			</#if>
+			<#if itemId?exists && itemId != "">
+				AND itemId = :itemId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getApplyInfoList">
+		<![CDATA[
+			SELECT 
+				address, 
+				`name`, 
+				type, 
+				mobile, 
+				userId,
+				applyId, 
+				certificateType, 
+				certificateCode, 
+				createTime, 
+				sourceFrom, 
+				organizationName, status, itemId
+			FROM px_apply_info
+			WHERE 1=1
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if userId?exists && userId != "">
+					AND `userId` = :userId
+				</#if>
+				<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if certificateType?exists && certificateType != "">
+					AND certificateType = :certificateType
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					AND certificateCode = :certificateCode
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if sourceFrom?exists && sourceFrom != "">
+					AND sourceFrom = :sourceFrom
+				</#if>
+				<#if organizationName?exists && organizationName != "">
+					AND organizationName = :organizationName
+				</#if>
+				<#if status?exists && status != "">
+					AND status = :status
+				</#if>
+			<#if applyId?exists && applyId != "">
+				AND applyId = :applyId
+			</#if>
+			<#if itemId?exists && itemId != "">
+				AND itemId = :itemId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getApplyInfoListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM px_apply_info
+			WHERE 1=1
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if certificateType?exists && certificateType != "">
+					AND certificateType = :certificateType
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					AND certificateCode = :certificateCode
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if sourceFrom?exists && sourceFrom != "">
+					AND sourceFrom = :sourceFrom
+				</#if>
+				<#if organizationName?exists && organizationName != "">
+					AND organizationName = :organizationName
+				</#if>
+				<#if status?exists && status != "">
+					AND status = :status
+				</#if>
+			<#if applyId?exists && applyId != "">
+				AND applyId = :applyId
+			</#if>
+			<#if itemId?exists && itemId != "">
+				AND itemId = :itemId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

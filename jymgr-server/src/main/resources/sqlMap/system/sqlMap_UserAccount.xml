@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="userAccount" isRead="true" dsName="test-read">
+
+	<sql id="insertUserAccount" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO sys_useraccount(enabledTime, lastModifyTime, expiredTime, createTime, password, nonLocked, userId, account, nonExpired, enabled, lockedTime, deleted, userType) 
+			values (:enabledTime, :lastModifyTime, :expiredTime, :createTime, :password, :nonLocked, :userId, :account, :nonExpired, :enabled, :lockedTime, 0, :userType)
+		]]>
+	</sql>
+
+	<sql id="updateUserAccount" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE sys_useraccount SET lastModifyTime = now()
+				<#if enabledTime?exists && enabledTime != "">
+					, enabledTime = :enabledTime
+				</#if>
+				<#if expiredTime?exists && expiredTime != "">
+					, expiredTime = :expiredTime
+				</#if>
+				<#if account?exists && account != "">
+					, account = :account
+				</#if>
+				<#if password?exists && password != "">
+					, password = :password
+				</#if>
+				<#if nonLocked?exists && nonLocked != "">
+					, nonLocked = :nonLocked
+				</#if>
+				<#if nonExpired?exists && nonExpired != "">
+					, nonExpired = :nonExpired
+				</#if>
+				<#if enabled?exists && enabled != "">
+					, enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					, deleted = :deleted
+				</#if>
+				<#if deletedTime?exists && deletedTime != "">
+					, deletedTime = :deletedTime
+				</#if>
+				<#if lockedTime?exists && lockedTime != "">
+					, lockedTime = :lockedTime
+				</#if>
+			WHERE
+				<#if userId?exists && userId != "">
+					userId = :userId
+				<#else>
+					userId in (${userIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteUserAccount" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM sys_useraccount
+			WHERE 1=1
+			<#if enabledTime?exists && enabledTime != "">
+					AND enabledTime = :enabledTime
+				</#if>
+				<#if lastModifyTime?exists && lastModifyTime != "">
+					AND lastModifyTime = :lastModifyTime
+				</#if>
+				<#if expiredTime?exists && expiredTime != "">
+					AND expiredTime = :expiredTime
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if password?exists && password != "">
+					AND password = :password
+				</#if>
+				<#if nonLocked?exists && nonLocked != "">
+					AND nonLocked = :nonLocked
+				</#if>
+				<#if account?exists && account != "">
+					AND account = :account
+				</#if>
+				<#if nonExpired?exists && nonExpired != "">
+					AND nonExpired = :nonExpired
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if lockedTime?exists && lockedTime != "">
+					AND lockedTime = :lockedTime
+				</#if>
+			<#if userId?exists && userId != "">
+				AND userId = :userId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleUserAccountList">
+		<![CDATA[
+			SELECT 
+				enabledTime, 
+				lastModifyTime, 
+				expiredTime, 
+				createTime, 
+				password, 
+				nonLocked, 
+				userId, 
+				account, 
+				nonExpired, 
+				enabled, 
+				deleted,
+				deletedTime,
+				lockedTime,
+				userType
+			FROM sys_useraccount
+			WHERE 1=1
+			<#if nonLocked?exists && nonLocked != "">
+				AND nonLocked = :nonLocked
+			</#if>
+			<#if account?exists && account != "">
+				AND account = :account
+			</#if>
+			<#if password?exists && password != "">
+				AND password = :password
+			</#if>
+			<#if nonExpired?exists && nonExpired != "">
+				AND nonExpired = :nonExpired
+			</#if>
+			<#if enabled?exists && enabled != "">
+				AND enabled = :enabled
+			</#if>
+			<#if deleted?exists && deleted != "">
+				AND deleted = :deleted
+			</#if>
+			<#if userId?exists && userId != "">
+				AND userId = :userId
+			</#if>
+			<#if userType?exists && userType != "">
+				AND userType = :userType
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY ${orderBy}
+				<#if orderType?exists && orderType !="" >
+					${orderType}
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleUserAccountListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM sys_useraccount
+			WHERE 1=1
+			<#if nonLocked?exists && nonLocked != "">
+				AND nonLocked = :nonLocked
+			</#if>
+			<#if account?exists && account != "">
+				AND account = :account
+			</#if>
+			<#if nonExpired?exists && nonExpired != "">
+				AND nonExpired = :nonExpired
+			</#if>
+			<#if enabled?exists && enabled != "">
+				AND enabled = :enabled
+			</#if>
+			<#if deleted?exists && deleted != "">
+				AND deleted = :deleted
+			</#if>
+			<#if userId?exists && userId != "">
+				AND userId = :userId
+			</#if>
+			<#if userType?exists && userType != "">
+				AND userType = :userType
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY ${orderBy}
+				<#if orderType?exists && orderType !="" >
+					${orderType}
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getUserAccountList">
+		<![CDATA[
+			SELECT
+				a.userId,
+				a.account,
+				a.`password`,
+				a.nonExpired,
+				a.nonLocked,
+				a.enabled,
+				a.deleted,
+				a.expiredTime,
+				a.lockedTime,
+				a.enabledTime,
+				a.deletedTime,
+				a.createTime,
+				a.lastModifyTime,
+				u.`name`,
+				u.mobile,
+				u.address,
+				u.lastModifyTime infoModifyTime,
+				u.identity,
+				sex, photo, age, clientid,userType
+			FROM
+				sys_useraccount a left JOIN sys_userinfo u on a.userId = u.userId
+			WHERE 1=1
+			<#if nonLocked?exists && nonLocked != "">
+				AND a.nonLocked = :nonLocked
+			</#if>
+			<#if account?exists && account != "">
+				AND a.account = :account
+			</#if>
+			<#if nonExpired?exists && nonExpired != "">
+				AND a.nonExpired = :nonExpired
+			</#if>
+			<#if enabled?exists && enabled != "">
+				AND a.enabled = :enabled
+			</#if>
+			<#if deleted?exists && deleted != "">
+				AND a.deleted = :deleted
+			</#if>
+			<#if userId?exists && userId != "">
+				AND a.userId = :userId
+			</#if>
+			<#if userType?exists && userType != "">
+				AND a.userType = :userType
+			</#if>
+			<#if name?exists && name != "">
+				AND u.`name` = :name
+			</#if>
+			<#if mobile?exists && mobile != "">
+				AND u.mobile = :mobile
+			</#if>
+			<#if identity?exists && identity != "">
+				AND u.identity = :identity
+			</#if>
+			<#if identities?exists && identities != "">
+				AND u.identity in (${identities})
+			</#if>
+			<#if sex?exists && sex != "">
+				AND sex = :sex
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY ${orderBy} ${orderType}
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getUserAccountListCount">
+		<![CDATA[
+			SELECT COUNT(1) 
+			FROM
+				sys_useraccount a left JOIN sys_userinfo u on a.userId = u.userId
+			WHERE 1=1
+			<#if nonLocked?exists && nonLocked != "">
+				AND a.nonLocked = :nonLocked
+			</#if>
+			<#if account?exists && account != "">
+				AND a.account = :account
+			</#if>
+			<#if nonExpired?exists && nonExpired != "">
+				AND a.nonExpired = :nonExpired
+			</#if>
+			<#if enabled?exists && enabled != "">
+				AND a.enabled = :enabled
+			</#if>
+			<#if deleted?exists && deleted != "">
+				AND a.deleted = :deleted
+			</#if>
+			<#if userId?exists && userId != "">
+				AND a.userId = :userId
+			</#if>
+			<#if userType?exists && userType != "">
+				AND a.userType = :userType
+			</#if>
+			<#if name?exists && name != "">
+				AND u.`name` = :name
+			</#if>
+			<#if mobile?exists && mobile != "">
+				AND u.mobile = :mobile
+			</#if>
+			<#if identity?exists && identity != "">
+				AND u.identity = :identity
+			</#if>
+			<#if identities?exists && identities != "">
+				AND u.identity in (${identities})
+			</#if>
+			<#if sex?exists && sex != "">
+				AND sex = :sex
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY ${orderBy} ${orderType}
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="zone" isRead="true" dsName="test-read">
+
+	<sql id="insertZone" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO court_zone(createTime, modifyTime, siteId, zoneName, parentId, parentIds, level) 
+			values (now(), now(), :siteId, :zoneName, :parentId, :parentIds, :level)
+		]]>
+	</sql>
+
+	<sql id="updateZone" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE court_zone SET modifyTime = now()
+				<#if siteId?exists && siteId != "">
+					, siteId = :siteId
+				</#if>
+				<#if zoneName?exists && zoneName != "">
+					, zoneName = :zoneName
+				</#if>
+				<#if parentId?exists && parentId != "">
+					, parentId = :parentId
+				</#if>
+				<#if parentIds?exists && parentIds != "">
+					, parentIds = :parentIds
+				</#if>
+				<#if level?exists && level != "">
+					, level = :level
+				</#if>
+			WHERE zoneId = :zoneId
+		]]>
+	</sql>
+
+	<sql id="deleteZone" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM court_zone
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND modifyTime = :modifyTime
+				</#if>
+				<#if siteId?exists && siteId != "">
+					AND siteId = :siteId
+				</#if>
+				<#if zoneName?exists && zoneName != "">
+					AND zoneName = :zoneName
+				</#if>
+				<#if parentId?exists && parentId != "">
+					AND parentId = :parentId
+				</#if>
+				<#if parentIds?exists && parentIds != "">
+					AND parentIds = :parentIds
+				</#if>
+			<#if zoneId?exists && zoneId != "">
+				AND zoneId = :zoneId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleZoneList">
+		<![CDATA[
+			SELECT 
+				createTime, 
+				modifyTime, 
+				siteId, 
+				zoneName, 
+				parentId, 
+				parentIds, 
+				zoneId, 
+				level
+			FROM court_zone
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND modifyTime = :modifyTime
+				</#if>
+				<#if siteId?exists && siteId != "">
+					AND siteId = :siteId
+				</#if>
+				<#if zoneName?exists && zoneName != "">
+					AND zoneName = :zoneName
+				</#if>
+				<#if parentId?exists && parentId != "">
+					AND parentId = :parentId
+				</#if>
+				<#if parentIds?exists && parentIds != "">
+					AND parentIds = :parentIds
+				</#if>
+			<#if zoneId?exists && zoneId != "">
+				AND zoneId = :zoneId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleZoneListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM court_zone
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND modifyTime = :modifyTime
+				</#if>
+				<#if siteId?exists && siteId != "">
+					AND siteId = :siteId
+				</#if>
+				<#if zoneName?exists && zoneName != "">
+					AND zoneName = :zoneName
+				</#if>
+				<#if parentId?exists && parentId != "">
+					AND parentId = :parentId
+				</#if>
+				<#if parentIds?exists && parentIds != "">
+					AND parentIds = :parentIds
+				</#if>
+			<#if zoneId?exists && zoneId != "">
+				AND zoneId = :zoneId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getZoneList">
+		<![CDATA[
+			SELECT 
+				createTime, 
+				modifyTime, 
+				siteId, 
+				zoneName, 
+				parentId, 
+				parentIds, 
+				zoneId, 
+				level
+			FROM court_zone
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND modifyTime = :modifyTime
+				</#if>
+				<#if siteId?exists && siteId != "">
+					AND siteId = :siteId
+				</#if>
+				<#if zoneName?exists && zoneName != "">
+					AND zoneName = :zoneName
+				</#if>
+				<#if parentId?exists && parentId != "">
+					AND parentId = :parentId
+				</#if>
+				<#if parentIds?exists && parentIds != "">
+					AND parentIds = :parentIds
+				</#if>
+			<#if zoneId?exists && zoneId != "">
+				AND zoneId = :zoneId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getZoneListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM court_zone
+			WHERE 1=1
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND modifyTime = :modifyTime
+				</#if>
+				<#if siteId?exists && siteId != "">
+					AND siteId = :siteId
+				</#if>
+				<#if zoneName?exists && zoneName != "">
+					AND zoneName = :zoneName
+				</#if>
+				<#if parentId?exists && parentId != "">
+					AND parentId = :parentId
+				</#if>
+				<#if parentIds?exists && parentIds != "">
+					AND parentIds = :parentIds
+				</#if>
+				<#if zoneId?exists && zoneId != "">
+					AND zoneId = :zoneId
+				</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getUsableZone">
+		<![CDATA[
+			select z.zoneId, z.siteId, z.zoneName, z.parentId, z.parentIds, z.`level`, z.createTime, z.modifyTime 
+			from court_zone z, court_info c, court_site s
+			where s.courtId = c.courtId and s.siteId = z.siteId and s.enabled = 1 and c.enabled = 1
+			 <#if zoneId?exists && zoneId != "">
+				AND z.zoneId = :zoneId
+			</#if>
+			and c.courtId = :courtId 
+			and z.`level` = :competitionFormat 
+			and z.zoneId not in (select u.zoneId from court_zoneuse u where u.beginTime >= :competitionTime and u.endTime <= :competitionTimeEnd and u.`status` != 3)
+			limit 1
+		]]>
+	</sql>
+
+</sqlMap>

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="productType" isRead="true" dsName="test-read">
+
+	<sql id="insertProductType" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO mgr_product_type(typeName, createTime, enabled, deleted, updateTime, business) 
+			values (:typeName, :createTime, :enabled, :deleted, :updateTime, :business)
+		]]>
+	</sql>
+
+	<sql id="updateProductType" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE mgr_product_type SET updateTime = now()
+				<#if enabled?exists && enabled != "">
+					, enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					, deleted = :deleted
+				</#if>
+				<#if typeName?exists && typeName != "">
+					, typeName = :typeName
+				</#if>
+				<#if business?exists && business != "">
+					, business = :business
+				</#if>
+			WHERE 
+				<#if typeId?exists && typeId != "">
+					typeId = :typeId
+				<#else>
+					typeId in (${typeIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteProductType" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM mgr_product_type
+			WHERE 1=1
+			<#if typeName?exists && typeName != "">
+					AND typeName = :typeName
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if business?exists && business != "">
+					AND business = :business
+				</#if>
+			<#if typeId?exists && typeId != "">
+				AND typeId = :typeId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleProductTypeList">
+		<![CDATA[
+			SELECT 
+				typeName, 
+				typeId, 
+				createTime, 
+				enabled, 
+				deleted, 
+				updateTime, 
+				business
+			FROM mgr_product_type
+			WHERE 1=1
+			<#if typeName?exists && typeName != "">
+					AND typeName = :typeName
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if business?exists && business != "">
+					AND business = :business
+				</#if>
+			<#if typeId?exists && typeId != "">
+				AND typeId = :typeId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleProductTypeListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM mgr_product_type
+			WHERE 1=1
+			<#if typeName?exists && typeName != "">
+					AND typeName = :typeName
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if business?exists && business != "">
+					AND business = :business
+				</#if>
+			<#if typeId?exists && typeId != "">
+				AND typeId = :typeId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getProductTypeList">
+		<![CDATA[
+			SELECT 
+				typeName, 
+				typeId, 
+				createTime, 
+				enabled, 
+				deleted, 
+				updateTime, 
+				business
+			FROM mgr_product_type
+			WHERE 1=1
+			<#if typeName?exists && typeName != "">
+					AND typeName = :typeName
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if business?exists && business != "">
+					AND business = :business
+				</#if>
+			<#if typeId?exists && typeId != "">
+				AND typeId = :typeId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getProductTypeListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM mgr_product_type
+			WHERE 1=1
+			<#if typeName?exists && typeName != "">
+					AND typeName = :typeName
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if business?exists && business != "">
+					AND business = :business
+				</#if>
+			<#if typeId?exists && typeId != "">
+				AND typeId = :typeId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

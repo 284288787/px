@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="trainingItemPicture" isRead="true" dsName="test-read">
+
+	<sql id="insertTrainingItemPicture" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO px_training_item_picture(id, picturePath, itemId) 
+			values (:id, :picturePath, :itemId)
+		]]>
+	</sql>
+
+	<sql id="updateTrainingItemPicture" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE px_training_item_picture SET picturePath = :picturePath
+				<#if itemId?exists && itemId != "">
+					, itemId = :itemId
+				</#if>
+			WHERE id = :id
+		]]>
+	</sql>
+
+	<sql id="deleteTrainingItemPicture" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM px_training_item_picture
+			WHERE 1=1
+			<#if picturePath?exists && picturePath != "">
+					AND picturePath = :picturePath
+				</#if>
+				<#if itemId?exists && itemId != "">
+					AND itemId = :itemId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleTrainingItemPictureList">
+		<![CDATA[
+			SELECT 
+				id, 
+				picturePath, 
+				itemId
+			FROM px_training_item_picture
+			WHERE 1=1
+			<#if picturePath?exists && picturePath != "">
+					AND picturePath = :picturePath
+				</#if>
+				<#if itemId?exists && itemId != "">
+					AND itemId = :itemId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleTrainingItemPictureListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM px_training_item_picture
+			WHERE 1=1
+			<#if picturePath?exists && picturePath != "">
+					AND picturePath = :picturePath
+				</#if>
+				<#if itemId?exists && itemId != "">
+					AND itemId = :itemId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getTrainingItemPictureList">
+		<![CDATA[
+			SELECT 
+				id, 
+				picturePath, 
+				itemId
+			FROM px_training_item_picture
+			WHERE 1=1
+			<#if picturePath?exists && picturePath != "">
+					AND picturePath = :picturePath
+				</#if>
+				<#if itemId?exists && itemId != "">
+					AND itemId = :itemId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getTrainingItemPictureListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM px_training_item_picture
+			WHERE 1=1
+			<#if picturePath?exists && picturePath != "">
+					AND picturePath = :picturePath
+				</#if>
+				<#if itemId?exists && itemId != "">
+					AND itemId = :itemId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="studentPoint" isRead="true" dsName="test-read">
+
+	<sql id="insertStudentPoint" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO student_point(studentId, distance, calorie, level, updateTime, distancePoint, caloriePoint) 
+			values (:studentId, :distance, :calorie, :level, :updateTime, :distancePoint, :caloriePoint)
+		]]>
+	</sql>
+
+	<sql id="updateStudentPoint" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE student_point SET distance = :distance
+				<#if calorie?exists && calorie != "">
+					, calorie = :calorie
+				</#if>
+				<#if level?exists && level != "">
+					, level = :level
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					, updateTime = :updateTime
+				</#if>
+				<#if distancePoint?exists && distancePoint != "">
+					, distancePoint = :distancePoint
+				</#if>
+				<#if caloriePoint?exists && caloriePoint != "">
+					, caloriePoint = :caloriePoint
+				</#if>
+			WHERE 
+				<#if studentId?exists && studentId != "">
+					studentId = :studentId
+				<#else>
+					studentId in (${studentIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteStudentPoint" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM student_point
+			WHERE 1=1
+			<#if distance?exists && distance != "">
+					AND distance = :distance
+				</#if>
+				<#if calorie?exists && calorie != "">
+					AND calorie = :calorie
+				</#if>
+				<#if level?exists && level != "">
+					AND level = :level
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if distancePoint?exists && distancePoint != "">
+					AND distancePoint = :distancePoint
+				</#if>
+				<#if caloriePoint?exists && caloriePoint != "">
+					AND caloriePoint = :caloriePoint
+				</#if>
+			<#if studentId?exists && studentId != "">
+				AND studentId = :studentId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleStudentPointList">
+		<![CDATA[
+			SELECT 
+				studentId, 
+				distance, 
+				calorie, 
+				level, 
+				updateTime, 
+				distancePoint, 
+				caloriePoint
+			FROM student_point
+			WHERE 1=1
+			<#if distance?exists && distance != "">
+					AND distance = :distance
+				</#if>
+				<#if calorie?exists && calorie != "">
+					AND calorie = :calorie
+				</#if>
+				<#if level?exists && level != "">
+					AND level = :level
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if distancePoint?exists && distancePoint != "">
+					AND distancePoint = :distancePoint
+				</#if>
+				<#if caloriePoint?exists && caloriePoint != "">
+					AND caloriePoint = :caloriePoint
+				</#if>
+			<#if studentId?exists && studentId != "">
+				AND studentId = :studentId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleStudentPointListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM student_point
+			WHERE 1=1
+			<#if distance?exists && distance != "">
+					AND distance = :distance
+				</#if>
+				<#if calorie?exists && calorie != "">
+					AND calorie = :calorie
+				</#if>
+				<#if level?exists && level != "">
+					AND level = :level
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if distancePoint?exists && distancePoint != "">
+					AND distancePoint = :distancePoint
+				</#if>
+				<#if caloriePoint?exists && caloriePoint != "">
+					AND caloriePoint = :caloriePoint
+				</#if>
+			<#if studentId?exists && studentId != "">
+				AND studentId = :studentId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getStudentPointList">
+		<![CDATA[
+			SELECT 
+				studentId, 
+				distance, 
+				calorie, 
+				level, 
+				updateTime, 
+				distancePoint, 
+				caloriePoint
+			FROM student_point
+			WHERE 1=1
+			<#if distance?exists && distance != "">
+					AND distance = :distance
+				</#if>
+				<#if calorie?exists && calorie != "">
+					AND calorie = :calorie
+				</#if>
+				<#if level?exists && level != "">
+					AND level = :level
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if distancePoint?exists && distancePoint != "">
+					AND distancePoint = :distancePoint
+				</#if>
+				<#if caloriePoint?exists && caloriePoint != "">
+					AND caloriePoint = :caloriePoint
+				</#if>
+			<#if studentId?exists && studentId != "">
+				AND studentId = :studentId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getStudentPointListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM student_point
+			WHERE 1=1
+			<#if distance?exists && distance != "">
+					AND distance = :distance
+				</#if>
+				<#if calorie?exists && calorie != "">
+					AND calorie = :calorie
+				</#if>
+				<#if level?exists && level != "">
+					AND level = :level
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if distancePoint?exists && distancePoint != "">
+					AND distancePoint = :distancePoint
+				</#if>
+				<#if caloriePoint?exists && caloriePoint != "">
+					AND caloriePoint = :caloriePoint
+				</#if>
+			<#if studentId?exists && studentId != "">
+				AND studentId = :studentId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="classTeacherRelation" isRead="true" dsName="test-read">
+
+	<sql id="insertClassTeacherRelation" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO kindergarten_class_teacher(id, classId, teacherId, subject) 
+			values (:id, :classId, :teacherId, :subject)
+		]]>
+	</sql>
+
+	<sql id="updateClassTeacherRelation" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE kindergarten_class_teacher SET classId = :classId
+				<#if teacherId?exists && teacherId != "">
+					, teacherId = :teacherId
+				</#if>
+				<#if subject?exists && subject != "">
+					, subject = :subject
+				</#if>
+			WHERE 
+				<#if id?exists && id != "">
+					id = :id
+				<#else>
+					id in (${ids})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteClassTeacherRelation" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM kindergarten_class_teacher
+			WHERE 1=1
+				<#if classId?exists && classId != "">
+					AND classId = :classId
+				</#if>
+				<#if teacherId?exists && teacherId != "">
+					AND teacherId = :teacherId
+				</#if>
+				<#if id?exists && id != "">
+					AND id = :id
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleClassTeacherRelationList">
+		<![CDATA[
+			SELECT 
+				id, 
+				classId, 
+				teacherId, 
+				subject
+			FROM kindergarten_class_teacher
+			WHERE 1=1
+			<#if classId?exists && classId != "">
+					AND classId = :classId
+				</#if>
+				<#if teacherId?exists && teacherId != "">
+					AND teacherId = :teacherId
+				</#if>
+				<#if subject?exists && subject != "">
+					AND subject = :subject
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleClassTeacherRelationListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM kindergarten_class_teacher
+			WHERE 1=1
+			<#if classId?exists && classId != "">
+					AND classId = :classId
+				</#if>
+				<#if teacherId?exists && teacherId != "">
+					AND teacherId = :teacherId
+				</#if>
+				<#if subject?exists && subject != "">
+					AND subject = :subject
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getClassTeacherRelationList">
+		<![CDATA[
+			SELECT 
+				id, 
+				classId, 
+				teacherId, 
+				subject
+			FROM kindergarten_class_teacher
+			WHERE 1=1
+			<#if classId?exists && classId != "">
+					AND classId = :classId
+				</#if>
+				<#if teacherId?exists && teacherId != "">
+					AND teacherId = :teacherId
+				</#if>
+				<#if subject?exists && subject != "">
+					AND subject = :subject
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getClassTeacherRelationListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM kindergarten_class_teacher
+			WHERE 1=1
+			<#if classId?exists && classId != "">
+					AND classId = :classId
+				</#if>
+				<#if teacherId?exists && teacherId != "">
+					AND teacherId = :teacherId
+				</#if>
+				<#if subject?exists && subject != "">
+					AND subject = :subject
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="bracelet" isRead="true" dsName="test-read">
+
+	<sql id="insertBracelet" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO bracelet_info(factoryCode, braceletId, mac, stepNum, calorie, distance, other, createTime, data, heartRate, gatewaymac, type, rssi, studentId, deviceName, quantity) 
+			values (:factoryCode, :braceletId, :mac, :stepNum, :calorie, :distance, :other, now(), :data, :heartRate, :gatewaymac, :type, :rssi, :studentId, :deviceName, :quantity)
+		]]>
+	</sql>
+
+	<sql id="updateBracelet" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE bracelet_info SET factoryCode = :factoryCode
+				<#if mac?exists && mac != "">
+					, mac = :mac
+				</#if>
+				<#if stepNum?exists && stepNum != "">
+					, stepNum = :stepNum
+				</#if>
+				<#if calorie?exists && calorie != "">
+					, calorie = :calorie
+				</#if>
+				<#if distance?exists && distance != "">
+					, distance = :distance
+				</#if>
+				<#if other?exists && other != "">
+					, other = :other
+				</#if>
+			WHERE 
+				<#if braceletId?exists && braceletId != "">
+					braceletId = :braceletId
+				<#else>
+					braceletId in (${braceletIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteBracelet" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM bracelet_info
+			WHERE 1=1
+			<#if factoryCode?exists && factoryCode != "">
+					AND factoryCode = :factoryCode
+				</#if>
+				<#if mac?exists && mac != "">
+					AND mac = :mac
+				</#if>
+				<#if stepNum?exists && stepNum != "">
+					AND stepNum = :stepNum
+				</#if>
+				<#if calorie?exists && calorie != "">
+					AND calorie = :calorie
+				</#if>
+				<#if distance?exists && distance != "">
+					AND distance = :distance
+				</#if>
+				<#if other?exists && other != "">
+					AND other = :other
+				</#if>
+			<#if braceletId?exists && braceletId != "">
+				AND braceletId = :braceletId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getExtremeValue">
+		<![CDATA[
+			SELECT 
+				max(${field}) ${field}Max,
+        min(${field}) ${field}Min,
+        avg(${field}) ${field}Avg,
+        max(stepNum) stepNumMax,
+        max(calorie) calorieMax,
+        max(distance) distanceMax        
+			FROM bracelet_info
+			WHERE 1=1
+			<#if factoryCode?exists && factoryCode != "">
+					AND factoryCode = :factoryCode
+				</#if>
+				<#if mac?exists && mac != "">
+					AND mac = :mac
+				</#if>
+				<#if studentId?exists && studentId != "">
+					AND studentId = :studentId
+				</#if>
+				<#if stepNum?exists && stepNum != "">
+					AND stepNum = :stepNum
+				</#if>
+				<#if calorie?exists && calorie != "">
+					AND calorie = :calorie
+				</#if>
+				<#if distance?exists && distance != "">
+					AND distance = :distance
+				</#if>
+				<#if other?exists && other != "">
+					AND other = :other
+				</#if>
+			<#if braceletId?exists && braceletId != "">
+				AND braceletId = :braceletId
+			</#if>
+			<#if startDate?exists && startDate != "">
+				AND createTime >= '${startDate} 00:00:00'
+			</#if>
+			<#if endDate?exists && endDate != "">
+				AND createTime <= '${endDate} 23:59:59'
+			</#if>
+      <#if dateType?exists>
+        <#if dateType == 1>
+          AND createTime >= CONCAT(date_format(date_sub(now(), interval 1 day), '%Y-%m-%d'), ' 00:00:00')
+        </#if>
+        <#if dateType == 7>
+          and createTime >= CONCAT(date_format(date_sub(now(), interval 7 day), '%Y-%m-%d'), ' 00:00:00')
+        </#if>
+        <#if dateType == 30>
+          and createTime >= CONCAT(date_format(date_sub(now(), interval 30 day), '%Y-%m-%d'), ' 00:00:00')
+        </#if>
+        and createTime <= CONCAT(date_format(date_sub(now(), interval 1 day), '%Y-%m-%d'), ' 23:59:59')
+      </#if>
+		]]>
+	</sql>
+	
+	<sql id="getDataByHour">
+		<![CDATA[
+			SELECT 
+				DATE_FORMAT(createTime,'%Y-%m-%d %H') date,
+				max(heartRate) heartRateMax,
+        min(heartRate) heartRateMin,
+        avg(heartRate) heartRateAvg,
+        max(stepNum) stepNumMax,
+        max(calorie) calorieMax,
+        max(distance) distanceMax        
+			FROM bracelet_info
+			WHERE 1=1
+			<#if factoryCode?exists && factoryCode != "">
+					AND factoryCode = :factoryCode
+				</#if>
+				<#if mac?exists && mac != "">
+					AND mac = :mac
+				</#if>
+				<#if studentId?exists && studentId != "">
+					AND studentId = :studentId
+				</#if>
+				<#if stepNum?exists && stepNum != "">
+					AND stepNum = :stepNum
+				</#if>
+				<#if calorie?exists && calorie != "">
+					AND calorie = :calorie
+				</#if>
+				<#if distance?exists && distance != "">
+					AND distance = :distance
+				</#if>
+				<#if other?exists && other != "">
+					AND other = :other
+				</#if>
+			<#if braceletId?exists && braceletId != "">
+				AND braceletId = :braceletId
+			</#if>
+			<#if startDate?exists && startDate != "">
+				AND createTime >= '${startDate} 00:00:00'
+			</#if>
+			<#if endDate?exists && endDate != "">
+				AND createTime <= '${endDate} 23:59:59'
+			</#if>
+      <#if dateType?exists>
+        <#if dateType == 1>
+          AND createTime >= CONCAT(date_format(date_sub(now(), interval 1 day), '%Y-%m-%d'), ' 00:00:00')
+        </#if>
+        <#if dateType == 7>
+          and createTime >= CONCAT(date_format(date_sub(now(), interval 7 day), '%Y-%m-%d'), ' 00:00:00')
+        </#if>
+        <#if dateType == 30>
+          and createTime >= CONCAT(date_format(date_sub(now(), interval 30 day), '%Y-%m-%d'), ' 00:00:00')
+        </#if>
+        and createTime <= CONCAT(date_format(date_sub(now(), interval 1 day), '%Y-%m-%d'), ' 23:59:59')
+      </#if>
+      GROUP BY 1
+			order by 1 asc
+		]]>
+	</sql>
+
+	<sql id="getSimpleBraceletList">
+		<![CDATA[
+			SELECT 
+				factoryCode, 
+				braceletId, 
+				mac, 
+				stepNum, 
+				calorie, 
+				distance, 
+				other,
+                createTime,heartRate, gatewaymac, type, rssi, studentId, deviceName, quantity
+			FROM bracelet_info
+			WHERE 1=1
+			<#if factoryCode?exists && factoryCode != "">
+					AND factoryCode = :factoryCode
+				</#if>
+				<#if mac?exists && mac != "">
+					AND mac = :mac
+				</#if>
+				<#if studentId?exists && studentId != "">
+					AND studentId = :studentId
+				</#if>
+				<#if stepNum?exists && stepNum != "">
+					AND stepNum = :stepNum
+				</#if>
+				<#if calorie?exists && calorie != "">
+					AND calorie = :calorie
+				</#if>
+				<#if distance?exists && distance != "">
+					AND distance = :distance
+				</#if>
+				<#if other?exists && other != "">
+					AND other = :other
+				</#if>
+			<#if braceletId?exists && braceletId != "">
+				AND braceletId = :braceletId
+			</#if>
+			<#if startDate?exists && startDate != "">
+				AND createTime >= '${startDate} 00:00:00'
+			</#if>
+			<#if endDate?exists && endDate != "">
+				AND createTime <= '${endDate} 23:59:59'
+			</#if>
+      <#if dateType?exists>
+        <#if dateType == 1>
+          AND createTime >= CONCAT(date_format(date_sub(now(), interval 1 day), '%Y-%m-%d'), ' 00:00:00')
+        </#if>
+        <#if dateType == 7>
+          and createTime >= CONCAT(date_format(date_sub(now(), interval 7 day), '%Y-%m-%d'), ' 00:00:00')
+        </#if>
+        <#if dateType == 30>
+          and createTime >= CONCAT(date_format(date_sub(now(), interval 30 day), '%Y-%m-%d'), ' 00:00:00')
+        </#if>
+        and createTime <= CONCAT(date_format(date_sub(now(), interval 1 day), '%Y-%m-%d'), ' 23:59:59')
+      </#if>
+      <#if orderBy?exists && orderBy !="" && orderType?exists>
+	   ORDER BY :orderBy :orderType
+     <#else>
+       ORDER BY createTime desc
+      </#if>
+	  <#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+		LIMIT :startIndex,:maxCount
+        <#else>
+          <#if _num?exists && _num !="">
+            LIMIT :_num
+          </#if>
+	 </#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleBraceletListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM bracelet_info
+			WHERE 1=1
+			<#if factoryCode?exists && factoryCode != "">
+					AND factoryCode = :factoryCode
+				</#if>
+				<#if mac?exists && mac != "">
+					AND mac = :mac
+				</#if>
+				<#if studentId?exists && studentId != "">
+					AND studentId = :studentId
+				</#if>
+				<#if stepNum?exists && stepNum != "">
+					AND stepNum = :stepNum
+				</#if>
+				<#if calorie?exists && calorie != "">
+					AND calorie = :calorie
+				</#if>
+				<#if distance?exists && distance != "">
+					AND distance = :distance
+				</#if>
+				<#if other?exists && other != "">
+					AND other = :other
+				</#if>
+			<#if braceletId?exists && braceletId != "">
+				AND braceletId = :braceletId
+			</#if>
+      <#if startDate?exists && startDate != "">
+        AND createTime >= '${startDate} 00:00:00'
+      </#if>
+      <#if endDate?exists && endDate != "">
+        AND createTime <= '${endDate} 23:59:59'
+      </#if>
+      <#if dateType?exists>
+        <#if dateType == 1>
+          AND createTime >= CONCAT(date_format(date_sub(now(), interval 1 day), '%Y-%m-%d'), ' 00:00:00')
+        </#if>
+        <#if dateType == 7>
+          and createTime >= CONCAT(date_format(date_sub(now(), interval 7 day), '%Y-%m-%d'), ' 00:00:00')
+        </#if>
+        <#if dateType == 30>
+          and createTime >= CONCAT(date_format(date_sub(now(), interval 30 day), '%Y-%m-%d'), ' 00:00:00')
+        </#if>
+        and createTime <= CONCAT(date_format(date_sub(now(), interval 1 day), '%Y-%m-%d'), ' 23:59:59')
+      </#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getBraceletList">
+		<![CDATA[
+			SELECT 
+				factoryCode, 
+				braceletId, 
+				mac, 
+				stepNum, 
+				calorie, 
+				distance, 
+				other,createTime,heartRate, gatewaymac, type, rssi, studentId, deviceName, quantity
+			FROM bracelet_info
+			WHERE 1=1
+			<#if factoryCode?exists && factoryCode != "">
+					AND factoryCode = :factoryCode
+				</#if>
+				<#if mac?exists && mac != "">
+					AND mac = :mac
+				</#if>
+				<#if studentId?exists && studentId != "">
+					AND studentId = :studentId
+				</#if>
+				<#if stepNum?exists && stepNum != "">
+					AND stepNum = :stepNum
+				</#if>
+				<#if calorie?exists && calorie != "">
+					AND calorie = :calorie
+				</#if>
+				<#if distance?exists && distance != "">
+					AND distance = :distance
+				</#if>
+				<#if other?exists && other != "">
+					AND other = :other
+				</#if>
+			<#if braceletId?exists && braceletId != "">
+				AND braceletId = :braceletId
+			</#if>
+      <#if startDate?exists && startDate != "">
+				AND createTime >= '${startDate} 00:00:00'
+			</#if>
+			<#if endDate?exists && endDate != "">
+				AND createTime <= '${endDate} 23:59:59'
+			</#if>
+			ORDER BY createTime desc
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getStudentTotalData">
+		<![CDATA[
+			SELECT 
+              b.studentId, 
+              DATE_FORMAT(b.createTime,'%Y-%m-%d') date, 
+              max(b.stepNum) step
+              , max(b.calorie) calorie
+              , max(distance) distance
+              , MAX(b.heartRate) maxHeartRate
+              , min(b.heartRate) minHeartRate
+              , AVG(b.heartRate) avgHeartRate
+            FROM `bracelet_info` b 
+            WHERE studentId = :studentId
+            GROUP BY b.studentId, DATE_FORMAT(b.createTime,'%Y-%m-%d')
+            <#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+              LIMIT :startIndex,:maxCount
+            </#if>
+		]]>
+	</sql>
+
+	<sql id="getStudentTotalDataCount">
+		<![CDATA[
+            select count(1) from (
+			SELECT 
+              b.studentId, 
+              DATE_FORMAT(b.createTime,'%Y-%m-%d') date, 
+              max(b.stepNum) step
+              , max(b.calorie) calorie
+              , max(distance) distance
+              , MAX(b.heartRate) maxHeartRate
+              , min(b.heartRate) minHeartRate
+              , AVG(b.heartRate) avgHeartRate
+            FROM `bracelet_info` b 
+            WHERE studentId = :studentId
+            GROUP BY b.studentId, DATE_FORMAT(b.createTime,'%Y-%m-%d')
+            ) a
+		]]> 
+	</sql>
+
+	<sql id="getBraceletListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM bracelet_info
+			WHERE 1=1
+			<#if factoryCode?exists && factoryCode != "">
+					AND factoryCode = :factoryCode
+				</#if>
+				<#if mac?exists && mac != "">
+					AND mac = :mac
+				</#if>
+				<#if studentId?exists && studentId != "">
+					AND studentId = :studentId
+				</#if>
+				<#if stepNum?exists && stepNum != "">
+					AND stepNum = :stepNum
+				</#if>
+				<#if calorie?exists && calorie != "">
+					AND calorie = :calorie
+				</#if>
+				<#if distance?exists && distance != "">
+					AND distance = :distance
+				</#if>
+				<#if other?exists && other != "">
+					AND other = :other
+				</#if>
+			<#if braceletId?exists && braceletId != "">
+				AND braceletId = :braceletId
+			</#if>
+      <#if startDate?exists && startDate != "">
+				AND createTime >= '${startDate} 00:00:00'
+			</#if>
+			<#if endDate?exists && endDate != "">
+				AND createTime <= '${endDate} 23:59:59'
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getBraceletListForPageGroupDateCount">
+		<![CDATA[
+			SELECT COUNT(1)
+			from (
+			select 
+				date,
+				max(heartRate) heartRateMax,
+        min(heartRate) heartRateMin,
+        avg(heartRate) heartRateAvg,
+        max(stepNum) stepNumMax,
+        max(calorie) calorieMax,
+        max(distance) distanceMax
+			from (
+			  SELECT date_format(b.createTime, '%Y-%m-%d') date, b.stepNum, b.calorie, b.heartRate, b.distance FROM `bracelet_info` b where 1=1
+			  <#if studentId?exists && studentId != "">
+					AND studentId = :studentId
+				</#if>
+			  <#if startDate?exists && startDate != "">
+					AND createTime >= '${startDate} 00:00:00'
+				</#if>
+				<#if endDate?exists && endDate != "">
+					AND createTime <= '${endDate} 23:59:59'
+				</#if>
+				<#if dateType?exists>
+	        <#if dateType == 1>
+	          AND createTime >= CONCAT(date_format(date_sub(now(), interval 1 day), '%Y-%m-%d'), ' 00:00:00')
+	        </#if>
+	        <#if dateType == 7>
+	          and createTime >= CONCAT(date_format(date_sub(now(), interval 7 day), '%Y-%m-%d'), ' 00:00:00')
+	        </#if>
+	        <#if dateType == 30>
+	          and createTime >= CONCAT(date_format(date_sub(now(), interval 30 day), '%Y-%m-%d'), ' 00:00:00')
+	        </#if>
+	        and createTime <= CONCAT(date_format(date_sub(now(), interval 1 day), '%Y-%m-%d'), ' 23:59:59')
+	      </#if>
+			) t
+			GROUP BY 1
+			ORDER BY 1 desc
+			) c
+		]]>
+	</sql>
+
+	<sql id="getBraceletListForPageGroupDate">
+		<![CDATA[
+			select 
+				date,
+				max(heartRate) heartRateMax,
+        min(heartRate) heartRateMin,
+        avg(heartRate) heartRateAvg,
+        max(stepNum) stepNumMax,
+        max(calorie) calorieMax,
+        max(distance) distanceMax
+			from (
+			  SELECT date_format(b.createTime, '%Y-%m-%d') date, b.stepNum, b.calorie, b.heartRate, b.distance FROM `bracelet_info` b where 1=1
+			  <#if studentId?exists && studentId != "">
+					AND studentId = :studentId
+				</#if>
+			  <#if startDate?exists && startDate != "">
+					AND createTime >= '${startDate} 00:00:00'
+				</#if>
+				<#if endDate?exists && endDate != "">
+					AND createTime <= '${endDate} 23:59:59'
+				</#if>
+				<#if dateType?exists>
+	        <#if dateType == 1>
+	          AND createTime >= CONCAT(date_format(date_sub(now(), interval 1 day), '%Y-%m-%d'), ' 00:00:00')
+	        </#if>
+	        <#if dateType == 7>
+	          and createTime >= CONCAT(date_format(date_sub(now(), interval 7 day), '%Y-%m-%d'), ' 00:00:00')
+	        </#if>
+	        <#if dateType == 30>
+	          and createTime >= CONCAT(date_format(date_sub(now(), interval 30 day), '%Y-%m-%d'), ' 00:00:00')
+	        </#if>
+	        and createTime <= CONCAT(date_format(date_sub(now(), interval 1 day), '%Y-%m-%d'), ' 23:59:59')
+	      </#if>
+			) t
+			GROUP BY 1
+			ORDER BY 1 desc
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

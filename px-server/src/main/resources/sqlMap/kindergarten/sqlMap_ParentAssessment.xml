@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="parentAssessment" isRead="true" dsName="test-read">
+
+	<sql id="insertParentAssessment" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO kindergarten_parent_assessment(content, enabled, deleted, createTime, parentId, infoId) 
+			values (:content, :enabled, :deleted, :createTime, :parentId, :infoId)
+		]]>
+	</sql>
+
+	<sql id="updateParentAssessment" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE kindergarten_parent_assessment SET createTime = createTime
+				<#if enabled?exists && enabled != "">
+					, enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					, deleted = :deleted
+				</#if>
+				<#if content?exists && content != "">
+					, content = :content
+				</#if>
+				<#if parentId?exists && parentId != "">
+					, parentId = :parentId
+				</#if>
+			WHERE 
+				<#if infoId?exists && infoId != "">
+					infoId = :infoId
+				<#else>
+					infoId in (${infoIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteParentAssessment" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM kindergarten_parent_assessment
+			WHERE 1=1
+			<#if content?exists && content != "">
+					AND content = :content
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if parentId?exists && parentId != "">
+					AND parentId = :parentId
+				</#if>
+			<#if infoId?exists && infoId != "">
+				AND infoId = :infoId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleParentAssessmentList">
+		<![CDATA[
+			SELECT 
+				content, 
+				enabled, 
+				deleted, 
+				createTime, 
+				parentId, 
+				infoId
+			FROM kindergarten_parent_assessment
+			WHERE 1=1
+			<#if content?exists && content != "">
+					AND content = :content
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if parentId?exists && parentId != "">
+					AND parentId = :parentId
+				</#if>
+			<#if infoId?exists && infoId != "">
+				AND infoId = :infoId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleParentAssessmentListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM kindergarten_parent_assessment
+			WHERE 1=1
+			<#if content?exists && content != "">
+					AND content = :content
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if parentId?exists && parentId != "">
+					AND parentId = :parentId
+				</#if>
+			<#if infoId?exists && infoId != "">
+				AND infoId = :infoId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getParentAssessmentList">
+		<![CDATA[
+			SELECT 
+				content, 
+				enabled, 
+				deleted, 
+				createTime, 
+				parentId, 
+				infoId
+			FROM kindergarten_parent_assessment
+			WHERE 1=1
+			<#if content?exists && content != "">
+					AND content = :content
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if parentId?exists && parentId != "">
+					AND parentId = :parentId
+				</#if>
+			<#if infoId?exists && infoId != "">
+				AND infoId = :infoId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getParentAssessmentListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM kindergarten_parent_assessment
+			WHERE 1=1
+			<#if content?exists && content != "">
+					AND content = :content
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if parentId?exists && parentId != "">
+					AND parentId = :parentId
+				</#if>
+			<#if infoId?exists && infoId != "">
+				AND infoId = :infoId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

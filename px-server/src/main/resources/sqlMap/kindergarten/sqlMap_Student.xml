@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="student" isRead="true" dsName="test-read">
+
+	<sql id="insertStudent" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO kindergarten_student(`name`, enabled, deleted, classId, schoolId, createTime, studentId, stature, weight, birth, sex, guardianMobile, braceletMac) 
+			values (:name, :enabled, :deleted, :classId, :schoolId, :createTime, :studentId, :stature, :weight, :birth, :sex, :guardianMobile, :braceletMac)
+		]]>
+	</sql>
+
+	<sql id="updateStudent" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE kindergarten_student SET createTime = createTime
+				<#if enabled?exists && enabled != "">
+					, enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					, deleted = :deleted
+				</#if>
+				<#if classId?exists && classId != "">
+					, classId = :classId
+				</#if>
+				<#if schoolId?exists && schoolId != "">
+					, schoolId = :schoolId
+				</#if>
+				<#if name?exists && name != "">
+					, `name` = :name
+				</#if>
+				<#if stature?exists && stature != "">
+					, stature = :stature
+				</#if>
+				<#if weight?exists && weight != "">
+					, weight = :weight
+				</#if>
+				<#if birth?exists && birth != "">
+					, birth = :birth
+				</#if>
+				<#if sex?exists && sex != "">
+					, sex = :sex
+				</#if>
+				<#if guardianMobile?exists && guardianMobile != "">
+					, guardianMobile = :guardianMobile
+				</#if>
+				<#if braceletMac?exists>
+					, braceletMac = :braceletMac
+				</#if>
+			WHERE 
+				<#if studentId?exists && studentId != "">
+					studentId = :studentId
+				<#else>
+					studentId in (${studentIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteStudent" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM kindergarten_student
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if classId?exists && classId != "">
+					AND classId = :classId
+				</#if>
+				<#if schoolId?exists && schoolId != "">
+					AND schoolId = :schoolId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if stature?exists && stature != "">
+					AND stature = :stature
+				</#if>
+				<#if weight?exists && weight != "">
+					AND weight = :weight
+				</#if>
+				<#if birth?exists && birth != "">
+					AND birth = :birth
+				</#if>
+				<#if sex?exists && sex != "">
+					AND sex = :sex
+				</#if>
+				<#if guardianMobile?exists && guardianMobile != "">
+					AND guardianMobile = :guardianMobile
+				</#if>
+			<#if studentId?exists && studentId != "">
+				AND studentId = :studentId
+			</#if>
+			<#if braceletMac?exists && braceletMac != "">
+				AND braceletMac = :braceletMac
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleStudentList">
+		<![CDATA[
+			SELECT 
+        p.`level`,
+        p.caloriePoint,
+        p.distancePoint,
+        (select l.`name` from point_level l where l.`level` = p.`level`) levelName,
+        (select l.icon from point_level l where l.`level` = p.`level`) levelIcon,
+				`name`, 
+				enabled, 
+				deleted, 
+				classId, 
+				schoolId, 
+				createTime, 
+				kindergarten_student.studentId, 
+				stature, 
+				weight, 
+				birth, 
+				sex, 
+				guardianMobile,braceletMac,
+				(select t.name from kindergarten_parent t, kindergarten_student_parent s where t.parentId = s.parentId and s.studentId = kindergarten_student.studentId and t.mobile = kindergarten_student.guardianMobile) guardianName,
+				(select s.type from kindergarten_parent t, kindergarten_student_parent s where t.parentId = s.parentId and s.studentId = kindergarten_student.studentId and t.mobile = kindergarten_student.guardianMobile) guardianType,
+				(select t.name from kindergarten_info t where t.schoolId = kindergarten_student.schoolId) schoolName,
+				(select t.name from kindergarten_class t where t.classId = kindergarten_student.classId) className,
+				(select t.teacherName from kindergarten_class c, kindergarten_teacher t where c.teacherId = t.teacherId and c.classId = kindergarten_student.classId) teacherName
+			FROM kindergarten_student
+      LEFT JOIN student_point p on p.studentId = kindergarten_student.studentId
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if classId?exists && classId != "">
+					AND classId = :classId
+				</#if>
+				<#if schoolId?exists && schoolId != "">
+					AND schoolId = :schoolId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if stature?exists && stature != "">
+					AND stature = :stature
+				</#if>
+				<#if weight?exists && weight != "">
+					AND weight = :weight
+				</#if>
+				<#if birth?exists && birth != "">
+					AND birth = :birth
+				</#if>
+				<#if sex?exists && sex != "">
+					AND sex = :sex
+				</#if>
+				<#if guardianMobile?exists && guardianMobile != "">
+					AND guardianMobile = :guardianMobile
+				</#if>
+			<#if studentId?exists && studentId != "">
+				AND kindergarten_student.studentId = :studentId
+			</#if>
+			<#if braceletMac?exists && braceletMac != "">
+				AND braceletMac = :braceletMac
+			</#if>
+			<#if hasBraceletMac?exists>
+                <#if hasBraceletMac>
+				  AND (braceletMac is not null and braceletMac != '')
+                <#else>
+                  AND (braceletMac is null or braceletMac != '')
+                </#if>
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleStudentListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM kindergarten_student
+      LEFT JOIN student_point p on p.studentId = kindergarten_student.studentId
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if classId?exists && classId != "">
+					AND classId = :classId
+				</#if>
+				<#if schoolId?exists && schoolId != "">
+					AND schoolId = :schoolId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if stature?exists && stature != "">
+					AND stature = :stature
+				</#if>
+				<#if weight?exists && weight != "">
+					AND weight = :weight
+				</#if>
+				<#if birth?exists && birth != "">
+					AND birth = :birth
+				</#if>
+				<#if sex?exists && sex != "">
+					AND sex = :sex
+				</#if>
+				<#if guardianMobile?exists && guardianMobile != "">
+					AND guardianMobile = :guardianMobile
+				</#if>
+			<#if studentId?exists && studentId != "">
+				AND kindergarten_student.zaistudentId = :studentId
+			</#if>
+			<#if braceletMac?exists && braceletMac != "">
+				AND braceletMac = :braceletMac
+			</#if>
+      <#if hasBraceletMac?exists>
+                <#if hasBraceletMac>
+          AND braceletMac is not null
+                <#else>
+                  AND braceletMac is null
+                </#if>
+      </#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getStudentList">
+		<![CDATA[
+			SELECT 
+				`name`, 
+				enabled, 
+				deleted, 
+				classId, 
+				schoolId, 
+				createTime, 
+				studentId, 
+				stature, 
+				weight, 
+				birth, 
+				sex, 
+				guardianMobile,braceletMac
+			FROM kindergarten_student
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if classId?exists && classId != "">
+					AND classId = :classId
+				</#if>
+				<#if schoolId?exists && schoolId != "">
+					AND schoolId = :schoolId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if stature?exists && stature != "">
+					AND stature = :stature
+				</#if>
+				<#if weight?exists && weight != "">
+					AND weight = :weight
+				</#if>
+				<#if birth?exists && birth != "">
+					AND birth = :birth
+				</#if>
+				<#if sex?exists && sex != "">
+					AND sex = :sex
+				</#if>
+				<#if guardianMobile?exists && guardianMobile != "">
+					AND guardianMobile = :guardianMobile
+				</#if>
+			<#if studentId?exists && studentId != "">
+				AND studentId = :studentId
+			</#if>
+			<#if braceletMac?exists && braceletMac != "">
+				AND braceletMac = :braceletMac
+			</#if>
+      <#if hasBraceletMac?exists>
+                <#if hasBraceletMac>
+          AND braceletMac is not null
+                <#else>
+                  AND braceletMac is null
+                </#if>
+      </#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getStudentListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM kindergarten_student
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if classId?exists && classId != "">
+					AND classId = :classId
+				</#if>
+				<#if schoolId?exists && schoolId != "">
+					AND schoolId = :schoolId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if stature?exists && stature != "">
+					AND stature = :stature
+				</#if>
+				<#if weight?exists && weight != "">
+					AND weight = :weight
+				</#if>
+				<#if birth?exists && birth != "">
+					AND birth = :birth
+				</#if>
+				<#if sex?exists && sex != "">
+					AND sex = :sex
+				</#if>
+				<#if guardianMobile?exists && guardianMobile != "">
+					AND guardianMobile = :guardianMobile
+				</#if>
+			<#if studentId?exists && studentId != "">
+				AND studentId = :studentId
+			</#if>
+			<#if braceletMac?exists && braceletMac != "">
+				AND braceletMac = :braceletMac
+			</#if>
+      <#if hasBraceletMac?exists>
+                <#if hasBraceletMac>
+          AND braceletMac is not null
+                <#else>
+                  AND braceletMac is null
+                </#if>
+      </#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

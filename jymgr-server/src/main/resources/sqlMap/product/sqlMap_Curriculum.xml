@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="curriculum" isRead="true" dsName="test-read">
+
+	<sql id="insertCurriculum" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO mgr_product_curriculum(`name`, content, deleted, createTime, price, enabled, updateTime, typeId, intro, curriculumId) 
+			values (:name, :content, :deleted, :createTime, :price, :enabled, :updateTime, :typeId, :intro, :curriculumId)
+		]]>
+	</sql>
+
+	<sql id="updateCurriculum" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE mgr_product_curriculum SET updateTime = now()
+				<#if content?exists && content != "">
+					, content = :content
+				</#if>
+				<#if deleted?exists && deleted != "">
+					, deleted = :deleted
+				</#if>
+				<#if price?exists && price != "">
+					, price = :price
+				</#if>
+				<#if enabled?exists && enabled != "">
+					, enabled = :enabled
+				</#if>
+				<#if name?exists && name != "">
+					, `name` = :name
+				</#if>
+				<#if typeId?exists && typeId != "">
+					, typeId = :typeId
+				</#if>
+				<#if intro?exists && intro != "">
+					, intro = :intro
+				</#if>
+			WHERE 
+				<#if curriculumId?exists && curriculumId != "">
+					curriculumId = :curriculumId
+				<#else>
+					curriculumId in (${curriculumIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteCurriculum" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM mgr_product_curriculum
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if content?exists && content != "">
+					AND content = :content
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if typeId?exists && typeId != "">
+					AND typeId = :typeId
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+			<#if curriculumId?exists && curriculumId != "">
+				AND curriculumId = :curriculumId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleCurriculumList">
+		<![CDATA[
+			SELECT 
+				`name`, 
+				content, 
+				deleted, 
+				createTime, 
+				price, 
+				enabled, 
+				updateTime, 
+				typeId, 
+				(select t.typeName from mgr_product_type t where t.typeId = mgr_product_curriculum.typeId) typeName,
+				intro, 
+				curriculumId
+			FROM mgr_product_curriculum
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if content?exists && content != "">
+					AND content = :content
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if typeId?exists && typeId != "">
+					AND typeId = :typeId
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+			<#if curriculumId?exists && curriculumId != "">
+				AND curriculumId = :curriculumId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleCurriculumListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM mgr_product_curriculum
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if content?exists && content != "">
+					AND content = :content
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if typeId?exists && typeId != "">
+					AND typeId = :typeId
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+			<#if curriculumId?exists && curriculumId != "">
+				AND curriculumId = :curriculumId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getCurriculumList">
+		<![CDATA[
+			SELECT 
+				`name`, 
+				content, 
+				deleted, 
+				createTime, 
+				price, 
+				enabled, 
+				updateTime, 
+				typeId, 
+				(select t.typeName from mgr_product_type t where t.typeId = mgr_product_curriculum.typeId) typeName,
+				intro, 
+				curriculumId
+			FROM mgr_product_curriculum
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if content?exists && content != "">
+					AND content = :content
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if typeId?exists && typeId != "">
+					AND typeId = :typeId
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+			<#if curriculumId?exists && curriculumId != "">
+				AND curriculumId = :curriculumId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getCurriculumListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM mgr_product_curriculum
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if content?exists && content != "">
+					AND content = :content
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if typeId?exists && typeId != "">
+					AND typeId = :typeId
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+			<#if curriculumId?exists && curriculumId != "">
+				AND curriculumId = :curriculumId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

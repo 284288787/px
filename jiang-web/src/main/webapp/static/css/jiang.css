@@ -1,0 +1,45 @@
+.jiang{
+	padding-bottom: 10px;
+	border-bottom: 2px solid green;
+}
+.xuanzhong{
+	height: 40px;
+	line-height: 40px;
+	border-bottom: 1px solid lightgray;
+}
+.xuanzhong .txt{
+	padding-left: 5px;
+	padding-right:20px;
+}
+.xuanzhong .btns{
+	float: right;
+	padding-right: 15px;
+}
+.nums{
+	text-align: center;
+	margin-top: 10px;
+}
+.nums .num{
+	border: 2px solid darkorange;
+	background-color: coral;
+	text-align: center;
+	font-weight: bold;
+	width: 50px;
+	height: 56px;
+	line-height: 56px;
+	border-radius: 50%;
+	font-size: 14px;
+	display: inline;
+	padding: 10px 11px;
+	margin: 3px;
+}
+.choosed{
+	background-color: green !important;
+	border: 2px solid #00FF00 !important;
+	color: #000 !important;
+}
+.zmd{
+	background-color: gray;
+	width: 800px;
+	
+}

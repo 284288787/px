@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="lottery" isRead="true" dsName="test-read">
+
+	<sql id="insertLottery" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO lottery_info(lotteryId, createTime, peopleTotalNum, moneys, openTime, peopleNums, times, ballNums, end) 
+			values (:lotteryId, :createTime, :peopleTotalNum, :moneys, :openTime, :peopleNums, :times, :ballNums, :end)
+		]]>
+	</sql>
+
+	<sql id="updateLottery" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE lottery_info SET createTime = :createTime
+				<#if peopleTotalNum?exists && peopleTotalNum != "">
+					, peopleTotalNum = :peopleTotalNum
+				</#if>
+				<#if moneys?exists && moneys != "">
+					, moneys = :moneys
+				</#if>
+				<#if openTime?exists && openTime != "">
+					, openTime = :openTime
+				</#if>
+				<#if peopleNums?exists && peopleNums != "">
+					, peopleNums = :peopleNums
+				</#if>
+				<#if times?exists && times != "">
+					, times = :times
+				</#if>
+				<#if ballNums?exists && ballNums != "">
+					, ballNums = :ballNums
+				</#if>
+				<#if end?exists && end != "">
+					, end = :end
+				</#if>
+			WHERE 
+				<#if lotteryId?exists && lotteryId != "">
+					lotteryId = :lotteryId
+				<#else>
+					lotteryId in (${lotteryIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteLottery" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM lottery_info
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if peopleTotalNum?exists && peopleTotalNum != "">
+					AND peopleTotalNum = :peopleTotalNum
+				</#if>
+				<#if moneys?exists && moneys != "">
+					AND moneys = :moneys
+				</#if>
+				<#if openTime?exists && openTime != "">
+					AND openTime = :openTime
+				</#if>
+				<#if peopleNums?exists && peopleNums != "">
+					AND peopleNums = :peopleNums
+				</#if>
+				<#if times?exists && times != "">
+					AND times = :times
+				</#if>
+				<#if ballNums?exists && ballNums != "">
+					AND ballNums = :ballNums
+				</#if>
+			<#if lotteryId?exists && lotteryId != "">
+				AND lotteryId = :lotteryId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleLotteryList">
+		<![CDATA[
+			SELECT 
+				lotteryId, 
+				createTime, 
+				peopleTotalNum, 
+				moneys, 
+				openTime, 
+				peopleNums, 
+				times, 
+				ballNums,
+				end
+			FROM lottery_info
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if peopleTotalNum?exists && peopleTotalNum != "">
+					AND peopleTotalNum = :peopleTotalNum
+				</#if>
+				<#if moneys?exists && moneys != "">
+					AND moneys = :moneys
+				</#if>
+				<#if openTime?exists && openTime != "">
+					AND openTime = :openTime
+				</#if>
+				<#if peopleNums?exists && peopleNums != "">
+					AND peopleNums = :peopleNums
+				</#if>
+				<#if times?exists && times != "">
+					AND times = :times
+				</#if>
+				<#if ballNums?exists && ballNums != "">
+					AND ballNums = :ballNums
+				</#if>
+			<#if lotteryId?exists && lotteryId != "">
+				AND lotteryId = :lotteryId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleLotteryListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM lottery_info
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if peopleTotalNum?exists && peopleTotalNum != "">
+					AND peopleTotalNum = :peopleTotalNum
+				</#if>
+				<#if moneys?exists && moneys != "">
+					AND moneys = :moneys
+				</#if>
+				<#if openTime?exists && openTime != "">
+					AND openTime = :openTime
+				</#if>
+				<#if peopleNums?exists && peopleNums != "">
+					AND peopleNums = :peopleNums
+				</#if>
+				<#if times?exists && times != "">
+					AND times = :times
+				</#if>
+				<#if ballNums?exists && ballNums != "">
+					AND ballNums = :ballNums
+				</#if>
+			<#if lotteryId?exists && lotteryId != "">
+				AND lotteryId = :lotteryId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getLotteryList">
+		<![CDATA[
+			SELECT 
+				lotteryId, 
+				createTime, 
+				peopleTotalNum, 
+				moneys, 
+				openTime, 
+				peopleNums, 
+				times, 
+				ballNums,
+				end
+			FROM lottery_info
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if peopleTotalNum?exists && peopleTotalNum != "">
+					AND peopleTotalNum = :peopleTotalNum
+				</#if>
+				<#if moneys?exists && moneys != "">
+					AND moneys = :moneys
+				</#if>
+				<#if openTime?exists && openTime != "">
+					AND openTime = :openTime
+				</#if>
+				<#if peopleNums?exists && peopleNums != "">
+					AND peopleNums = :peopleNums
+				</#if>
+				<#if times?exists && times != "">
+					AND times = :times
+				</#if>
+				<#if ballNums?exists && ballNums != "">
+					AND ballNums = :ballNums
+				</#if>
+			<#if lotteryId?exists && lotteryId != "">
+				AND lotteryId = :lotteryId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getLotteryListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM lottery_info
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if peopleTotalNum?exists && peopleTotalNum != "">
+					AND peopleTotalNum = :peopleTotalNum
+				</#if>
+				<#if moneys?exists && moneys != "">
+					AND moneys = :moneys
+				</#if>
+				<#if openTime?exists && openTime != "">
+					AND openTime = :openTime
+				</#if>
+				<#if peopleNums?exists && peopleNums != "">
+					AND peopleNums = :peopleNums
+				</#if>
+				<#if times?exists && times != "">
+					AND times = :times
+				</#if>
+				<#if ballNums?exists && ballNums != "">
+					AND ballNums = :ballNums
+				</#if>
+			<#if lotteryId?exists && lotteryId != "">
+				AND lotteryId = :lotteryId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getNewestLottery">
+		<![CDATA[
+			SELECT 
+				lotteryId, 
+				createTime, 
+				peopleTotalNum, 
+				moneys, 
+				openTime, 
+				peopleNums, 
+				times, 
+				ballNums,
+				end
+			FROM lottery_info where end = :end order by lotteryId desc limit 1
+		]]>
+	</sql>
+
+</sqlMap>

@@ -1,0 +1,62 @@
+html, body{
+	margin: 0px;
+	padding: 0px;
+	font-size: 14px;
+}
+a{color: brown;text-decoration:none}
+a:link    {color:brown;}
+a:visited {color:brown;}
+a:hover   {color:brown;}
+a:active  {color:red;}
+.container{
+	
+}
+.header2{
+	background-color: whitesmoke;
+	padding-bottom: 10px;
+}
+.header2 .wtop{
+	float: right;
+	margin: 10px 10px 0px 0px;
+}
+.wcenter{
+	text-align: center;
+}
+.header2 .wcenter .wtleft{
+	padding: 30px 0px 10px 0px;
+}
+.header2 .wcenter .info{
+	background-color: #FFF;
+	font-size:12px;
+	width: 100%;
+	padding: 12px 0px;
+}
+
+.header2 .wcenter .info div{
+	width: 100px;
+	/**display: inline-grid;**/
+	display: inline-block;
+	line-height: 12px;
+}
+.header2 .wcenter .info div:first-child{
+	border-right:1px solid lightgray;
+}
+.headPic{
+	border-radius: 50%;
+	height: 80px;
+	width: 80px;
+}
+.jg{
+	height: 6px;
+	font-size: 1px;
+}
+.nickname{
+	font-size:14px;
+	color: green;
+	font-weight: bold;
+}
+.price{
+	font-size:14px;
+	color: coral;
+	font-weight: bold;
+}

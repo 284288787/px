@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="studentParentRelation" isRead="true" dsName="test-read">
+
+	<sql id="insertStudentParentRelation" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO kindergarten_student_parent(id, type, studentId, parentId) 
+			values (:id, :type, :studentId, :parentId)
+		]]>
+	</sql>
+
+	<sql id="updateStudentParentRelation" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE kindergarten_student_parent SET type = :type
+				<#if studentId?exists && studentId != "">
+					, studentId = :studentId
+				</#if>
+				<#if parentId?exists && parentId != "">
+					, parentId = :parentId
+				</#if>
+			WHERE 
+				<#if id?exists && id != "">
+					id = :id
+				<#else>
+					id in (${ids})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteStudentParentRelation" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM kindergarten_student_parent
+			WHERE 1=1
+			<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if studentId?exists && studentId != "">
+					AND studentId = :studentId
+				</#if>
+				<#if parentId?exists && parentId != "">
+					AND parentId = :parentId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleStudentParentRelationList">
+		<![CDATA[
+			SELECT 
+				id, 
+				type, 
+				studentId, 
+				parentId
+			FROM kindergarten_student_parent
+			WHERE 1=1
+			<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if studentId?exists && studentId != "">
+					AND studentId = :studentId
+				</#if>
+				<#if parentId?exists && parentId != "">
+					AND parentId = :parentId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleStudentParentRelationListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM kindergarten_student_parent
+			WHERE 1=1
+			<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if studentId?exists && studentId != "">
+					AND studentId = :studentId
+				</#if>
+				<#if parentId?exists && parentId != "">
+					AND parentId = :parentId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getStudentParentRelationList">
+		<![CDATA[
+			SELECT 
+				id, 
+				type, 
+				studentId, 
+				parentId
+			FROM kindergarten_student_parent
+			WHERE 1=1
+			<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if studentId?exists && studentId != "">
+					AND studentId = :studentId
+				</#if>
+				<#if parentId?exists && parentId != "">
+					AND parentId = :parentId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getStudentParentRelationListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM kindergarten_student_parent
+			WHERE 1=1
+			<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if studentId?exists && studentId != "">
+					AND studentId = :studentId
+				</#if>
+				<#if parentId?exists && parentId != "">
+					AND parentId = :parentId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

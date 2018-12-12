@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+<localRepository>D:/work/maven/eclipse/space3/repository</localRepository>
+ <servers>  
+         <server>  
+          <id>my-nexus-releases</id>  
+          <username>deployment</username>  
+          <password>dev)!@#</password>  
+        </server>  
+        <server>  
+          <id>my-nexus-snapshot</id>  
+          <username>deployment</username>  
+          <password>dev)!@#</password> 
+        </server>
+        <server>
+		  <id>nexus</id>  
+          <username>admin</username>
+          <password>adminABC!^*</password> 
+		</server>		
+    </servers>
+   <mirrors>
+	<mirror>  
+		<id>nexus</id>  
+		<name>internal nexus repository</name>  
+		<url>http://10.10.1.42:8081/nexus/content/groups/public/</url> 
+		<mirrorOf>*</mirrorOf>  
+	</mirror>
+  </mirrors>
+  
+</settings>

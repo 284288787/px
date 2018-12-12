@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="class" isRead="true" dsName="test-read">
+
+	<sql id="insertClass" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO kindergarten_class(`name`, enabled, deleted, classId, teacherId, schoolId, createTime, intro) 
+			values (:name, :enabled, :deleted, :classId, :teacherId, :schoolId, :createTime, :intro)
+		]]>
+	</sql>
+
+	<sql id="updateClass" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE kindergarten_class SET createTime = createTime
+				<#if enabled?exists && enabled != "">
+					, enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					, deleted = :deleted
+				</#if>
+				<#if teacherId?exists && teacherId != "">
+					, teacherId = :teacherId
+				</#if>
+				<#if schoolId?exists && schoolId != "">
+					, schoolId = :schoolId
+				</#if>
+				<#if name?exists && name != "">
+					, `name` = :name
+				</#if>
+				<#if intro?exists && intro != "">
+					, intro = :intro
+				</#if>
+			WHERE 
+				<#if classId?exists && classId != "">
+					classId = :classId
+				<#else>
+					classId in (${classIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteClass" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM kindergarten_class
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if teacherId?exists && teacherId != "">
+					AND teacherId = :teacherId
+				</#if>
+				<#if schoolId?exists && schoolId != "">
+					AND schoolId = :schoolId
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+				<#if classId?exists && classId != "">
+					AND classId = :classId
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleClassList">
+		<![CDATA[
+			SELECT 
+				`name`, 
+				enabled, 
+				deleted, 
+				classId, 
+				teacherId, 
+				schoolId, 
+				createTime, 
+				intro, 
+				(select i.teacherName from kindergarten_teacher i where i.teacherId = kindergarten_class.teacherId) teacherName, 
+				(select i.teacherMobile from kindergarten_teacher i where i.teacherId = kindergarten_class.teacherId) teacherMobile,
+				(select i.name from kindergarten_info i where i.schoolId = kindergarten_class.schoolId) schoolName,
+				(select GROUP_CONCAT(e.teacherName) from kindergarten_teacher e where e.teacherId in (SELECT DISTINCT t.teacherId FROM `kindergarten_class_teacher` t where t.classId = kindergarten_class.classId) order by e.teacherId) otherTeacherNames
+			FROM kindergarten_class
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if teacherId?exists && teacherId != "">
+					AND teacherId = :teacherId
+				</#if>
+				<#if schoolId?exists && schoolId != "">
+					AND schoolId = :schoolId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+				<#if classId?exists && classId != "">
+					AND classId = :classId
+				</#if>
+				<#if teacherName?exists && teacherName != "">
+					AND EXISTS (select * from kindergarten_teacher e where e.teacherId = kindergarten_class.teacherId and e.teacherName = :teacherName)
+				</#if>
+				<#if teacherMobile?exists && teacherMobile != "">
+					AND EXISTS (select * from kindergarten_teacher e where e.teacherId = kindergarten_class.teacherId and e.teacherMobile = :teacherMobile)
+				</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleClassListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM kindergarten_class
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if teacherId?exists && teacherId != "">
+					AND teacherId = :teacherId
+				</#if>
+				<#if schoolId?exists && schoolId != "">
+					AND schoolId = :schoolId
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+				<#if classId?exists && classId != "">
+					AND classId = :classId
+				</#if>
+				<#if teacherName?exists && teacherName != "">
+					AND EXISTS (select * from kindergarten_teacher e where e.teacherId = kindergarten_class.teacherId and e.teacherName = :teacherName)
+				</#if>
+				<#if teacherMobile?exists && teacherMobile != "">
+					AND EXISTS (select * from kindergarten_teacher e where e.teacherId = kindergarten_class.teacherId and e.teacherMobile = :teacherMobile)
+				</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getClassList">
+		<![CDATA[
+			SELECT 
+				`name`, 
+				enabled, 
+				deleted, 
+				classId, 
+				teacherId, 
+				schoolId, 
+				createTime, 
+				intro, 
+				(select i.teacherName from kindergarten_teacher i where i.teacherId = kindergarten_class.teacherId) teacherName, 
+				(select i.teacherMobile from kindergarten_teacher i where i.teacherId = kindergarten_class.teacherId) teacherMobile,
+				(select i.name from kindergarten_info i where i.schoolId = kindergarten_class.schoolId) schoolName,
+				(select GROUP_CONCAT(e.teacherName) from kindergarten_teacher e where e.teacherId in (SELECT DISTINCT t.teacherId FROM `kindergarten_class_teacher` t where t.classId = kindergarten_class.classId) order by e.teacherId) otherTeacherNames
+			FROM kindergarten_class
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if teacherId?exists && teacherId != "">
+					AND teacherId = :teacherId
+				</#if>
+				<#if schoolId?exists && schoolId != "">
+					AND schoolId = :schoolId
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+				<#if classId?exists && classId != "">
+					AND classId = :classId
+				</#if>
+				<#if teacherName?exists && teacherName != "">
+					AND EXISTS (select * from kindergarten_teacher e where e.teacherId = kindergarten_class.teacherId and e.teacherName = :teacherName)
+				</#if>
+				<#if teacherMobile?exists && teacherMobile != "">
+					AND EXISTS (select * from kindergarten_teacher e where e.teacherId = kindergarten_class.teacherId and e.teacherMobile = :teacherMobile)
+				</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getClassListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM kindergarten_class
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if teacherId?exists && teacherId != "">
+					AND teacherId = :teacherId
+				</#if>
+				<#if schoolId?exists && schoolId != "">
+					AND schoolId = :schoolId
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+				<#if classId?exists && classId != "">
+					AND classId = :classId
+				</#if>
+				<#if teacherName?exists && teacherName != "">
+					AND EXISTS (select * from kindergarten_teacher e where e.teacherId = kindergarten_class.teacherId and e.teacherName = :teacherName)
+				</#if>
+				<#if teacherMobile?exists && teacherMobile != "">
+					AND EXISTS (select * from kindergarten_teacher e where e.teacherId = kindergarten_class.teacherId and e.teacherMobile = :teacherMobile)
+				</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

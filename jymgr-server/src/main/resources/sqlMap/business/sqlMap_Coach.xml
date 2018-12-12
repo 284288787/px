@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="coach" isRead="true" dsName="test-read">
+
+	<sql id="insertCoach" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO mgr_coach(address, memberId, emergencyContactAddress, educationBackground, certificateType, workExperience, certificateCode, emergencyContact, emergencyContactNumber, professionalService, birthTime, awardResume, sex, school, specialty) 
+			values (:address, :memberId, :emergencyContactAddress, :educationBackground, :certificateType, :workExperience, :certificateCode, :emergencyContact, :emergencyContactNumber, :professionalService, :birthTime, :awardResume, :sex, :school, :specialty)
+		]]>
+	</sql>
+
+	<sql id="updateCoach" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE mgr_coach SET address = :address
+				<#if emergencyContactAddress?exists && emergencyContactAddress != "">
+					, emergencyContactAddress = :emergencyContactAddress
+				</#if>
+				<#if educationBackground?exists && educationBackground != "">
+					, educationBackground = :educationBackground
+				</#if>
+				<#if certificateType?exists && certificateType != "">
+					, certificateType = :certificateType
+				</#if>
+				<#if workExperience?exists && workExperience != "">
+					, workExperience = :workExperience
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					, certificateCode = :certificateCode
+				</#if>
+				<#if emergencyContact?exists && emergencyContact != "">
+					, emergencyContact = :emergencyContact
+				</#if>
+				<#if emergencyContactNumber?exists && emergencyContactNumber != "">
+					, emergencyContactNumber = :emergencyContactNumber
+				</#if>
+				<#if professionalService?exists && professionalService != "">
+					, professionalService = :professionalService
+				</#if>
+				<#if birthTime?exists && birthTime != "">
+					, birthTime = :birthTime
+				</#if>
+				<#if awardResume?exists && awardResume != "">
+					, awardResume = :awardResume
+				</#if>
+				<#if sex?exists && sex != "">
+					, sex = :sex
+				</#if>
+				<#if school?exists && school != "">
+					, school = :school
+				</#if>
+				<#if specialty?exists && specialty != "">
+					, specialty = :specialty
+				</#if>
+			WHERE 
+				<#if memberId?exists && memberId != "">
+					memberId = :memberId
+				<#else>
+					memberId in (${memberIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteCoach" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM mgr_coach
+			WHERE 1=1
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if emergencyContactAddress?exists && emergencyContactAddress != "">
+					AND emergencyContactAddress = :emergencyContactAddress
+				</#if>
+				<#if educationBackground?exists && educationBackground != "">
+					AND educationBackground = :educationBackground
+				</#if>
+				<#if certificateType?exists && certificateType != "">
+					AND certificateType = :certificateType
+				</#if>
+				<#if workExperience?exists && workExperience != "">
+					AND workExperience = :workExperience
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					AND certificateCode = :certificateCode
+				</#if>
+				<#if emergencyContact?exists && emergencyContact != "">
+					AND emergencyContact = :emergencyContact
+				</#if>
+				<#if emergencyContactNumber?exists && emergencyContactNumber != "">
+					AND emergencyContactNumber = :emergencyContactNumber
+				</#if>
+				<#if professionalService?exists && professionalService != "">
+					AND professionalService = :professionalService
+				</#if>
+				<#if birthTime?exists && birthTime != "">
+					AND birthTime = :birthTime
+				</#if>
+				<#if awardResume?exists && awardResume != "">
+					AND awardResume = :awardResume
+				</#if>
+				<#if sex?exists && sex != "">
+					AND sex = :sex
+				</#if>
+				<#if school?exists && school != "">
+					AND school = :school
+				</#if>
+				<#if specialty?exists && specialty != "">
+					AND specialty = :specialty
+				</#if>
+			<#if memberId?exists && memberId != "">
+				AND memberId = :memberId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleCoachList">
+		<![CDATA[
+			SELECT 
+				address, 
+				m.memberId, 
+				emergencyContactAddress, 
+				educationBackground, 
+				certificateType, 
+				workExperience, 
+				certificateCode, 
+				emergencyContact, 
+				emergencyContactNumber, 
+				professionalService, 
+				birthTime, 
+				awardResume, 
+				sex, 
+				school, 
+				specialty,
+                IFNULL(m.mobile, m.beforeDeletedMobile) mobile,
+                m.name,
+                m.identity,
+                m.enabled,
+                m.deleted,
+                m.beforeDeletedMobile,
+                m.createTime,
+                m.updateTime
+			FROM mgr_coach, mgr_member m
+			WHERE mgr_coach.memberId = m.memberId
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if emergencyContactAddress?exists && emergencyContactAddress != "">
+					AND emergencyContactAddress = :emergencyContactAddress
+				</#if>
+				<#if educationBackground?exists && educationBackground != "">
+					AND educationBackground = :educationBackground
+				</#if>
+				<#if certificateType?exists && certificateType != "">
+					AND certificateType = :certificateType
+				</#if>
+				<#if workExperience?exists && workExperience != "">
+					AND workExperience = :workExperience
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					AND certificateCode = :certificateCode
+				</#if>
+				<#if emergencyContact?exists && emergencyContact != "">
+					AND emergencyContact = :emergencyContact
+				</#if>
+				<#if emergencyContactNumber?exists && emergencyContactNumber != "">
+					AND emergencyContactNumber = :emergencyContactNumber
+				</#if>
+				<#if professionalService?exists && professionalService != "">
+					AND professionalService = :professionalService
+				</#if>
+				<#if birthTime?exists && birthTime != "">
+					AND birthTime = :birthTime
+				</#if>
+				<#if awardResume?exists && awardResume != "">
+					AND awardResume = :awardResume
+				</#if>
+				<#if sex?exists && sex != "">
+					AND sex = :sex
+				</#if>
+				<#if school?exists && school != "">
+					AND school = :school
+				</#if>
+				<#if specialty?exists && specialty != "">
+					AND specialty = :specialty
+				</#if>
+			<#if memberId?exists && memberId != "">
+				AND m.memberId = :memberId
+			</#if>
+			<#if mobile?exists && mobile != "">
+				AND (m.mobile = :mobile or m.beforeDeletedMobile = :mobile)
+			</#if>
+			<#if identity?exists && identity != "">
+				AND m.identity = :identity
+			</#if>
+			<#if enabled?exists && enabled != "">
+				AND m.enabled = :enabled
+			</#if>
+			<#if deleted?exists && deleted != "">
+				AND m.deleted = :deleted
+			</#if>
+			<#if name?exists && name != "">
+				AND m.name = :name
+			</#if>
+			<#if certTypes?exists && certTypes != "">
+              <#if precise?exists && precise>
+                <#list certTypeArr as ct>
+                AND exists (select * from mgr_business_picture bp where bp.memberId = m.memberId and bp.type = 4 and bp.childType = ${ct})
+                </#list>
+              <#else>
+				 AND exists (select * from mgr_business_picture bp where bp.memberId = m.memberId and bp.type = 4 and bp.childType in (${certTypes}))
+              </#if>
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleCoachListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM mgr_coach, mgr_member m
+			WHERE mgr_coach.memberId = m.memberId
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if emergencyContactAddress?exists && emergencyContactAddress != "">
+					AND emergencyContactAddress = :emergencyContactAddress
+				</#if>
+				<#if educationBackground?exists && educationBackground != "">
+					AND educationBackground = :educationBackground
+				</#if>
+				<#if certificateType?exists && certificateType != "">
+					AND certificateType = :certificateType
+				</#if>
+				<#if workExperience?exists && workExperience != "">
+					AND workExperience = :workExperience
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					AND certificateCode = :certificateCode
+				</#if>
+				<#if emergencyContact?exists && emergencyContact != "">
+					AND emergencyContact = :emergencyContact
+				</#if>
+				<#if emergencyContactNumber?exists && emergencyContactNumber != "">
+					AND emergencyContactNumber = :emergencyContactNumber
+				</#if>
+				<#if professionalService?exists && professionalService != "">
+					AND professionalService = :professionalService
+				</#if>
+				<#if birthTime?exists && birthTime != "">
+					AND birthTime = :birthTime
+				</#if>
+				<#if awardResume?exists && awardResume != "">
+					AND awardResume = :awardResume
+				</#if>
+				<#if sex?exists && sex != "">
+					AND sex = :sex
+				</#if>
+				<#if school?exists && school != "">
+					AND school = :school
+				</#if>
+				<#if specialty?exists && specialty != "">
+					AND specialty = :specialty
+				</#if>
+			<#if memberId?exists && memberId != "">
+				AND m.memberId = :memberId
+			</#if>
+			<#if mobile?exists && mobile != "">
+				AND (m.mobile = :mobile or m.beforeDeletedMobile = :mobile)
+			</#if>
+			<#if identity?exists && identity != "">
+				AND m.identity = :identity
+			</#if>
+			<#if enabled?exists && enabled != "">
+				AND m.enabled = :enabled
+			</#if>
+			<#if deleted?exists && deleted != "">
+				AND m.deleted = :deleted
+			</#if>
+			<#if name?exists && name != "">
+				AND m.name = :name
+			</#if>
+            <#if certTypes?exists && certTypes != "">
+              <#if precise?exists && precise>
+                <#list certTypeArr as ct>
+                AND exists (select * from mgr_business_picture bp where bp.memberId = m.memberId and bp.type = 4 and bp.childType = ${ct})
+                </#list>
+              <#else>
+				 AND exists (select * from mgr_business_picture bp where bp.memberId = m.memberId and bp.type = 4 and bp.childType in (${certTypes}))
+              </#if>
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getCoachList">
+		<![CDATA[
+			SELECT 
+				address, 
+				m.memberId, 
+				emergencyContactAddress, 
+				educationBackground, 
+				certificateType, 
+				workExperience, 
+				certificateCode, 
+				emergencyContact, 
+				emergencyContactNumber, 
+				professionalService, 
+				birthTime, 
+				awardResume, 
+				sex, 
+				school, 
+				specialty,
+                IFNULL(m.mobile, m.beforeDeletedMobile) mobile,
+                m.name,
+                m.identity,
+                m.enabled,
+                m.deleted,
+                m.beforeDeletedMobile,
+                m.createTime,
+                m.updateTime
+			FROM mgr_coach, mgr_member m
+			WHERE mgr_coach.memberId = m.memberId
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if emergencyContactAddress?exists && emergencyContactAddress != "">
+					AND emergencyContactAddress = :emergencyContactAddress
+				</#if>
+				<#if educationBackground?exists && educationBackground != "">
+					AND educationBackground = :educationBackground
+				</#if>
+				<#if certificateType?exists && certificateType != "">
+					AND certificateType = :certificateType
+				</#if>
+				<#if workExperience?exists && workExperience != "">
+					AND workExperience = :workExperience
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					AND certificateCode = :certificateCode
+				</#if>
+				<#if emergencyContact?exists && emergencyContact != "">
+					AND emergencyContact = :emergencyContact
+				</#if>
+				<#if emergencyContactNumber?exists && emergencyContactNumber != "">
+					AND emergencyContactNumber = :emergencyContactNumber
+				</#if>
+				<#if professionalService?exists && professionalService != "">
+					AND professionalService = :professionalService
+				</#if>
+				<#if birthTime?exists && birthTime != "">
+					AND birthTime = :birthTime
+				</#if>
+				<#if awardResume?exists && awardResume != "">
+					AND awardResume = :awardResume
+				</#if>
+				<#if sex?exists && sex != "">
+					AND sex = :sex
+				</#if>
+				<#if school?exists && school != "">
+					AND school = :school
+				</#if>
+				<#if specialty?exists && specialty != "">
+					AND specialty = :specialty
+				</#if>
+			<#if memberId?exists && memberId != "">
+				AND m.memberId = :memberId
+			</#if>
+			<#if mobile?exists && mobile != "">
+				AND (m.mobile = :mobile or m.beforeDeletedMobile = :mobile)
+			</#if>
+			<#if identity?exists && identity != "">
+				AND m.identity = :identity
+			</#if>
+			<#if enabled?exists && enabled != "">
+				AND m.enabled = :enabled
+			</#if>
+			<#if deleted?exists && deleted != "">
+				AND m.deleted = :deleted
+			</#if>
+			<#if name?exists && name != "">
+				AND m.name = :name
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getCoachListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM mgr_coach, mgr_member m
+			WHERE mgr_coach.memberId = m.memberId
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if emergencyContactAddress?exists && emergencyContactAddress != "">
+					AND emergencyContactAddress = :emergencyContactAddress
+				</#if>
+				<#if educationBackground?exists && educationBackground != "">
+					AND educationBackground = :educationBackground
+				</#if>
+				<#if certificateType?exists && certificateType != "">
+					AND certificateType = :certificateType
+				</#if>
+				<#if workExperience?exists && workExperience != "">
+					AND workExperience = :workExperience
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					AND certificateCode = :certificateCode
+				</#if>
+				<#if emergencyContact?exists && emergencyContact != "">
+					AND emergencyContact = :emergencyContact
+				</#if>
+				<#if emergencyContactNumber?exists && emergencyContactNumber != "">
+					AND emergencyContactNumber = :emergencyContactNumber
+				</#if>
+				<#if professionalService?exists && professionalService != "">
+					AND professionalService = :professionalService
+				</#if>
+				<#if birthTime?exists && birthTime != "">
+					AND birthTime = :birthTime
+				</#if>
+				<#if awardResume?exists && awardResume != "">
+					AND awardResume = :awardResume
+				</#if>
+				<#if sex?exists && sex != "">
+					AND sex = :sex
+				</#if>
+				<#if school?exists && school != "">
+					AND school = :school
+				</#if>
+				<#if specialty?exists && specialty != "">
+					AND specialty = :specialty
+				</#if>
+			<#if memberId?exists && memberId != "">
+				AND m.memberId = :memberId
+			</#if>
+			<#if mobile?exists && mobile != "">
+				AND (m.mobile = :mobile or m.beforeDeletedMobile = :mobile)
+			</#if>
+			<#if identity?exists && identity != "">
+				AND m.identity = :identity
+			</#if>
+			<#if enabled?exists && enabled != "">
+				AND m.enabled = :enabled
+			</#if>
+			<#if deleted?exists && deleted != "">
+				AND m.deleted = :deleted
+			</#if>
+			<#if name?exists && name != "">
+				AND m.name = :name
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

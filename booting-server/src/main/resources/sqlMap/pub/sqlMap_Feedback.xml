@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="feedback" isRead="true" dsName="test-read">
+
+	<sql id="insertFeedback" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO pub_feedback( content, createTime, title, contact) 
+			values ( :content, :createTime, :title, :contact)
+		]]>
+	</sql>
+
+	<sql id="updateFeedback" isRead="false" dsName="test-write">
+		<![CDATA[
+		]]>
+	</sql>
+
+	<sql id="deleteFeedback" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM pub_feedback
+			WHERE 1=1
+			<#if content?exists && content != "">
+					AND content = :content
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if title?exists && title != "">
+					AND title = :title
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleFeedbackList">
+		<![CDATA[
+			SELECT 
+				id, 
+				content, 
+				createTime, 
+				title,
+				contact
+			FROM pub_feedback
+			WHERE 1=1
+				<#if content?exists && content != "">
+					AND content = :content
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if title?exists && title != "">
+					AND title = :title
+				</#if>
+				<#if id?exists && id != "">
+					AND id = :id
+				</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			<#else>
+				order by createTime desc
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleFeedbackListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM pub_feedback
+			WHERE 1=1
+			<#if content?exists && content != "">
+					AND content = :content
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if title?exists && title != "">
+					AND title = :title
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			<#else>
+				order by createTime desc
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getFeedbackList">
+		<![CDATA[
+			SELECT 
+				id, 
+				content, 
+				createTime, 
+				title,
+				contact
+			FROM pub_feedback
+			WHERE 1=1
+			<#if content?exists && content != "">
+					AND content = :content
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if title?exists && title != "">
+					AND title = :title
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			<#else>
+				order by createTime desc
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getFeedbackListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM pub_feedback
+			WHERE 1=1
+			<#if content?exists && content != "">
+					AND content = :content
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if title?exists && title != "">
+					AND title = :title
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

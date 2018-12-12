@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="equipment" isRead="true" dsName="test-read">
+
+	<sql id="insertEquipment" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO mgr_product_equipment(`name`, content, deleted, createTime, price, enabled, updateTime, typeId, intro, equipmentId) 
+			values (:name, :content, :deleted, :createTime, :price, :enabled, :updateTime, :typeId, :intro, :equipmentId)
+		]]>
+	</sql>
+
+	<sql id="updateEquipment" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE mgr_product_equipment SET updateTime = now()
+				<#if content?exists && content != "">
+					, content = :content
+				</#if>
+				<#if deleted?exists && deleted != "">
+					, deleted = :deleted
+				</#if>
+				<#if price?exists && price != "">
+					, price = :price
+				</#if>
+				<#if enabled?exists && enabled != "">
+					, enabled = :enabled
+				</#if>
+				<#if name?exists && name != "">
+					, `name` = :name
+				</#if>
+				<#if typeId?exists && typeId != "">
+					, typeId = :typeId
+				</#if>
+				<#if intro?exists && intro != "">
+					, intro = :intro
+				</#if>
+			WHERE 
+				<#if equipmentId?exists && equipmentId != "">
+					equipmentId = :equipmentId
+				<#else>
+					equipmentId in (${equipmentIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteEquipment" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM mgr_product_equipment
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if content?exists && content != "">
+					AND content = :content
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if typeId?exists && typeId != "">
+					AND typeId = :typeId
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+			<#if equipmentId?exists && equipmentId != "">
+				AND equipmentId = :equipmentId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleEquipmentList">
+		<![CDATA[
+			SELECT 
+				`name`, 
+				content, 
+				deleted, 
+				createTime, 
+				price, 
+				enabled, 
+				updateTime, 
+				typeId, 
+				(select t.typeName from mgr_product_type t where t.typeId = mgr_product_equipment.typeId) typeName,
+				intro, 
+				equipmentId
+			FROM mgr_product_equipment
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if content?exists && content != "">
+					AND content = :content
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if typeId?exists && typeId != "">
+					AND typeId = :typeId
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+			<#if equipmentId?exists && equipmentId != "">
+				AND equipmentId = :equipmentId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleEquipmentListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM mgr_product_equipment
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if content?exists && content != "">
+					AND content = :content
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if typeId?exists && typeId != "">
+					AND typeId = :typeId
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+			<#if equipmentId?exists && equipmentId != "">
+				AND equipmentId = :equipmentId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getEquipmentList">
+		<![CDATA[
+			SELECT 
+				`name`, 
+				content, 
+				deleted, 
+				createTime, 
+				price, 
+				enabled, 
+				updateTime, 
+				typeId, 
+				(select t.typeName from mgr_product_type t where t.typeId = mgr_product_equipment.typeId) typeName,
+				intro, 
+				equipmentId
+			FROM mgr_product_equipment
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if content?exists && content != "">
+					AND content = :content
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if typeId?exists && typeId != "">
+					AND typeId = :typeId
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+			<#if equipmentId?exists && equipmentId != "">
+				AND equipmentId = :equipmentId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getEquipmentListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM mgr_product_equipment
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if content?exists && content != "">
+					AND content = :content
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if typeId?exists && typeId != "">
+					AND typeId = :typeId
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+			<#if equipmentId?exists && equipmentId != "">
+				AND equipmentId = :equipmentId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

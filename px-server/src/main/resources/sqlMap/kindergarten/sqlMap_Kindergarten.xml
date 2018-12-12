@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="kindergarten" isRead="true" dsName="test-read">
+
+	<sql id="insertKindergarten" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO kindergarten_info(address, `name`, enabled, intro, schoolId, deleted, createTime, account, `password`, mobile, tel, areaId, linkman) 
+			values (:address, :name, :enabled, :intro, :schoolId, :deleted, :createTime, :account, :password, :mobile, :tel, :areaId, :linkman)
+		]]>
+	</sql>
+
+	<sql id="updateKindergarten" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE kindergarten_info SET createTime = createTime
+				<#if name?exists && name != "">
+					, `name` = :name
+				</#if>
+				<#if enabled?exists && enabled != "">
+					, enabled = :enabled
+				</#if>
+				<#if intro?exists && intro != "">
+					, intro = :intro
+				</#if>
+				<#if deleted?exists && deleted != "">
+					, deleted = :deleted
+				</#if>
+				<#if address?exists && address != "">
+					, address = :address
+				</#if>
+				<#if account?exists && account != "">
+					, account = :account
+				</#if>
+				<#if password?exists && password != "">
+					, `password` = :password
+				</#if>
+				<#if mobile?exists && mobile != "">
+					, mobile = :mobile
+				</#if>
+				<#if tel?exists && tel != "">
+					, tel = :tel
+				</#if>
+				<#if areaId?exists && areaId != "">
+					, areaId = :areaId
+				</#if>
+				<#if linkman?exists && linkman != "">
+					, linkman = :linkman
+				</#if>
+			WHERE 
+				<#if schoolId?exists && schoolId != "">
+				schoolId = :schoolId
+				<#else>
+				schoolId in (${schoolIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteKindergarten" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM kindergarten_info
+			WHERE 1=1
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if account?exists && account != "">
+					AND account = :account
+				</#if>
+				<#if password?exists && password != "">
+					AND `password` = :password
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if tel?exists && tel != "">
+					AND tel = :tel
+				</#if>
+				<#if areaId?exists && areaId != "">
+					AND areaId = :areaId
+				</#if>
+				<#if linkman?exists && linkman != "">
+					AND linkman = :linkman
+				</#if>
+			<#if schoolId?exists && schoolId != "">
+				AND schoolId = :schoolId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleKindergartenList">
+		<![CDATA[
+			SELECT 
+				address, 
+				`name`, 
+				enabled, 
+				intro, 
+				schoolId, 
+				deleted, 
+				createTime, 
+				account, 
+				`password`, 
+				mobile, 
+				tel, 
+				areaId, 
+				linkman,
+				(select shortName from pub_area a where a.areaId = kindergarten_info.areaId) areaName
+			FROM kindergarten_info
+			WHERE 1=1
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if account?exists && account != "">
+					AND account = :account
+				</#if>
+				<#if password?exists && password != "">
+					AND `password` = :password
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if tel?exists && tel != "">
+					AND tel = :tel
+				</#if>
+				<#if areaId?exists && areaId != "">
+					AND areaId = :areaId
+				</#if>
+				<#if linkman?exists && linkman != "">
+					AND linkman = :linkman
+				</#if>
+			<#if schoolId?exists && schoolId != "">
+				AND schoolId = :schoolId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleKindergartenListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM kindergarten_info
+			WHERE 1=1
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if account?exists && account != "">
+					AND account = :account
+				</#if>
+				<#if password?exists && password != "">
+					AND `password` = :password
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if tel?exists && tel != "">
+					AND tel = :tel
+				</#if>
+				<#if areaId?exists && areaId != "">
+					AND areaId = :areaId
+				</#if>
+				<#if linkman?exists && linkman != "">
+					AND linkman = :linkman
+				</#if>
+			<#if schoolId?exists && schoolId != "">
+				AND schoolId = :schoolId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getKindergartenList">
+		<![CDATA[
+			SELECT 
+				address, 
+				`name`, 
+				enabled, 
+				intro, 
+				schoolId, 
+				deleted, 
+				createTime, 
+				account, 
+				`password`, 
+				mobile, 
+				tel, 
+				areaId, 
+				linkman
+			FROM kindergarten_info
+			WHERE 1=1
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if account?exists && account != "">
+					AND account = :account
+				</#if>
+				<#if password?exists && password != "">
+					AND `password` = :password
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if tel?exists && tel != "">
+					AND tel = :tel
+				</#if>
+				<#if areaId?exists && areaId != "">
+					AND areaId = :areaId
+				</#if>
+				<#if linkman?exists && linkman != "">
+					AND linkman = :linkman
+				</#if>
+			<#if schoolId?exists && schoolId != "">
+				AND schoolId = :schoolId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getKindergartenListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM kindergarten_info
+			WHERE 1=1
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if intro?exists && intro != "">
+					AND intro = :intro
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if account?exists && account != "">
+					AND account = :account
+				</#if>
+				<#if password?exists && password != "">
+					AND `password` = :password
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if tel?exists && tel != "">
+					AND tel = :tel
+				</#if>
+				<#if areaId?exists && areaId != "">
+					AND areaId = :areaId
+				</#if>
+				<#if linkman?exists && linkman != "">
+					AND linkman = :linkman
+				</#if>
+			<#if schoolId?exists && schoolId != "">
+				AND schoolId = :schoolId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

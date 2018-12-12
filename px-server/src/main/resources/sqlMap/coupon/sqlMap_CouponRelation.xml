@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="couponRelation" isRead="true" dsName="test-read">
+
+	<sql id="insertCouponRelation" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO coupon_relation( businessType, cardId, businessId, cardName, cardType, getLimit) 
+			values ( :businessType, :cardId, :businessId, :cardName, :cardType, :getLimit)
+		]]>
+	</sql>
+
+	<sql id="updateCouponRelation" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE coupon_relation SET businessType = :businessType
+				<#if cardId?exists && cardId != "">
+					, cardId = :cardId
+				</#if>
+				<#if businessId?exists && businessId != "">
+					, businessId = :businessId
+				</#if>
+				<#if cardName?exists && cardName != "">
+					, cardName = :cardName
+				</#if>
+				<#if cardType?exists && cardType != "">
+					, cardType = :cardType
+				</#if>
+				<#if getLimit?exists && getLimit != "">
+					, getLimit = :getLimit
+				</#if>
+			WHERE 
+				<#if id?exists && id != "">
+					id = :id
+				<#else>
+					id in (${ids})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteCouponRelation" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM coupon_relation
+			WHERE 1=1
+			<#if businessType?exists && businessType != "">
+				AND businessType = :businessType
+			</#if>
+			<#if cardId?exists && cardId != "">
+				AND cardId = :cardId
+			</#if>
+			<#if businessId?exists && businessId != "">
+				AND businessId = :businessId
+			</#if>
+			<#if cardName?exists && cardName != "">
+				AND cardName = :cardName
+			</#if>
+			<#if cardType?exists && cardType != "">
+				AND cardType = :cardType
+			</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleCouponRelationList">
+		<![CDATA[
+			SELECT 
+				id, 
+				businessType, 
+				cardId, 
+				businessId, 
+				cardName,
+				cardType,
+				getLimit
+			FROM coupon_relation
+			WHERE 1=1
+			<#if businessType?exists && businessType != "">
+					AND businessType = :businessType
+				</#if>
+				<#if cardId?exists && cardId != "">
+					AND cardId = :cardId
+				</#if>
+				<#if businessId?exists && businessId != "">
+					AND businessId = :businessId
+				</#if>
+				<#if cardName?exists && cardName != "">
+					AND cardName = :cardName
+				</#if>
+				<#if cardType?exists && cardType != "">
+					AND cardType = :cardType
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleCouponRelationListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM coupon_relation
+			WHERE 1=1
+			<#if businessType?exists && businessType != "">
+					AND businessType = :businessType
+				</#if>
+				<#if cardId?exists && cardId != "">
+					AND cardId = :cardId
+				</#if>
+				<#if businessId?exists && businessId != "">
+					AND businessId = :businessId
+				</#if>
+				<#if cardName?exists && cardName != "">
+					AND cardName = :cardName
+				</#if>
+				<#if cardType?exists && cardType != "">
+					AND cardType = :cardType
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getCouponRelationList">
+		<![CDATA[
+			SELECT 
+				id, 
+				businessType, 
+				cardId, 
+				businessId, 
+				cardName,
+				cardType,
+				getLimit
+			FROM coupon_relation
+			WHERE 1=1
+			<#if businessType?exists && businessType != "">
+					AND businessType = :businessType
+				</#if>
+				<#if cardId?exists && cardId != "">
+					AND cardId = :cardId
+				</#if>
+				<#if businessId?exists && businessId != "">
+					AND businessId = :businessId
+				</#if>
+				<#if cardName?exists && cardName != "">
+					AND cardName = :cardName
+				</#if>
+				<#if cardType?exists && cardType != "">
+					AND cardType = :cardType
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getCouponRelationListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM coupon_relation
+			WHERE 1=1
+			<#if businessType?exists && businessType != "">
+					AND businessType = :businessType
+				</#if>
+				<#if cardId?exists && cardId != "">
+					AND cardId = :cardId
+				</#if>
+				<#if businessId?exists && businessId != "">
+					AND businessId = :businessId
+				</#if>
+				<#if cardName?exists && cardName != "">
+					AND cardName = :cardName
+				</#if>
+				<#if cardType?exists && cardType != "">
+					AND cardType = :cardType
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

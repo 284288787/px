@@ -1,0 +1,1 @@
+var teamLocation=[{location:1, caption:'中锋'},{location:2, caption:'二前锋'},{location:3, caption:'边锋'},{location:4, caption:'前腰'},{location:5, caption:'前卫'},{location:6, caption:'边前卫'},{location:7, caption:'后腰'},{location:8, caption:'边后卫'},{location:9, caption:'中后卫'},{location:10, caption:'清道夫'},{location:11, caption:'门将'}]

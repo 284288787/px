@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="franchisee" isRead="true" dsName="test-read">
+
+	<sql id="insertFranchisee" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO mgr_franchisee(memberId, contactPhone, companyAddress, level, companyName, compactPath, legalPerson) 
+			values (:memberId, :contactPhone, :companyAddress, :level, :companyName, :compactPath, :legalPerson)
+		]]>
+	</sql>
+
+	<sql id="updateFranchisee" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE mgr_franchisee SET contactPhone = :contactPhone
+				<#if companyAddress?exists && companyAddress != "">
+					, companyAddress = :companyAddress
+				</#if>
+				<#if level?exists && level != "">
+					, level = :level
+				</#if>
+				<#if companyName?exists && companyName != "">
+					, companyName = :companyName
+				</#if>
+				<#if compactPath?exists && compactPath != "">
+					, compactPath = :compactPath
+				</#if>
+				<#if legalPerson?exists && legalPerson != "">
+					, legalPerson = :legalPerson
+				</#if>
+			WHERE 
+				<#if memberId?exists && memberId != "">
+					memberId = :memberId
+				<#else>
+					memberId in (${memberIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteFranchisee" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM mgr_franchisee
+			WHERE 1=1
+			<#if contactPhone?exists && contactPhone != "">
+					AND contactPhone = :contactPhone
+				</#if>
+				<#if companyAddress?exists && companyAddress != "">
+					AND companyAddress = :companyAddress
+				</#if>
+				<#if level?exists && level != "">
+					AND level = :level
+				</#if>
+				<#if companyName?exists && companyName != "">
+					AND companyName = :companyName
+				</#if>
+				<#if compactPath?exists && compactPath != "">
+					AND compactPath = :compactPath
+				</#if>
+				<#if legalPerson?exists && legalPerson != "">
+					AND legalPerson = :legalPerson
+				</#if>
+			<#if memberId?exists && memberId != "">
+				AND memberId = :memberId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleFranchiseeList">
+		<![CDATA[
+			SELECT 
+				m.memberId, 
+				contactPhone, 
+				companyAddress, 
+				level, 
+				companyName, 
+				compactPath, 
+				legalPerson,
+			IFNULL(m.mobile, m.beforeDeletedMobile) mobile,
+                m.name,
+                m.identity,
+                m.enabled,
+                m.deleted,
+                m.beforeDeletedMobile,
+                m.createTime,
+                m.updateTime
+			FROM mgr_franchisee, mgr_member m
+			WHERE mgr_franchisee.memberId = m.memberId
+			<#if contactPhone?exists && contactPhone != "">
+					AND contactPhone = :contactPhone
+				</#if>
+				<#if companyAddress?exists && companyAddress != "">
+					AND companyAddress = :companyAddress
+				</#if>
+				<#if level?exists && level != "">
+					AND level = :level
+				</#if>
+				<#if companyName?exists && companyName != "">
+					AND companyName = :companyName
+				</#if>
+				<#if compactPath?exists && compactPath != "">
+					AND compactPath = :compactPath
+				</#if>
+				<#if legalPerson?exists && legalPerson != "">
+					AND legalPerson = :legalPerson
+				</#if>
+			<#if memberId?exists && memberId != "">
+				AND m.memberId = :memberId
+			</#if>
+			<#if mobile?exists && mobile != "">
+				AND (m.mobile = :mobile or m.beforeDeletedMobile = :mobile)
+			</#if>
+			<#if identity?exists && identity != "">
+				AND m.identity = :identity
+			</#if>
+			<#if enabled?exists && enabled != "">
+				AND m.enabled = :enabled
+			</#if>
+			<#if deleted?exists && deleted != "">
+				AND m.deleted = :deleted
+			</#if>
+			<#if name?exists && name != "">
+				AND m.name = :name
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleFranchiseeListCount">
+		<![CDATA[
+			SELECT COUNT(1) 
+			FROM mgr_franchisee, mgr_member m
+			WHERE mgr_franchisee.memberId = m.memberId
+			<#if contactPhone?exists && contactPhone != "">
+					AND contactPhone = :contactPhone
+				</#if>
+				<#if companyAddress?exists && companyAddress != "">
+					AND companyAddress = :companyAddress
+				</#if>
+				<#if level?exists && level != "">
+					AND level = :level
+				</#if>
+				<#if companyName?exists && companyName != "">
+					AND companyName = :companyName
+				</#if>
+				<#if compactPath?exists && compactPath != "">
+					AND compactPath = :compactPath
+				</#if>
+				<#if legalPerson?exists && legalPerson != "">
+					AND legalPerson = :legalPerson
+				</#if>
+			<#if memberId?exists && memberId != "">
+				AND m.memberId = :memberId
+			</#if>
+			<#if mobile?exists && mobile != "">
+				AND (m.mobile = :mobile or m.beforeDeletedMobile = :mobile)
+			</#if>
+			<#if identity?exists && identity != "">
+				AND m.identity = :identity
+			</#if>
+			<#if enabled?exists && enabled != "">
+				AND m.enabled = :enabled
+			</#if>
+			<#if deleted?exists && deleted != "">
+				AND m.deleted = :deleted
+			</#if>
+			<#if name?exists && name != "">
+				AND m.name = :name
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getFranchiseeList">
+		<![CDATA[
+			SELECT 
+				m.memberId, 
+				contactPhone, 
+				companyAddress, 
+				level, 
+				companyName, 
+				compactPath, 
+				legalPerson,
+			IFNULL(m.mobile, m.beforeDeletedMobile) mobile,
+                m.name,
+                m.identity,
+                m.enabled,
+                m.deleted,
+                m.beforeDeletedMobile,
+                m.createTime,
+                m.updateTime
+			FROM mgr_franchisee, mgr_member m
+			WHERE mgr_franchisee.memberId = m.memberId
+			<#if contactPhone?exists && contactPhone != "">
+					AND contactPhone = :contactPhone
+				</#if>
+				<#if companyAddress?exists && companyAddress != "">
+					AND companyAddress = :companyAddress
+				</#if>
+				<#if level?exists && level != "">
+					AND level = :level
+				</#if>
+				<#if companyName?exists && companyName != "">
+					AND companyName = :companyName
+				</#if>
+				<#if compactPath?exists && compactPath != "">
+					AND compactPath = :compactPath
+				</#if>
+				<#if legalPerson?exists && legalPerson != "">
+					AND legalPerson = :legalPerson
+				</#if>
+			<#if memberId?exists && memberId != "">
+				AND m.memberId = :memberId
+			</#if>
+			<#if mobile?exists && mobile != "">
+				AND (m.mobile = :mobile or m.beforeDeletedMobile = :mobile)
+			</#if>
+			<#if identity?exists && identity != "">
+				AND m.identity = :identity
+			</#if>
+			<#if enabled?exists && enabled != "">
+				AND m.enabled = :enabled
+			</#if>
+			<#if deleted?exists && deleted != "">
+				AND m.deleted = :deleted
+			</#if>
+			<#if name?exists && name != "">
+				AND m.name = :name
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getFranchiseeListCount">
+		<![CDATA[
+			SELECT COUNT(1) 
+			FROM mgr_franchisee, mgr_member m
+			WHERE mgr_franchisee.memberId = m.memberId
+			<#if contactPhone?exists && contactPhone != "">
+					AND contactPhone = :contactPhone
+				</#if>
+				<#if companyAddress?exists && companyAddress != "">
+					AND companyAddress = :companyAddress
+				</#if>
+				<#if level?exists && level != "">
+					AND level = :level
+				</#if>
+				<#if companyName?exists && companyName != "">
+					AND companyName = :companyName
+				</#if>
+				<#if compactPath?exists && compactPath != "">
+					AND compactPath = :compactPath
+				</#if>
+				<#if legalPerson?exists && legalPerson != "">
+					AND legalPerson = :legalPerson
+				</#if>
+			<#if memberId?exists && memberId != "">
+				AND m.memberId = :memberId
+			</#if>
+			<#if mobile?exists && mobile != "">
+				AND (m.mobile = :mobile or m.beforeDeletedMobile = :mobile)
+			</#if>
+			<#if identity?exists && identity != "">
+				AND m.identity = :identity
+			</#if>
+			<#if enabled?exists && enabled != "">
+				AND m.enabled = :enabled
+			</#if>
+			<#if deleted?exists && deleted != "">
+				AND m.deleted = :deleted
+			</#if>
+			<#if name?exists && name != "">
+				AND m.name = :name
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

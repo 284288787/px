@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="invitationDetail" isRead="true" dsName="test-read">
+
+	<sql id="insertInvitationDetail" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO lottery_invitation_detail(id, createTime, inviterId, inviteeId, ballNum) 
+			values (:id, :createTime, :inviterId, :inviteeId, :ballNum)
+		]]>
+	</sql>
+
+	<sql id="updateInvitationDetail" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE lottery_invitation_detail SET createTime = :createTime
+				<#if inviterId?exists && inviterId != "">
+					, inviterId = :inviterId
+				</#if>
+				<#if inviteeId?exists && inviteeId != "">
+					, inviteeId = :inviteeId
+				</#if>
+				<#if ballNum?exists && ballNum != "">
+					, ballNum = :ballNum
+				</#if>
+			WHERE 
+				<#if id?exists && id != "">
+					id = :id
+				<#else>
+					id in (${ids})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteInvitationDetail" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM lottery_invitation_detail
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if inviterId?exists && inviterId != "">
+					AND inviterId = :inviterId
+				</#if>
+				<#if inviteeId?exists && inviteeId != "">
+					AND inviteeId = :inviteeId
+				</#if>
+				<#if ballNum?exists && ballNum != "">
+					AND ballNum = :ballNum
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleInvitationDetailList">
+		<![CDATA[
+			SELECT 
+				id, 
+				createTime, 
+				inviterId, 
+				inviteeId, 
+				ballNum
+			FROM lottery_invitation_detail
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if inviterId?exists && inviterId != "">
+					AND inviterId = :inviterId
+				</#if>
+				<#if inviteeId?exists && inviteeId != "">
+					AND inviteeId = :inviteeId
+				</#if>
+				<#if ballNum?exists && ballNum != "">
+					AND ballNum = :ballNum
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if s_orderBy?exists && s_orderBy !="" >
+				ORDER BY ${s_orderBy}
+				<#if s_orderType?exists && s_orderType !="" >
+					${s_orderType}
+				</#if>
+			<#else>
+				order by id desc
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleInvitationDetailListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM lottery_invitation_detail
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if inviterId?exists && inviterId != "">
+					AND inviterId = :inviterId
+				</#if>
+				<#if inviteeId?exists && inviteeId != "">
+					AND inviteeId = :inviteeId
+				</#if>
+				<#if ballNum?exists && ballNum != "">
+					AND ballNum = :ballNum
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getInvitationDetailList">
+		<![CDATA[
+			SELECT 
+				id, 
+				createTime, 
+				inviterId, 
+				inviteeId, 
+				ballNum
+			FROM lottery_invitation_detail
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if inviterId?exists && inviterId != "">
+					AND inviterId = :inviterId
+				</#if>
+				<#if inviteeId?exists && inviteeId != "">
+					AND inviteeId = :inviteeId
+				</#if>
+				<#if ballNum?exists && ballNum != "">
+					AND ballNum = :ballNum
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getInvitationDetailListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM lottery_invitation_detail
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if inviterId?exists && inviterId != "">
+					AND inviterId = :inviterId
+				</#if>
+				<#if inviteeId?exists && inviteeId != "">
+					AND inviteeId = :inviteeId
+				</#if>
+				<#if ballNum?exists && ballNum != "">
+					AND ballNum = :ballNum
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

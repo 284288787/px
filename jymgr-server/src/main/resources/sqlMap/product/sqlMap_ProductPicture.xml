@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="productPicture" isRead="true" dsName="test-read">
+
+  <sql id="insertProductPicture" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO mgr_product_picture(id, business, businessId, picPath) 
+			values (:id, :business, :businessId, :picPath)
+		]]>
+  </sql>
+
+  <sql id="updateProductPicture" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE mgr_product_picture SET business = :business
+				<#if businessId?exists && businessId != "">
+					, businessId = :businessId
+				</#if>
+				<#if picPath?exists && picPath != "">
+					, picPath = :picPath
+				</#if>
+			WHERE 
+				<#if id?exists && id != "">
+					id = :id
+				<#else>
+					id in (${ids})
+				</#if>
+		]]>
+  </sql>
+
+  <sql id="deleteProductPicture" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM mgr_product_picture
+			WHERE 1=1
+			<#if business?exists && business != "">
+					AND business = :business
+				</#if>
+				<#if businessId?exists && businessId != "">
+					AND businessId = :businessId
+				</#if>
+				<#if picPath?exists && picPath != "">
+					AND picPath = :picPath
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+		]]>
+  </sql>
+
+  <sql id="getSimpleProductPictureList">
+		<![CDATA[
+			SELECT 
+				id, 
+				business, 
+				businessId, 
+				picPath
+			FROM mgr_product_picture
+			WHERE 1=1
+			<#if business?exists && business != "">
+					AND business = :business
+				</#if>
+				<#if businessId?exists && businessId != "">
+					AND businessId = :businessId
+				</#if>
+				<#if picPath?exists && picPath != "">
+					AND picPath = :picPath
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+  </sql>
+
+  <sql id="getSimpleProductPictureListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM mgr_product_picture
+			WHERE 1=1
+			<#if business?exists && business != "">
+					AND business = :business
+				</#if>
+				<#if businessId?exists && businessId != "">
+					AND businessId = :businessId
+				</#if>
+				<#if picPath?exists && picPath != "">
+					AND picPath = :picPath
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+  </sql>
+
+  <sql id="getProductPictureList">
+		<![CDATA[
+			SELECT 
+				id, 
+				business, 
+				businessId, 
+				picPath
+			FROM mgr_product_picture
+			WHERE 1=1
+			<#if business?exists && business != "">
+					AND business = :business
+				</#if>
+				<#if businessId?exists && businessId != "">
+					AND businessId = :businessId
+				</#if>
+				<#if picPath?exists && picPath != "">
+					AND picPath = :picPath
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+  </sql>
+
+  <sql id="getProductPictureListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM mgr_product_picture
+			WHERE 1=1
+			<#if business?exists && business != "">
+					AND business = :business
+				</#if>
+				<#if businessId?exists && businessId != "">
+					AND businessId = :businessId
+				</#if>
+				<#if picPath?exists && picPath != "">
+					AND picPath = :picPath
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+  </sql>
+
+</sqlMap>

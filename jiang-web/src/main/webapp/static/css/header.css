@@ -1,0 +1,87 @@
+html, body{
+	margin: 0px;
+	padding: 0px;
+	font-size: 14px;
+}
+a{color: brown;text-decoration:none}
+a:link    {color:brown;}
+a:visited {color:brown;}
+a:hover   {color:brown;}
+a:active  {color:red;}
+.container{
+	
+}
+.header{
+	height: 30px;
+	line-height: 30px;
+	text-align: left;
+	background-color: cadetblue;
+	padding-left: 10px;
+	display: none;
+}
+.header2{
+	height: 120px;
+	background-color: whitesmoke;
+}
+.header2 .wtop{
+	height: 90px;
+}
+.header2 .wtop .wtleft{
+	padding: 10px 10px 10px 30px;
+	float:left;
+}
+.header2 .wtop .info{
+	font-size:12px;
+	width: 100%;
+	padding-top: 12px;
+}
+.header2 .wtop .info div{
+	height: 23px;
+	line-height: 23px;
+}
+.header2 .wtop .info a{
+	float: right;
+	padding-right: 20px;
+}
+.header2 .wtop .info .rightBtn{
+	font-size:14px;
+}
+.header2 .wbottom{
+	text-align: right;
+	padding-right:20px;
+	height: 30px;
+	line-height: 30px;
+	background-color: #a4d9db;
+}
+.header2 .wbottom a{
+	margin-left: 4px;
+}
+.headPic{
+	border-radius: 50%;
+	height: 70px;
+	width: 70px;
+}
+.nickname{
+	font-size:14px;
+	color: green;
+	font-weight: bold;
+}
+.price{
+	font-size:14px;
+	color: coral;
+	font-weight: bold;
+	width: 300px;
+}
+.wcenter{
+	text-align: center;
+	height:88px;
+	line-height:88px;
+}
+.wcenter a{
+	padding: 10px 26px;
+    background-color: cadetblue;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing:2px;
+    color: black;
+}

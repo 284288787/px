@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="member" isRead="true" dsName="test-read">
+
+	<sql id="insertMember" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO mgr_member(`name`, memberId, beforeDeletedMobile, mobile, updateTime, identity, enabled, deleted, createTime) 
+			values (:name, :memberId, :beforeDeletedMobile, :mobile, :updateTime, :identity, :enabled, :deleted, :createTime)
+		]]>
+	</sql>
+
+	<sql id="updateMember" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE mgr_member SET updateTime = now()
+				<#if beforeDeletedMobile?exists && beforeDeletedMobile != "">
+					, beforeDeletedMobile = :beforeDeletedMobile
+				</#if>
+				<#if mobile?exists && mobile != "">
+					, mobile = :mobile
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					, updateTime = :updateTime
+				</#if>
+				<#if identity?exists && identity != "">
+					, identity = :identity
+				</#if>
+				<#if name?exists && name != "">
+					, `name` = :name
+				</#if>
+				<#if enabled?exists && enabled != "">
+					, enabled = :enabled
+                    <#if enabled == 0>
+                      , beforeDeletedMobile = mobile, mobile = ''
+                    <#else>
+                      , mobile = beforeDeletedMobile
+                    </#if>
+				</#if>
+				<#if deleted?exists && deleted != "">
+					, deleted = :deleted
+                    <#if deleted == 0>
+                      , mobile = beforeDeletedMobile
+                    <#else>
+                      , beforeDeletedMobile = mobile, mobile = ''
+                    </#if>
+				</#if>
+			WHERE 
+				<#if memberId?exists && memberId != "">
+					memberId = :memberId
+				<#else>
+					memberId in (${memberIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteMember" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM mgr_member
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if beforeDeletedMobile?exists && beforeDeletedMobile != "">
+					AND beforeDeletedMobile = :beforeDeletedMobile
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if identity?exists && identity != "">
+					AND identity = :identity
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+			<#if memberId?exists && memberId != "">
+				AND memberId = :memberId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleMemberList">
+		<![CDATA[
+			SELECT 
+				`name`, 
+				memberId, 
+				beforeDeletedMobile, 
+				mobile, 
+				updateTime, 
+				identity, 
+				enabled, 
+				deleted, 
+				createTime
+			FROM mgr_member
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if beforeDeletedMobile?exists && beforeDeletedMobile != "">
+					AND beforeDeletedMobile = :beforeDeletedMobile
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if identity?exists && identity != "">
+					AND identity = :identity
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+			<#if memberId?exists && memberId != "">
+				AND memberId = :memberId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleMemberListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM mgr_member
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if beforeDeletedMobile?exists && beforeDeletedMobile != "">
+					AND beforeDeletedMobile = :beforeDeletedMobile
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if identity?exists && identity != "">
+					AND identity = :identity
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+			<#if memberId?exists && memberId != "">
+				AND memberId = :memberId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getMemberList">
+		<![CDATA[
+			SELECT 
+				`name`, 
+				memberId, 
+				beforeDeletedMobile, 
+				mobile, 
+				updateTime, 
+				identity, 
+				enabled, 
+				deleted, 
+				createTime
+			FROM mgr_member
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if beforeDeletedMobile?exists && beforeDeletedMobile != "">
+					AND beforeDeletedMobile = :beforeDeletedMobile
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if identity?exists && identity != "">
+					AND identity = :identity
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+			<#if memberId?exists && memberId != "">
+				AND memberId = :memberId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getMemberListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM mgr_member
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if beforeDeletedMobile?exists && beforeDeletedMobile != "">
+					AND beforeDeletedMobile = :beforeDeletedMobile
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if updateTime?exists && updateTime != "">
+					AND updateTime = :updateTime
+				</#if>
+				<#if identity?exists && identity != "">
+					AND identity = :identity
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+			<#if memberId?exists && memberId != "">
+				AND memberId = :memberId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>
