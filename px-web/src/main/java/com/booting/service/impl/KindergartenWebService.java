@@ -760,8 +760,10 @@ public class KindergartenWebService extends BaseWebService {
       stu.put("naili", physicalDataDTO.getDoubleJumpScore());
       stu.put("sudu", physicalDataDTO.getRun10Score());
       stu.put("linghuodu", (physicalDataDTO.getDoubleJumpScore() + physicalDataDTO.getBalanceScore()) / 2.0);
+      stu.put("rourunxing", physicalDataDTO.getSitReachScore());
       stu.put("totalScore", physicalDataDTO.getRun10Score() + physicalDataDTO.getSitReachScore() + physicalDataDTO.getThrowTennisScore() + physicalDataDTO.getJumpScore() + physicalDataDTO.getDoubleJumpScore() + physicalDataDTO.getBalanceScore());
       stu.put("dataDetail", physicalDataDTO);
+      stu.put("bmi", physicalDataDTO.getStature() / 100.0 * 2 + physicalDataDTO.getWeight() / 100.0);  //体质指数（BMI）=体重（kg）÷ 身高^2（m）
       data.add(stu);
     }
     ApiResult apiResult = new ApiResult();
