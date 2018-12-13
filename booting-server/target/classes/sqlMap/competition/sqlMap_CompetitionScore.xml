@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="competitionScore" isRead="true" dsName="test-read">
+
+	<sql id="insertCompetitionScore" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO competition_score(id, competitionId, createTime, userId, teamId, red, createUser, yellow, goal) 
+			values (:id, :competitionId, :createTime, :userId, :teamId, :red, :createUser, :yellow, :goal)
+		]]>
+	</sql>
+
+	<sql id="updateCompetitionScore" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE competition_score SET competitionId = :competitionId
+				<#if createTime?exists && createTime != "">
+					, createTime = :createTime
+				</#if>
+				<#if userId?exists && userId != "">
+					, userId = :userId
+				</#if>
+				<#if teamId?exists && teamId != "">
+					, teamId = :teamId
+				</#if>
+				<#if red?exists && red != "">
+					, red = :red
+				</#if>
+				<#if createUser?exists && createUser != "">
+					, createUser = :createUser
+				</#if>
+				<#if yellow?exists && yellow != "">
+					, yellow = :yellow
+				</#if>
+				<#if goal?exists && goal != "">
+					, goal = :goal
+				</#if>
+			WHERE id = :id
+		]]>
+	</sql>
+
+	<sql id="deleteCompetitionScore" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM competition_score
+			WHERE 1=1
+			<#if competitionId?exists && competitionId != "">
+					AND competitionId = :competitionId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if red?exists && red != "">
+					AND red = :red
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+				<#if yellow?exists && yellow != "">
+					AND yellow = :yellow
+				</#if>
+				<#if goal?exists && goal != "">
+					AND goal = :goal
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleCompetitionScoreList">
+		<![CDATA[
+			SELECT 
+				id, 
+				competitionId, 
+				createTime, 
+				userId, 
+				teamId, 
+				red, 
+				createUser, 
+				yellow, 
+				goal
+			FROM competition_score
+			WHERE 1=1
+			<#if competitionId?exists && competitionId != "">
+					AND competitionId = :competitionId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if red?exists && red != "">
+					AND red = :red
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+				<#if yellow?exists && yellow != "">
+					AND yellow = :yellow
+				</#if>
+				<#if goal?exists && goal != "">
+					AND goal = :goal
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleCompetitionScoreListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM competition_score
+			WHERE 1=1
+			<#if competitionId?exists && competitionId != "">
+					AND competitionId = :competitionId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if red?exists && red != "">
+					AND red = :red
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+				<#if yellow?exists && yellow != "">
+					AND yellow = :yellow
+				</#if>
+				<#if goal?exists && goal != "">
+					AND goal = :goal
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getCompetitionScoreList">
+		<![CDATA[
+			SELECT 
+				id, 
+				competitionId, 
+				createTime, 
+				userId, 
+				teamId, 
+				red, 
+				createUser, 
+				yellow, 
+				goal
+			FROM competition_score
+			WHERE 1=1
+			<#if competitionId?exists && competitionId != "">
+					AND competitionId = :competitionId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if red?exists && red != "">
+					AND red = :red
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+				<#if yellow?exists && yellow != "">
+					AND yellow = :yellow
+				</#if>
+				<#if goal?exists && goal != "">
+					AND goal = :goal
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getCompetitionScoreListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM competition_score
+			WHERE 1=1
+			<#if competitionId?exists && competitionId != "">
+					AND competitionId = :competitionId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if red?exists && red != "">
+					AND red = :red
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+				<#if yellow?exists && yellow != "">
+					AND yellow = :yellow
+				</#if>
+				<#if goal?exists && goal != "">
+					AND goal = :goal
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getScore">
+		<![CDATA[
+			SELECT IFNULL(SUM(goal), 0) score FROM `competition_score` where competitionId = :competitionId and teamId = :teamId
+		]]>
+	</sql>
+
+</sqlMap>

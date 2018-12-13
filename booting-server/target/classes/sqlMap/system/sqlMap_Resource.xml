@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="resource" isRead="true" dsName="test-read">
+
+	<sql id="insertResource" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO sys_resource(type, enabled, createTime, createUser, sourceId, sourceName, sourceUrl, parentId, sourceIcoCls, sourceRemark) 
+			values (:type, :enabled, :createTime, :createUser, :sourceId, :sourceName, :sourceUrl, :parentId, :sourceIcoCls, :sourceRemark)
+		]]>
+	</sql>
+
+	<sql id="updateResource" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE sys_resource SET lastModifyTime = now()
+				<#if type?exists && type != "">
+					, type = :type
+				</#if>
+				<#if enabled?exists && enabled != "">
+					, enabled = :enabled
+				</#if>
+				<#if sourceName?exists && sourceName != "">
+					, sourceName = :sourceName
+				</#if>
+				<#if sourceUrl?exists && sourceUrl != "">
+					, sourceUrl = :sourceUrl
+				</#if>
+				<#if parentId?exists && parentId != "">
+					, parentId = :parentId
+				</#if>
+				<#if sourceIcoCls?exists && sourceIcoCls != "">
+					, sourceIcoCls = :sourceIcoCls
+				</#if>
+				<#if sourceRemark?exists && sourceRemark != "">
+					, sourceRemark = :sourceRemark
+				</#if>
+			WHERE 
+				<#if sourceId?exists && sourceId != "">
+					sourceId = :sourceId
+				<#else>
+					sourceId in (${sourceIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteResource" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM sys_resource
+			WHERE 1=1
+			<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+				<#if sourceName?exists && sourceName != "">
+					AND sourceName = :sourceName
+				</#if>
+				<#if sourceUrl?exists && sourceUrl != "">
+					AND sourceUrl = :sourceUrl
+				</#if>
+				<#if parentId?exists && parentId != "">
+					AND parentId = :parentId
+				</#if>
+				<#if sourceIcoCls?exists && sourceIcoCls != "">
+					AND sourceIcoCls = :sourceIcoCls
+				</#if>
+				<#if sourceRemark?exists && sourceRemark != "">
+					AND sourceRemark = :sourceRemark
+				</#if>
+			<#if sourceId?exists && sourceId != "">
+				AND sourceId = :sourceId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleResourceList">
+		<![CDATA[
+			SELECT 
+				type, 
+				enabled, 
+				createTime, 
+				createUser, 
+				sourceId, 
+				sourceName, 
+				sourceUrl, 
+				parentId, 
+				sourceIcoCls, 
+				sourceRemark
+			FROM sys_resource
+			WHERE 1=1
+			<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+				<#if sourceName?exists && sourceName != "">
+					AND sourceName = :sourceName
+				</#if>
+				<#if sourceUrl?exists && sourceUrl != "">
+					AND sourceUrl = :sourceUrl
+				</#if>
+				<#if parentId?exists && parentId != "">
+					AND parentId = :parentId
+				</#if>
+				<#if sourceIcoCls?exists && sourceIcoCls != "">
+					AND sourceIcoCls = :sourceIcoCls
+				</#if>
+				<#if sourceRemark?exists && sourceRemark != "">
+					AND sourceRemark = :sourceRemark
+				</#if>
+			<#if sourceId?exists && sourceId != "">
+				AND sourceId = :sourceId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY ${orderBy}
+				<#if orderType?exists && orderType !="" >
+					${orderType}
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleResourceListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM sys_resource
+			WHERE 1=1
+			<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+				<#if sourceName?exists && sourceName != "">
+					AND sourceName = :sourceName
+				</#if>
+				<#if sourceUrl?exists && sourceUrl != "">
+					AND sourceUrl = :sourceUrl
+				</#if>
+				<#if parentId?exists && parentId != "">
+					AND parentId = :parentId
+				</#if>
+				<#if sourceIcoCls?exists && sourceIcoCls != "">
+					AND sourceIcoCls = :sourceIcoCls
+				</#if>
+				<#if sourceRemark?exists && sourceRemark != "">
+					AND sourceRemark = :sourceRemark
+				</#if>
+			<#if sourceId?exists && sourceId != "">
+				AND sourceId = :sourceId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY ${orderBy}
+				<#if orderType?exists && orderType !="" >
+					${orderType}
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getResourceList">
+		<![CDATA[
+			SELECT 
+				type, 
+				enabled, 
+				createTime, 
+				createUser, 
+				sourceId, 
+				sourceName, 
+				sourceUrl, 
+				parentId, 
+				sourceIcoCls, 
+				sourceRemark
+			FROM sys_resource
+			WHERE 1=1
+			<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+				<#if sourceName?exists && sourceName != "">
+					AND sourceName = :sourceName
+				</#if>
+				<#if sourceUrl?exists && sourceUrl != "">
+					AND sourceUrl = :sourceUrl
+				</#if>
+				<#if parentId?exists && parentId != "">
+					AND parentId = :parentId
+				</#if>
+				<#if sourceIcoCls?exists && sourceIcoCls != "">
+					AND sourceIcoCls = :sourceIcoCls
+				</#if>
+				<#if sourceRemark?exists && sourceRemark != "">
+					AND sourceRemark = :sourceRemark
+				</#if>
+			<#if sourceId?exists && sourceId != "">
+				AND sourceId = :sourceId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY ${orderBy} ${orderType}
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getResourceListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM sys_resource
+			WHERE 1=1
+			<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+				<#if sourceName?exists && sourceName != "">
+					AND sourceName = :sourceName
+				</#if>
+				<#if sourceUrl?exists && sourceUrl != "">
+					AND sourceUrl = :sourceUrl
+				</#if>
+				<#if parentId?exists && parentId != "">
+					AND parentId = :parentId
+				</#if>
+				<#if sourceIcoCls?exists && sourceIcoCls != "">
+					AND sourceIcoCls = :sourceIcoCls
+				</#if>
+				<#if sourceRemark?exists && sourceRemark != "">
+					AND sourceRemark = :sourceRemark
+				</#if>
+			<#if sourceId?exists && sourceId != "">
+				AND sourceId = :sourceId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY ${orderBy} ${orderType}
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="member" isRead="true" dsName="test-read">
+
+	<sql id="insertMember" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO px_member(`name`, openId, memberId, createTime, headPic, mobile, password, inviterId, goldNums, ballNums) 
+			values (:name, :openId, :memberId, :createTime, :headPic, :mobile, :password, :inviterId, :goldNums, :ballNums)
+		]]>
+	</sql>
+
+	<sql id="updateMember" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE px_member SET `name` = :name
+				<#if openId?exists && openId != "">
+					, openId = :openId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					, createTime = :createTime
+				</#if>
+				<#if headPic?exists && headPic != "">
+					, headPic = :headPic
+				</#if>
+				<#if mobile?exists && mobile != "">
+					, mobile = :mobile
+				</#if>
+				<#if password?exists && password != "">
+					, password = :password
+				</#if>
+				<#if inviterId?exists && inviterId != "">
+					, inviterId = :inviterId
+				</#if>
+				<#if ballNums?exists && ballNums != "">
+					, ballNums = :ballNums
+				</#if>
+				<#if goldNums?exists && goldNums != "">
+					, goldNums = :goldNums
+				</#if>
+			WHERE 
+				<#if memberId?exists && memberId != "">
+					memberId = :memberId
+				<#else>
+					memberId in (${memberIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteMember" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM px_member
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if openId?exists && openId != "">
+					AND openId = :openId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if headPic?exists && headPic != "">
+					AND headPic = :headPic
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+			<#if memberId?exists && memberId != "">
+				AND memberId = :memberId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleMemberList">
+		<![CDATA[
+			SELECT 
+				`name`, 
+				openId, 
+				memberId, 
+				createTime, 
+				headPic, 
+				mobile,
+				password,
+				inviterId, goldNums, ballNums
+			FROM px_member
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if openId?exists && openId != "">
+					AND openId = :openId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if headPic?exists && headPic != "">
+					AND headPic = :headPic
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if password?exists && password != "">
+					AND password = :password
+				</#if>
+				<#if inviterId?exists && inviterId != "">
+					AND inviterId = :inviterId
+				</#if>
+			<#if memberId?exists && memberId != "">
+				AND memberId = :memberId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleMemberListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM px_member
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if openId?exists && openId != "">
+					AND openId = :openId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if headPic?exists && headPic != "">
+					AND headPic = :headPic
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if password?exists && password != "">
+					AND password = :password
+				</#if>
+				<#if inviterId?exists && inviterId != "">
+					AND inviterId = :inviterId
+				</#if>
+			<#if memberId?exists && memberId != "">
+				AND memberId = :memberId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getMemberList">
+		<![CDATA[
+			SELECT 
+				`name`, 
+				openId, 
+				memberId, 
+				createTime, 
+				headPic, 
+				mobile,
+				password,
+				inviterId, goldNums, ballNums
+			FROM px_member
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if openId?exists && openId != "">
+					AND openId = :openId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if headPic?exists && headPic != "">
+					AND headPic = :headPic
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if password?exists && password != "">
+					AND password = :password
+				</#if>
+				<#if inviterId?exists && inviterId != "">
+					AND inviterId = :inviterId
+				</#if>
+			<#if memberId?exists && memberId != "">
+				AND memberId = :memberId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getMemberListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM px_member
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if openId?exists && openId != "">
+					AND openId = :openId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if headPic?exists && headPic != "">
+					AND headPic = :headPic
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if password?exists && password != "">
+					AND password = :password
+				</#if>
+				<#if inviterId?exists && inviterId != "">
+					AND inviterId = :inviterId
+				</#if>
+			<#if memberId?exists && memberId != "">
+				AND memberId = :memberId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

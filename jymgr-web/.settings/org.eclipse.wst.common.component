@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="jymgr">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <dependent-module archiveName="jymgr-server-0.0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/jymgr-server/jymgr-server">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="star-ehcache-0.0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/star-ehcache/star-ehcache">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="star-jdbc2-0.0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/star-jdbc2/star-jdbc2">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="star-pay-0.0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/star-pay/star-pay">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="aliyun-java-sdk-core-3.2.3.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/aliyun-java-sdk-core/aliyun-java-sdk-core">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="aliyun-java-sdk-dysmsapi-1.0.0-SANPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/aliyun-java-sdk-dysmsapi/aliyun-java-sdk-dysmsapi">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="star-common-0.0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/star-common/star-common">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="star-validation-0.0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/star-validation/star-validation">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="star-tag-0.0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/star-tag/star-tag">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="star-security-0.0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/star-security/star-security">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="jymgr"/>
+        <property name="java-output-path" value="/jymgr-web/target/classes"/>
+    </wb-module>
+</project-modules>

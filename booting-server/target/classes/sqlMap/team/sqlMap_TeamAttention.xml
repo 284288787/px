@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="teamAttention" isRead="true" dsName="test-read">
+
+	<sql id="insertTeamAttention" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO team_attention(id, createTime, teamId, userId) 
+			values (:id, :createTime, :teamId, :userId)
+		]]>
+	</sql>
+
+	<sql id="updateTeamAttention" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE team_attention SET createTime = :createTime
+				<#if teamId?exists && teamId != "">
+					, teamId = :teamId
+				</#if>
+				<#if userId?exists && userId != "">
+					, userId = :userId
+				</#if>
+			WHERE id = :id
+		]]>
+	</sql>
+
+	<sql id="deleteTeamAttention" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM team_attention
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleTeamAttentionList">
+		<![CDATA[
+			SELECT 
+				id, 
+				createTime, 
+				teamId, 
+				userId
+			FROM team_attention
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleTeamAttentionListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM team_attention
+			WHERE 1=1
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if id?exists && id != "">
+					AND id = :id
+				</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getTeamAttentionList">
+		<![CDATA[
+			SELECT 
+				id, 
+				createTime, 
+				teamId, 
+				userId
+			FROM team_attention
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getTeamAttentionListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM team_attention
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

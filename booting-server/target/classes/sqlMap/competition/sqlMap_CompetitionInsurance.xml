@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="competitionInsurance" isRead="true" dsName="test-read">
+
+	<sql id="insertCompetitionInsurance" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO competition_insurance(`status`, competitionId, createTime, userName, teamName, userId, identityNo, teamId) 
+			values (:status, :competitionId, :createTime, :userName, :teamName, :userId, :identityNo, :teamId)
+		]]>
+	</sql>
+
+	<sql id="updateCompetitionInsurance" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE competition_insurance SET competitionId = :competitionId
+				<#if createTime?exists && createTime != "">
+					, createTime = :createTime
+				</#if>
+				<#if userName?exists && userName != "">
+					, userName = :userName
+				</#if>
+				<#if teamName?exists && teamName != "">
+					, teamName = :teamName
+				</#if>
+				<#if userId?exists && userId != "">
+					, userId = :userId
+				</#if>
+				<#if identityNo?exists && identityNo != "">
+					, identityNo = :identityNo
+				</#if>
+				<#if teamId?exists && teamId != "">
+					, teamId = :teamId
+				</#if>
+				<#if status?exists && status != "">
+					, `status` = :status
+				</#if>
+			WHERE id = :id
+		]]>
+	</sql>
+
+	<sql id="deleteCompetitionInsurance" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM competition_insurance
+			WHERE 1=1
+			<#if competitionId?exists && competitionId != "">
+					AND competitionId = :competitionId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if userName?exists && userName != "">
+					AND userName = :userName
+				</#if>
+				<#if teamName?exists && teamName != "">
+					AND teamName = :teamName
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if identityNo?exists && identityNo != "">
+					AND identityNo = :identityNo
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if status?exists && status != "">
+					AND `status` = :status
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleCompetitionInsuranceList">
+		<![CDATA[
+			SELECT 
+				id, 
+				competitionId, 
+				createTime, 
+				userName, 
+				teamName, 
+				userId, 
+				identityNo, 
+				teamId,
+				`status`
+			FROM competition_insurance
+			WHERE 1=1
+			<#if competitionId?exists && competitionId != "">
+					AND competitionId = :competitionId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if userName?exists && userName != "">
+					AND userName = :userName
+				</#if>
+				<#if teamName?exists && teamName != "">
+					AND teamName = :teamName
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if identityNo?exists && identityNo != "">
+					AND identityNo = :identityNo
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if status?exists && status != "">
+					AND `status` = :status
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleCompetitionInsuranceListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM competition_insurance
+			WHERE 1=1
+			<#if competitionId?exists && competitionId != "">
+					AND competitionId = :competitionId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if userName?exists && userName != "">
+					AND userName = :userName
+				</#if>
+				<#if teamName?exists && teamName != "">
+					AND teamName = :teamName
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if identityNo?exists && identityNo != "">
+					AND identityNo = :identityNo
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if status?exists && status != "">
+					AND `status` = :status
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getCompetitionInsuranceList">
+		<![CDATA[
+			SELECT 
+				id, 
+				competitionId, 
+				createTime, 
+				userName, 
+				teamName, 
+				userId, 
+				identityNo, 
+				teamId,
+				`status`
+			FROM competition_insurance
+			WHERE 1=1
+			<#if competitionId?exists && competitionId != "">
+					AND competitionId = :competitionId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if userName?exists && userName != "">
+					AND userName = :userName
+				</#if>
+				<#if teamName?exists && teamName != "">
+					AND teamName = :teamName
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if identityNo?exists && identityNo != "">
+					AND identityNo = :identityNo
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if status?exists && status != "">
+					AND `status` = :status
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getCompetitionInsuranceListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM competition_insurance
+			WHERE 1=1
+			<#if competitionId?exists && competitionId != "">
+					AND competitionId = :competitionId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if userName?exists && userName != "">
+					AND userName = :userName
+				</#if>
+				<#if teamName?exists && teamName != "">
+					AND teamName = :teamName
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if identityNo?exists && identityNo != "">
+					AND identityNo = :identityNo
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if status?exists && status != "">
+					AND `status` = :status
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

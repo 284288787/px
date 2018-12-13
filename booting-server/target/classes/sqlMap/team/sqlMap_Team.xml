@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="team" isRead="true" dsName="test-read">
+
+	<sql id="insertTeam" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO team_info(enabled, teamId, teamName, modifyTime, logo, companyId, createTime, areaId, userId) 
+			values (:enabled, :teamId, :teamName, :modifyTime, :logo, :companyId, :createTime, :areaId, :userId)
+		]]>
+	</sql>
+
+	<sql id="updateTeam" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE team_info SET modifyTime = now()
+				<#if teamName?exists && teamName != "">
+					, teamName = :teamName
+				</#if>
+				<#if logo?exists && logo != "">
+					, logo = :logo
+				</#if>
+				<#if companyId?exists && companyId != "">
+					, companyId = :companyId
+				</#if>
+				<#if enabled?exists && enabled != "">
+					, enabled = :enabled
+				</#if>
+				<#if areaId?exists && areaId != "">
+					, areaId = :areaId
+				</#if>
+				<#if userId?exists && userId != "">
+					, userId = :userId
+				</#if>
+			WHERE 
+				<#if teamId?exists && teamId != "">
+					teamId = :teamId
+				<#else>
+					teamId in (${teamIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteTeam" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM team_info
+			WHERE 1=1
+			<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if teamName?exists && teamName != "">
+					AND teamName = :teamName
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND modifyTime = :modifyTime
+				</#if>
+				<#if logo?exists && logo != "">
+					AND logo = :logo
+				</#if>
+				<#if companyId?exists && companyId != "">
+					AND companyId = :companyId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if areaId?exists && areaId != "">
+					AND areaId = :areaId
+				</#if>
+			<#if teamId?exists && teamId != "">
+				AND teamId = :teamId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleTeamList">
+		<![CDATA[
+			SELECT 
+				enabled, 
+				teamId, 
+				teamName, 
+				modifyTime, 
+				logo, 
+				userId,
+				companyId, 
+				createTime, 
+				areaId,
+				(select IFNULL(a.`name`,'未设') from sys_userinfo a where a.userId = team_info.userId) userName,
+				(select IFNULL(a.shortName,'未设') from pub_area a where a.areaId = team_info.areaId) areaName,
+				(select IFNULL(c.companyName,'未设') from pub_company c where c.companyId = team_info.companyId) companyName,
+				(select count(1) from competition_info i where (i.initiatorTeamId = team_info.teamId or i.challengerTeamId = team_info.teamId) and i.`status` = 2) competitionTimes,
+				(select IF(count(1) > 0, 1, 0) from pkg_userservice s where s.serviceId = 1002 and s.teamId = team_info.teamId and s.endTime >= now()) textPopularize,
+				(select IF(count(1) > 0, 1, 0) from pkg_userservice s where s.serviceId = 1003 and s.teamId = team_info.teamId and s.endTime >= now()) videoPopularize
+			FROM team_info
+			WHERE 1=1
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if teamName?exists && teamName != "">
+					AND teamName = :teamName
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND modifyTime = :modifyTime
+				</#if>
+				<#if logo?exists && logo != "">
+					AND logo = :logo
+				</#if>
+				<#if companyId?exists && companyId != "">
+					AND companyId = :companyId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if areaId?exists && areaId != "">
+					AND areaId = :areaId
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if teamIds?exists && teamIds != "">
+					AND teamId in (${teamIds})
+				</#if>
+				<#if businessIds?exists && businessIds != "">
+					AND companyId in (select DISTINCT c.companyId from pub_company c where c.businessId in (${businessIds}))
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleTeamListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM team_info
+			WHERE 1=1
+			<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if teamName?exists && teamName != "">
+					AND teamName = :teamName
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND modifyTime = :modifyTime
+				</#if>
+				<#if logo?exists && logo != "">
+					AND logo = :logo
+				</#if>
+				<#if companyId?exists && companyId != "">
+					AND companyId = :companyId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if areaId?exists && areaId != "">
+					AND areaId = :areaId
+				</#if>
+			<#if teamId?exists && teamId != "">
+				AND teamId = :teamId
+			</#if>
+			<#if userId?exists && userId != "">
+				AND userId = :userId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getTeamList">
+		<![CDATA[
+			SELECT 
+				team_info.enabled, 
+				team_info.teamId, 
+				team_info.teamName, 
+				team_info.modifyTime, 
+				team_info.logo, 
+				team_info.userId,
+				team_info.companyId, 
+				team_info.createTime, 
+				team_info.areaId,
+				a.`name` userName,
+				b.areaName,
+				c.companyName,
+				(select IF(count(1) > 0, 1, 0) from pkg_userservice s where s.serviceId = 1002 and s.teamId = team_info.teamId and s.endTime >= now()) textPopularize,
+				(select IF(count(1) > 0, 1, 0) from pkg_userservice s where s.serviceId = 1003 and s.teamId = team_info.teamId and s.endTime >= now()) videoPopularize
+			FROM team_info LEFT JOIN pub_company c on team_info.companyId = c.companyId, sys_userinfo a, pub_area b 
+			WHERE team_info.userId = a.userId and team_info.areaId = b.areaId
+			<#if enabled?exists && enabled != "">
+					AND team_info.enabled = :enabled
+				</#if>
+				<#if teamName?exists && teamName != "">
+					AND team_info.teamName = :teamName
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND team_info.modifyTime = :modifyTime
+				</#if>
+				<#if logo?exists && logo != "">
+					AND team_info.logo = :logo
+				</#if>
+				<#if companyId?exists && companyId != "">
+					AND team_info.companyId = :companyId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND team_info.createTime = :createTime
+				</#if>
+				<#if areaId?exists && areaId != "">
+					AND team_info.areaId = :areaId
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND team_info.teamId = :teamId
+				</#if>
+				<#if userId?exists && userId != "">
+					AND team_info.userId = :userId
+				</#if>
+				<#if userName?exists && userName != "">
+					AND a.`name` like "%":userName"%"
+				</#if>
+				<#if areaName?exists && areaName != "">
+					AND b.areaName like "%":areaName"%"
+				</#if>
+				<#if companyName?exists && companyName != "">
+					AND c.companyName like "%":companyName"%"
+				</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getTeamListCount">
+		<![CDATA[
+			SELECT COUNT(1) 
+			FROM team_info LEFT JOIN pub_company c on team_info.companyId = c.companyId, sys_userinfo a, pub_area b 
+			WHERE team_info.userId = a.userId and team_info.areaId = b.areaId
+			<#if enabled?exists && enabled != "">
+					AND team_info.enabled = :enabled
+				</#if>
+				<#if teamName?exists && teamName != "">
+					AND team_info.teamName = :teamName
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND team_info.modifyTime = :modifyTime
+				</#if>
+				<#if logo?exists && logo != "">
+					AND team_info.logo = :logo
+				</#if>
+				<#if companyId?exists && companyId != "">
+					AND team_info.companyId = :companyId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND team_info.createTime = :createTime
+				</#if>
+				<#if areaId?exists && areaId != "">
+					AND team_info.areaId = :areaId
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND team_info.teamId = :teamId
+				</#if>
+				<#if userId?exists && userId != "">
+					AND team_info.userId = :userId
+				</#if>
+				<#if userName?exists && userName != "">
+					AND a.`name` like "%":userName"%"
+				</#if>
+				<#if areaName?exists && areaName != "">
+					AND b.areaName like "%":areaName"%"
+				</#if>
+				<#if companyName?exists && companyName != "">
+					AND c.companyName like "%":companyName"%"
+				</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="recommendTeams">
+		<![CDATA[
+			SELECT
+				enabled, 
+				teamId, 
+				teamName, 
+				modifyTime, 
+				logo, 
+				userId,
+				companyId, 
+				createTime, 
+				areaId,
+				(select IFNULL(a.shortName,'未设') from pub_area a where a.areaId = t.areaId) areaName,
+				(select IFNULL(c.companyName,'未设') from pub_company c where c.companyId = t.companyId) companyName
+			FROM `team_info` t where t.teamId != :teamId
+			<#if areaId?exists && areaId != "">
+				and t.areaId = :areaId
+			</#if>
+			<#if teamName?exists && teamName != "">
+				and t.teamName like "%":teamName"%"
+			</#if>
+			<#if businessId?exists && businessId != "">
+				and t.companyId in (SELECT c.companyId FROM `pub_company` c where c.businessId = :businessId)
+			</#if>
+			<#if queryConditionCourt?exists && queryConditionCourt != "">
+				and t.teamId in (${queryConditionCourt})
+			</#if>
+			<#if queryConditionTime?exists && queryConditionTime != "">
+				and t.teamId in (${queryConditionTime})
+			</#if>
+			<#if queryConditionNumber?exists && queryConditionNumber != "">
+				and t.teamId in (${queryConditionNumber})
+			</#if>
+			<#if competitionTime?exists && competitionTime != "" && competitionTimeEnd?exists && competitionTimeEnd != "">
+				and t.teamId not in (select u.teamId from court_zoneuse u where u.beginTime >= :competitionTime and u.endTime <= :competitionTimeEnd)
+			</#if>
+			<#if contract?exists && contract == 1>
+				and t.teamId in (select p.teamId from pkg_userpackage p where p.teamId is not null)
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="recommendTeamsCount">
+		<![CDATA[
+			SELECT
+				count(1)
+			FROM `team_info` t where t.teamId != :teamId
+			<#if areaId?exists && areaId != "">
+				and t.areaId = :areaId
+			</#if>
+			<#if teamName?exists && teamName != "">
+				and t.teamName like "%":teamName"%"
+			</#if>
+			<#if businessId?exists && businessId != "">
+				and t.companyId in (SELECT c.companyId FROM `pub_company` c where c.businessId = :businessId)
+			</#if>
+			<#if queryConditionCourt?exists && queryConditionCourt != "">
+				and t.teamId in (${queryConditionCourt})
+			</#if>
+			<#if queryConditionTime?exists && queryConditionTime != "">
+				and t.teamId in (${queryConditionTime})
+			</#if>
+			<#if queryConditionNumber?exists && queryConditionNumber != "">
+				and t.teamId in (${queryConditionNumber})
+			</#if>
+			<#if contract?exists && contract == 1>
+				and t.teamId in (select p.teamId from pkg_userpackage p where p.teamId is not null)
+			</#if>
+			<#if competitionTime?exists && competitionTime != "" && competitionTimeEnd?exists && competitionTimeEnd != "">
+				and t.teamId not in (select u.teamId from court_zoneuse u where u.beginTime >= :competitionTime and u.endTime <= :competitionTimeEnd)
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getNewTeam">
+		<![CDATA[
+			SELECT 
+				enabled, 
+				teamId, 
+				teamName, 
+				modifyTime, 
+				logo, 
+				userId,
+				companyId, 
+				createTime, 
+				areaId,
+				(select IFNULL(a.`name`,'未设') from sys_userinfo a where a.userId = team_info.userId) userName,
+				(select IFNULL(a.shortName,'未设') from pub_area a where a.areaId = team_info.areaId) areaName,
+				(select IFNULL(c.companyName,'未设') from pub_company c where c.companyId = team_info.companyId) companyName
+			FROM team_info where enabled = 1
+			and userId = (select p.userId from pkg_userpackage p where p.packageType = 1 order by p.createTime desc limit 1)
+		]]>
+	</sql>
+
+	<sql id="getActiveTeams">
+		<![CDATA[
+			SELECT 
+				enabled, 
+				teamId, 
+				teamName, 
+				modifyTime, 
+				logo, 
+				userId,
+				companyId, 
+				createTime, 
+				areaId,
+				(select IFNULL(a.`name`,'未设') from sys_userinfo a where a.userId = team_info.userId) userName,
+				(select IFNULL(a.shortName,'未设') from pub_area a where a.areaId = team_info.areaId) areaName,
+				(select IFNULL(c.companyName,'未设') from pub_company c where c.companyId = team_info.companyId) companyName,
+				(SELECT count(1) FROM `competition_info` t where t.initiateUserId = team_info.userId) initiatorNum,
+				(SELECT count(1) FROM `competition_info` t where t.challengerUserId = team_info.userId) challengerNum
+			FROM team_info where enabled = 1
+			order by 13 desc , 14 desc
+			limit ${num}
+		]]>
+	</sql>
+
+</sqlMap>

@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="packageAttributeValue" isRead="true" dsName="test-read">
+
+	<sql id="insertPackageAttributeValue" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO pkg_packageattributevalue(id, attributeId, enabled, createTime, attributeValue, packageId, serviceId) 
+			values (:id, :attributeId, :enabled, :createTime, :attributeValue, :packageId, :serviceId)
+		]]>
+	</sql>
+
+	<sql id="updatePackageAttributeValue" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE pkg_packageattributevalue SET attributeId = :attributeId
+				<#if enabled?exists && enabled != "">
+					, enabled = :enabled
+				</#if>
+				<#if createTime?exists && createTime != "">
+					, createTime = :createTime
+				</#if>
+				<#if attributeValue?exists && attributeValue != "">
+					, attributeValue = :attributeValue
+				</#if>
+				<#if packageId?exists && packageId != "">
+					, packageId = :packageId
+				</#if>
+				<#if serviceId?exists && serviceId != "">
+					, serviceId = :serviceId
+				</#if>
+			WHERE id = :id
+		]]>
+	</sql>
+
+	<sql id="deletePackageAttributeValue" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM pkg_packageattributevalue
+			WHERE 1=1
+			<#if attributeId?exists && attributeId != "">
+					AND attributeId = :attributeId
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if attributeValue?exists && attributeValue != "">
+					AND attributeValue = :attributeValue
+				</#if>
+				<#if packageId?exists && packageId != "">
+					AND packageId = :packageId
+				</#if>
+				<#if serviceId?exists && serviceId != "">
+					AND serviceId = :serviceId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="deletePackageAttributeValueBySql" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM pkg_packageattributevalue
+			WHERE packageId = :packageId
+		]]>
+	</sql>
+
+	<sql id="getSimplePackageAttributeValueList">
+		<![CDATA[
+			SELECT 
+				id, 
+				attributeId, 
+				enabled, 
+				createTime, 
+				attributeValue, 
+				packageId, 
+				serviceId
+			FROM pkg_packageattributevalue
+			WHERE 1=1
+			<#if attributeId?exists && attributeId != "">
+					AND attributeId = :attributeId
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if attributeValue?exists && attributeValue != "">
+					AND attributeValue = :attributeValue
+				</#if>
+				<#if packageId?exists && packageId != "">
+					AND packageId = :packageId
+				</#if>
+				<#if serviceId?exists && serviceId != "">
+					AND serviceId = :serviceId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimplePackageAttributeValueListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM pkg_packageattributevalue
+			WHERE 1=1
+			<#if attributeId?exists && attributeId != "">
+					AND attributeId = :attributeId
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if attributeValue?exists && attributeValue != "">
+					AND attributeValue = :attributeValue
+				</#if>
+				<#if packageId?exists && packageId != "">
+					AND packageId = :packageId
+				</#if>
+				<#if serviceId?exists && serviceId != "">
+					AND serviceId = :serviceId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getPackageAttributeValueList">
+		<![CDATA[
+			SELECT 
+				id, 
+				attributeId, 
+				enabled, 
+				createTime, 
+				attributeValue, 
+				packageId, 
+				serviceId
+			FROM pkg_packageattributevalue
+			WHERE 1=1
+			<#if attributeId?exists && attributeId != "">
+					AND attributeId = :attributeId
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if attributeValue?exists && attributeValue != "">
+					AND attributeValue = :attributeValue
+				</#if>
+				<#if packageId?exists && packageId != "">
+					AND packageId = :packageId
+				</#if>
+				<#if serviceId?exists && serviceId != "">
+					AND serviceId = :serviceId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getPackageAttributeValueListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM pkg_packageattributevalue
+			WHERE 1=1
+			<#if attributeId?exists && attributeId != "">
+					AND attributeId = :attributeId
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if attributeValue?exists && attributeValue != "">
+					AND attributeValue = :attributeValue
+				</#if>
+				<#if packageId?exists && packageId != "">
+					AND packageId = :packageId
+				</#if>
+				<#if serviceId?exists && serviceId != "">
+					AND serviceId = :serviceId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

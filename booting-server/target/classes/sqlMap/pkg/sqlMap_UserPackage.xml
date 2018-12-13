@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="userPackage" isRead="true" dsName="test-read">
+
+	<sql id="insertUserPackage" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO pkg_userpackage(teamId, price, discount, createTime, orderId, userId, packageId, packageName, sourceFrom, packageType, endTime, upId, beginTime, count) 
+			values (:teamId, :price, :discount, :createTime, :orderId, :userId, :packageId, :packageName, :sourceFrom, :packageType, :endTime, :upId, :beginTime, :count)
+		]]>
+	</sql>
+
+	<sql id="updateUserPackage" isRead="false" dsName="test-write">
+		<![CDATA[
+			
+		]]>
+	</sql>
+
+	<sql id="deleteUserPackage" isRead="false" dsName="test-write">
+		<![CDATA[
+			
+		]]>
+	</sql>
+
+	<sql id="getSimpleUserPackageList">
+		<![CDATA[
+			SELECT 
+				price, 
+				discount, 
+				count,
+				createTime, 
+				orderId, 
+				userId, 
+				packageId, 
+				packageName, 
+				sourceFrom, 
+				packageType, 
+				endTime, 
+				upId, 
+				beginTime,
+				teamId
+			FROM pkg_userpackage
+			WHERE 1=1
+			<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+				<#if discount?exists && discount != "">
+					AND discount = :discount
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if orderId?exists && orderId != "">
+					AND orderId = :orderId
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if teamIdEmpty?exists && teamIdEmpty == 1>
+					AND teamId is null
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if packageId?exists && packageId != "">
+					AND packageId = :packageId
+				</#if>
+				<#if packageName?exists && packageName != "">
+					AND packageName = :packageName
+				</#if>
+				<#if sourceFrom?exists && sourceFrom != "">
+					AND sourceFrom = :sourceFrom
+				</#if>
+				<#if packageType?exists && packageType != "">
+					AND packageType = :packageType
+				</#if>
+				<#if endTime?exists && endTime != "">
+					AND endTime = :endTime
+				</#if>
+				<#if beginTime?exists && beginTime != "">
+					AND beginTime = :beginTime
+				</#if>
+			<#if upId?exists && upId != "">
+				AND upId = :upId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY ${orderBy}
+				<#if orderType?exists && orderType !="" >
+					${orderType}
+				</#if>
+			<#else>
+				order by packageType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleUserPackageListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM pkg_userpackage
+			WHERE 1=1
+			<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+				<#if discount?exists && discount != "">
+					AND discount = :discount
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if orderId?exists && orderId != "">
+					AND orderId = :orderId
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if teamIdEmpty?exists && teamIdEmpty == 1>
+					AND teamId is null
+				</#if>
+				<#if packageId?exists && packageId != "">
+					AND packageId = :packageId
+				</#if>
+				<#if packageName?exists && packageName != "">
+					AND packageName = :packageName
+				</#if>
+				<#if sourceFrom?exists && sourceFrom != "">
+					AND sourceFrom = :sourceFrom
+				</#if>
+				<#if packageType?exists && packageType != "">
+					AND packageType = :packageType
+				</#if>
+				<#if endTime?exists && endTime != "">
+					AND endTime = :endTime
+				</#if>
+				<#if beginTime?exists && beginTime != "">
+					AND beginTime = :beginTime
+				</#if>
+			<#if upId?exists && upId != "">
+				AND upId = :upId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getUserPackageList">
+		<![CDATA[
+			SELECT 
+				price, 
+				discount, 
+				count,
+				createTime, 
+				orderId, 
+				userId, 
+				packageId, 
+				packageName, 
+				sourceFrom, 
+				packageType, 
+				endTime, 
+				upId, 
+				beginTime,
+				teamId
+			FROM pkg_userpackage
+			WHERE 1=1
+			<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+				<#if discount?exists && discount != "">
+					AND discount = :discount
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if orderId?exists && orderId != "">
+					AND orderId = :orderId
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if teamIdEmpty?exists && teamIdEmpty == 1>
+					AND teamId is null
+				</#if>
+				<#if packageId?exists && packageId != "">
+					AND packageId = :packageId
+				</#if>
+				<#if packageName?exists && packageName != "">
+					AND packageName = :packageName
+				</#if>
+				<#if sourceFrom?exists && sourceFrom != "">
+					AND sourceFrom = :sourceFrom
+				</#if>
+				<#if packageType?exists && packageType != "">
+					AND packageType = :packageType
+				</#if>
+				<#if endTime?exists && endTime != "">
+					AND endTime = :endTime
+				</#if>
+				<#if beginTime?exists && beginTime != "">
+					AND beginTime = :beginTime
+				</#if>
+			<#if upId?exists && upId != "">
+				AND upId = :upId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getUserPackageListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM pkg_userpackage
+			WHERE 1=1
+			<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+				<#if discount?exists && discount != "">
+					AND discount = :discount
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if orderId?exists && orderId != "">
+					AND orderId = :orderId
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if teamIdEmpty?exists && teamIdEmpty == 1>
+					AND teamId is null
+				</#if>
+				<#if packageId?exists && packageId != "">
+					AND packageId = :packageId
+				</#if>
+				<#if packageName?exists && packageName != "">
+					AND packageName = :packageName
+				</#if>
+				<#if sourceFrom?exists && sourceFrom != "">
+					AND sourceFrom = :sourceFrom
+				</#if>
+				<#if packageType?exists && packageType != "">
+					AND packageType = :packageType
+				</#if>
+				<#if endTime?exists && endTime != "">
+					AND endTime = :endTime
+				</#if>
+				<#if beginTime?exists && beginTime != "">
+					AND beginTime = :beginTime
+				</#if>
+			<#if upId?exists && upId != "">
+				AND upId = :upId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

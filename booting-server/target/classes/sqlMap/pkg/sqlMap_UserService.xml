@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="userService" isRead="true" dsName="test-read">
+
+	<sql id="insertUserService" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO pkg_userservice(teamId, userId, upId, serviceId, serviceName, createTime, serviceCount, beginTime, endTime) 
+			values (:teamId, :userId, :upId, :serviceId, :serviceName, :createTime, :serviceCount, :beginTime, :endTime)
+		]]>
+	</sql>
+
+	<sql id="updateUserService" isRead="false" dsName="test-write">
+		<![CDATA[
+			
+		]]>
+	</sql>
+
+	<sql id="deleteUserService" isRead="false" dsName="test-write">
+		<![CDATA[
+			
+		]]>
+	</sql>
+
+	<sql id="getSimpleUserServiceList">
+		<![CDATA[
+			SELECT 
+				t.usId, 
+				t.userId,
+				t.upId, 
+				t.serviceId,
+				t.serviceName,
+				(select s.description from pkg_service s where s.serviceId = t.serviceId) description,
+				t.createTime, 
+				IFNULL(sum(t.serviceCount),0) serviceCount,
+				t.beginTime, 
+				t.endTime,
+				t.teamId
+			FROM pkg_userservice t
+			WHERE t.endTime >= now()
+				<#if userId?exists && userId != "">
+					AND t.userId = :userId
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND t.teamId = :teamId
+				</#if>
+				<#if teamIdEmpty?exists && teamIdEmpty == 1>
+					AND t.teamId is null
+				</#if>
+				<#if serviceId?exists && serviceId != "">
+					AND t.serviceId = :serviceId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND t.createTime = :createTime
+				</#if>
+				<#if usId?exists && usId != "">
+					AND t.usId = :usId
+				</#if>
+			GROUP BY t.userId, t.serviceId
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleUserServiceListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM pkg_userservice
+			WHERE t.endTime >= now()
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if teamIdEmpty?exists && teamIdEmpty == 1>
+					AND t.teamId is null
+				</#if>
+				<#if serviceId?exists && serviceId != "">
+					AND serviceId = :serviceId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if usId?exists && usId != "">
+					AND usId = :usId
+				</#if>
+				GROUP BY t.userId, t.serviceId
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getUserServiceList">
+		<![CDATA[
+			SELECT 
+				usId, 
+				userId, 
+				upId, 
+				serviceId, 
+				serviceName,
+				serviceCount,
+				createTime,
+				beginTime, 
+				endTime,
+				teamId
+			FROM pkg_userservice
+			WHERE endTime >= now()
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if teamIdEmpty?exists && teamIdEmpty == 1>
+					AND t.teamId is null
+				</#if>
+				<#if serviceId?exists && serviceId != "">
+					AND serviceId = :serviceId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+			<#if usId?exists && usId != "">
+				AND usId = :usId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getUserServiceListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM pkg_userservice
+			WHERE endTime >= now()
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if teamIdEmpty?exists && teamIdEmpty == 1>
+					AND t.teamId is null
+				</#if>
+				<#if serviceId?exists && serviceId != "">
+					AND serviceId = :serviceId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+			<#if usId?exists && usId != "">
+				AND usId = :usId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getUserServiceNum">
+		<![CDATA[
+			SELECT IFNULL(sum(serviceCount), 0) FROM pkg_userservice where serviceId = :serviceId
+			<#if userId?exists && userId != "">
+			and userId = :userId
+			</#if>
+			<#if teamId?exists && teamId != "">
+			and teamId = :teamId
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

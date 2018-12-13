@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="role" isRead="true" dsName="test-read">
+
+	<sql id="insertRole" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO sys_role(enabled, createTime, createUser, roleId, roleName, roleRemark) 
+			values (:enabled, :createTime, :createUser, :roleId, :roleName, :roleRemark)
+		]]>
+	</sql>
+
+	<sql id="updateRole" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE sys_role SET lastModifyTime = now()
+				<#if enabled?exists && enabled != "">
+					, enabled = :enabled
+				</#if>
+				<#if roleName?exists && roleName != "">
+					, roleName = :roleName
+				</#if>
+				<#if roleRemark?exists && roleRemark != "">
+					, roleRemark = :roleRemark
+				</#if>
+			WHERE 
+				<#if roleId?exists && roleId != "">
+					roleId = :roleId
+				<#else>
+					roleId in (${roleIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteRole" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM sys_role
+			WHERE 1=1
+			<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+				<#if roleName?exists && roleName != "">
+					AND roleName = :roleName
+				</#if>
+				<#if roleRemark?exists && roleRemark != "">
+					AND roleRemark = :roleRemark
+				</#if>
+			<#if roleId?exists && roleId != "">
+				AND roleId = :roleId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleRoleList">
+		<![CDATA[
+			SELECT 
+				enabled, 
+				createTime, 
+				createUser, 
+				roleId, 
+				roleName, 
+				roleRemark
+			FROM sys_role
+			WHERE 1=1
+			<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+				<#if roleName?exists && roleName != "">
+					AND roleName = :roleName
+				</#if>
+				<#if roleRemark?exists && roleRemark != "">
+					AND roleRemark = :roleRemark
+				</#if>
+			<#if roleId?exists && roleId != "">
+				AND roleId = :roleId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY ${orderBy}
+				<#if orderType?exists && orderType !="" >
+					${orderType}
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleRoleListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM sys_role
+			WHERE 1=1
+			<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+				<#if roleName?exists && roleName != "">
+					AND roleName = :roleName
+				</#if>
+				<#if roleRemark?exists && roleRemark != "">
+					AND roleRemark = :roleRemark
+				</#if>
+			<#if roleId?exists && roleId != "">
+				AND roleId = :roleId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY ${orderBy}
+				<#if orderType?exists && orderType !="" >
+					${orderType}
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getRoleList">
+		<![CDATA[
+			SELECT 
+				enabled, 
+				createTime, 
+				createUser, 
+				roleId, 
+				roleName, 
+				roleRemark
+			FROM sys_role
+			WHERE 1=1
+			<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+				<#if roleName?exists && roleName != "">
+					AND roleName = :roleName
+				</#if>
+				<#if roleRemark?exists && roleRemark != "">
+					AND roleRemark = :roleRemark
+				</#if>
+			<#if roleId?exists && roleId != "">
+				AND roleId = :roleId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY ${orderBy} ${orderType}
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getRoleListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM sys_role
+			WHERE 1=1
+			<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+				<#if roleName?exists && roleName != "">
+					AND roleName = :roleName
+				</#if>
+				<#if roleRemark?exists && roleRemark != "">
+					AND roleRemark = :roleRemark
+				</#if>
+			<#if roleId?exists && roleId != "">
+				AND roleId = :roleId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY ${orderBy} ${orderType}
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

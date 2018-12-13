@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="site" isRead="true" dsName="test-read">
+
+	<sql id="insertSite" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO court_site(knifing, specification, enabled, createTime, modifyTime, courtId, siteName) 
+			values (:knifing, :specification, :enabled, now(), now(), :courtId, :siteName)
+		]]>
+	</sql>
+
+	<sql id="updateSite" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE court_site SET modifyTime = now()
+				<#if enabled?exists && enabled != "">
+					, enabled = :enabled
+				</#if>
+				<#if courtId?exists && courtId != "">
+					, courtId = :courtId
+				</#if>
+				<#if siteName?exists && siteName != "">
+					, siteName = :siteName
+				</#if>
+				<#if specification?exists && specification != "">
+					, specification = :specification
+				</#if>
+				<#if knifing?exists && knifing != "">
+					, knifing = :knifing
+				</#if>
+			WHERE 
+				<#if siteId?exists && siteId != "">
+					siteId = :siteId
+				<#else>
+					siteId in (${siteIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteSite" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM court_site
+			WHERE 1=1
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND modifyTime = :modifyTime
+				</#if>
+				<#if courtId?exists && courtId != "">
+					AND courtId = :courtId
+				</#if>
+				<#if siteName?exists && siteName != "">
+					AND siteName = :siteName
+				</#if>
+				<#if siteId?exists && siteId != "">
+					AND siteId = :siteId
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleSiteList">
+		<![CDATA[
+			SELECT 
+				enabled, 
+				createTime, 
+				modifyTime, 
+				courtId, 
+				siteName, 
+				siteId, 
+				specification,
+				knifing
+			FROM court_site
+			WHERE 1=1
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND modifyTime = :modifyTime
+				</#if>
+				<#if courtId?exists && courtId != "">
+					AND courtId = :courtId
+				</#if>
+				<#if siteName?exists && siteName != "">
+					AND siteName like "%":siteName"%"
+				</#if>
+				<#if siteId?exists && siteId != "">
+					AND siteId = :siteId
+				</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleSiteListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM court_site
+			WHERE 1=1
+			<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND modifyTime = :modifyTime
+				</#if>
+				<#if courtId?exists && courtId != "">
+					AND courtId = :courtId
+				</#if>
+				<#if siteName?exists && siteName != "">
+					AND siteName like "%":siteName"%"
+				</#if>
+			<#if siteId?exists && siteId != "">
+				AND siteId = :siteId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSiteList">
+		<![CDATA[
+			SELECT 
+				enabled, 
+				createTime, 
+				modifyTime, 
+				courtId, 
+				siteName, 
+				siteId, 
+				specification,
+				knifing
+			FROM court_site
+			WHERE 1=1
+			<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND modifyTime = :modifyTime
+				</#if>
+				<#if courtId?exists && courtId != "">
+					AND courtId = :courtId
+				</#if>
+				<#if siteName?exists && siteName != "">
+					AND siteName = :siteName
+				</#if>
+				<#if siteId?exists && siteId != "">
+					AND siteId = :siteId
+				</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSiteListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM court_site
+			WHERE 1=1
+			<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND modifyTime = :modifyTime
+				</#if>
+				<#if courtId?exists && courtId != "">
+					AND courtId = :courtId
+				</#if>
+				<#if siteName?exists && siteName != "">
+					AND siteName = :siteName
+				</#if>
+			<#if siteId?exists && siteId != "">
+				AND siteId = :siteId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

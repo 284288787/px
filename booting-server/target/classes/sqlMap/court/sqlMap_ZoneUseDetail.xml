@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="zoneUseDetail" isRead="true" dsName="test-read">
+
+	<sql id="insertZoneUseDetail" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO court_zoneuse(courtId, siteId, createTime, modifyTime, endMinute, userId, beginTime, endTime, zoneId, teamId, `status`, beginMinute) 
+			values (:courtId, :siteId, now(), now(), :endMinute, :userId, :beginTime, :endTime, :zoneId, :teamId, :status, :beginMinute)
+		]]>
+	</sql>
+
+	<sql id="updateZoneUseDetail" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE court_zoneuse SET modifyTime = now()
+				<#if endMinute?exists && endMinute != "">
+					, endMinute = :endMinute
+				</#if>
+				<#if userId?exists && userId != "">
+					, userId = :userId
+				</#if>
+				<#if beginTime?exists && beginTime != "">
+					, beginTime = :beginTime
+				</#if>
+				<#if endTime?exists && endTime != "">
+					, endTime = :endTime
+				</#if>
+				<#if courtId?exists && courtId != "">
+					, courtId = :courtId
+				</#if>
+				<#if siteId?exists && siteId != "">
+					, siteId = :siteId
+				</#if>
+				<#if zoneId?exists && zoneId != "">
+					, zoneId = :zoneId
+				</#if>
+				<#if teamId?exists && teamId != "">
+					, teamId = :teamId
+				</#if>
+				<#if status?exists && status != "">
+					, `status` = :status
+				</#if>
+				<#if beginMinute?exists && beginMinute != "">
+					, beginMinute = :beginMinute
+				</#if>
+			WHERE id = :id
+		]]>
+	</sql>
+
+	<sql id="deleteZoneUseDetail" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM court_zoneuse
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND modifyTime = :modifyTime
+				</#if>
+				<#if endMinute?exists && endMinute != "">
+					AND endMinute = :endMinute
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if beginTime?exists && beginTime != "">
+					AND beginTime = :beginTime
+				</#if>
+				<#if endTime?exists && endTime != "">
+					AND endTime = :endTime
+				</#if>
+				<#if courtId?exists && courtId != "">
+					AND courtId = :courtId
+				</#if>
+				<#if siteId?exists && siteId != "">
+					AND siteId = :siteId
+				</#if>
+				<#if zoneId?exists && zoneId != "">
+					AND zoneId = :zoneId
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if status?exists && status != "">
+					AND `status` = :status
+				</#if>
+				<#if beginMinute?exists && beginMinute != "">
+					AND beginMinute = :beginMinute
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleZoneUseDetailList">
+		<![CDATA[
+			SELECT 
+				id, 
+				createTime, 
+				modifyTime, 
+				endMinute, 
+				userId, 
+				beginTime, 
+				endTime, 
+				zoneId, courtId, siteId, competitionId, competitionFormat,
+				teamId, 
+				`status`, 
+				beginMinute
+			FROM court_zoneuse
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND modifyTime = :modifyTime
+				</#if>
+				<#if endMinute?exists && endMinute != "">
+					AND endMinute = :endMinute
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if beginTime?exists && beginTime != "">
+					AND beginTime = :beginTime
+				</#if>
+				<#if endTime?exists && endTime != "">
+					AND endTime = :endTime
+				</#if>
+				<#if siteId?exists && siteId != "">
+					AND siteId = :siteId
+				</#if>
+				<#if courtId?exists && courtId != "">
+					AND courtId = :courtId
+				</#if>
+				<#if zoneId?exists && zoneId != "">
+					AND zoneId = :zoneId
+				</#if>
+				<#if competitionId?exists && competitionId != "">
+					AND competitionId = :competitionId
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if status?exists && status != "">
+					AND `status` = :status
+				<#else>
+					and `status` != 4
+				</#if>
+				<#if beginMinute?exists && beginMinute != "">
+					AND beginMinute = :beginMinute
+				</#if>
+				<#if beginDate?exists && beginDate != "">
+					AND beginTime >= :beginDate
+				</#if>
+				<#if endDate?exists && endDate != "">
+					AND beginTime <= :endDate
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleZoneUseDetailListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM court_zoneuse
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND modifyTime = :modifyTime
+				</#if>
+				<#if endMinute?exists && endMinute != "">
+					AND endMinute = :endMinute
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if beginTime?exists && beginTime != "">
+					AND beginTime = :beginTime
+				</#if>
+				<#if endTime?exists && endTime != "">
+					AND endTime = :endTime
+				</#if>
+				<#if siteId?exists && siteId != "">
+					AND siteId = :siteId
+				</#if>
+				<#if courtId?exists && courtId != "">
+					AND courtId = :courtId
+				</#if>
+				<#if zoneId?exists && zoneId != "">
+					AND zoneId = :zoneId
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if status?exists && status != "">
+					AND `status` = :status
+				</#if>
+				<#if beginMinute?exists && beginMinute != "">
+					AND beginMinute = :beginMinute
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getZoneUseDetailList">
+		<![CDATA[
+			SELECT 
+				id, 
+				createTime, 
+				modifyTime, 
+				endMinute, 
+				userId, 
+				beginTime, 
+				endTime, 
+				zoneId, courtId, siteId, competitionId, competitionFormat,
+				teamId, 
+				`status`, 
+				beginMinute
+			FROM court_zoneuse
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND modifyTime = :modifyTime
+				</#if>
+				<#if endMinute?exists && endMinute != "">
+					AND endMinute = :endMinute
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if beginTime?exists && beginTime != "">
+					AND beginTime = :beginTime
+				</#if>
+				<#if endTime?exists && endTime != "">
+					AND endTime = :endTime
+				</#if>
+				<#if zoneId?exists && zoneId != "">
+					AND zoneId = :zoneId
+				</#if>
+				<#if siteId?exists && siteId != "">
+					AND siteId = :siteId
+				</#if>
+				<#if courtId?exists && courtId != "">
+					AND courtId = :courtId
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if status?exists && status != "">
+					AND `status` = :status
+				</#if>
+				<#if beginMinute?exists && beginMinute != "">
+					AND beginMinute = :beginMinute
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getZoneUseDetailListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM court_zoneuse
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND modifyTime = :modifyTime
+				</#if>
+				<#if endMinute?exists && endMinute != "">
+					AND endMinute = :endMinute
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if beginTime?exists && beginTime != "">
+					AND beginTime = :beginTime
+				</#if>
+				<#if endTime?exists && endTime != "">
+					AND endTime = :endTime
+				</#if>
+				<#if zoneId?exists && zoneId != "">
+					AND zoneId = :zoneId
+				</#if>
+				<#if siteId?exists && siteId != "">
+					AND siteId = :siteId
+				</#if>
+				<#if courtId?exists && courtId != "">
+					AND courtId = :courtId
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if status?exists && status != "">
+					AND `status` = :status
+				</#if>
+				<#if beginMinute?exists && beginMinute != "">
+					AND beginMinute = :beginMinute
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

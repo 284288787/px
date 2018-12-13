@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="appVersion" isRead="true" dsName="test-read">
+
+	<sql id="insertAppVersion" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO pub_appversion( type, `status`, upgrade, version, md5, url, description, createTime, modifyTime) 
+			values ( :type, :status, :upgrade, :version, :md5, :url, :description, now(), now())
+		]]>
+	</sql>
+
+	<sql id="updateAppVersion" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE pub_appversion SET modifyTime = now()
+				<#if status?exists && status != "">
+					, `status` = :status
+				</#if>
+				<#if type?exists && type != "">
+					, type = :type
+				</#if>
+				<#if upgrade?exists && upgrade != "">
+					, upgrade = :upgrade
+				</#if>
+				<#if version?exists && version != "">
+					, version = :version
+				</#if>
+				<#if md5?exists && md5 != "">
+					, md5 = :md5
+				</#if>
+				<#if url?exists && url != "">
+					, url = :url
+				</#if>
+				<#if description?exists && description != "">
+					, description = :description
+				</#if>
+			WHERE 
+				<#if id?exists && id != "">
+					id = :id
+				<#else>
+					id in (${ids})
+				</#if>
+				
+		]]>
+	</sql>
+
+	<sql id="deleteAppVersion" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM pub_appversion
+			WHERE 1=1
+			<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if status?exists && status != "">
+					AND `status` = :status
+				</#if>
+				<#if upgrade?exists && upgrade != "">
+					AND upgrade = :upgrade
+				</#if>
+				<#if version?exists && version != "">
+					AND version = :version
+				</#if>
+				<#if md5?exists && md5 != "">
+					AND md5 = :md5
+				</#if>
+				<#if url?exists && url != "">
+					AND url = :url
+				</#if>
+				<#if description?exists && description != "">
+					AND description = :description
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleAppVersionList">
+		<![CDATA[
+			SELECT 
+				id, 
+				type, 
+				`status`, 
+				upgrade, 
+				version, 
+				md5, 
+				url, 
+				description,
+				createTime
+			FROM pub_appversion
+			WHERE 1=1
+			<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if status?exists && status != "">
+					AND `status` = :status
+				</#if>
+				<#if upgrade?exists && upgrade != "">
+					AND upgrade = :upgrade
+				</#if>
+				<#if version?exists && version != "">
+					AND version = :version
+				</#if>
+				<#if md5?exists && md5 != "">
+					AND md5 = :md5
+				</#if>
+				<#if url?exists && url != "">
+					AND url = :url
+				</#if>
+				<#if description?exists && description != "">
+					AND description = :description
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			<#else>
+				ORDER BY modifyTime desc
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleAppVersionListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM pub_appversion
+			WHERE 1=1
+			<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if status?exists && status != "">
+					AND `status` = :status
+				</#if>
+				<#if upgrade?exists && upgrade != "">
+					AND upgrade = :upgrade
+				</#if>
+				<#if version?exists && version != "">
+					AND version = :version
+				</#if>
+				<#if md5?exists && md5 != "">
+					AND md5 = :md5
+				</#if>
+				<#if url?exists && url != "">
+					AND url = :url
+				</#if>
+				<#if description?exists && description != "">
+					AND description = :description
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getAppVersionList">
+		<![CDATA[
+			SELECT 
+				id, 
+				type, 
+				`status`, 
+				upgrade, 
+				version, 
+				md5, 
+				url, 
+				description,
+				createTime
+			FROM pub_appversion
+			WHERE 1=1
+			<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if status?exists && status != "">
+					AND `status` = :status
+				</#if>
+				<#if upgrade?exists && upgrade != "">
+					AND upgrade = :upgrade
+				</#if>
+				<#if version?exists && version != "">
+					AND version = :version
+				</#if>
+				<#if md5?exists && md5 != "">
+					AND md5 = :md5
+				</#if>
+				<#if url?exists && url != "">
+					AND url = :url
+				</#if>
+				<#if description?exists && description != "">
+					AND description = :description
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getAppVersionListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM pub_appversion
+			WHERE 1=1
+			<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if status?exists && status != "">
+					AND `status` = :status
+				</#if>
+				<#if upgrade?exists && upgrade != "">
+					AND upgrade = :upgrade
+				</#if>
+				<#if version?exists && version != "">
+					AND version = :version
+				</#if>
+				<#if md5?exists && md5 != "">
+					AND md5 = :md5
+				</#if>
+				<#if url?exists && url != "">
+					AND url = :url
+				</#if>
+				<#if description?exists && description != "">
+					AND description = :description
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

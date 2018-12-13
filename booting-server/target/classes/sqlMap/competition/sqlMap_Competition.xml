@@ -1,0 +1,736 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="competition" isRead="true" dsName="test-read">
+
+	<sql id="insertCompetition" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO competition_info(challengerMobile, initiatorMobile, remindTimes, challengerTeach, initiatorTeach, competitionType, challengerTeamName, challengerBuyInsurance, challengerPayType, challengerPayMoney, initiatorBuyInsurance, initiatorPayType, initiateUserId, challengerTeamId, initiatorTeamId, competitionFormat, initiatorPayMoney, competitionTime, initiatorTeamName, typeValue, competitionId, courtAddr, open, noOpenType, courtName, `status`, createTime, courtId) 
+			values (:challengerMobile, :initiatorMobile, :remindTimes, :challengerTeach, :initiatorTeach, :competitionType, :challengerTeamName, :challengerBuyInsurance, :challengerPayType, :challengerPayMoney, :initiatorBuyInsurance, :initiatorPayType, :initiateUserId, :challengerTeamId, :initiatorTeamId, :competitionFormat, :initiatorPayMoney, :competitionTime, :initiatorTeamName, :typeValue, :competitionId, :courtAddr, :open, :noOpenType, :courtName, :status, :createTime, :courtId)
+		]]>
+	</sql>
+
+	<sql id="updateCompetition" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE competition_info SET competitionType = :competitionType
+				<#if scoreStatus?exists && scoreStatus != "">
+					, scoreStatus = :scoreStatus
+				</#if>
+				<#if winner?exists && winner != "">
+					, winner = :winner
+				</#if>
+				<#if initiatorScore?exists && initiatorScore != "">
+					, initiatorScore = :initiatorScore
+				</#if>
+				<#if challengerScore?exists && challengerScore != "">
+					, challengerScore = :challengerScore
+				</#if>
+				<#if challengerTeamName?exists && challengerTeamName != "">
+					, challengerTeamName = :challengerTeamName
+				</#if>
+				<#if challengerBuyInsurance?exists && challengerBuyInsurance != "">
+					, challengerBuyInsurance = :challengerBuyInsurance
+				</#if>
+				<#if challengerPayType?exists && challengerPayType != "">
+					, challengerPayType = :challengerPayType
+				</#if>
+				<#if challengerPayMoney?exists && challengerPayMoney != "">
+					, challengerPayMoney = :challengerPayMoney
+				</#if>
+				<#if initiatorBuyInsurance?exists && initiatorBuyInsurance != "">
+					, initiatorBuyInsurance = :initiatorBuyInsurance
+				</#if>
+				<#if initiatorPayType?exists && initiatorPayType != "">
+					, initiatorPayType = :initiatorPayType
+				</#if>
+				<#if initiateUserId?exists && initiateUserId != "">
+					, initiateUserId = :initiateUserId
+				</#if>
+				<#if challengerTeamId?exists && challengerTeamId != "">
+					, challengerTeamId = :challengerTeamId
+				</#if>
+				<#if initiatorTeamId?exists && initiatorTeamId != "">
+					, initiatorTeamId = :initiatorTeamId
+				</#if>
+				<#if competitionFormat?exists && competitionFormat != "">
+					, competitionFormat = :competitionFormat
+				</#if>
+				<#if initiatorPayMoney?exists && initiatorPayMoney != "">
+					, initiatorPayMoney = :initiatorPayMoney
+				</#if>
+				<#if competitionTime?exists && competitionTime != "">
+					, competitionTime = :competitionTime
+				</#if>
+				<#if initiatorTeamName?exists && initiatorTeamName != "">
+					, initiatorTeamName = :initiatorTeamName
+				</#if>
+				<#if typeValue?exists && typeValue != "">
+					, typeValue = :typeValue
+				</#if>
+				<#if courtAddr?exists && courtAddr != "">
+					, courtAddr = :courtAddr
+				</#if>
+				<#if open?exists && open != "">
+					, open = :open
+				</#if>
+				<#if noOpenType?exists && noOpenType != "">
+					, noOpenType = :noOpenType
+				</#if>
+				<#if courtName?exists && courtName != "">
+					, courtName = :courtName
+				</#if>
+				<#if status?exists && status != "">
+					, `status` = :status
+				</#if>
+				<#if createTime?exists && createTime != "">
+					, createTime = :createTime
+				</#if>
+				<#if courtId?exists && courtId != "">
+					, courtId = :courtId
+				</#if>
+				<#if challengerUserId?exists && challengerUserId != "">
+					, challengerUserId = :challengerUserId
+				</#if>
+				<#if acceptTime?exists && acceptTime != "">
+					, acceptTime = :acceptTime
+				</#if>
+				<#if challengerTeach?exists && challengerTeach != "">
+					, challengerTeach = :challengerTeach
+				</#if>
+				<#if initiatorTeach?exists && initiatorTeach != "">
+					, initiatorTeach = :initiatorTeach
+				</#if>
+				<#if remindTimes?exists && remindTimes != "">
+					, remindTimes = :remindTimes
+				</#if>
+				<#if initiatorMobile?exists && initiatorMobile != "">
+					, initiatorMobile = :initiatorMobile
+				</#if>
+				<#if challengerMobile?exists && challengerMobile != "">
+					, challengerMobile = :challengerMobile
+				</#if>
+				<#if initiatorRemark?exists && initiatorRemark != "">
+					, initiatorRemark = :initiatorRemark
+				</#if>
+				<#if challengerRemark?exists && challengerRemark != "">
+					, challengerRemark = :challengerRemark
+				</#if>
+			WHERE competitionId = :competitionId
+		]]>
+	</sql>
+
+	<sql id="deleteCompetition" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM competition_info
+			WHERE 1=1
+			<#if competitionType?exists && competitionType != "">
+					AND competitionType = :competitionType
+				</#if>
+				<#if challengerTeamName?exists && challengerTeamName != "">
+					AND challengerTeamName = :challengerTeamName
+				</#if>
+				<#if challengerBuyInsurance?exists && challengerBuyInsurance != "">
+					AND challengerBuyInsurance = :challengerBuyInsurance
+				</#if>
+				<#if challengerPayType?exists && challengerPayType != "">
+					AND challengerPayType = :challengerPayType
+				</#if>
+				<#if challengerPayMoney?exists && challengerPayMoney != "">
+					AND challengerPayMoney = :challengerPayMoney
+				</#if>
+				<#if initiatorBuyInsurance?exists && initiatorBuyInsurance != "">
+					AND initiatorBuyInsurance = :initiatorBuyInsurance
+				</#if>
+				<#if initiatorPayType?exists && initiatorPayType != "">
+					AND initiatorPayType = :initiatorPayType
+				</#if>
+				<#if initiateUserId?exists && initiateUserId != "">
+					AND initiateUserId = :initiateUserId
+				</#if>
+				<#if challengerTeamId?exists && challengerTeamId != "">
+					AND challengerTeamId = :challengerTeamId
+				</#if>
+				<#if initiatorTeamId?exists && initiatorTeamId != "">
+					AND initiatorTeamId = :initiatorTeamId
+				</#if>
+				<#if competitionFormat?exists && competitionFormat != "">
+					AND competitionFormat = :competitionFormat
+				</#if>
+				<#if initiatorPayMoney?exists && initiatorPayMoney != "">
+					AND initiatorPayMoney = :initiatorPayMoney
+				</#if>
+				<#if competitionTime?exists && competitionTime != "">
+					AND competitionTime = :competitionTime
+				</#if>
+				<#if initiatorTeamName?exists && initiatorTeamName != "">
+					AND initiatorTeamName = :initiatorTeamName
+				</#if>
+				<#if typeValue?exists && typeValue != "">
+					AND typeValue = :typeValue
+				</#if>
+				<#if courtAddr?exists && courtAddr != "">
+					AND courtAddr = :courtAddr
+				</#if>
+				<#if open?exists && open != "">
+					AND open = :open
+				</#if>
+				<#if noOpenType?exists && noOpenType != "">
+					AND noOpenType = :noOpenType
+				</#if>
+				<#if courtName?exists && courtName != "">
+					AND courtName = :courtName
+				</#if>
+				<#if status?exists && status != "">
+					AND `status` = :status
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if courtId?exists && courtId != "">
+					AND courtId = :courtId
+				</#if>
+			<#if competitionId?exists && competitionId != "">
+				AND competitionId = :competitionId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleCompetitionList">
+		<![CDATA[
+			SELECT 
+				competitionType, 
+				challengerTeamName, 
+				challengerBuyInsurance, 
+				challengerPayType, 
+				challengerPayMoney, 
+				initiatorBuyInsurance, 
+				initiatorPayType, 
+				initiateUserId, 
+				challengerTeamId, 
+				initiatorTeamId, 
+				competitionFormat, 
+				initiatorPayMoney, 
+				competitionTime, 
+				initiatorTeamName, 
+				typeValue, 
+				competitionId, 
+				courtAddr, 
+				`open`, 
+				noOpenType, 
+				courtName, 
+				`status`, 
+				createTime, 
+				courtId,type,
+				acceptTime,initiatorTeach,challengerTeach,remindTimes,initiatorColor,challengerColor,challengerMobile,initiatorMobile,
+				scoreStatus, winner, initiatorRemark, challengerRemark, zoneId, zoneName,
+				IFNULL(initiatorScore, (select IFNULL(sum(s.goal), 0) from competition_score s where s.competitionId = competition_info.competitionId and s.teamId = competition_info.initiatorTeamId)) initiatorScore, 
+				IFNULL(challengerScore, (select IFNULL(sum(s.goal), 0) from competition_score s where s.competitionId = competition_info.competitionId and s.teamId = competition_info.challengerTeamId)) challengerScore
+			FROM competition_info
+			WHERE 1=1
+				<#if competitionType?exists && competitionType != "">
+					AND competitionType = :competitionType
+				</#if>
+				<#if challengerTeamName?exists && challengerTeamName != "">
+					AND challengerTeamName = :challengerTeamName
+				</#if>
+				<#if challengerBuyInsurance?exists && challengerBuyInsurance != "">
+					AND challengerBuyInsurance = :challengerBuyInsurance
+				</#if>
+				<#if challengerPayType?exists && challengerPayType != "">
+					AND challengerPayType = :challengerPayType
+				</#if>
+				<#if challengerPayMoney?exists && challengerPayMoney != "">
+					AND challengerPayMoney = :challengerPayMoney
+				</#if>
+				<#if initiatorBuyInsurance?exists && initiatorBuyInsurance != "">
+					AND initiatorBuyInsurance = :initiatorBuyInsurance
+				</#if>
+				<#if initiatorPayType?exists && initiatorPayType != "">
+					AND initiatorPayType = :initiatorPayType
+				</#if>
+				<#if initiateUserId?exists && initiateUserId != "">
+					AND initiateUserId = :initiateUserId
+				</#if>
+				<#if challengerUserId?exists && challengerUserId != "">
+					AND challengerUserId = :challengerUserId
+				</#if>
+				<#if loginUserId?exists && queryType == 3>
+					AND (initiateUserId = :loginUserId or challengerUserId = :loginUserId)
+				</#if>
+				<#if challengerTeamId?exists && challengerTeamId != "">
+					AND challengerTeamId = :challengerTeamId
+				</#if>
+				<#if initiatorTeamId?exists && initiatorTeamId != "">
+					AND initiatorTeamId = :initiatorTeamId
+				</#if>
+				<#if competitionFormat?exists && competitionFormat != "">
+					AND competitionFormat = :competitionFormat
+				</#if>
+				<#if initiatorPayMoney?exists && initiatorPayMoney != "">
+					AND initiatorPayMoney = :initiatorPayMoney
+				</#if>
+				<#if competitionTime?exists && competitionTime != "">
+					AND competitionTime <= ':competitionTime'
+				</#if>
+				<#if initiatorTeamName?exists && initiatorTeamName != "">
+					AND initiatorTeamName = :initiatorTeamName
+				</#if>
+				<#if typeValue?exists && typeValue != "">
+					AND typeValue = :typeValue
+				</#if>
+				<#if courtAddr?exists && courtAddr != "">
+					AND courtAddr = :courtAddr
+				</#if>
+				<#if open?exists && open != "">
+					AND open = :open
+				</#if>
+				<#if noOpenType?exists && noOpenType != "">
+					AND noOpenType = :noOpenType
+				</#if>
+				<#if courtName?exists && courtName != "">
+					AND courtName = :courtName
+				</#if>
+				<#if status?exists && status != "">
+					AND `status` = :status
+				</#if>
+				<#if states?exists && states != "">
+					AND `status` in (${states})
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if courtId?exists && courtId != "">
+					AND courtId = :courtId
+				</#if>
+				<#if mineCourtIds?exists && mineCourtIds != "" && queryType == 4>
+					AND courtId in (${mineCourtIds}) and initiatorTeamId is null
+				</#if>
+				<#if competitionId?exists && competitionId != "">
+					AND competitionId = :competitionId
+				</#if>
+				<#if scoreStatus?exists && scoreStatus != "">
+					AND scoreStatus = :scoreStatus
+				</#if>
+				<#if winner?exists && winner != "">
+					AND winner = :winner
+				</#if>
+				<#if qj?exists && qj != "">
+					<#if qj == 1>
+						AND initiatorTeamId is null
+					<#else>
+						<#if qj == 0>
+							AND initiatorTeamId is not null
+						</#if>
+					</#if>
+				</#if>
+				<#if findAll?exists>
+					and `status` = 1
+					<#if findAll==1>
+						and open = 1
+					<#else>
+						<#if findAll==2>
+							and open = 0 and ((noOpenType = 1 and LOCATE(',${mineTeamId},', CONCAT(',', typeValue, ',')) > 0) or (noOpenType = 2 and LOCATE(',${businessId},', CONCAT(',', typeValue, ',')) > 0))
+						<#else>
+							and initiatorTeamId is null
+						</#if>
+						
+					</#if>
+				</#if>
+				<#if teamId?exists && teamId != "">
+					and (initiatorTeamId = :teamId or challengerTeamId = :teamId)
+					<#if beginTime?exists && beginTime != "">
+						AND (( competitionTime >= '${beginTime}'
+						<#if endTime?exists && endTime != "">
+							AND competitionTime <= '${endTime}')
+							or (competitionTime >= DATE_SUB('${beginTime}',INTERVAL 2 HOUR) and competitionTime <= '${beginTime}'))
+						<#else>
+							)) 
+						</#if>
+					<#else>
+						<#if endTime?exists && endTime != "">
+							AND competitionTime <= '${endTime}'
+						</#if>
+					</#if>
+				<#else>
+					<#if beginTime?exists && beginTime != "">
+						AND competitionTime >= '${beginTime}'
+					</#if>
+					<#if endTime?exists && endTime != "">
+						AND competitionTime <= '${endTime}'
+					</#if>
+				</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY ${orderBy}
+				<#if orderType?exists && orderType !="" >
+					${orderType}
+				</#if>
+			<#else>
+				ORDER BY competitionTime desc
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleCompetitionListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM competition_info
+			WHERE 1=1
+				<#if competitionType?exists && competitionType != "">
+					AND competitionType = :competitionType
+				</#if>
+				<#if challengerTeamName?exists && challengerTeamName != "">
+					AND challengerTeamName = :challengerTeamName
+				</#if>
+				<#if challengerBuyInsurance?exists && challengerBuyInsurance != "">
+					AND challengerBuyInsurance = :challengerBuyInsurance
+				</#if>
+				<#if challengerPayType?exists && challengerPayType != "">
+					AND challengerPayType = :challengerPayType
+				</#if>
+				<#if challengerPayMoney?exists && challengerPayMoney != "">
+					AND challengerPayMoney = :challengerPayMoney
+				</#if>
+				<#if initiatorBuyInsurance?exists && initiatorBuyInsurance != "">
+					AND initiatorBuyInsurance = :initiatorBuyInsurance
+				</#if>
+				<#if initiatorPayType?exists && initiatorPayType != "">
+					AND initiatorPayType = :initiatorPayType
+				</#if>
+				<#if initiateUserId?exists && initiateUserId != "">
+					AND initiateUserId = :initiateUserId
+				</#if>
+				<#if challengerUserId?exists && challengerUserId != "">
+					AND challengerUserId = :challengerUserId
+				</#if>
+				<#if loginUserId?exists && queryType == 3>
+					AND (initiateUserId = :loginUserId or challengerUserId = :loginUserId)
+				</#if>
+				<#if challengerTeamId?exists && challengerTeamId != "">
+					AND challengerTeamId = :challengerTeamId
+				</#if>
+				<#if initiatorTeamId?exists && initiatorTeamId != "">
+					AND initiatorTeamId = :initiatorTeamId
+				</#if>
+				<#if competitionFormat?exists && competitionFormat != "">
+					AND competitionFormat = :competitionFormat
+				</#if>
+				<#if initiatorPayMoney?exists && initiatorPayMoney != "">
+					AND initiatorPayMoney = :initiatorPayMoney
+				</#if>
+				<#if competitionTime?exists && competitionTime != "">
+					AND competitionTime <= :competitionTime
+				</#if>
+				<#if beginTime?exists && beginTime != "">
+					AND competitionTime >= :beginTime
+				</#if>
+				<#if endTime?exists && endTime != "">
+					AND competitionTime <= :endTime
+				</#if>
+				<#if initiatorTeamName?exists && initiatorTeamName != "">
+					AND initiatorTeamName = :initiatorTeamName
+				</#if>
+				<#if typeValue?exists && typeValue != "">
+					AND typeValue = :typeValue
+				</#if>
+				<#if courtAddr?exists && courtAddr != "">
+					AND courtAddr = :courtAddr
+				</#if>
+				<#if open?exists && open != "">
+					AND open = :open
+				</#if>
+				<#if noOpenType?exists && noOpenType != "">
+					AND noOpenType = :noOpenType
+				</#if>
+				<#if courtName?exists && courtName != "">
+					AND courtName = :courtName
+				</#if>
+				<#if status?exists && status != "">
+					AND `status` = :status
+				</#if>
+				<#if states?exists && states != "">
+					AND `status` in (${states})
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if courtId?exists && courtId != "">
+					AND courtId = :courtId
+				</#if>
+				<#if mineCourtIds?exists && mineCourtIds != "" && queryType == 4>
+					AND courtId in (${mineCourtIds}) and initiatorTeamId is null
+				</#if>
+				<#if competitionId?exists && competitionId != "">
+					AND competitionId = :competitionId
+				</#if>
+				<#if scoreStatus?exists && scoreStatus != "">
+					AND scoreStatus = :scoreStatus
+				</#if>
+				<#if winner?exists && winner != "">
+					AND winner = :winner
+				</#if>
+				<#if qj?exists && qj != "">
+					<#if qj == 1>
+						AND initiatorTeamId is null
+					<#else>
+						<#if qj == 0>
+							AND initiatorTeamId is not null
+						</#if>
+					</#if>
+				</#if>
+				<#if findAll?exists>
+					and `status` = 1
+					<#if findAll==1>
+						and open = 1
+					<#else>
+						<#if findAll==2>
+							and open = 0 and ((noOpenType = 1 and LOCATE(',${mineTeamId},', CONCAT(',', typeValue, ',')) > 0) or (noOpenType = 2 and LOCATE(',${businessId},', CONCAT(',', typeValue, ',')) > 0))
+						<#else>
+							and initiatorTeamId is null
+						</#if>
+						
+					</#if>
+				</#if>
+				<#if teamId?exists && teamId != "">
+					and (initiatorTeamId = :teamId or challengerTeamId = :teamId)
+				</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getCompetitionList">
+		<![CDATA[
+			SELECT 
+				competitionType, 
+				challengerTeamName, 
+				challengerBuyInsurance, 
+				challengerPayType, 
+				challengerPayMoney, 
+				initiatorBuyInsurance, 
+				initiatorPayType, 
+				initiateUserId, 
+				challengerTeamId, 
+				initiatorTeamId, 
+				competitionFormat, 
+				initiatorPayMoney, 
+				competitionTime, 
+				initiatorTeamName, 
+				typeValue, 
+				competitionId, 
+				courtAddr, 
+				open, 
+				noOpenType, 
+				courtName, 
+				`status`, 
+				createTime, initiatorRemark, challengerRemark, zoneId, zoneName, 
+				courtId,initiatorTeach,challengerTeach,remindTimes,challengerMobile,initiatorMobile,
+				acceptTime,scoreStatus, winner, initiatorScore, challengerScore
+			FROM competition_info
+			WHERE 1=1
+			<#if competitionType?exists && competitionType != "">
+					AND competitionType = :competitionType
+				</#if>
+				<#if challengerTeamName?exists && challengerTeamName != "">
+					AND challengerTeamName = :challengerTeamName
+				</#if>
+				<#if challengerBuyInsurance?exists && challengerBuyInsurance != "">
+					AND challengerBuyInsurance = :challengerBuyInsurance
+				</#if>
+				<#if challengerPayType?exists && challengerPayType != "">
+					AND challengerPayType = :challengerPayType
+				</#if>
+				<#if challengerPayMoney?exists && challengerPayMoney != "">
+					AND challengerPayMoney = :challengerPayMoney
+				</#if>
+				<#if initiatorBuyInsurance?exists && initiatorBuyInsurance != "">
+					AND initiatorBuyInsurance = :initiatorBuyInsurance
+				</#if>
+				<#if initiatorPayType?exists && initiatorPayType != "">
+					AND initiatorPayType = :initiatorPayType
+				</#if>
+				<#if initiateUserId?exists && initiateUserId != "">
+					AND initiateUserId = :initiateUserId
+				</#if>
+				<#if challengerTeamId?exists && challengerTeamId != "">
+					AND challengerTeamId = :challengerTeamId
+				</#if>
+				<#if initiatorTeamId?exists && initiatorTeamId != "">
+					AND initiatorTeamId = :initiatorTeamId
+				</#if>
+				<#if competitionFormat?exists && competitionFormat != "">
+					AND competitionFormat = :competitionFormat
+				</#if>
+				<#if initiatorPayMoney?exists && initiatorPayMoney != "">
+					AND initiatorPayMoney = :initiatorPayMoney
+				</#if>
+				<#if competitionTime?exists && competitionTime != "">
+					AND competitionTime = :competitionTime
+				</#if>
+				<#if initiatorTeamName?exists && initiatorTeamName != "">
+					AND initiatorTeamName = :initiatorTeamName
+				</#if>
+				<#if typeValue?exists && typeValue != "">
+					AND typeValue = :typeValue
+				</#if>
+				<#if courtAddr?exists && courtAddr != "">
+					AND courtAddr = :courtAddr
+				</#if>
+				<#if open?exists && open != "">
+					AND open = :open
+				</#if>
+				<#if noOpenType?exists && noOpenType != "">
+					AND noOpenType = :noOpenType
+				</#if>
+				<#if courtName?exists && courtName != "">
+					AND courtName = :courtName
+				</#if>
+				<#if status?exists && status != "">
+					AND `status` = :status
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if courtId?exists && courtId != "">
+					AND courtId = :courtId
+				</#if>
+				<#if scoreStatus?exists && scoreStatus != "">
+					AND scoreStatus = :scoreStatus
+				</#if>
+				<#if winner?exists && winner != "">
+					AND winner = :winner
+				</#if>
+			<#if competitionId?exists && competitionId != "">
+				AND competitionId = :competitionId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getCompetitionListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM competition_info
+			WHERE 1=1
+			<#if competitionType?exists && competitionType != "">
+					AND competitionType = :competitionType
+				</#if>
+				<#if challengerTeamName?exists && challengerTeamName != "">
+					AND challengerTeamName = :challengerTeamName
+				</#if>
+				<#if challengerBuyInsurance?exists && challengerBuyInsurance != "">
+					AND challengerBuyInsurance = :challengerBuyInsurance
+				</#if>
+				<#if challengerPayType?exists && challengerPayType != "">
+					AND challengerPayType = :challengerPayType
+				</#if>
+				<#if challengerPayMoney?exists && challengerPayMoney != "">
+					AND challengerPayMoney = :challengerPayMoney
+				</#if>
+				<#if initiatorBuyInsurance?exists && initiatorBuyInsurance != "">
+					AND initiatorBuyInsurance = :initiatorBuyInsurance
+				</#if>
+				<#if initiatorPayType?exists && initiatorPayType != "">
+					AND initiatorPayType = :initiatorPayType
+				</#if>
+				<#if initiateUserId?exists && initiateUserId != "">
+					AND initiateUserId = :initiateUserId
+				</#if>
+				<#if challengerTeamId?exists && challengerTeamId != "">
+					AND challengerTeamId = :challengerTeamId
+				</#if>
+				<#if initiatorTeamId?exists && initiatorTeamId != "">
+					AND initiatorTeamId = :initiatorTeamId
+				</#if>
+				<#if competitionFormat?exists && competitionFormat != "">
+					AND competitionFormat = :competitionFormat
+				</#if>
+				<#if initiatorPayMoney?exists && initiatorPayMoney != "">
+					AND initiatorPayMoney = :initiatorPayMoney
+				</#if>
+				<#if competitionTime?exists && competitionTime != "">
+					AND competitionTime = :competitionTime
+				</#if>
+				<#if initiatorTeamName?exists && initiatorTeamName != "">
+					AND initiatorTeamName = :initiatorTeamName
+				</#if>
+				<#if typeValue?exists && typeValue != "">
+					AND typeValue = :typeValue
+				</#if>
+				<#if courtAddr?exists && courtAddr != "">
+					AND courtAddr = :courtAddr
+				</#if>
+				<#if open?exists && open != "">
+					AND open = :open
+				</#if>
+				<#if noOpenType?exists && noOpenType != "">
+					AND noOpenType = :noOpenType
+				</#if>
+				<#if courtName?exists && courtName != "">
+					AND courtName = :courtName
+				</#if>
+				<#if status?exists && status != "">
+					AND `status` = :status
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if courtId?exists && courtId != "">
+					AND courtId = :courtId
+				</#if>
+				<#if scoreStatus?exists && scoreStatus != "">
+					AND scoreStatus = :scoreStatus
+				</#if>
+				<#if winner?exists && winner != "">
+					AND winner = :winner
+				</#if>
+			<#if competitionId?exists && competitionId != "">
+				AND competitionId = :competitionId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getNewCompetition">
+		<![CDATA[
+			SELECT 
+				competitionType, 
+				challengerTeamName, 
+				challengerBuyInsurance, 
+				challengerPayType, 
+				challengerPayMoney, 
+				initiatorBuyInsurance, 
+				initiatorPayType, 
+				initiateUserId, 
+				challengerTeamId, 
+				initiatorTeamId, 
+				competitionFormat, 
+				initiatorPayMoney, 
+				competitionTime, 
+				initiatorTeamName, 
+				typeValue, 
+				competitionId, 
+				courtAddr, 
+				open, 
+				noOpenType, 
+				courtName, 
+				`status`, 
+				createTime, initiatorRemark, challengerRemark, 
+				courtId,initiatorTeach,challengerTeach,challengerMobile,initiatorMobile,
+				acceptTime,remindTimes,scoreStatus, winner, initiatorScore, challengerScore
+			FROM competition_info
+			WHERE status = 2 and competitionTime >= now() and initiatorTeamId is not null
+			order by competitionTime desc
+			limit 1
+		]]>
+	</sql>
+</sqlMap>

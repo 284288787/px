@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="useServiceDetail" isRead="true" dsName="test-read">
+
+	<sql id="insertUseServiceDetail" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO pkg_useservicedetail(teamId, createTime, userId, serviceId, num, descrition, subjectId) 
+			values (:teamId, :createTime, :userId, :serviceId, :num, :descrition, :subjectId)
+		]]>
+	</sql>
+
+	<sql id="updateUseServiceDetail" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE pkg_useservicedetail SET createTime = :createTime
+				<#if userId?exists && userId != "">
+					, userId = :userId
+				</#if>
+				<#if teamId?exists && teamId != "">
+					, teamId = :teamId
+				</#if>
+				<#if serviceId?exists && serviceId != "">
+					, serviceId = :serviceId
+				</#if>
+				<#if num?exists && num != "">
+					, num = :num
+				</#if>
+				<#if descrition?exists && descrition != "">
+					, descrition = :descrition
+				</#if>
+				<#if subjectId?exists && subjectId != "">
+					, subjectId = :subjectId
+				</#if>
+			WHERE id = :id
+		]]>
+	</sql>
+
+	<sql id="deleteUseServiceDetail" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM pkg_useservicedetail
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if teamId?exists && teamId != "">
+					AND teamId = :teamId
+				</#if>
+				<#if serviceId?exists && serviceId != "">
+					AND serviceId = :serviceId
+				</#if>
+				<#if num?exists && num != "">
+					AND num = :num
+				</#if>
+				<#if descrition?exists && descrition != "">
+					AND descrition = :descrition
+				</#if>
+				<#if subjectId?exists && subjectId != "">
+					AND subjectId = :subjectId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleUseServiceDetailList">
+		<![CDATA[
+			SELECT 
+				id, 
+				createTime, 
+				userId, 
+				serviceId, 
+				(select serviceName from pkg_service where pkg_service.serviceId = pkg_useservicedetail.serviceId) serviceName,
+				num, 
+				descrition, 
+				subjectId,
+				teamId
+			FROM pkg_useservicedetail
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if userId?exists && userId != "">
+					<#if teamId?exists && teamId != "">
+						AND (teamId = :teamId or userId = :userId)
+					<#else>
+						AND userId = :userId
+					</#if>
+				<#else>
+					<#if teamId?exists && teamId != "">
+						AND teamId = :teamId
+					</#if>
+				</#if>
+				<#if serviceId?exists && serviceId != "">
+					AND serviceId = :serviceId
+				</#if>
+				<#if num?exists && num != "">
+					AND num = :num
+				</#if>
+				<#if descrition?exists && descrition != "">
+					AND descrition = :descrition
+				</#if>
+				<#if subjectId?exists && subjectId != "">
+					AND subjectId = :subjectId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY ${orderBy}
+				<#if orderType?exists && orderType !="" >
+					${orderType}
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleUseServiceDetailListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM pkg_useservicedetail
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if userId?exists && userId != "">
+					<#if teamId?exists && teamId != "">
+						AND (teamId = :teamId or userId = :userId)
+					<#else>
+						AND userId = :userId
+					</#if>
+				<#else>
+					<#if teamId?exists && teamId != "">
+						AND teamId = :teamId
+					</#if>
+				</#if>
+				<#if serviceId?exists && serviceId != "">
+					AND serviceId = :serviceId
+				</#if>
+				<#if num?exists && num != "">
+					AND num = :num
+				</#if>
+				<#if descrition?exists && descrition != "">
+					AND descrition = :descrition
+				</#if>
+				<#if subjectId?exists && subjectId != "">
+					AND subjectId = :subjectId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getUseServiceDetailList">
+		<![CDATA[
+			SELECT 
+				id, 
+				createTime, 
+				userId, 
+				serviceId, 
+				num, 
+				descrition, 
+				subjectId,
+				teamId
+			FROM pkg_useservicedetail
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if userId?exists && userId != "">
+					<#if teamId?exists && teamId != "">
+						AND (teamId = :teamId or userId = :userId)
+					<#else>
+						AND userId = :userId
+					</#if>
+				<#else>
+					<#if teamId?exists && teamId != "">
+						AND teamId = :teamId
+					</#if>
+				</#if>
+				<#if serviceId?exists && serviceId != "">
+					AND serviceId = :serviceId
+				</#if>
+				<#if num?exists && num != "">
+					AND num = :num
+				</#if>
+				<#if descrition?exists && descrition != "">
+					AND descrition = :descrition
+				</#if>
+				<#if subjectId?exists && subjectId != "">
+					AND subjectId = :subjectId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getUseServiceDetailListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM pkg_useservicedetail
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if userId?exists && userId != "">
+					<#if teamId?exists && teamId != "">
+						AND (teamId = :teamId or userId = :userId)
+					<#else>
+						AND userId = :userId
+					</#if>
+				<#else>
+					<#if teamId?exists && teamId != "">
+						AND teamId = :teamId
+					</#if>
+				</#if>
+				<#if serviceId?exists && serviceId != "">
+					AND serviceId = :serviceId
+				</#if>
+				<#if num?exists && num != "">
+					AND num = :num
+				</#if>
+				<#if descrition?exists && descrition != "">
+					AND descrition = :descrition
+				</#if>
+				<#if subjectId?exists && subjectId != "">
+					AND subjectId = :subjectId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getUseServiceNum">
+		<![CDATA[
+			SELECT IFNULL(sum(num),0) FROM pkg_useservicedetail WHERE serviceId = :serviceId
+			<#if userId?exists && userId != "">
+			and userId = :userId
+			</#if>
+			<#if teamId?exists && teamId != "">
+			and teamId = :teamId
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

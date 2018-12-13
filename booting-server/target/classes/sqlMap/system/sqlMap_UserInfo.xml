@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="userInfo" isRead="true" dsName="test-read">
+
+	<sql id="insertUserInfo" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO sys_userinfo(sourceFrom, remark, address, `name`, lastModifyTime, userId, mobile, identity, sex, photo, age, stature, weight, poloShirtNo, teamLocation, identityNo) 
+			values (:sourceFrom, :remark, :address, :name, :lastModifyTime, :userId, :mobile, :identity, :sex, :photo, :age, :stature, :weight, :poloShirtNo, :teamLocation, :identityNo)
+		]]>
+	</sql>
+
+	<sql id="updateUserInfo" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE sys_userinfo SET lastModifyTime = now()
+				<#if address?exists && address != "">
+					, address = :address
+				</#if>
+				<#if identityNo?exists && identityNo != "">
+					, identityNo = :identityNo
+				</#if>
+				<#if name?exists && name != "">
+					, `name` = :name
+				</#if>
+				<#if mobile?exists && mobile != "">
+					, mobile = :mobile
+				</#if>
+				<#if identity?exists && identity != "">
+					, identity = :identity
+				</#if>
+				<#if sex?exists && sex != "">
+					, sex = :sex
+				</#if>
+				<#if photo?exists && photo != "">
+					, photo = :photo
+				</#if>
+				<#if age?exists && age != "">
+					, age = :age
+				</#if>
+				<#if stature?exists && stature != "">
+					, stature = :stature
+				</#if>
+				<#if weight?exists && weight != "">
+					, weight = :weight
+				</#if>
+				<#if poloShirtNo?exists && poloShirtNo != "">
+					, poloShirtNo = :poloShirtNo
+				</#if>
+				<#if teamLocation?exists && teamLocation != "">
+					, teamLocation = :teamLocation
+				</#if>
+				<#if clientid?exists && clientid != "">
+					, clientid = :clientid
+				</#if>
+				<#if sourceFrom?exists && sourceFrom != "">
+					, sourceFrom = :sourceFrom
+				</#if>
+				<#if remark?exists && remark != "">
+					, remark = :remark
+				</#if>
+			WHERE userId = :userId
+		]]>
+	</sql>
+
+	<sql id="deleteUserInfo" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM sys_userinfo
+			WHERE userId = :userId
+		]]>
+	</sql>
+
+	<sql id="getSimpleUserInfoList">
+		<![CDATA[
+			SELECT 
+				address, 
+				`name`, 
+				lastModifyTime, 
+				userId, 
+				mobile,
+				identity, sex, photo, age, stature, weight, poloShirtNo, teamLocation, clientid, remark, identityNo, sourceFrom
+			FROM sys_userinfo
+			WHERE 1=1
+				<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if identity?exists && identity != "">
+					AND identity = :identity
+				</#if>
+				<#if sex?exists && sex != "">
+					AND sex = :sex
+				</#if>
+				<#if poloShirtNo?exists && poloShirtNo != "">
+					AND poloShirtNo = :poloShirtNo
+				</#if>
+				<#if teamLocation?exists && teamLocation != "">
+					AND teamLocation = :teamLocation
+				</#if>
+				<#if identityNo?exists && identityNo != "">
+					AND identityNo = :identityNo
+				</#if>
+				<#if userIds?exists && userIds != "">
+					AND userId in (${userIds})
+				</#if>
+				<#if teamIds?exists && teamIds != "">
+					AND userId in (SELECT i.userId FROM `team_info` i where i.teamId in (${teamIds}))
+				</#if>
+				<#if businessIds?exists && businessIds != "">
+					AND userId in (SELECT i.userId FROM `team_info` i where i.companyId in (select c.companyId from pub_company c where c.businessId in (${businessIds})))
+				</#if>
+				<#if areaId?exists && areaId != "">
+					AND exists (select * from team_info f where f.areaId = :areaId and f.userId = sys_userinfo.userId)
+				</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY ${orderBy}
+				<#if orderType?exists && orderType !="" >
+					${orderType}
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleUserInfoListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM sys_userinfo
+			WHERE 1=1
+				<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if identity?exists && identity != "">
+					AND identity = :identity
+				</#if>
+				<#if sex?exists && sex != "">
+					AND sex = :sex
+				</#if>
+				<#if poloShirtNo?exists && poloShirtNo != "">
+					AND poloShirtNo = :poloShirtNo
+				</#if>
+				<#if teamLocation?exists && teamLocation != "">
+					AND teamLocation = :teamLocation
+				</#if>
+				<#if identityNo?exists && identityNo != "">
+					AND identityNo = :identityNo
+				</#if>
+				<#if userIds?exists && userIds != "">
+					AND userId in (${userIds})
+				</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY ${orderBy}
+				<#if orderType?exists && orderType !="" >
+					${orderType}
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getUserInfoList">
+		<![CDATA[
+			SELECT 
+				address, 
+				`name`, 
+				lastModifyTime, 
+				userId, 
+				mobile,
+				identity, sex, photo, age, stature, weight, poloShirtNo, teamLocation, clientid, remark, identityNo, sourceFrom
+			FROM sys_userinfo
+			WHERE 1=1
+				<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if identity?exists && identity != "">
+					AND identity = :identity
+				</#if>
+				<#if sex?exists && sex != "">
+					AND sex = :sex
+				</#if>
+				<#if poloShirtNo?exists && poloShirtNo != "">
+					AND poloShirtNo = :poloShirtNo
+				</#if>
+				<#if teamLocation?exists && teamLocation != "">
+					AND teamLocation = :teamLocation
+				</#if>
+				<#if identityNo?exists && identityNo != "">
+					AND identityNo = :identityNo
+				</#if>
+				<#if userIds?exists && userIds != "">
+					AND userId in (${userIds})
+				</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY ${orderBy} ${orderType}
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getUserInfoListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM sys_userinfo
+			WHERE 1=1
+				<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if identity?exists && identity != "">
+					AND identity = :identity
+				</#if>
+				<#if sex?exists && sex != "">
+					AND sex = :sex
+				</#if>
+				<#if poloShirtNo?exists && poloShirtNo != "">
+					AND poloShirtNo = :poloShirtNo
+				</#if>
+				<#if teamLocation?exists && teamLocation != "">
+					AND teamLocation = :teamLocation
+				</#if>
+				<#if identityNo?exists && identityNo != "">
+					AND identityNo = :identityNo
+				</#if>
+				<#if userIds?exists && userIds != "">
+					AND userId in (${userIds})
+				</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY ${orderBy} ${orderType}
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

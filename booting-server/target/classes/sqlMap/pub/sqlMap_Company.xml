@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="company" isRead="true" dsName="test-read">
+
+	<sql id="insertCompany" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO pub_company(certificateCode, address, createTime, areaId, companyName, invoiceTitle, companyId, modifyTime, businessId, enabled) 
+			values (:certificateCode, :address, now(), :areaId, :companyName, :invoiceTitle, :companyId, now(), :businessId, :enabled)
+		]]>
+	</sql>
+
+	<sql id="updateCompany" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE pub_company SET modifyTime = now()
+				<#if businessId?exists && businessId != "">
+					, businessId = :businessId
+				</#if>
+				<#if areaId?exists && areaId != "">
+					, areaId = :areaId
+				</#if>
+				<#if companyName?exists && companyName != "">
+					, companyName = :companyName
+				</#if>
+				<#if invoiceTitle?exists && invoiceTitle != "">
+					, invoiceTitle = :invoiceTitle
+				</#if>
+				<#if address?exists && address != "">
+					, address = :address
+				</#if>
+				<#if enabled?exists && enabled != "">
+					, enabled = :enabled
+				</#if>
+				<#if certificateCode?exists && certificateCode != "">
+					, certificateCode = :certificateCode
+				</#if>
+			WHERE 
+				<#if companyId?exists && companyId != "">
+					companyId = :companyId
+				<#else>
+					companyId = (${companyIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteCompany" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM pub_company
+			WHERE 1=1
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if areaId?exists && areaId != "">
+					AND areaId = :areaId
+				</#if>
+				<#if companyName?exists && companyName != "">
+					AND companyName = :companyName
+				</#if>
+				<#if invoiceTitle?exists && invoiceTitle != "">
+					AND invoiceTitle = :invoiceTitle
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND modifyTime = :modifyTime
+				</#if>
+			<#if companyId?exists && companyId != "">
+				AND companyId = :companyId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleCompanyList">
+		<![CDATA[
+			SELECT 
+				address, 
+				createTime, 
+				areaId, 
+				companyName, 
+				invoiceTitle, 
+				companyId, 
+				modifyTime,
+				businessId,
+				enabled,
+				certificateCode,
+				(select shortName from pub_area a where a.areaId = pub_company.areaId) areaName,
+				(select businessName from pub_business p where p.businessId = pub_company.businessId) businessName
+			FROM pub_company
+			WHERE 1=1
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if areaId?exists && areaId != "">
+					AND areaId = :areaId
+				</#if>
+				<#if companyName?exists && companyName != "">
+					AND (companyName like "%":companyName"%" or invoiceTitle like "%":companyName"%")
+				</#if>
+				<#if invoiceTitle?exists && invoiceTitle != "">
+					AND (companyName like "%":invoiceTitle"%" or invoiceTitle like "%":invoiceTitle"%")
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND modifyTime = :modifyTime
+				</#if>
+			<#if companyId?exists && companyId != "">
+				AND companyId = :companyId
+			</#if>
+			<#if businessId?exists && businessId != "">
+				AND businessId = :businessId
+			</#if>
+			<#if enabled?exists && enabled != "">
+				AND enabled = :enabled
+			</#if>
+			<#if certificateCode?exists && certificateCode != "">
+				AND certificateCode = :certificateCode
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleCompanyListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM pub_company
+			WHERE 1=1
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if areaId?exists && areaId != "">
+					AND areaId = :areaId
+				</#if>
+				<#if companyName?exists && companyName != "">
+					AND (companyName like "%":companyName"%" or invoiceTitle like "%":companyName"%")
+				</#if>
+				<#if invoiceTitle?exists && invoiceTitle != "">
+					AND (companyName like "%":invoiceTitle"%" or invoiceTitle like "%":invoiceTitle"%")
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND modifyTime = :modifyTime
+				</#if>
+			<#if companyId?exists && companyId != "">
+				AND companyId = :companyId
+			</#if>
+			<#if businessId?exists && businessId != "">
+				AND businessId = :businessId
+			</#if>
+			<#if enabled?exists && enabled != "">
+				AND enabled = :enabled
+			</#if>
+			<#if certificateCode?exists && certificateCode != "">
+				AND certificateCode = :certificateCode
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getCompanyList">
+		<![CDATA[
+			SELECT 
+				address, 
+				createTime, 
+				areaId, 
+				companyName, 
+				invoiceTitle, 
+				companyId, 
+				modifyTime,
+				businessId,
+				enabled,
+				certificateCode
+			FROM pub_company
+			WHERE 1=1
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if areaId?exists && areaId != "">
+					AND areaId = :areaId
+				</#if>
+				<#if companyName?exists && companyName != "">
+					AND companyName = :companyName
+				</#if>
+				<#if invoiceTitle?exists && invoiceTitle != "">
+					AND invoiceTitle = :invoiceTitle
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND modifyTime = :modifyTime
+				</#if>
+			<#if companyId?exists && companyId != "">
+				AND companyId = :companyId
+			</#if>
+			<#if businessId?exists && businessId != "">
+				AND businessId = :businessId
+			</#if>
+			<#if enabled?exists && enabled != "">
+				AND enabled = :enabled
+			</#if>
+			<#if certificateCode?exists && certificateCode != "">
+				AND certificateCode = :certificateCode
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getCompanyListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM pub_company
+			WHERE 1=1
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if areaId?exists && areaId != "">
+					AND areaId = :areaId
+				</#if>
+				<#if companyName?exists && companyName != "">
+					AND companyName = :companyName
+				</#if>
+				<#if invoiceTitle?exists && invoiceTitle != "">
+					AND invoiceTitle = :invoiceTitle
+				</#if>
+				<#if modifyTime?exists && modifyTime != "">
+					AND modifyTime = :modifyTime
+				</#if>
+			<#if companyId?exists && companyId != "">
+				AND companyId = :companyId
+			</#if>
+			<#if businessId?exists && businessId != "">
+				AND businessId = :businessId
+			</#if>
+			<#if enabled?exists && enabled != "">
+				AND enabled = :enabled
+			</#if>
+			<#if certificateCode?exists && certificateCode != "">
+				AND certificateCode = :certificateCode
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

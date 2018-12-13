@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="userRoleRelation" isRead="true" dsName="test-read">
+
+	<sql id="insertUserRoleRelation" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO sys_user_role_relation(id, createTime, createUser, roleId, userId) 
+			values (:id, :createTime, :createUser, :roleId, :userId)
+		]]>
+	</sql>
+
+	<sql id="updateUserRoleRelation" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE sys_user_role_relation SET createTime = :createTime
+				<#if createUser?exists && createUser != "">
+					, createUser = :createUser
+				</#if>
+				<#if roleId?exists && roleId != "">
+					, roleId = :roleId
+				</#if>
+				<#if userId?exists && userId != "">
+					, userId = :userId
+				</#if>
+			WHERE id = :id
+		]]>
+	</sql>
+
+	<sql id="deleteUserRoleRelation" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM sys_user_role_relation
+			WHERE 1=1
+				<#if roleId?exists && roleId != "">
+					AND roleId = :roleId
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if id?exists && id != "">
+					AND id = :id
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleUserRoleRelationList">
+		<![CDATA[
+			SELECT 
+				id, 
+				createTime, 
+				createUser, 
+				roleId, 
+				userId
+			FROM sys_user_role_relation
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+				<#if roleId?exists && roleId != "">
+					AND roleId = :roleId
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY ${orderBy}
+				<#if orderType?exists && orderType !="" >
+					${orderType}
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleUserRoleRelationListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM sys_user_role_relation
+			WHERE 1=1
+			<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+				<#if roleId?exists && roleId != "">
+					AND roleId = :roleId
+				</#if>
+				<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY ${orderBy}
+				<#if orderType?exists && orderType !="" >
+					${orderType}
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getUserRoleRelationList">
+		<![CDATA[
+			SELECT
+				us.userId, r.roleId, us.account, r.roleName, r.roleRemark
+			FROM
+				(
+					SELECT
+						s.roleId, u.userId, u.account
+					FROM
+						sys_user_role_relation s,
+						sys_useraccount u 
+					WHERE
+						u.userId = s.userId and u.enabled = 1
+					<#if userId?exists && userId != "">
+						and u.userId = :userId
+					</#if>
+				) us
+				right join sys_role r on us.roleId = r.roleId and r.enabled = 1
+				where 1=1
+				<#if roleRemark?exists && roleRemark != "">
+					and r.roleRemark like "%":roleRemark"%"
+				</#if>
+			order by us.roleId desc
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getUserRoleList">
+		<![CDATA[
+			SELECT
+				u.userId,
+				r.roleId,
+				u.account,
+				r.roleName,
+				r.roleRemark
+			FROM
+				sys_user_role_relation s,
+				sys_useraccount u,
+				sys_role r
+			WHERE
+				u.userId = s.userId
+			AND u.enabled = 1
+			AND s.roleId = r.roleId
+			AND r.enabled = 1
+			<#if userId?exists && userId != "">
+			AND u.userId = :userId
+			</#if>
+			<#if roleRemark?exists && roleRemark != "">
+			AND u.roleRemark like "%":roleRemark "%"
+			</#if>
+			ORDER BY
+				r.roleId DESC
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getUserRoleRelationListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM
+				(
+					SELECT
+						s.roleId, u.userId, u.account
+					FROM
+						sys_user_role_relation s,
+						sys_useraccount u 
+					WHERE
+						u.userId = s.userId and u.enabled = 1
+					<#if userId?exists && userId != "">
+						and u.userId = :userId
+					</#if>
+				) us
+				right join sys_role r on us.roleId = r.roleId and r.enabled = 1
+				where 1=1
+				<#if roleRemark?exists && roleRemark != "">
+					and r.roleRemark like "%":roleRemark "%"
+				</#if>
+			order by us.roleId desc
+		]]>
+	</sql>
+	
+	<sql id="getUserRoleListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM
+				sys_user_role_relation s,
+				sys_useraccount u,
+				sys_role r
+			WHERE
+				u.userId = s.userId
+			AND u.enabled = 1
+			AND s.roleId = r.roleId
+			AND r.enabled = 1
+			<#if userId?exists && userId != "">
+			AND u.userId = :userId
+			</#if>
+			<#if roleRemark?exists && roleRemark != "">
+			AND u.roleRemark like "%":roleRemark "%"
+			</#if>
+			ORDER BY
+				r.roleId DESC
+		]]>
+	</sql>
+
+</sqlMap>

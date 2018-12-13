@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="lotteryDetail" isRead="true" dsName="test-read">
+
+	<sql id="insertLotteryDetail" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO lottery_detail(id, userId, lotteryId, lun, chooseTime, chooseNum, formIp) 
+			values (:id, :userId, :lotteryId, :lun, :chooseTime, :chooseNum, :formIp)
+		]]>
+	</sql>
+
+	<sql id="updateLotteryDetail" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE lottery_detail SET userId = :userId
+				<#if lotteryId?exists && lotteryId != "">
+					, lotteryId = :lotteryId
+				</#if>
+				<#if lun?exists && lun != "">
+					, lun = :lun
+				</#if>
+				<#if chooseTime?exists && chooseTime != "">
+					, chooseTime = :chooseTime
+				</#if>
+				<#if chooseNum?exists && chooseNum != "">
+					, chooseNum = :chooseNum
+				</#if>
+				<#if formIp?exists && formIp != "">
+					, formIp = :formIp
+				</#if>
+			WHERE 
+				<#if id?exists && id != "">
+					id = :id
+				<#else>
+					id in (${ids})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteLotteryDetail" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM lottery_detail
+			WHERE 1=1
+			<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if lotteryId?exists && lotteryId != "">
+					AND lotteryId = :lotteryId
+				</#if>
+				<#if lun?exists && lun != "">
+					AND lun = :lun
+				</#if>
+				<#if chooseTime?exists && chooseTime != "">
+					AND chooseTime = :chooseTime
+				</#if>
+				<#if chooseNum?exists && chooseNum != "">
+					AND chooseNum = :chooseNum
+				</#if>
+				<#if formIp?exists && formIp != "">
+					AND formIp = :formIp
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleLotteryDetailList">
+		<![CDATA[
+			SELECT 
+				id, 
+				userId, 
+				lotteryId, 
+				lun, 
+				chooseTime, 
+				chooseNum, 
+				formIp
+			FROM lottery_detail
+			WHERE 1=1
+			<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if lotteryId?exists && lotteryId != "">
+					AND lotteryId = :lotteryId
+				</#if>
+				<#if lun?exists && lun != "">
+					AND lun = :lun
+				</#if>
+				<#if chooseTime?exists && chooseTime != "">
+					AND chooseTime = :chooseTime
+				</#if>
+				<#if chooseNum?exists && chooseNum != "">
+					AND chooseNum = :chooseNum
+				</#if>
+				<#if formIp?exists && formIp != "">
+					AND formIp = :formIp
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleLotteryDetailListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM lottery_detail
+			WHERE 1=1
+			<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if lotteryId?exists && lotteryId != "">
+					AND lotteryId = :lotteryId
+				</#if>
+				<#if lun?exists && lun != "">
+					AND lun = :lun
+				</#if>
+				<#if chooseTime?exists && chooseTime != "">
+					AND chooseTime = :chooseTime
+				</#if>
+				<#if chooseNum?exists && chooseNum != "">
+					AND chooseNum = :chooseNum
+				</#if>
+				<#if formIp?exists && formIp != "">
+					AND formIp = :formIp
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getLotteryDetailList">
+		<![CDATA[
+			SELECT 
+				id, 
+				userId, 
+				lotteryId, 
+				lun, 
+				chooseTime, 
+				chooseNum, 
+				formIp
+			FROM lottery_detail
+			WHERE 1=1
+			<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if lotteryId?exists && lotteryId != "">
+					AND lotteryId = :lotteryId
+				</#if>
+				<#if lun?exists && lun != "">
+					AND lun = :lun
+				</#if>
+				<#if chooseTime?exists && chooseTime != "">
+					AND chooseTime = :chooseTime
+				</#if>
+				<#if chooseNum?exists && chooseNum != "">
+					AND chooseNum = :chooseNum
+				</#if>
+				<#if formIp?exists && formIp != "">
+					AND formIp = :formIp
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getLotteryDetailListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM lottery_detail
+			WHERE 1=1
+			<#if userId?exists && userId != "">
+					AND userId = :userId
+				</#if>
+				<#if lotteryId?exists && lotteryId != "">
+					AND lotteryId = :lotteryId
+				</#if>
+				<#if lun?exists && lun != "">
+					AND lun = :lun
+				</#if>
+				<#if chooseTime?exists && chooseTime != "">
+					AND chooseTime = :chooseTime
+				</#if>
+				<#if chooseNum?exists && chooseNum != "">
+					AND chooseNum = :chooseNum
+				</#if>
+				<#if formIp?exists && formIp != "">
+					AND formIp = :formIp
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getDetail">
+		<![CDATA[
+			select 'total' `key`, count(1) `value` from `lottery_detail` d where d.lotteryId = :lotteryId and d.lun = :lun
+			<#if awardUserIds?exists && awardUserIds != "">
+				AND d.userId in (${awardUserIds})
+			</#if>
+			UNION
+			(select t.`key`, t.`value` from (SELECT chooseNum `key`, count(1) `value` FROM `lottery_detail` d where d.lotteryId = :lotteryId and d.lun = :lun 
+			<#if awardUserIds?exists && awardUserIds != "">
+				AND d.userId in (${awardUserIds})
+			</#if>
+			GROUP BY chooseNum  order by 2, 1) t)
+		]]>
+	</sql>
+
+	<sql id="getHistory">
+		<![CDATA[
+			select b.lotteryId, (select DATE_FORMAT(n.openTime, '%Y-%m-%d %H时') from lottery_info n where n.lotteryId = b.lotteryId) openTime, b.lun, b.min from
+			(select lotteryId, lun, count(1), IF(count(1) < 12,0,MIN(val)) min from (
+			SELECT lotteryId, lun, chooseNum, count(1) val FROM `lottery_detail` d where d.lotteryId in (select lotteryId from lottery_info l where l.`end` = 1) GROUP BY d.lotteryId, d.lun, d.chooseNum
+			) t GROUP BY t.lotteryId, t.lun ORDER BY t.lotteryId desc) b where b.min > 0 and b.lun = ${lun} order by 2 limit ${size}
+		]]>
+	</sql>
+
+</sqlMap>
