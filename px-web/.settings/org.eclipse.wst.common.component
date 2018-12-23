@@ -16,12 +16,6 @@
         <dependent-module archiveName="star-pay-0.0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/star-pay/star-pay">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="aliyun-java-sdk-core-3.2.3.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/aliyun-java-sdk-core/aliyun-java-sdk-core">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="aliyun-java-sdk-dysmsapi-1.0.0-SANPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/aliyun-java-sdk-dysmsapi/aliyun-java-sdk-dysmsapi">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="star-common-0.0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/star-common/star-common">
             <dependency-type>uses</dependency-type>
         </dependent-module>

@@ -8,7 +8,7 @@ import com.star.framework.specification.FailureCode;
  * @author liuhua
  *
  */
-public class ArgsException extends Exception {
+public class ArgsException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 	
 	private String code;

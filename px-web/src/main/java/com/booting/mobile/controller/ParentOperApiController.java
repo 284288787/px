@@ -179,18 +179,32 @@ public class ParentOperApiController extends ApiBaseController{
 	@InterfaceVersion("1.0")
 	@RequestMapping(value = "/{version}/lookupBaseData", method = {RequestMethod.POST, RequestMethod.GET}, produces = "text/html;charset=UTF-8")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "openId", value = "微信唯一标识", paramType = "query", required = true, dataType = "String"),
-		@ApiImplicitParam(name = "studentId", value = "学生ID", paramType = "query", required = true, dataType = "Long"),
-		@ApiImplicitParam(name = "pageNo", value = "页码 默认为1，pageSize固定为10", paramType = "query", required = true, dataType = "int"),
-		@ApiImplicitParam(name = "beginTime", value = "开始日期 yyyy-MM-dd", paramType = "query", required = false, dataType = "String"),
-		@ApiImplicitParam(name = "endTime", value = "结束日期 yyyy-MM-dd", paramType = "query", required = false, dataType = "String"),
+	  @ApiImplicitParam(name = "openId", value = "微信唯一标识", paramType = "query", required = true, dataType = "String"),
+	  @ApiImplicitParam(name = "studentId", value = "学生ID", paramType = "query", required = true, dataType = "Long"),
+	  @ApiImplicitParam(name = "pageNo", value = "页码 默认为1，pageSize固定为10", paramType = "query", required = true, dataType = "int"),
+	  @ApiImplicitParam(name = "beginTime", value = "开始日期 yyyy-MM-dd", paramType = "query", required = false, dataType = "String"),
+	  @ApiImplicitParam(name = "endTime", value = "结束日期 yyyy-MM-dd", paramType = "query", required = false, dataType = "String"),
 	})
 	@ApiOperation(value = "获取学生的体智能总成绩数据", notes = "获取学生的体智能总成绩数据，pageNo的作用：例如某人做了100次体测，那么请求第一次接口返回10条记录，这10条记录展示完后，请求第二页的10条，直至返回的列表为空", httpMethod = "POST", response = String.class, produces = "text/html;charset=UTF-8")
 	public String lookupData(@ApiIgnore String params) throws Exception {
+	  ParamHandler paramHandler = new ParamHandler(params);
+	  Integer pageNo = paramHandler.getInteger("pageNo");
+	  ParentDTO parentDTO = paramHandler.getDTO(ParentDTO.class);
+	  ApiResult apiResult = this.kindergartenWebService.lookupBaseData(pageNo, parentDTO);
+	  return ParamHandler.objToString(apiResult);
+	}
+	
+	@InterfaceVersion("1.0")
+	@RequestMapping(value = "/{version}/getStudentInfo", method = {RequestMethod.POST, RequestMethod.GET}, produces = "text/html;charset=UTF-8")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "studentId", value = "学生ID", paramType = "query", required = true, dataType = "Long"),
+	})
+	@ApiOperation(value = "获取学生信息根据学生id", notes = "获取学生信息根据学生id", httpMethod = "POST", response = String.class, produces = "text/html;charset=UTF-8")
+	public String getStudentInfo(@ApiIgnore String params) throws Exception {
 		ParamHandler paramHandler = new ParamHandler(params);
-		Integer pageNo = paramHandler.getInteger("pageNo");
-		ParentDTO parentDTO = paramHandler.getDTO(ParentDTO.class);
-		ApiResult apiResult = this.kindergartenWebService.lookupBaseData(pageNo, parentDTO);
+		Long studentId = paramHandler.getLong("studentId");
+		StudentDTO studentDTO = this.kindergartenWebService.getStudent(studentId);
+		ApiResult apiResult = new ApiResult(studentDTO);
 		return ParamHandler.objToString(apiResult);
 	}
 	

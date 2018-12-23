@@ -244,6 +244,9 @@ public class KindergartenWebService extends BaseWebService {
   }
 
   public StudentDTO getStudent(Long studentId) {
+    if (null == studentId) {
+      throw new ArgsException(FailureCode.ERR_002);
+    }
     StudentDTO param = new StudentDTO();
     param.setStudentId(studentId);
     StudentDTO studentDTO = this.kindergartenFacade.getStudent(param);
