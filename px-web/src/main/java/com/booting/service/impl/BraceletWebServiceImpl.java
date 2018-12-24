@@ -151,4 +151,9 @@ public class BraceletWebServiceImpl {
     this.pointFacade.batchUpdatePoint(bracelets);
   }
 
+  public Integer getRankingOfStepNum(Long studentId) {
+    Integer ranking = this.braceletFacade.getRankingOfStepNum(studentId);
+    return ranking;
+  }
+
 }

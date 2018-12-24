@@ -97,4 +97,6 @@ public interface BraceletFacade extends Serializable {
 
   public List<BraceletDTO> getDataByHour(BraceletDTO bracelet);
 
+  public Integer getRankingOfStepNum(Long studentId);
+
 }
