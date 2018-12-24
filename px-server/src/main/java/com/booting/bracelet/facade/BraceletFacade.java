@@ -99,4 +99,6 @@ public interface BraceletFacade extends Serializable {
 
   public Integer getRankingOfStepNum(Long studentId);
 
+  public Integer getRankingOfStepNumCount();
+
 }

@@ -1,6 +1,8 @@
 /**create by liuhua at 2018年1月31日 下午3:29:54**/
 package com.booting.mobile.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -127,10 +129,7 @@ public class BraceletApiController extends ApiBaseController{
 	public String getRankingOfStepNum(@ApiIgnore String params) throws Exception {
 		ParamHandler paramHandler = new ParamHandler(params);
 		Long studentId = paramHandler.getLong("studentId");
-		Integer ranking = this.braceletWebService.getRankingOfStepNum(studentId);
-		if (null == ranking) {
-          ranking = 0;
-        }
+		Map<String, Integer> ranking = this.braceletWebService.getRankingOfStepNum(studentId);
 		ApiResult apiResult = new ApiResult(ranking);
 	    return ParamHandler.objToString(apiResult);
 	}

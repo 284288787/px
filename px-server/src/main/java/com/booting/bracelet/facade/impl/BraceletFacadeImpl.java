@@ -149,4 +149,9 @@ public class BraceletFacadeImpl implements BraceletFacade {
     return braceletService.getRankingOfStepNum(studentId);
   }
 
+  @Override
+  public Integer getRankingOfStepNumCount() {
+    return braceletService.getRankingOfStepNumCount();
+  }
+
 }

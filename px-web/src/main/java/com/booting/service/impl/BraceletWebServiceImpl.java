@@ -4,11 +4,14 @@ package com.booting.service.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.booting.bracelet.dto.BeaconsInfo;
 import com.booting.bracelet.dto.BraceletDTO;
 import com.booting.bracelet.dto.BraceletRequestDto;
@@ -151,9 +154,16 @@ public class BraceletWebServiceImpl {
     this.pointFacade.batchUpdatePoint(bracelets);
   }
 
-  public Integer getRankingOfStepNum(Long studentId) {
+  public Map<String, Integer> getRankingOfStepNum(Long studentId) {
     Integer ranking = this.braceletFacade.getRankingOfStepNum(studentId);
-    return ranking;
+    if (null == ranking) {
+      ranking = 0;
+    }
+    Integer count = this.braceletFacade.getRankingOfStepNumCount();
+    Map<String, Integer> map = new HashMap<>();
+    map.put("ranking", ranking);
+    map.put("count", count);
+    return map;
   }
 
 }

@@ -31,4 +31,6 @@ public interface BraceletService extends BaseService<BraceletEntity, BraceletDTO
 
   public Integer getRankingOfStepNum(Long studentId);
 
+  public Integer getRankingOfStepNumCount();
+
 }

@@ -526,4 +526,14 @@
 		]]>
 	</sql>
 
+	<sql id="getRankingOfStepNumCount">
+		<![CDATA[
+      select count(1) from (
+  			select (@i:=@i+1) idx, studentId, stepNum from (
+          SELECT b.studentId, MAX(b.stepNum) stepNum FROM `bracelet_info` b where b.studentId > 0 GROUP BY b.studentId order by 1 desc limit 999999999999
+        ) c, (select @i:=0) d order by stepNum desc
+      ) e
+		]]>
+	</sql>
+
 </sqlMap>

@@ -170,4 +170,11 @@ public class BraceletServiceImpl extends JDBCSupport<BraceletEntity, BraceletDTO
     return val;
   }
 
+  @Override
+  public Integer getRankingOfStepNumCount() {
+    Map<String, Object> param = new HashMap<>();
+    Integer val = this.queryForObject("bracelet.getRankingOfStepNumCount", param, Integer.class);
+    return val;
+  }
+
 }
