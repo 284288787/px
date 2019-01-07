@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.star.framework.specification.Constants;
@@ -57,6 +58,9 @@ public class ParamHandler {
   // HH:mm:ss").create();
   public static ObjectMapper objectMapper = new ObjectMapper();
 
+  static {
+    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+  }
   public static String ymdhms = "yyyy-MM-dd HH:mm:ss";
   public static String ymd = "yyyy-MM-dd";
   private Map<String, Object> map;
