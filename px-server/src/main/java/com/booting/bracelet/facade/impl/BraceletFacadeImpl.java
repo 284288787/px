@@ -144,4 +144,9 @@ public class BraceletFacadeImpl implements BraceletFacade {
     return braceletService.getDataByHour(bracelet);
   }
 
+  @Override
+  public Integer getRankingOfStepNum(Long studentId) {
+    return braceletService.getRankingOfStepNum(studentId);
+  }
+
 }

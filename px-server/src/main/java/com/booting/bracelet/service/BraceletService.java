@@ -29,4 +29,6 @@ public interface BraceletService extends BaseService<BraceletEntity, BraceletDTO
 
   public List<BraceletDTO> getDataByHour(BraceletDTO bracelet);
 
+  public Integer getRankingOfStepNum(Long studentId);
+
 }

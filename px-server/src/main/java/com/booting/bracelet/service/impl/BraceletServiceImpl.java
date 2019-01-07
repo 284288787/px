@@ -162,4 +162,12 @@ public class BraceletServiceImpl extends JDBCSupport<BraceletEntity, BraceletDTO
     return this.queryForList("bracelet.getDataByHour", param);
   }
 
+  @Override
+  public Integer getRankingOfStepNum(Long studentId) {
+    Map<String, Object> param = new HashMap<>();
+    param.put("studentId", studentId);
+    Integer val = this.queryForObject("bracelet.getRankingOfStepNum", param, Integer.class);
+    return val;
+  }
+
 }

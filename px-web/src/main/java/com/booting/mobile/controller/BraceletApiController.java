@@ -110,12 +110,29 @@ public class BraceletApiController extends ApiBaseController{
 	})
 	@ApiOperation(value = "获取用户所有天数记录：按日期分组，获取每天的最高心率，最低心率，总步数，卡路里，距离", notes = "获取用户所有天数记录：按日期分组，获取每天的最高心率，最低心率，总步数，卡路里，距离", httpMethod = "POST", response = String.class, produces = "text/html;charset=UTF-8")
 	public String getStudentTotalData(@ApiIgnore String params) throws Exception {
+	  ParamHandler paramHandler = new ParamHandler(params);
+	  TotalData totalData = paramHandler.getDTO(TotalData.class);
+	  Integer pageNo = paramHandler.getInteger("pageNo");
+	  Integer pageSize = paramHandler.getInteger("pageSize");
+	  ApiResult apiResult = this.braceletWebService.getStudentTotalData(totalData, pageNo, pageSize);
+	  return ParamHandler.objToString(apiResult);
+	}
+	
+	@InterfaceVersion("1.0")
+	@RequestMapping(value = "/{version}/getRankingOfStepNum", method = {RequestMethod.POST, RequestMethod.GET}, produces = "text/html;charset=UTF-8")
+	@ApiImplicitParams({
+	  @ApiImplicitParam(name = "studentId", value = "学生id", paramType = "query", required = true, dataType = "long"),
+	})
+	@ApiOperation(value = "得到学生的排名", notes = "得到学生的排名", httpMethod = "POST", response = String.class, produces = "text/html;charset=UTF-8")
+	public String getRankingOfStepNum(@ApiIgnore String params) throws Exception {
 		ParamHandler paramHandler = new ParamHandler(params);
-		TotalData totalData = paramHandler.getDTO(TotalData.class);
-        Integer pageNo = paramHandler.getInteger("pageNo");
-        Integer pageSize = paramHandler.getInteger("pageSize");
-		ApiResult apiResult = this.braceletWebService.getStudentTotalData(totalData, pageNo, pageSize);
-		return ParamHandler.objToString(apiResult);
+		Long studentId = paramHandler.getLong("studentId");
+		Integer ranking = this.braceletWebService.getRankingOfStepNum(studentId);
+		if (null == ranking) {
+          ranking = 0;
+        }
+		ApiResult apiResult = new ApiResult(ranking);
+	    return ParamHandler.objToString(apiResult);
 	}
 	
 }
