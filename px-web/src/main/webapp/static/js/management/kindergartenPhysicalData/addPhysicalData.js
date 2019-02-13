@@ -152,7 +152,7 @@ $(function(){
 				required: true, 
 			},
 			intro: {
-				rangelength: [10, 200]
+				rangelength: [10, 500]
 			}
 		},
 		messages: {
