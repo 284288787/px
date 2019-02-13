@@ -510,15 +510,16 @@ public class CommonWebServiceImpl implements CommonWebService {
 		}
 		smsIdentityService.delete(dto.getId());
 		MemberDTO member = getMember(memberDTO.getOpenId());
+		Long memberId = memberDTO.getMemberId();
 		if (null == member) {
 			memberDTO.setCreateTime(new Date());
-			memberFacade.saveMember(memberDTO);
+			memberId = memberFacade.saveMember(memberDTO);
 		}else{
 			member.setMobile(memberDTO.getMobile());
 			memberFacade.updateMember(member);
 		}
 		PushInfo push = CommonConstants.smsNotes.get("bind_mobile");
-		push.setUserId(member.getMemberId());
+		push.setUserId(memberId);
 		push.fillContent();
 		TaskJob.messages.offer(push);
 	}

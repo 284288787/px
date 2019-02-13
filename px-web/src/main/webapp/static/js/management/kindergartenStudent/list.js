@@ -5,8 +5,8 @@ var kindergartenStudentHandle = new ListHandle({
 	pagerId: '#grid-pager',
 	formId: '#queryForm',
 	entityName: '学生信息',
-	winWidth: '500px', 
-	winHeight: '440px',
+	winWidth: '550px', 
+	winHeight: '500px',
 	primaryKey: 'studentId',
 	urls:{ 
 		list: basePath+'student/list',//列表

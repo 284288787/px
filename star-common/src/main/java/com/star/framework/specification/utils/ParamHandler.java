@@ -60,6 +60,7 @@ public class ParamHandler {
 
   static {
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
   }
   public static String ymdhms = "yyyy-MM-dd HH:mm:ss";
   public static String ymd = "yyyy-MM-dd";

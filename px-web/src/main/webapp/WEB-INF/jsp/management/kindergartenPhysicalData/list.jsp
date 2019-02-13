@@ -33,7 +33,9 @@
 				<a onclick="kindergartenPhysicalDataHandle.addNew()" class="button grey">新增</a>
 				<a onclick="kindergartenPhysicalDataHandle.enabled()" class="button blue">启用</a> 
 				<a onclick="kindergartenPhysicalDataHandle.disabled()" class="button yellow">禁用</a>
+        <%-- <sec:authorize url="/physicalData/delete" method="POST"> --%>
 				<a onclick="kindergartenPhysicalDataHandle.remove()" class="button yellow">删除</a>
+        <%-- </sec:authorize> --%>
 				<!-- <a onclick="kindergartenPhysicalDataHandle.batchExport()" class="button red">导出满足条件的记录</a> -->
 				<a onclick="kindergartenPhysicalDataHandle.exportModel()" class="button red">导出模板</a>
 				<a onclick="kindergartenPhysicalDataHandle.importData()" class="button red">导入体测数据</a>

@@ -80,7 +80,7 @@ $(function(){
 		{name: 'intro', index: 'intro', width: 70, align: 'center'}, 
 		{name: 'enabled', index: 'enabled', width: 30, align: 'center', formatter: 'select', editoptions:{value:'1:可用;0:禁用'}}, 
 		{name: 'createTime', index: 'createTime', width: 60, align: 'center'}, 
-		{width: 50, align: 'left', editable: false, sortable: false, formatter: function(cellvalue, options, rowObject){ 
+		{width: 80, align: 'left', editable: false, sortable: false, formatter: function(cellvalue, options, rowObject){ 
 			var temp = ''; 
 			temp += '<a class="linetaga" href="javascript: kindergartenClassHandle.setTeachers(\'' + rowObject.schoolId + '\', \'' + rowObject.classId + '\', \'' + rowObject.name + '\');" >设置幼师</a>'; 
 			temp += '<a class="linetaga" href="javascript: kindergartenClassHandle.edit(\'' + rowObject.classId + '\');" >编辑</a>'; 
