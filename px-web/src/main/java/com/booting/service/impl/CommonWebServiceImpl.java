@@ -95,7 +95,7 @@ public class CommonWebServiceImpl implements CommonWebService {
 		if (len == 0) {
 			//调用接口发短信
 			PushInfo pushInfo = CommonConstants.smsNotes.get("code_sms");
-			String code = "1234"; //SmsUtil.sendSms(mobile, pushInfo);
+			String code = SmsUtil.sendSms(mobile, pushInfo);
 			SmsIdentityEntity entity = new SmsIdentityEntity();
 			entity.setCode(code);
 			entity.setContent(code + "为本次短信验证码，清及时使用！");
