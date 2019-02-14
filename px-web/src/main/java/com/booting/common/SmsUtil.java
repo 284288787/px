@@ -47,7 +47,7 @@ public class SmsUtil {
 
         //hint 此处可能会抛出异常，注意catch
         SendSmsResponse sendSmsResponse = acsClient.getAcsResponse(request);
-
+        System.out.println("sms sendSmsResponse:" + sendSmsResponse.getMessage());
         return sendSmsResponse;
     }
     
