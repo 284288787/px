@@ -1,4 +1,4 @@
-//var kk;
+var kk;
 var basePath=$('#basePath').val(); 
 var parentParams=artDialog.data('params'); 
 var utilsHandle = new UtilsHandle({
@@ -55,14 +55,14 @@ var utilsHandle = new UtilsHandle({
 			$(':input[name=name]').val(studentName);
 		}
 	}],
-//	kindEditor: { 
-//		object: 'textarea[name=notice]',
-//		width: '100%',
-//		height: '350px',
-//		afterCreate: function(obj){ 
-//			kk = obj; 
-//		} 
-//	},
+	kindEditor: [{ 
+    object: 'textarea[name=intro]',
+    width: '100%',
+    height: '200px',
+    afterCreate: function(obj){ 
+      kk = obj; 
+    } 
+  }]
 //	uploadFile: { 
 //		uploadBtn: $('#uploadBtn'), 
 //		uploadFileId: 'uploadImg',
@@ -203,7 +203,7 @@ $(function(){
 				required: '必选', 
 			},
 			intro: {
-				rangelength: '10字以上'
+				rangelength: '10字以上500字以内'
 			}
 		} 
 	}); 
@@ -226,6 +226,11 @@ $(function(){
 		params.doubleJump=params.doubleJump*100;
 		params.run10=params.run10*100;
 		params.balance=params.balance*100;
+		params['intro'] = kk.html();
+		if(!params.intro) {
+		  artDialog.alert("请填写描述"); 
+		  return false;
+		}
 		console.log(JSON.stringify(params));
 		$.ajax({
 			contentType:'application/json', 

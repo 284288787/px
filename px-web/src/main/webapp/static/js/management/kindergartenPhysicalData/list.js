@@ -5,8 +5,8 @@ var kindergartenPhysicalDataHandle = new ListHandle({
 	pagerId: '#grid-pager',
 	formId: '#queryForm',
 	entityName: '体测数据信息',
-	winWidth: '600px',
-	winHeight: '550px', 
+	winWidth: '800px',
+	winHeight: '90%', 
 	primaryKey: 'id',
 	urls:{ 
 		list: basePath+'physicalData/list',//列表
