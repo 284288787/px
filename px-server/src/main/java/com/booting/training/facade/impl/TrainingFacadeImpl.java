@@ -16,8 +16,11 @@ import com.booting.training.dto.ApplyDetailDTO;
 import com.booting.training.entity.ApplyDetailEntity;
 import com.booting.training.service.ApplyDetailService;
 import com.booting.training.dto.ApplyInfoDTO;
+import com.booting.training.dto.StudyAddressDTO;
 import com.booting.training.entity.ApplyInfoEntity;
+import com.booting.training.entity.StudyAddressEntity;
 import com.booting.training.service.ApplyInfoService;
+import com.booting.training.service.StudyAddressService;
 import com.booting.training.dto.TrainingItemDTO;
 import com.booting.training.entity.TrainingItemEntity;
 import com.booting.training.service.TrainingItemService;
@@ -40,8 +43,73 @@ public class TrainingFacadeImpl implements TrainingFacade {
 
 	@Autowired
 	private TrainingItemPictureService trainingItemPictureService;
+	
+	@Autowired
+    private StudyAddressService studyAddressService;
 
+	@Override
+    public Long saveStudyAddress(StudyAddressDTO studyAddressDTO){
+        if (null == studyAddressDTO) {
+            return null;
+        }
+        StudyAddressEntity entity = toStudyAddressEntity(studyAddressDTO);
+        studyAddressDTO = studyAddressService.save(entity);
+        return studyAddressDTO.getAddrId();
+    }
 
+    @Override
+    public void batchSaveStudyAddress(List<StudyAddressDTO> dtos){
+        if (null == dtos || dtos.isEmpty()) {
+            return;
+        }
+        List<StudyAddressEntity> entities = toStudyAddressEntities(dtos);
+        studyAddressService.batchSave(entities);
+    }
+
+    @Override
+    public int updateStudyAddress(StudyAddressDTO studyAddressDTO){
+        studyAddressDTO = studyAddressService.updateBySql(studyAddressDTO);
+        return 1;
+    }
+
+    @Override
+    public void batchUpdateStudyAddress(List<StudyAddressDTO> dtos){
+        if (null == dtos || dtos.isEmpty()) {
+            return;
+        }
+        studyAddressService.batchUpdate(dtos);
+    }
+
+    @Override
+    public int deleteStudyAddress(long addrId){
+        return studyAddressService.delete(addrId);
+    }
+
+    @Override
+    public StudyAddressDTO getStudyAddress(long addrId){
+        return studyAddressService.get(addrId);
+    }
+
+    @Override
+    public StudyAddressDTO getStudyAddress(StudyAddressDTO studyAddressDTO){
+        return studyAddressService.get(studyAddressDTO);
+    }
+
+    @Override
+    public List<StudyAddressDTO> getStudyAddressList(StudyAddressDTO studyAddressDTO){
+        return studyAddressService.getSimpleList(studyAddressDTO);
+    }
+
+    @Override
+    public PageList<StudyAddressDTO> getStudyAddressListForPage(StudyAddressDTO studyAddressDTO, int pageNumber, int pageSize){
+        return studyAddressService.getSimpleListForPage(studyAddressDTO, pageNumber, pageSize);
+    }
+
+    @Override
+    public PageList<StudyAddressDTO> getStudyAddressListForPage(QueryParam queryParam){
+        return studyAddressService.getSimpleListForPage(queryParam);
+    }
+    
 	@Override
 	public Long saveApplyDetail(ApplyDetailDTO applyDetailDTO){
 		if (null == applyDetailDTO) {
@@ -383,4 +451,19 @@ public class TrainingFacadeImpl implements TrainingFacade {
 		return this.trainingItemService.updateBySql(dto);
 	}
 
+	@Override
+    public StudyAddressEntity toStudyAddressEntity(StudyAddressDTO dto){
+        StudyAddressEntity entity = new StudyAddressEntity();
+        CglibBeanUtils.copy(dto, entity);
+        return entity;
+    }
+
+    @Override
+    public List<StudyAddressEntity> toStudyAddressEntities(List<StudyAddressDTO> dtos){
+        List<StudyAddressEntity> entities = new ArrayList<>();
+        for(StudyAddressDTO dto : dtos){
+            entities.add(toStudyAddressEntity(dto));
+        }
+        return entities;
+    }
 }

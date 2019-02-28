@@ -9,7 +9,9 @@ import com.star.framework.jdbc.dao.result.QueryParam;
 import com.booting.training.dto.ApplyDetailDTO;
 import com.booting.training.entity.ApplyDetailEntity;
 import com.booting.training.dto.ApplyInfoDTO;
+import com.booting.training.dto.StudyAddressDTO;
 import com.booting.training.entity.ApplyInfoEntity;
+import com.booting.training.entity.StudyAddressEntity;
 import com.booting.training.dto.TrainingItemDTO;
 import com.booting.training.entity.TrainingItemEntity;
 import com.booting.training.dto.TrainingItemPictureDTO;
@@ -275,5 +277,64 @@ public interface TrainingFacade extends Serializable {
 	public void deleteTrainingItemPictureByItemId(Long itemId);
 
 	public TrainingItemDTO updateBySql(TrainingItemDTO dto);
+	/**
+     * 新增 培训上课校区
+     */
+    public Long saveStudyAddress(StudyAddressDTO studyAddressDTO);
+
+    /**
+     * 批量新增 培训上课校区
+     */
+    public void batchSaveStudyAddress(List<StudyAddressDTO> dtos);
+
+    /**
+     * 更新 培训上课校区
+     */
+    public int updateStudyAddress(StudyAddressDTO studyAddressDTO);
+
+    /**
+     * 批量 培训上课校区
+     */
+    public void batchUpdateStudyAddress(List<StudyAddressDTO> dtos);
+
+    /**
+     * 删除 培训上课校区
+     */
+    public int deleteStudyAddress(long addrId);
+
+    /**
+     * 根据主键获取 培训上课校区
+     */
+    public StudyAddressDTO getStudyAddress(long addrId);
+
+    /**
+     * 根据条件获取一条 培训上课校区
+     */
+    public StudyAddressDTO getStudyAddress(StudyAddressDTO studyAddressDTO);
+
+    /**
+     * 查询满足条件的 培训上课校区 列表(单表)
+     */
+    public List<StudyAddressDTO> getStudyAddressList(StudyAddressDTO studyAddressDTO);
+
+    /**
+     * 查询满足条件的 培训上课校区 列表(分页)(单表)
+     */
+    public PageList<StudyAddressDTO> getStudyAddressListForPage(StudyAddressDTO studyAddressDTO, int pageNumber, int pageSize);
+
+    /**
+     * 查询满足条件的 培训上课校区 列表(分页)(单表)
+     */
+    public PageList<StudyAddressDTO> getStudyAddressListForPage(QueryParam queryParam);
+
+    /**
+     * 培训上课校区DTO 转换成 Entity
+     */
+    public StudyAddressEntity toStudyAddressEntity(StudyAddressDTO studyAddressDTO);
+
+    /**
+     * 培训上课校区DTOs 转换成 Entities
+     */
+    public List<StudyAddressEntity> toStudyAddressEntities(List<StudyAddressDTO> dtoes);
 
 }

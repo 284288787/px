@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="studyAddress" isRead="true" dsName="test-read">
+
+	<sql id="insertStudyAddress" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO px_study_address(addrId, addrName, deleted, enabled, viewFront, createTime) 
+			values (:addrId, :addrName, :deleted, :enabled, :viewFront, :createTime)
+		]]>
+	</sql>
+
+	<sql id="updateStudyAddress" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE px_study_address SET addrName = :addrName
+				<#if deleted?exists && deleted != "">
+					, deleted = :deleted
+				</#if>
+				<#if enabled?exists && enabled != "">
+					, enabled = :enabled
+				</#if>
+				<#if viewFront?exists && viewFront != "">
+					, viewFront = :viewFront
+				</#if>
+				<#if createTime?exists && createTime != "">
+					, createTime = :createTime
+				</#if>
+			WHERE 
+				<#if addrId?exists && addrId != "">
+					addrId = :addrId
+				<#else>
+					addrId in (${addrIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteStudyAddress" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM px_study_address
+			WHERE 1=1
+			<#if addrName?exists && addrName != "">
+					AND addrName = :addrName
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if viewFront?exists && viewFront != "">
+					AND viewFront = :viewFront
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+			<#if addrId?exists && addrId != "">
+				AND addrId = :addrId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleStudyAddressList">
+		<![CDATA[
+			SELECT 
+				addrId, 
+				addrName, 
+				deleted, 
+				enabled, 
+				viewFront, 
+				createTime
+			FROM px_study_address
+			WHERE 1=1
+			<#if addrName?exists && addrName != "">
+					AND addrName = :addrName
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if viewFront?exists && viewFront != "">
+					AND viewFront = :viewFront
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+			<#if addrId?exists && addrId != "">
+				AND addrId = :addrId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleStudyAddressListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM px_study_address
+			WHERE 1=1
+			<#if addrName?exists && addrName != "">
+					AND addrName = :addrName
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if viewFront?exists && viewFront != "">
+					AND viewFront = :viewFront
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+			<#if addrId?exists && addrId != "">
+				AND addrId = :addrId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getStudyAddressList">
+		<![CDATA[
+			SELECT 
+				addrId, 
+				addrName, 
+				deleted, 
+				enabled, 
+				viewFront, 
+				createTime
+			FROM px_study_address
+			WHERE 1=1
+			<#if addrName?exists && addrName != "">
+					AND addrName = :addrName
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if viewFront?exists && viewFront != "">
+					AND viewFront = :viewFront
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+			<#if addrId?exists && addrId != "">
+				AND addrId = :addrId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getStudyAddressListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM px_study_address
+			WHERE 1=1
+			<#if addrName?exists && addrName != "">
+					AND addrName = :addrName
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if viewFront?exists && viewFront != "">
+					AND viewFront = :viewFront
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+			<#if addrId?exists && addrId != "">
+				AND addrId = :addrId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

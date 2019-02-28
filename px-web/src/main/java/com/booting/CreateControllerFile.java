@@ -15,12 +15,12 @@ import java.util.Date;
 public class CreateControllerFile {
 	
 	public static void main(String[] args) throws IOException {
-		String moduleName = "kindergarten";
-		String controllerName = "PhysicalDataController";
-		String webServiceName = "KindergartenWebService";
-		String dtoName = "PhysicalDataDTO";
-		String pkIdName = "id";
-		String jspPath = "management/kindergartenPhysicalData/";
+		String moduleName = "training";
+		String controllerName = "StudyAddressController";
+		String webServiceName = "StudyAddressWebService";
+		String dtoName = "StudyAddressDTO";
+		String pkIdName = "addrId";
+		String jspPath = "management/studyAddress/";
 		CreateControllerFile ccf = new CreateControllerFile();
 		ccf.create(moduleName, controllerName, webServiceName, dtoName, pkIdName, jspPath);
 	}
