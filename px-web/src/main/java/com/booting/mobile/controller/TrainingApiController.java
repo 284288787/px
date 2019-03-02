@@ -79,27 +79,20 @@ public class TrainingApiController {
 	@RequestMapping(value = "/{version}/trainingApply", method = {RequestMethod.POST, RequestMethod.GET}, produces = "text/html;charset=UTF-8")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "itemId", value = "培训项目Id", paramType = "query", required = true, dataType = "int"),
-		@ApiImplicitParam(name = "type", value = "类型 1幼儿园管理员 2青少年 3教练员 4团体", paramType = "query", required = true, dataType = "int"),
-		@ApiImplicitParam(name = "organizationName", value = "团体名称", paramType = "query", required = false, dataType = "long"),
-		@ApiImplicitParam(name = "name", value = "姓名", paramType = "query", required = true, dataType = "String"),
-		@ApiImplicitParam(name = "mobile", value = "电话", paramType = "query", required = true, dataType = "String"),
-		@ApiImplicitParam(name = "code", value = "验证码", paramType = "query", required = true, dataType = "String"),
+		@ApiImplicitParam(name = "name", value = "家长姓名", paramType = "query", required = true, dataType = "String"),
+		@ApiImplicitParam(name = "mobile", value = "家长电话", paramType = "query", required = true, dataType = "String"),
+		@ApiImplicitParam(name = "childName", value = "孩子姓名", paramType = "query", required = true, dataType = "String"),
+		@ApiImplicitParam(name = "childBirth", value = "孩子生日 yyyy-MM-dd 00:00:00", paramType = "query", required = true, dataType = "String"),
+		@ApiImplicitParam(name = "childSex", value = "孩子性别 1男 0女", paramType = "query", required = true, dataType = "int"),
 		@ApiImplicitParam(name = "address", value = "地址", paramType = "query", required = false, dataType = "String"),
-		@ApiImplicitParam(name = "certificateType", value = "证件类型 1身份证", paramType = "query", required = false, dataType = "int", allowableValues = "1"),
-		@ApiImplicitParam(name = "certificateCode", value = "证件号码", paramType = "query", required = false, dataType = "String"),
 		@ApiImplicitParam(name = "openId", value = "微信唯一标识", paramType = "query", required = true, dataType = "String"),
 		@ApiImplicitParam(name = "sourceFrom", value = "来源 1安卓 2ios 3后台", paramType = "query", required = false, dataType = "String"),
-		@ApiImplicitParam(name = "details", value = "团体报名必填，格式：[{name:'aa', mobile:'15200858080'},{name:'ab', mobile:'15200858081'}]", paramType = "query", required = false, dataType = "String"),
 	})
 	@ApiOperation(value = "项目报名", notes = "项目报名", httpMethod = "POST", response = String.class, produces = "text/html;charset=UTF-8")
 	public String trainingApply(@ApiIgnore String params) throws Exception {
 		ParamHandler paramHandler = new ParamHandler(params);
-		String code = paramHandler.getString("code");
-		if (StringUtils.isBlank(code)) {
-			throw new ArgsException(FailureCode.ERR_002);
-		}
 		ApplyInfoDTO applyInfoDTO = paramHandler.getDTO(ApplyInfoDTO.class);
-		Long applyId = trainingWebService.saveApplyInfo(code, applyInfoDTO);
+		Long applyId = trainingWebService.saveApplyInfo(applyInfoDTO);
 		ApiResult apiResult = new ApiResult(applyId);
 		return ParamHandler.objToString(apiResult);
 	}

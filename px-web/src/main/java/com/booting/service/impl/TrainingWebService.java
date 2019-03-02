@@ -11,7 +11,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.booting.common.CommonConstants.SmsTag;
 import com.booting.common.CouponBusinessType;
 import com.booting.common.PxConstants.ApplyStatus;
 import com.booting.coupon.dto.CouponRelationDTO;
@@ -207,19 +206,13 @@ public class TrainingWebService extends BaseWebService{
 		return null;
 	}
 	
-	public Long saveApplyInfo(String code, ApplyInfoDTO applyInfoDTO) throws ArgsException {
-		if (null == applyInfoDTO || null == applyInfoDTO.getType() || null == applyInfoDTO.getItemId() ||
-			StringUtils.isBlank(applyInfoDTO.getName()) ||
-			StringUtils.isBlank(applyInfoDTO.getOpenId()) || StringUtils.isBlank(applyInfoDTO.getMobile())) {
+	public Long saveApplyInfo(ApplyInfoDTO applyInfoDTO) throws ArgsException {
+		if (null == applyInfoDTO || null == applyInfoDTO.getItemId() || StringUtils.isBlank(applyInfoDTO.getName()) ||
+		    StringUtils.isBlank(applyInfoDTO.getChildName()) || null == applyInfoDTO.getChildBirth() || null == applyInfoDTO.getChildSex() || 
+		    StringUtils.isBlank(applyInfoDTO.getOpenId()) || StringUtils.isBlank(applyInfoDTO.getMobile())) {
 			throw new ArgsException(FailureCode.ERR_002);
 		}
-		if (null != code) {
-			SmsIdentityDTO dto = getSmsIdentity(applyInfoDTO.getMobile(), SmsTag.apply.getTag());
-			if (null == dto || ! code.equals(dto.getCode())) {
-				throw new ArgsException("102", "验证码错误");
-			}
-			smsIdentityService.delete(dto.getId());
-		}
+		applyInfoDTO.setType(5);
 		
 		String openId = applyInfoDTO.getOpenId();
 		MemberDTO memberDTO = new MemberDTO();
@@ -237,17 +230,14 @@ public class TrainingWebService extends BaseWebService{
 				memberFacade.updateMember(memberDTO);
 			}
 		}
-//		if (StringUtils.isBlank(memberDTO.getMobile())) {
-//			throw new ArgsException(FailureCode.ERR_701);  //未绑定手机
-//		}
 		TrainingItemDTO itemDTO = this.trainingFacade.getTrainingItem(applyInfoDTO.getItemId());
 		if (null == itemDTO) {
 			throw new ArgsException(FailureCode.ERR_002.getCode(), "项目不存在");
 		}
-		ApplyInfoDTO params = new ApplyInfoDTO();
-		params.setType(applyInfoDTO.getType());
-		params.setMobile(memberDTO.getMobile());
-		List<ApplyInfoDTO> list = this.trainingFacade.getApplyInfoList(params);
+//		ApplyInfoDTO params = new ApplyInfoDTO();
+//		params.setType(applyInfoDTO.getType());
+//		params.setMobile(applyInfoDTO.getMobile());
+//		List<ApplyInfoDTO> list = this.trainingFacade.getApplyInfoList(params);
 //		if (null != list && !list.isEmpty()) {
 //			throw new ArgsException(FailureCode.ERR_702);
 //		}

@@ -72,23 +72,6 @@ public class TrainingApplyController{
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
-	public ResultMessage add(ApplyInfoDTO applyInfoDTO){
-		ResultMessage resultMessage = null;
-		try {
-			this.trainingWebService.saveApplyInfo(null, applyInfoDTO);
-			resultMessage = new ResultMessage("ok", "添加");
-		} catch (ArgsException e) {
-			e.printStackTrace();
-			resultMessage = new ResultMessage("添加", e.getCode(), e.getMessage());
-		} catch (Exception e) {
-			e.printStackTrace();
-			resultMessage = new ResultMessage("添加", FailureCode.ERR_001);
-		}
-		return resultMessage;
-	}
-
-	@ResponseBody
 	@RequestMapping(value = "/delete", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	public ResultMessage delete(@RequestParam String ids){
 		ResultMessage resultMessage = null;

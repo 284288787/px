@@ -18,13 +18,22 @@ public class ApplyInfoDTO implements Serializable {
 	private String organizationName;//团体名称
 	private String name;            //姓名
 	private String mobile;          //电话
-	private String address;         //地址
+	
+	//新增 下面 5个字段
+	private String childName;
+	private Date childBirth;
+	private Integer childSex;
+	private Long addrId;
+    private Long applyItemId;
+	
+    private String address;         //地址
 	private Integer certificateType;//证件类型 1身份证
 	private String certificateCode; //证件号码
 	private String openId;
 	private Integer sourceFrom;     //来源 1安卓 2ios 3后台
 	private Date createTime;
 	private Integer status;         //状态 1待支付 2已支付 3已退款
+	private String addrName;
 	
 	private TrainingItemDTO trainingItem; //培训项目
 	private List<ApplyDetailDTO> details; //团体明细
@@ -146,4 +155,52 @@ public class ApplyInfoDTO implements Serializable {
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
+
+  public String getChildName() {
+    return childName;
+  }
+
+  public Date getChildBirth() {
+    return childBirth;
+  }
+
+  public Integer getChildSex() {
+    return childSex;
+  }
+
+  public void setChildName(String childName) {
+    this.childName = childName;
+  }
+
+  public void setChildBirth(Date childBirth) {
+    this.childBirth = childBirth;
+  }
+
+  public void setChildSex(Integer childSex) {
+    this.childSex = childSex;
+  }
+
+  public Long getAddrId() {
+    return addrId;
+  }
+
+  public void setAddrId(Long addrId) {
+    this.addrId = addrId;
+  }
+
+  public Long getApplyItemId() {
+    return applyItemId;
+  }
+
+  public void setApplyItemId(Long applyItemId) {
+    this.applyItemId = applyItemId;
+  }
+
+  public String getAddrName() {
+    return addrName;
+  }
+
+  public void setAddrName(String addrName) {
+    this.addrName = addrName;
+  }
 }

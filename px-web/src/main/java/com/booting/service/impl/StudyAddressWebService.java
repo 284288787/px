@@ -1,6 +1,8 @@
 /**create by liuhua at 2019年2月28日 上午10:46:05**/
 package com.booting.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,5 +47,10 @@ public class StudyAddressWebService {
   public void deleteStudyAddress(String ids) {
     // TODO Auto-generated method stub
     
+  }
+
+  public List<StudyAddressDTO> studyAddresses(StudyAddressDTO studyAddressDTO) {
+    List<StudyAddressDTO> list = this.trainingFacade.getStudyAddressList(studyAddressDTO);
+    return list;
   }
 }

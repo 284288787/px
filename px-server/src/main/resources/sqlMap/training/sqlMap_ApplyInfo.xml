@@ -3,8 +3,8 @@
 
 	<sql id="insertApplyInfo" isRead="false" dsName="test-write">
 		<![CDATA[
-			INSERT INTO px_apply_info(itemId, address, `name`, type, mobile, applyId, certificateType, certificateCode, createTime, sourceFrom, organizationName,userId) 
-			values (:itemId, :address, :name, :type, :mobile, :applyId, :certificateType, :certificateCode, :createTime, :sourceFrom, :organizationName, :userId)
+			INSERT INTO px_apply_info(itemId, address, `name`, type, mobile, applyId, certificateType, certificateCode, createTime, sourceFrom, organizationName,userId,childName,childBirth,childSex,addrId,applyItemId) 
+			values (:itemId, :address, :name, :type, :mobile, :applyId, :certificateType, :certificateCode, :createTime, :sourceFrom, :organizationName, :userId,:childName,:childBirth,:childSex,:addrId,:applyItemId)
 		]]>
 	</sql>
 
@@ -102,7 +102,8 @@
 				certificateCode, 
 				createTime, 
 				sourceFrom, 
-				organizationName, status
+				organizationName, status,childName,childBirth,childSex,addrId,applyItemId,
+				(select a.addrName from px_study_address a where a.addrId = px_apply_info.addrId) addrName
 			FROM px_apply_info
 			WHERE 1=1
 			<#if address?exists && address != "">

@@ -20,29 +20,29 @@ var trainingapplyHandle = new ListHandle({
 	
 });
 $(function(){
-	var colNames = [ 'applyId', '状态', '类型', '姓名', '团体名称', '电话', '地址', '证件类型 ','证件号码', '来源', '创建时间', '操作' ];
+	var colNames = [ '主键', '状态', '培训项目', '上课地点', '家长姓名', '家长电话', '孩子姓名', '孩子性别', '孩子生日', '家庭地址', '创建时间'];
 	var colModel = [
 		{name: 'applyId', index: 'applyId', width: 20, align: "center"}, 
 		{name: 'status', index: 'status', width: 60, align: "center", formatter: 'select', editoptions:{value:"1:待处理"}}, 
-		{name: 'type', index: 'type', width: 60, align: "center", formatter: 'select', editoptions:{value:"1:幼儿园管理员;2:青少年;3:教练员;4:团体"}}, 
+		{name: 'applyItemId', index: 'applyItemId', width: 80, align: "center", formatter: 'select', editoptions:{value:"1:体质检测;2:2节体验课"}}, 
+		{name: 'addrName', index: 'addrName', width: 140, align: "center"}, 
 		{name: 'name', index: 'name', width: 60, align: "center"}, 
-		{name: 'organizationName', index: 'organizationName', width: 60, align: "center"}, 
 		{name: 'mobile', index: 'mobile', width: 60, align: "center"}, 
+		{name: 'childName', index: 'childName', width: 60, align: "center"}, 
+		{name: 'childSex', index: 'childSex', width: 40, align: "center", formatter: 'select', editoptions:{value:"1:男;0:女"}}, 
+		{name: 'childBirth', index: 'childBirth', width: 60, align: "center", formatter:'date', formatoptions: {srcformat: 'Y-m-d H:i:s', newformat:'Y-m-d'}}, 
 		{name: 'address', index: 'address', width: 190, align: "left"}, 
-		{name: 'certificateType', index: 'certificateType', width: 40, align: "center", formatter: 'select', editoptions:{value:"1:身份证;"}}, 
-		{name: 'certificateCode', index: 'certificateCode', width: 60, align: "center"}, 
-		{name: 'sourceFrom', index: 'sourceFrom', width: 40, align: "center", formatter: 'select', editoptions:{value:"1:安卓;2:ios;3:后台;"}}, 
 		{name: 'createTime', index: 'createTime', width: 60, align: "center"}, 
-		{width: 50, align: "left", editable: false, sortable: false, formatter: function(cellvalue, options, rowObject){
-			var temp = '';
-//			temp += '<a class="linetaga" href="javascript: trainingapplyHandle.edit(\'' + rowObject.itemId + '\');" >编辑</a>';
-//			if(rowObject.enabled==1){
-//				temp += '<a class="linetaga" href="javascript: trainingapplyHandle.disabled(\'' + rowObject.itemId + '\');" >禁用</a>';
-//			}else{
-//				temp += '<a class="linetaga" href="javascript: trainingapplyHandle.enabled(\'' + rowObject.itemId + '\');" >启用</a>';
-//			}
-			return "<span class='listBtnsSpan'>"+temp+"</span>";
-		}}
+//		{width: 50, align: "left", editable: false, sortable: false, formatter: function(cellvalue, options, rowObject){
+//			var temp = '';
+////			temp += '<a class="linetaga" href="javascript: trainingapplyHandle.edit(\'' + rowObject.itemId + '\');" >编辑</a>';
+////			if(rowObject.enabled==1){
+////				temp += '<a class="linetaga" href="javascript: trainingapplyHandle.disabled(\'' + rowObject.itemId + '\');" >禁用</a>';
+////			}else{
+////				temp += '<a class="linetaga" href="javascript: trainingapplyHandle.enabled(\'' + rowObject.itemId + '\');" >启用</a>';
+////			}
+//			return "<span class='listBtnsSpan'>"+temp+"</span>";
+//		}}
 	];
 	var rowList = [10, 20, 30, 50];
 	var rownumbers = true;
