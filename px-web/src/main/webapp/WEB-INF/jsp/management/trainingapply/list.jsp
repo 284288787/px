@@ -20,8 +20,8 @@
 	<div class="main-container" id="main-container">
 		<div class="search-container">
 			<form action="${basePath}" id="queryForm">
-				<span>电话： <input type="text" name="mobile" placeholder="预留的电话"></span>
-				<span>身份：<select name="type"><option value="">全部</option><option value="1">幼儿园管理员</option><option value="2">青少年</option><option value="3">教练员</option><option value="4">团体</option></select> </span>
+				<span>家长电话： <input type="text" name="mobile" placeholder="家长电话"></span>
+				<span>推广员电话： <input type="text" name="promoterMobile" placeholder="推广员电话"></span>
 				<a onclick="trainingapplyHandle.query()" class="button blue">查询</a>
 				<a onclick="trainingapplyHandle.reset()" class="button grey">清空</a>
 			</form>

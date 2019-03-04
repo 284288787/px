@@ -34,11 +34,17 @@ public class ApplyInfoEntity implements Serializable {
   private Integer childSex;
   private Long addrId;
   private Long applyItemId;
-
+  private Long promoterId;
+  
   @Id
   @Column(name = "applyId")
   public Long getApplyId() {
     return applyId;
+  }
+  
+  @Column(name = "promoterId")
+  public Long getPromoterId() {
+    return promoterId;
   }
 
   @Column(name = "itemId")
@@ -196,5 +202,9 @@ public class ApplyInfoEntity implements Serializable {
 
   public void setApplyItemId(Long applyItemId) {
     this.applyItemId = applyItemId;
+  }
+
+  public void setPromoterId(Long promoterId) {
+    this.promoterId = promoterId;
   }
 }

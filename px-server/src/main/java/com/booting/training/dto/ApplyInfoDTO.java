@@ -19,12 +19,13 @@ public class ApplyInfoDTO implements Serializable {
 	private String name;            //姓名
 	private String mobile;          //电话
 	
-	//新增 下面 5个字段
+	//新增 下面6个字段
 	private String childName;
 	private Date childBirth;
 	private Integer childSex;
 	private Long addrId;
     private Long applyItemId;
+    private Long promoterId;
 	
     private String address;         //地址
 	private Integer certificateType;//证件类型 1身份证
@@ -202,5 +203,13 @@ public class ApplyInfoDTO implements Serializable {
 
   public void setAddrName(String addrName) {
     this.addrName = addrName;
+  }
+
+  public Long getPromoterId() {
+    return promoterId;
+  }
+
+  public void setPromoterId(Long promoterId) {
+    this.promoterId = promoterId;
   }
 }
