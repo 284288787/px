@@ -25,10 +25,10 @@ public class CreateJspFile {
 	private String basePath, jsPath;
 	
 	private String moduleName = "kindergartenPhysicalData";
-	private String dtoName = "PhysicalDataDTO";
-	private String pkIdName = "id";
-	private String controllerMappingName = "physicalData";
-	private String dtoCaption = "体测数据";
+	private String dtoName = "PromoterDTO";
+	private String pkIdName = "promoterId";
+	private String controllerMappingName = "promoter";
+	private String dtoCaption = "推广员";
 	String methodSuffix = dtoName.replace("DTO", "");
 	String dtoVariable = firstToLower(dtoName);
 	
