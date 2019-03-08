@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="promoter" isRead="true" dsName="test-read">
+
+	<sql id="insertPromoter" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO px_promoter(`name`, promoterId, createTime, mobile, deleted, enabled) 
+			values (:name, :promoterId, :createTime, :mobile, :deleted, :enabled)
+		]]>
+	</sql>
+
+	<sql id="updatePromoter" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE px_promoter SET `name` = :name
+				<#if createTime?exists && createTime != "">
+					, createTime = :createTime
+				</#if>
+				<#if mobile?exists && mobile != "">
+					, mobile = :mobile
+				</#if>
+				<#if deleted?exists && deleted != "">
+					, deleted = :deleted
+				</#if>
+				<#if enabled?exists && enabled != "">
+					, enabled = :enabled
+				</#if>
+			WHERE 
+				<#if promoterId?exists && promoterId != "">
+					promoterId = :promoterId
+				<#else>
+					promoterId in (${promoterIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deletePromoter" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM px_promoter
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+			<#if promoterId?exists && promoterId != "">
+				AND promoterId = :promoterId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimplePromoterList">
+		<![CDATA[
+			SELECT 
+				`name`, 
+				promoterId, 
+				createTime, 
+				mobile, 
+				deleted, 
+				enabled
+			FROM px_promoter
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+			<#if promoterId?exists && promoterId != "">
+				AND promoterId = :promoterId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimplePromoterListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM px_promoter
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+			<#if promoterId?exists && promoterId != "">
+				AND promoterId = :promoterId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getPromoterList">
+		<![CDATA[
+			SELECT 
+				`name`, 
+				promoterId, 
+				createTime, 
+				mobile, 
+				deleted, 
+				enabled
+			FROM px_promoter
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+			<#if promoterId?exists && promoterId != "">
+				AND promoterId = :promoterId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getPromoterListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM px_promoter
+			WHERE 1=1
+			<#if name?exists && name != "">
+					AND `name` = :name
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if mobile?exists && mobile != "">
+					AND mobile = :mobile
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+			<#if promoterId?exists && promoterId != "">
+				AND promoterId = :promoterId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>
