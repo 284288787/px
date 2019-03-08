@@ -551,4 +551,14 @@ public class TrainingFacadeImpl implements TrainingFacade {
     }
     return entities;
   }
+
+  @Override
+  public void updateBySql(PromoterDTO dto) {
+    this.promoterService.updateBySql(dto);
+  }
+
+  @Override
+  public void updateBySql(StudyAddressDTO dto) {
+    this.studyAddressService.updateBySql(dto);
+  }
 }

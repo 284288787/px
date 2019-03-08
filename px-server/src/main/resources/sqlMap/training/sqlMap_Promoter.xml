@@ -3,16 +3,16 @@
 
 	<sql id="insertPromoter" isRead="false" dsName="test-write">
 		<![CDATA[
-			INSERT INTO px_promoter(`name`, promoterId, createTime, mobile, deleted, enabled) 
-			values (:name, :promoterId, :createTime, :mobile, :deleted, :enabled)
+			INSERT INTO px_promoter(`name`, createTime, mobile, deleted, enabled) 
+			values (:name, :createTime, :mobile, :deleted, :enabled)
 		]]>
 	</sql>
 
 	<sql id="updatePromoter" isRead="false" dsName="test-write">
 		<![CDATA[
-			UPDATE px_promoter SET `name` = :name
-				<#if createTime?exists && createTime != "">
-					, createTime = :createTime
+			UPDATE px_promoter SET createTime = createTime
+				<#if name?exists && name != "">
+					, `name` = :name
 				</#if>
 				<#if mobile?exists && mobile != "">
 					, mobile = :mobile

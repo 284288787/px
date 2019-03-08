@@ -24,11 +24,11 @@ public class CreateJspFile {
 	
 	private String basePath, jsPath;
 	
-	private String moduleName = "kindergartenPhysicalData";
-	private String dtoName = "PromoterDTO";
-	private String pkIdName = "promoterId";
-	private String controllerMappingName = "promoter";
-	private String dtoCaption = "推广员";
+	private String moduleName = "studyAddress";
+	private String dtoName = "StudyAddressDTO";
+	private String pkIdName = "addrId";
+	private String controllerMappingName = "studyAddress";
+	private String dtoCaption = "校区";
 	String methodSuffix = dtoName.replace("DTO", "");
 	String dtoVariable = firstToLower(dtoName);
 	
@@ -39,26 +39,19 @@ public class CreateJspFile {
 			add(new HashMap<String, String>(){
 				private static final long serialVersionUID = 1L;
 				{
-					put("caption", "幼儿园");
-					put("name", "schoolId");
+					put("caption", "校区名");
+					put("name", "addrName");
 					put("type", "text");
 				}
 			});
 			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "姓名");
-					put("name", "name");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "监护人电话");
-					put("name", "guardianMobile");
-					put("type", "text");
-				}
+			  private static final long serialVersionUID = 1L;
+			  {
+			    put("caption", "前端是否显示");
+			    put("name", "viewFront");
+			    put("type", "select");
+			    put("options", "1:是;0:否");
+			  }
 			});
 			add(new HashMap<String, String>(){
 				private static final long serialVersionUID = 1L;
@@ -77,8 +70,8 @@ public class CreateJspFile {
 			add(new HashMap<String, String>(){
 				private static final long serialVersionUID = 1L;
 				{
-					put("caption", "id");
-					put("name", "id");
+					put("caption", "addrId");
+					put("name", "addrId");
 					put("width", "30");
 					put("type", "text");
 				}
@@ -86,8 +79,8 @@ public class CreateJspFile {
 			add(new HashMap<String, String>(){
 				private static final long serialVersionUID = 1L;
 				{
-					put("caption", "幼儿姓名");
-					put("name", "name");
+					put("caption", "校区名");
+					put("name", "addrName");
 					put("width", "70");
 					put("type", "text");
 				}
@@ -95,126 +88,18 @@ public class CreateJspFile {
 			add(new HashMap<String, String>(){
 				private static final long serialVersionUID = 1L;
 				{
-					put("caption", "性别");
-					put("name", "sex");
-					put("width", "20");
+					put("caption", "前端显示");
+					put("name", "viewFront");
+					put("width", "40");
 					put("type", "select");
-					put("options", "{value:'1:男;0:女'}");
+					put("options", "{value:'1:是;0:否'}");
 				}
 			});
 			add(new HashMap<String, String>(){
 				private static final long serialVersionUID = 1L;
 				{
-					put("caption", "生日");
-					put("name", "birth");
-					put("width", "60");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "幼儿园");
-					put("name", "schoolName");
-					put("width", "70");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "监护人");
-					put("name", "guardianName");
-					put("width", "70");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "身高(cm)");
-					put("name", "stature");
-					put("width", "50");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "体重(kg)");
-					put("name", "weight");
-					put("width", "50");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "坐位体前屈(cm)");
-					put("name", "sitReach");
-					put("width", "50");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "立定跳远(cm)");
-					put("name", "jump");
-					put("width", "50");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "网球投掷(米)");
-					put("name", "throwTennis");
-					put("width", "50");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "双脚连续跳(秒)");
-					put("name", "doubleJump");
-					put("width", "50");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "10米折返跑(秒)");
-					put("name", "run10");
-					put("width", "50");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "走平衡木(秒)");
-					put("name", "balance");
-					put("width", "50");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "测试时间");
+					put("caption", "添加时间");
 					put("name", "createTime");
-					put("width", "50");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "描述");
-					put("name", "intro");
 					put("width", "50");
 					put("type", "text");
 				}
@@ -238,93 +123,22 @@ public class CreateJspFile {
 			add(new HashMap<String, String>(){
 				private static final long serialVersionUID = 1L;
 				{
-					put("caption", "幼儿姓名");
-					put("name", "studentName");
+					put("caption", "校区名");
+					put("name", "addrName");
 					put("width", "70");
 					put("type", "text");
 				}
 			});
 			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "身高(cm)");
-					put("name", "stature");
-					put("width", "50");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "体重(kg)");
-					put("name", "weight");
-					put("width", "50");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "坐位体前屈(cm)");
-					put("name", "sitReach");
-					put("width", "50");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "立定跳远(cm)");
-					put("name", "jump");
-					put("width", "50");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "网球投掷(米)");
-					put("name", "throwTennis");
-					put("width", "50");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "双脚连续跳(秒)");
-					put("name", "doubleJump");
-					put("width", "50");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "10米折返跑(秒)");
-					put("name", "run10");
-					put("width", "50");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "走平衡木(秒)");
-					put("name", "balance");
-					put("width", "50");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "描述");
-					put("name", "intro");
-					put("width", "50");
-					put("type", "text");
-				}
-			});
+              private static final long serialVersionUID = 1L;
+              {
+                  put("caption", "前端显示");
+                  put("name", "enabled");
+                  put("width", "30");
+                  put("type", "select");
+                  put("options", "{value:'1:是;0:否'}");
+              }
+          });
 		}
 	};
 	
@@ -332,96 +146,25 @@ public class CreateJspFile {
 	private List<Map<String, String>> editCols = new ArrayList<Map<String, String>>(){
 		private static final long serialVersionUID = 1L;
 		{
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "幼儿姓名");
-					put("name", "studentName");
-					put("width", "70");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "身高(cm)");
-					put("name", "stature");
-					put("width", "50");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "体重(kg)");
-					put("name", "weight");
-					put("width", "50");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "坐位体前屈(cm)");
-					put("name", "sitReach");
-					put("width", "50");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "立定跳远(cm)");
-					put("name", "jump");
-					put("width", "50");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "网球投掷(米)");
-					put("name", "throwTennis");
-					put("width", "50");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "双脚连续跳(秒)");
-					put("name", "doubleJump");
-					put("width", "50");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "10米折返跑(秒)");
-					put("name", "run10");
-					put("width", "50");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "走平衡木(秒)");
-					put("name", "balance");
-					put("width", "50");
-					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "描述");
-					put("name", "intro");
-					put("width", "50");
-					put("type", "text");
-				}
-			});
+		  add(new HashMap<String, String>(){
+            private static final long serialVersionUID = 1L;
+            {
+                put("caption", "校区名");
+                put("name", "addrName");
+                put("width", "70");
+                put("type", "text");
+            }
+        });
+        add(new HashMap<String, String>(){
+          private static final long serialVersionUID = 1L;
+          {
+              put("caption", "前端显示");
+              put("name", "enabled");
+              put("width", "30");
+              put("type", "select");
+              put("options", "{value:'1:是;0:否'}");
+          }
+      });
 		}
 	};
 	

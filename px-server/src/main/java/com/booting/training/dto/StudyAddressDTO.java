@@ -16,7 +16,7 @@ public class StudyAddressDTO implements Serializable {
   private Integer enabled;  //禁用 1是 0否
   private Integer viewFront;//显示 1在前端显示 其他不显示
   private Date createTime;
-  
+  private String addrIds;
     
   public Long getAddrId() {
     return addrId;
@@ -59,5 +59,13 @@ public class StudyAddressDTO implements Serializable {
   }
   public void setCreateTime(Date createTime) {
     this.createTime = createTime;
+  }
+
+  public String getAddrIds() {
+    return addrIds;
+  }
+
+  public void setAddrIds(String addrIds) {
+    this.addrIds = addrIds;
   }
 }

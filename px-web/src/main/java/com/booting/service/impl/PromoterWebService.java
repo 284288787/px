@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.booting.training.dto.PromoterDTO;
-import com.booting.training.dto.TrainingItemDTO;
 import com.booting.training.facade.TrainingFacade;
 import com.star.framework.jdbc.dao.result.PageList;
 import com.star.framework.jdbc.dao.result.QueryParam;
@@ -30,10 +29,18 @@ public class PromoterWebService {
   }
 
   public void updatePromoter(PromoterDTO promoterDTO) {
+    if (null == promoterDTO || null == promoterDTO.getPromoterId()) {
+      throw new ArgsException(FailureCode.ERR_002);
+    }
     trainingFacade.updatePromoter(promoterDTO);
   }
 
   public void savePromoter(PromoterDTO promoterDTO) {
+    if (null == promoterDTO || StringUtils.isBlank(promoterDTO.getName()) || StringUtils.isBlank(promoterDTO.getMobile())) {
+      throw new ArgsException(FailureCode.ERR_002);
+    }
+    promoterDTO.setEnabled(1);
+    promoterDTO.setDeleted(0);
     promoterDTO.setCreateTime(new Date());
     trainingFacade.savePromoter(promoterDTO);
   }
@@ -45,17 +52,27 @@ public class PromoterWebService {
     PromoterDTO dto = new PromoterDTO();
     dto.setEnabled(1);
     dto.setPromoterIds(ids);
-    trainingFacade.batchUpdatePromoter(dtos);
+    trainingFacade.updateBySql(dto);
   }
 
   public void disabledPromoter(String ids) {
-    // TODO Auto-generated method stub
-
+    if (StringUtils.isBlank(ids)) {
+      throw new ArgsException(FailureCode.ERR_002);
+    }
+    PromoterDTO dto = new PromoterDTO();
+    dto.setEnabled(0);
+    dto.setPromoterIds(ids);
+    trainingFacade.updateBySql(dto);
   }
 
   public void deletePromoter(String ids) {
-    // TODO Auto-generated method stub
-
+    if (StringUtils.isBlank(ids)) {
+      throw new ArgsException(FailureCode.ERR_002);
+    }
+    PromoterDTO dto = new PromoterDTO();
+    dto.setDeleted(1);
+    dto.setPromoterIds(ids);
+    trainingFacade.updateBySql(dto);
   }
 
 }

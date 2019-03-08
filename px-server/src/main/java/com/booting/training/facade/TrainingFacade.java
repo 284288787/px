@@ -400,4 +400,8 @@ public interface TrainingFacade extends Serializable {
    */
   public List<PromoterEntity> toPromoterEntities(List<PromoterDTO> dtoes);
 
+  public void updateBySql(PromoterDTO dto);
+
+  public void updateBySql(StudyAddressDTO dto);
+
 }

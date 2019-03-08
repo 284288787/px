@@ -41,6 +41,9 @@
 				<#if userId?exists && userId != "">
 					, userId = :userId
 				</#if>
+				<#if promoterId?exists && promoterId != "">
+					, promoterId = :promoterId
+				</#if>
 			WHERE applyId = :applyId
 		]]>
 	</sql>
@@ -91,38 +94,48 @@
 	<sql id="getSimpleApplyInfoList">
 		<![CDATA[
 			SELECT 
-				address, 
+				px_apply_info.address, 
 				itemId,
-				`name`, 
-				userId,
-				type, 
-				mobile, 
+				px_apply_info.`name`, 
+				px_apply_info.userId,
+				px_apply_info.type, 
+				px_apply_info.mobile, 
 				applyId, 
 				certificateType, 
 				certificateCode, 
-				createTime, 
+				px_apply_info.createTime, 
 				sourceFrom, 
-				organizationName, status,childName,childBirth,childSex,addrId,applyItemId,promoterId,
-				(select a.addrName from px_study_address a where a.addrId = px_apply_info.addrId) addrName
+				organizationName, px_apply_info.`status`,childName,childBirth,childSex,addrId,applyItemId,px_apply_info.promoterId,p.`name` promoter, p.mobile promoterMobile,
+				(select a.addrName from px_study_address a where a.addrId = px_apply_info.addrId) addrName,
+				o.orderNo, w.transaction_id
 			FROM px_apply_info
+			INNER JOIN order_info o on o.businessId = px_apply_info.applyId
+			INNER JOIN order_weixin w on o.orderNo = w.attach
+			INNER JOIN px_promoter p on p.promoterId = px_apply_info.promoterId
 			WHERE 1=1
+			<#if orderNo?exists && orderNo != "">
+					AND orderNo = :orderNo
+				</#if>
+			<#if transactionId?exists && transactionId != "">
+					AND transaction_id = :transactionId
+				</#if>
 			<#if address?exists && address != "">
-					AND address = :address
+					AND px_apply_info.address = :address
 				</#if>
 				<#if name?exists && name != "">
-					AND `name` = :name
+					AND px_apply_info.`name` = :name
 				</#if>
 				<#if type?exists && type != "">
-					AND type = :type
+					AND px_apply_info.type = :type
 				</#if>
 				<#if userId?exists && userId != "">
-					AND userId = :userId
+					AND px_apply_info.userId = :userId
 				</#if>
 				<#if promoterId?exists && promoterId != "">
-					AND promoterId = :promoterId
+					AND px_apply_info.promoterId = :promoterId
 				</#if>
 				<#if mobile?exists && mobile != "">
-					AND mobile = :mobile
+					AND px_apply_info.mobile = :mobile
 				</#if>
 				<#if certificateType?exists && certificateType != "">
 					AND certificateType = :certificateType
@@ -140,7 +153,7 @@
 					AND organizationName = :organizationName
 				</#if>
 				<#if status?exists && status != "">
-					AND status = :status
+					AND px_apply_info.`status` = :status
 				</#if>
 			<#if applyId?exists && applyId != "">
 				AND applyId = :applyId
@@ -163,21 +176,30 @@
 	<sql id="getSimpleApplyInfoListCount">
 		<![CDATA[
 			SELECT COUNT(1) FROM px_apply_info
+			INNER JOIN order_info o on o.businessId = px_apply_info.applyId
+			INNER JOIN order_weixin w on o.orderNo = w.attach
+			INNER JOIN px_promoter p on p.promoterId = px_apply_info.promoterId
 			WHERE 1=1
+			<#if orderNo?exists && orderNo != "">
+					AND orderNo = :orderNo
+				</#if>
+			<#if transactionId?exists && transactionId != "">
+					AND transaction_id = :transactionId
+				</#if>
 			<#if address?exists && address != "">
-					AND address = :address
+					AND px_apply_info.address = :address
 				</#if>
 				<#if name?exists && name != "">
-					AND `name` = :name
+					AND px_apply_info.`name` = :name
 				</#if>
 				<#if type?exists && type != "">
-					AND type = :type
+					AND px_apply_info.type = :type
 				</#if>
 				<#if mobile?exists && mobile != "">
-					AND mobile = :mobile
+					AND px_apply_info.mobile = :mobile
 				</#if>
 				<#if userId?exists && userId != "">
-					AND userId = :userId
+					AND px_apply_info.userId = :userId
 				</#if>
 				<#if certificateType?exists && certificateType != "">
 					AND certificateType = :certificateType
@@ -195,7 +217,7 @@
 					AND organizationName = :organizationName
 				</#if>
 				<#if status?exists && status != "">
-					AND status = :status
+					AND px_apply_info.`status` = :status
 				</#if>
 			<#if applyId?exists && applyId != "">
 				AND applyId = :applyId
@@ -203,6 +225,9 @@
 			<#if itemId?exists && itemId != "">
 				AND itemId = :itemId
 			</#if>
+			<#if promoterId?exists && promoterId != "">
+					AND px_apply_info.promoterId = :promoterId
+				</#if>
 			<#if orderBy?exists && orderBy !="" >
 				ORDER BY :orderBy
 				<#if orderType?exists && orderType !="" >

@@ -3,14 +3,17 @@
 
 	<sql id="insertStudyAddress" isRead="false" dsName="test-write">
 		<![CDATA[
-			INSERT INTO px_study_address(addrId, addrName, deleted, enabled, viewFront, createTime) 
-			values (:addrId, :addrName, :deleted, :enabled, :viewFront, :createTime)
+			INSERT INTO px_study_address(addrName, deleted, enabled, viewFront, createTime) 
+			values (:addrName, :deleted, :enabled, :viewFront, :createTime)
 		]]>
 	</sql>
 
 	<sql id="updateStudyAddress" isRead="false" dsName="test-write">
 		<![CDATA[
-			UPDATE px_study_address SET addrName = :addrName
+			UPDATE px_study_address SET createTime = createTime
+				<#if addrName?exists && addrName != "">
+					, addrName = :addrName
+				</#if>
 				<#if deleted?exists && deleted != "">
 					, deleted = :deleted
 				</#if>
@@ -19,9 +22,6 @@
 				</#if>
 				<#if viewFront?exists && viewFront != "">
 					, viewFront = :viewFront
-				</#if>
-				<#if createTime?exists && createTime != "">
-					, createTime = :createTime
 				</#if>
 			WHERE 
 				<#if addrId?exists && addrId != "">

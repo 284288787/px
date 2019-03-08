@@ -27,6 +27,8 @@ public class ApplyInfoDTO implements Serializable {
     private Long applyItemId;
     private Long promoterId;
 	
+    private String promoter;
+    private String promoterMobile;
     private String address;         //地址
 	private Integer certificateType;//证件类型 1身份证
 	private String certificateCode; //证件号码
@@ -35,6 +37,8 @@ public class ApplyInfoDTO implements Serializable {
 	private Date createTime;
 	private Integer status;         //状态 1待支付 2已支付 3已退款
 	private String addrName;
+	private String transactionId;
+	private String orderNo;
 	
 	private TrainingItemDTO trainingItem; //培训项目
 	private List<ApplyDetailDTO> details; //团体明细
@@ -211,5 +215,37 @@ public class ApplyInfoDTO implements Serializable {
 
   public void setPromoterId(Long promoterId) {
     this.promoterId = promoterId;
+  }
+
+  public String getTransactionId() {
+    return transactionId;
+  }
+
+  public String getOrderNo() {
+    return orderNo;
+  }
+
+  public void setTransactionId(String transactionId) {
+    this.transactionId = transactionId;
+  }
+
+  public void setOrderNo(String orderNo) {
+    this.orderNo = orderNo;
+  }
+
+  public String getPromoter() {
+    return promoter;
+  }
+
+  public String getPromoterMobile() {
+    return promoterMobile;
+  }
+
+  public void setPromoter(String promoter) {
+    this.promoter = promoter;
+  }
+
+  public void setPromoterMobile(String promoterMobile) {
+    this.promoterMobile = promoterMobile;
   }
 }

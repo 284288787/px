@@ -6,7 +6,7 @@ function ListHandle(options, funcs){
 	handle.init = function(config){
 		var obj = jQuery(options.tableId).jqGrid({
 			url : options.urls.list,
-			datatype : "json",
+			datatype : config.dataType || "json",
 			colNames : config.colNames,
 			colModel : config.colModel,
 			rowNum : 10,

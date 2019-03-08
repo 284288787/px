@@ -2,10 +2,16 @@
 package com.booting.service.impl;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +36,7 @@ import com.star.framework.specification.FailureCode;
 import com.star.framework.specification.exception.ArgsException;
 import com.star.framework.specification.result.PageInfo;
 import com.star.framework.specification.result.v2.ApiResult;
+import com.star.framework.utils.DataExportUtil;
 
 @Service("trainingWebService")
 public class TrainingWebService extends BaseWebService{
@@ -330,4 +337,42 @@ public class TrainingWebService extends BaseWebService{
 		apiResult.setPageInfo(pageInfo);
 		return apiResult;
 	}
+
+  public void exportRecord(HttpServletResponse response) {
+    OutputStream os = null;
+    try {
+      os = response.getOutputStream();
+      response.setContentType("application/vnd.ms-excel");
+      String filename = "已付款报名信息.xlsx";
+      filename = URLEncoder.encode(filename, "UTF-8");
+      response.setHeader("Content-Disposition", "attachment; filename=" + filename);
+      String[] titles = new String[] { "订单号", "交易单号", "推广员", "推广员手机", "家长姓名", "家长手机", "报名时间" };
+      ApplyInfoDTO applyInfoDTO = new ApplyInfoDTO();
+      List<ApplyInfoDTO> list = trainingFacade.getApplyInfoList(applyInfoDTO);
+      List<String[]> datas = list.stream().map(info -> {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String[] record = new String[titles.length];
+        record[0] = info.getOrderNo();
+        record[1] = info.getTransactionId();
+        record[2] = info.getPromoter();
+        record[3] = info.getPromoterMobile();
+        record[4] = info.getName();
+        record[5] = info.getMobile();
+        record[6] = sdf.format(info.getCreateTime());
+        return record;
+      }).collect(Collectors.toList());
+      DataExportUtil.createXlsxExcelFile2(os, "已付款报名信息", titles, datas);
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      if (null != os) {
+        try {
+          os.close();
+          os = null;
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+  }
 }

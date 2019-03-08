@@ -22,14 +22,18 @@
 			<form action="${basePath}" id="queryForm">
 				<span>家长电话： <input type="text" name="mobile" placeholder="家长电话"></span>
 				<span>推广员电话： <input type="text" name="promoterMobile" placeholder="推广员电话"></span>
+				<span>状态： 
+          <select name="status"><option value="2" >已支付</option><option value="1" >待处理</option></select>
+        </span>
+				<span>交易单号： <input type="text" name="transactionId" placeholder="微信交易单号"></span>
 				<a onclick="trainingapplyHandle.query()" class="button blue">查询</a>
 				<a onclick="trainingapplyHandle.reset()" class="button grey">清空</a>
 			</form>
 		</div>
 		<div class="data-container">
-			<!-- <div class="btnGroup">
-				<a onclick="trainingHandle.remove()" class="button yellow">删除</a>
-			</div> -->
+			<div class="btnGroup">
+				<a onclick="trainingapplyHandle.exportInfo()" class="button yellow">导出已支付的报名信息</a>
+			</div>
 			<table id="grid-table"></table>
 			<div id="grid-pager"></div>
 		</div>
