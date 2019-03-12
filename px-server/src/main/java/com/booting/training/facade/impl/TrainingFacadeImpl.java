@@ -16,12 +16,15 @@ import com.booting.training.dto.ApplyDetailDTO;
 import com.booting.training.entity.ApplyDetailEntity;
 import com.booting.training.service.ApplyDetailService;
 import com.booting.training.dto.ApplyInfoDTO;
+import com.booting.training.dto.ApplyItemDTO;
 import com.booting.training.dto.PromoterDTO;
 import com.booting.training.dto.StudyAddressDTO;
 import com.booting.training.entity.ApplyInfoEntity;
+import com.booting.training.entity.ApplyItemEntity;
 import com.booting.training.entity.PromoterEntity;
 import com.booting.training.entity.StudyAddressEntity;
 import com.booting.training.service.ApplyInfoService;
+import com.booting.training.service.ApplyItemService;
 import com.booting.training.service.PromoterService;
 import com.booting.training.service.StudyAddressService;
 import com.booting.training.dto.TrainingItemDTO;
@@ -38,6 +41,9 @@ import com.booting.training.service.TrainingItemPriceService;
 public class TrainingFacadeImpl implements TrainingFacade {
   private static final long serialVersionUID = 1L;
 
+  @Autowired
+  private ApplyItemService applyItemService;
+  
   @Autowired
   private ApplyDetailService applyDetailService;
 
@@ -58,6 +64,85 @@ public class TrainingFacadeImpl implements TrainingFacade {
 
   @Autowired
   private TrainingItemPriceService trainingItemPriceService;
+  
+  @Override
+  public Long saveApplyItem(ApplyItemDTO applyItemDTO){
+      if (null == applyItemDTO) {
+          return null;
+      }
+      ApplyItemEntity entity = toApplyItemEntity(applyItemDTO);
+      applyItemDTO = applyItemService.save(entity);
+      return applyItemDTO.getApplyItemId();
+  }
+
+  @Override
+  public void batchSaveApplyItem(List<ApplyItemDTO> dtos){
+      if (null == dtos || dtos.isEmpty()) {
+          return;
+      }
+      List<ApplyItemEntity> entities = toApplyItemEntities(dtos);
+      applyItemService.batchSave(entities);
+  }
+
+  @Override
+  public int updateApplyItem(ApplyItemDTO applyItemDTO){
+      applyItemDTO = applyItemService.updateBySql(applyItemDTO);
+      return 1;
+  }
+
+  @Override
+  public void batchUpdateApplyItem(List<ApplyItemDTO> dtos){
+      if (null == dtos || dtos.isEmpty()) {
+          return;
+      }
+      applyItemService.batchUpdate(dtos);
+  }
+
+  @Override
+  public int deleteApplyItem(long applyItemId){
+      return applyItemService.delete(applyItemId);
+  }
+
+  @Override
+  public ApplyItemDTO getApplyItem(long applyItemId){
+      return applyItemService.get(applyItemId);
+  }
+
+  @Override
+  public ApplyItemDTO getApplyItem(ApplyItemDTO applyItemDTO){
+      return applyItemService.get(applyItemDTO);
+  }
+
+  @Override
+  public List<ApplyItemDTO> getApplyItemList(ApplyItemDTO applyItemDTO){
+      return applyItemService.getSimpleList(applyItemDTO);
+  }
+
+  @Override
+  public PageList<ApplyItemDTO> getApplyItemListForPage(ApplyItemDTO applyItemDTO, int pageNumber, int pageSize){
+      return applyItemService.getSimpleListForPage(applyItemDTO, pageNumber, pageSize);
+  }
+
+  @Override
+  public PageList<ApplyItemDTO> getApplyItemListForPage(QueryParam queryParam){
+      return applyItemService.getSimpleListForPage(queryParam);
+  }
+
+  @Override
+  public ApplyItemEntity toApplyItemEntity(ApplyItemDTO dto){
+      ApplyItemEntity entity = new ApplyItemEntity();
+      CglibBeanUtils.copy(dto, entity);
+      return entity;
+  }
+
+  @Override
+  public List<ApplyItemEntity> toApplyItemEntities(List<ApplyItemDTO> dtos){
+      List<ApplyItemEntity> entities = new ArrayList<>();
+      for(ApplyItemDTO dto : dtos){
+          entities.add(toApplyItemEntity(dto));
+      }
+      return entities;
+  }
   
   @Override
   public Long saveTrainingItemPrice(TrainingItemPriceDTO trainingItemPriceDTO){
@@ -650,5 +735,10 @@ public class TrainingFacadeImpl implements TrainingFacade {
   @Override
   public void deleteTrainingItemPriceByItemId(Long itemId) {
     this.trainingItemPriceService.deleteTrainingItemPriceByItemId(itemId);
+  }
+
+  @Override
+  public void updateBySql(ApplyItemDTO dto) {
+    this.applyItemService.updateBySql(dto);
   }
 }

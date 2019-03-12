@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.booting.common.ApplyItem;
+import com.booting.service.impl.ApplyItemWebService;
 import com.booting.service.impl.StudyAddressWebService;
+import com.booting.training.dto.ApplyItemDTO;
 import com.booting.training.dto.StudyAddressDTO;
 import com.star.framework.specification.result.v2.ApiResult;
 import com.star.framework.specification.utils.ParamHandler;
@@ -27,6 +28,8 @@ public class StudyAddressApiController {
 
   @Autowired
   private StudyAddressWebService studyAddressWebService;
+  @Autowired
+  private ApplyItemWebService applyItemWebService;
   
   @InterfaceVersion("1.0")
   @RequestMapping(value = "/{version}/studyAddresses", method = {RequestMethod.POST, RequestMethod.GET}, produces = "text/html;charset=UTF-8")
@@ -51,7 +54,8 @@ public class StudyAddressApiController {
   @ApiOperation(value = "报名项目", notes = "报名项目", httpMethod = "POST", response = String.class, produces = "text/html;charset=UTF-8")
   public String applyItems(@ApiIgnore String params) throws Exception {
 //      ParamHandler paramHandler = new ParamHandler(params);
-      ApiResult apiResult = new ApiResult(ApplyItem.items);
-      return ParamHandler.objToString(apiResult);
+    List<ApplyItemDTO> items = applyItemWebService.getApplyItems();
+    ApiResult apiResult = new ApiResult(items);
+    return ParamHandler.objToString(apiResult);
   }
 }

@@ -57,6 +57,12 @@ public class TrainingItemController extends BaseController {
     return "management/training/editTrainingItem";
   }
 
+  @RequestMapping(value = "/addBefore", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+  public String addBefore(Model model){
+    model.addAttribute("items", this.trainingWebService.getApplyItems());
+    return "management/training/addTrainingItem";
+  }
+  
   @ResponseBody
   @RequestMapping(value = "/edit", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
   public ResultMessage edit(@RequestBody TrainingItemDTO trainingItemDTO) {

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="applyItem" isRead="true" dsName="test-read">
+
+	<sql id="insertApplyItem" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO px_apply_item(itemName, deleted, enabled, applyItemId, createTime) 
+			values (:itemName, :deleted, :enabled, :applyItemId, :createTime)
+		]]>
+	</sql>
+
+	<sql id="updateApplyItem" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE px_apply_item SET createTime = createTime
+				<#if deleted?exists && deleted != "">
+					, deleted = :deleted
+				</#if>
+				<#if itemName?exists && itemName != "">
+					, itemName = :itemName
+				</#if>
+				<#if enabled?exists && enabled != "">
+					, enabled = :enabled
+				</#if>
+			WHERE 
+				<#if applyItemId?exists && applyItemId != "">
+					applyItemId = :applyItemId
+				<#else>
+					applyItemId in (${applyItemIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteApplyItem" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM px_apply_item
+			WHERE 1=1
+			<#if itemName?exists && itemName != "">
+					AND itemName = :itemName
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+			<#if applyItemId?exists && applyItemId != "">
+				AND applyItemId = :applyItemId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleApplyItemList">
+		<![CDATA[
+			SELECT 
+				itemName, 
+				deleted, 
+				enabled, 
+				applyItemId, 
+				createTime
+			FROM px_apply_item
+			WHERE 1=1
+			<#if itemName?exists && itemName != "">
+					AND itemName = :itemName
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+			<#if applyItemId?exists && applyItemId != "">
+				AND applyItemId = :applyItemId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleApplyItemListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM px_apply_item
+			WHERE 1=1
+			<#if itemName?exists && itemName != "">
+					AND itemName = :itemName
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+			<#if applyItemId?exists && applyItemId != "">
+				AND applyItemId = :applyItemId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getApplyItemList">
+		<![CDATA[
+			SELECT 
+				itemName, 
+				deleted, 
+				enabled, 
+				applyItemId, 
+				createTime
+			FROM px_apply_item
+			WHERE 1=1
+			<#if itemName?exists && itemName != "">
+					AND itemName = :itemName
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+			<#if applyItemId?exists && applyItemId != "">
+				AND applyItemId = :applyItemId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getApplyItemListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM px_apply_item
+			WHERE 1=1
+			<#if itemName?exists && itemName != "">
+					AND itemName = :itemName
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+			<#if applyItemId?exists && applyItemId != "">
+				AND applyItemId = :applyItemId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

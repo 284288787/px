@@ -24,11 +24,11 @@ public class CreateJspFile {
 	
 	private String basePath, jsPath;
 	
-	private String moduleName = "studyAddress";
-	private String dtoName = "StudyAddressDTO";
-	private String pkIdName = "addrId";
-	private String controllerMappingName = "studyAddress";
-	private String dtoCaption = "校区";
+	private String moduleName = "applyItem";
+	private String dtoName = "ApplyItemDTO";
+	private String pkIdName = "applyItemId";
+	private String controllerMappingName = "applyItem";
+	private String dtoCaption = "报名项";
 	String methodSuffix = dtoName.replace("DTO", "");
 	String dtoVariable = firstToLower(dtoName);
 	
@@ -39,19 +39,10 @@ public class CreateJspFile {
 			add(new HashMap<String, String>(){
 				private static final long serialVersionUID = 1L;
 				{
-					put("caption", "校区名");
-					put("name", "addrName");
+					put("caption", "报名项");
+					put("name", "itemName");
 					put("type", "text");
 				}
-			});
-			add(new HashMap<String, String>(){
-			  private static final long serialVersionUID = 1L;
-			  {
-			    put("caption", "前端是否显示");
-			    put("name", "viewFront");
-			    put("type", "select");
-			    put("options", "1:是;0:否");
-			  }
 			});
 			add(new HashMap<String, String>(){
 				private static final long serialVersionUID = 1L;
@@ -70,8 +61,8 @@ public class CreateJspFile {
 			add(new HashMap<String, String>(){
 				private static final long serialVersionUID = 1L;
 				{
-					put("caption", "addrId");
-					put("name", "addrId");
+					put("caption", "applyItemId");
+					put("name", "applyItemId");
 					put("width", "30");
 					put("type", "text");
 				}
@@ -79,20 +70,10 @@ public class CreateJspFile {
 			add(new HashMap<String, String>(){
 				private static final long serialVersionUID = 1L;
 				{
-					put("caption", "校区名");
-					put("name", "addrName");
+					put("caption", "报名项");
+					put("name", "itemName");
 					put("width", "70");
 					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "前端显示");
-					put("name", "viewFront");
-					put("width", "40");
-					put("type", "select");
-					put("options", "{value:'1:是;0:否'}");
 				}
 			});
 			add(new HashMap<String, String>(){
@@ -123,8 +104,8 @@ public class CreateJspFile {
 			add(new HashMap<String, String>(){
 				private static final long serialVersionUID = 1L;
 				{
-					put("caption", "校区名");
-					put("name", "addrName");
+					put("caption", "报名项");
+					put("name", "itemName");
 					put("width", "70");
 					put("type", "text");
 				}
@@ -149,8 +130,8 @@ public class CreateJspFile {
 		  add(new HashMap<String, String>(){
             private static final long serialVersionUID = 1L;
             {
-                put("caption", "校区名");
-                put("name", "addrName");
+                put("caption", "报名项");
+                put("name", "itemName");
                 put("width", "70");
                 put("type", "text");
             }

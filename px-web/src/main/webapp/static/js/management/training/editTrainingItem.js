@@ -153,7 +153,7 @@ $(function(){
 		});
 		params["beginTime"]=params.beginTime+" 00:00:00";
 		params["endTime"]=params.endTime+" 00:00:00";
-		//params["price"]=params.price * 100;
+		params["price"]='';
 		params["pictures"]=pictures;
 		params["prices"]=prices;
 		console.log(JSON.stringify(params));

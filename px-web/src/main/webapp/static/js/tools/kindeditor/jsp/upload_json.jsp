@@ -21,7 +21,7 @@
 String savePath = "/home/tomcat/upload/photo/";
 
 //文件保存目录URL
-String saveUrl  = "http://app.bootingsports.com/photo/";
+String saveUrl  = "http://px.jytzn.com/photo/";
 
 //定义允许上传的文件扩展名
 HashMap<String, String> extMap = new HashMap<String, String>();

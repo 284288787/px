@@ -32,8 +32,8 @@
 				<option value="3" <c:if test="${trainingItemDTO.type==3}">selected</c:if> >教练员培训</option>
 			</select>
 			</span></li>
-      <c:forEach items="${[{'id':1,'value':'体质检测'},{'id':2,'value':'2节体验课'}]}" var="vs">
-      <li><strong>${vs.value}价格：</strong><span><input type="text" class="price" applyItemId="${vs.id}" name="price" placeholder="输入${vs.value}价格"></span></li>
+      <c:forEach items="${items}" var="price">
+      <li><strong>${price.itemName}价格：</strong><span><input type="text" class="price" applyItemId="${price.applyItemId}" name="price" placeholder="输入${price.itemName}价格"></span></li>
       </c:forEach>
 			<%-- <li><strong>价格：</strong><span><input type="text" name="price" placeholder="输入价格"></span></li> --%>
 			<li><strong>优惠券id：</strong><span><input type="text" name="cardIds" placeholder="多个用英文逗号分隔"></span></li>

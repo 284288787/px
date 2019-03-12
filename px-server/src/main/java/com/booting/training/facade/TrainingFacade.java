@@ -9,9 +9,11 @@ import com.star.framework.jdbc.dao.result.QueryParam;
 import com.booting.training.dto.ApplyDetailDTO;
 import com.booting.training.entity.ApplyDetailEntity;
 import com.booting.training.dto.ApplyInfoDTO;
+import com.booting.training.dto.ApplyItemDTO;
 import com.booting.training.dto.PromoterDTO;
 import com.booting.training.dto.StudyAddressDTO;
 import com.booting.training.entity.ApplyInfoEntity;
+import com.booting.training.entity.ApplyItemEntity;
 import com.booting.training.entity.PromoterEntity;
 import com.booting.training.entity.StudyAddressEntity;
 import com.booting.training.dto.TrainingItemDTO;
@@ -22,6 +24,66 @@ import com.booting.training.entity.TrainingItemPictureEntity;
 import com.booting.training.entity.TrainingItemPriceEntity;
 
 public interface TrainingFacade extends Serializable {
+
+  /**
+   * 新增 报名项目
+   */
+  public Long saveApplyItem(ApplyItemDTO applyItemDTO);
+
+  /**
+   * 批量新增 报名项目
+   */
+  public void batchSaveApplyItem(List<ApplyItemDTO> dtos);
+
+  /**
+   * 更新 报名项目
+   */
+  public int updateApplyItem(ApplyItemDTO applyItemDTO);
+
+  /**
+   * 批量 报名项目
+   */
+  public void batchUpdateApplyItem(List<ApplyItemDTO> dtos);
+
+  /**
+   * 删除 报名项目
+   */
+  public int deleteApplyItem(long applyItemId);
+
+  /**
+   * 根据主键获取 报名项目
+   */
+  public ApplyItemDTO getApplyItem(long applyItemId);
+
+  /**
+   * 根据条件获取一条 报名项目
+   */
+  public ApplyItemDTO getApplyItem(ApplyItemDTO applyItemDTO);
+
+  /**
+   * 查询满足条件的 报名项目 列表(单表)
+   */
+  public List<ApplyItemDTO> getApplyItemList(ApplyItemDTO applyItemDTO);
+
+  /**
+   * 查询满足条件的 报名项目 列表(分页)(单表)
+   */
+  public PageList<ApplyItemDTO> getApplyItemListForPage(ApplyItemDTO applyItemDTO, int pageNumber, int pageSize);
+
+  /**
+   * 查询满足条件的 报名项目 列表(分页)(单表)
+   */
+  public PageList<ApplyItemDTO> getApplyItemListForPage(QueryParam queryParam);
+
+  /**
+   * 报名项目DTO 转换成 Entity
+   */
+  public ApplyItemEntity toApplyItemEntity(ApplyItemDTO applyItemDTO);
+
+  /**
+   * 报名项目DTOs 转换成 Entities
+   */
+  public List<ApplyItemEntity> toApplyItemEntities(List<ApplyItemDTO> dtoes);
 
   /**
    * 新增 培训项目
@@ -467,5 +529,7 @@ public interface TrainingFacade extends Serializable {
   public void updateBySql(StudyAddressDTO dto);
 
   public void deleteTrainingItemPriceByItemId(Long itemId);
+
+  public void updateBySql(ApplyItemDTO dto);
 
 }

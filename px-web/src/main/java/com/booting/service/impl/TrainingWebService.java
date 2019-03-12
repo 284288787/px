@@ -17,7 +17,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.booting.common.ApplyItem;
 import com.booting.common.CouponBusinessType;
 import com.booting.common.PxConstants.ApplyStatus;
 import com.booting.coupon.dto.CouponRelationDTO;
@@ -27,6 +26,7 @@ import com.booting.pub.dto.SmsIdentityDTO;
 import com.booting.pub.service.SmsIdentityService;
 import com.booting.training.dto.ApplyDetailDTO;
 import com.booting.training.dto.ApplyInfoDTO;
+import com.booting.training.dto.ApplyItemDTO;
 import com.booting.training.dto.TrainingItemDTO;
 import com.booting.training.dto.TrainingItemPictureDTO;
 import com.booting.training.dto.TrainingItemPriceDTO;
@@ -59,21 +59,19 @@ public class TrainingWebService extends BaseWebService {
     params.setItemId(itemId);
     TrainingItemDTO trainingItemDTO = this.trainingFacade.getTrainingItem(params);
     if (null != trainingItemDTO) {
-      TrainingItemPriceDTO trainingItemPriceDTO = new TrainingItemPriceDTO();
-      trainingItemPriceDTO.setItemId(itemId);
-      List<TrainingItemPriceDTO> prices = this.trainingFacade.getTrainingItemPriceList(trainingItemPriceDTO);
-      if (null != prices && !prices.isEmpty()) {
-        prices.forEach(price -> {
-          price.setItemName(ApplyItem.getItemName(price.getApplyItemId()));
-        });
-      } else {
-        prices = ApplyItem.items.stream().map(map -> {
+      List<TrainingItemPriceDTO> prices = getApplyItems().stream().map(item -> {
+          TrainingItemPriceDTO trainingItemPriceDTO = new TrainingItemPriceDTO();
+          trainingItemPriceDTO.setItemId(itemId);
+          trainingItemPriceDTO.setApplyItemId(item.getApplyItemId());
+          TrainingItemPriceDTO titem = this.trainingFacade.getTrainingItemPrice(trainingItemPriceDTO);
           TrainingItemPriceDTO price = new TrainingItemPriceDTO();
-          price.setApplyItemId(Long.parseLong(map.get("itemId").toString()));
-          price.setItemName((String) map.get("itemName"));
+          price.setApplyItemId(item.getApplyItemId());
+          price.setItemName(item.getItemName());
+          if (null != titem) {
+            price.setPrice(titem.getPrice());
+          }
           return price;
         }).collect(Collectors.toList());
-      }
       trainingItemDTO.setPrices(prices);
       TrainingItemPictureDTO trainingItemPictureDTO = new TrainingItemPictureDTO();
       trainingItemPictureDTO.setItemId(itemId);
@@ -97,6 +95,14 @@ public class TrainingWebService extends BaseWebService {
     return trainingItemDTO;
   }
 
+  public List<ApplyItemDTO> getApplyItems() {
+    ApplyItemDTO applyItemDTO = new ApplyItemDTO();
+    applyItemDTO.setDeleted(0);
+    applyItemDTO.setEnabled(1);
+    List<ApplyItemDTO> items = this.trainingFacade.getApplyItemList(applyItemDTO);
+    return items;
+  }
+  
   public void saveTrainingItem(TrainingItemDTO trainingItemDTO) throws ArgsException, IOException {
     if (null == trainingItemDTO || StringUtils.isBlank(trainingItemDTO.getTitle()) || null == trainingItemDTO.getPictures() || trainingItemDTO.getPictures().isEmpty()) {
       throw new ArgsException(FailureCode.ERR_002);

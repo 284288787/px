@@ -10,7 +10,7 @@ var trainingHandle = new ListHandle({
 	primaryKey: 'itemId',
 	urls:{
 		list: basePath+'trainingItem/list',        //列表
-		addBefore: basePath+'common/management/training/addTrainingItem',   //添加之前
+		addBefore: basePath+'trainingItem/addBefore',   //添加之前
 		editBefore: basePath+'trainingItem/editBefore',          //编辑之前
 		enabled: basePath+'trainingItem/enabled',      //启用
 		disabled: basePath+'trainingItem/disabled',    //禁用
