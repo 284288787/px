@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="trainingItemPrice" isRead="true" dsName="test-read">
+
+	<sql id="insertTrainingItemPrice" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO px_training_item_price(id, itemId, applyItemId, price) 
+			values (:id, :itemId, :applyItemId, :price)
+		]]>
+	</sql>
+
+	<sql id="updateTrainingItemPrice" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE px_training_item_price SET itemId = :itemId
+				<#if applyItemId?exists && applyItemId != "">
+					, applyItemId = :applyItemId
+				</#if>
+				<#if price?exists && price != "">
+					, price = :price
+				</#if>
+			WHERE 
+				<#if id?exists && id != "">
+					id = :id
+				<#else>
+					id in (${ids})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteTrainingItemPrice" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM px_training_item_price
+			WHERE 1=1
+			<#if itemId?exists && itemId != "">
+					AND itemId = :itemId
+				</#if>
+				<#if applyItemId?exists && applyItemId != "">
+					AND applyItemId = :applyItemId
+				</#if>
+				<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleTrainingItemPriceList">
+		<![CDATA[
+			SELECT 
+				id, 
+				itemId, 
+				applyItemId, 
+				price
+			FROM px_training_item_price
+			WHERE 1=1
+			<#if itemId?exists && itemId != "">
+					AND itemId = :itemId
+				</#if>
+				<#if applyItemId?exists && applyItemId != "">
+					AND applyItemId = :applyItemId
+				</#if>
+				<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleTrainingItemPriceListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM px_training_item_price
+			WHERE 1=1
+			<#if itemId?exists && itemId != "">
+					AND itemId = :itemId
+				</#if>
+				<#if applyItemId?exists && applyItemId != "">
+					AND applyItemId = :applyItemId
+				</#if>
+				<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getTrainingItemPriceList">
+		<![CDATA[
+			SELECT 
+				id, 
+				itemId, 
+				applyItemId, 
+				price
+			FROM px_training_item_price
+			WHERE 1=1
+			<#if itemId?exists && itemId != "">
+					AND itemId = :itemId
+				</#if>
+				<#if applyItemId?exists && applyItemId != "">
+					AND applyItemId = :applyItemId
+				</#if>
+				<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getTrainingItemPriceListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM px_training_item_price
+			WHERE 1=1
+			<#if itemId?exists && itemId != "">
+					AND itemId = :itemId
+				</#if>
+				<#if applyItemId?exists && applyItemId != "">
+					AND applyItemId = :applyItemId
+				</#if>
+				<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

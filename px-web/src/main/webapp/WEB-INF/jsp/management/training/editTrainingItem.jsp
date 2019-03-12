@@ -32,7 +32,10 @@
 				<option value="3" <c:if test="${trainingItemDTO.type==3}">selected</c:if> >教练员培训</option>
 			</select>
 			</span></li>
-			<li><strong>价格：</strong><span><input type="text" name="price" placeholder="输入价格" value="<fmt:formatNumber value="${trainingItemDTO.price/100}" pattern="##.00"></fmt:formatNumber>"></span></li>
+      <c:forEach items="${trainingItemDTO.prices}" var="price">
+			<li><strong>${price.itemName}价格：</strong><span><input type="text" class="price" applyItemId="${price.applyItemId}" name="price" placeholder="输入${price.itemName}价格" value="<fmt:formatNumber value="${price.price/100}" pattern="##.00"></fmt:formatNumber>"></span></li>
+      </c:forEach>
+			<%-- <li><strong>2节体验课价格：</strong><span><input type="text" name="pricetyk" placeholder="输入2节体验课价格" value="<fmt:formatNumber value="${trainingItemDTO.price/100}" pattern="##.00"></fmt:formatNumber>"></span></li> --%>
 			<li><strong>优惠券id：</strong><span><input type="text" name="cardIds" placeholder="多个用英文逗号分隔" value="${trainingItemDTO.cardIds}"></span></li>
 			<li ><strong>开始日期：</strong><span><input type="text" name="beginTime" id="beginTime" placeholder="选择日期" value="<fmt:formatDate value="${trainingItemDTO.beginTime}" pattern="yyyy-MM-dd"/>" class="Wdate" onclick="WdatePicker({isShowClear:false,readOnly:true})"></span></li>
 			<li><strong>结束日期：</strong><span><input type="text" name="endTime" id="endTime" placeholder="选择日期" value="<fmt:formatDate value="${trainingItemDTO.endTime}" pattern="yyyy-MM-dd"/>" class="Wdate" onclick="WdatePicker({minDate:'#F{$dp.$D(\'beginTime\')}',isShowClear:false,readOnly:true,dateFmt:'yyyy-MM-dd'})"></span></li>

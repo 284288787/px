@@ -17,9 +17,71 @@ import com.booting.training.entity.StudyAddressEntity;
 import com.booting.training.dto.TrainingItemDTO;
 import com.booting.training.entity.TrainingItemEntity;
 import com.booting.training.dto.TrainingItemPictureDTO;
+import com.booting.training.dto.TrainingItemPriceDTO;
 import com.booting.training.entity.TrainingItemPictureEntity;
+import com.booting.training.entity.TrainingItemPriceEntity;
 
 public interface TrainingFacade extends Serializable {
+
+  /**
+   * 新增 培训项目
+   */
+  public Long saveTrainingItemPrice(TrainingItemPriceDTO trainingItemPriceDTO);
+
+  /**
+   * 批量新增 培训项目
+   */
+  public void batchSaveTrainingItemPrice(List<TrainingItemPriceDTO> dtos);
+
+  /**
+   * 更新 培训项目
+   */
+  public int updateTrainingItemPrice(TrainingItemPriceDTO trainingItemPriceDTO);
+
+  /**
+   * 批量 培训项目
+   */
+  public void batchUpdateTrainingItemPrice(List<TrainingItemPriceDTO> dtos);
+
+  /**
+   * 删除 培训项目
+   */
+  public int deleteTrainingItemPrice(long id);
+
+  /**
+   * 根据主键获取 培训项目
+   */
+  public TrainingItemPriceDTO getTrainingItemPrice(long id);
+
+  /**
+   * 根据条件获取一条 培训项目
+   */
+  public TrainingItemPriceDTO getTrainingItemPrice(TrainingItemPriceDTO trainingItemPriceDTO);
+
+  /**
+   * 查询满足条件的 培训项目 列表(单表)
+   */
+  public List<TrainingItemPriceDTO> getTrainingItemPriceList(TrainingItemPriceDTO trainingItemPriceDTO);
+
+  /**
+   * 查询满足条件的 培训项目 列表(分页)(单表)
+   */
+  public PageList<TrainingItemPriceDTO> getTrainingItemPriceListForPage(TrainingItemPriceDTO trainingItemPriceDTO, int pageNumber, int pageSize);
+
+  /**
+   * 查询满足条件的 培训项目 列表(分页)(单表)
+   */
+  public PageList<TrainingItemPriceDTO> getTrainingItemPriceListForPage(QueryParam queryParam);
+
+  /**
+   * 培训项目DTO 转换成 Entity
+   */
+  public TrainingItemPriceEntity toTrainingItemPriceEntity(TrainingItemPriceDTO trainingItemPriceDTO);
+
+  /**
+   * 培训项目DTOs 转换成 Entities
+   */
+  public List<TrainingItemPriceEntity> toTrainingItemPriceEntities(List<TrainingItemPriceDTO> dtoes);
 
   /**
    * 新增 培训团体报名，成员信息
@@ -403,5 +465,7 @@ public interface TrainingFacade extends Serializable {
   public void updateBySql(PromoterDTO dto);
 
   public void updateBySql(StudyAddressDTO dto);
+
+  public void deleteTrainingItemPriceByItemId(Long itemId);
 
 }

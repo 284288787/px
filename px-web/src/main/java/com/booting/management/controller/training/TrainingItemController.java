@@ -26,123 +26,123 @@ import com.star.framework.specification.result.ResultMessage;
 
 @Controller
 @RequestMapping("/trainingItem")
-public class TrainingItemController extends BaseController{
+public class TrainingItemController extends BaseController {
 
-	@Autowired
-	private TrainingWebService trainingWebService;
+  @Autowired
+  private TrainingWebService trainingWebService;
 
-	@ResponseBody
-	@RequestMapping(value = "/list", method = RequestMethod.POST)
-	public Map<String, Object> list(TrainingItemDTO trainingItemDTO, Integer page, Integer rows, String sord, String sidx){
-		trainingItemDTO.setDeleted(0);
-		QueryParam queryParam = new QueryParam();
-		queryParam.setOrderBy(sidx);
-		queryParam.setOrderType(sord);
-		queryParam.setPageNo(page);
-		queryParam.setPageSize(rows);
-		queryParam.setParam(trainingItemDTO);
-		PageList<TrainingItemDTO> pageList = trainingWebService.getListForPage(queryParam, TrainingItemDTO.class);
-		Map<String, Object> map = new HashMap<>();
-		map.put("page", pageList.getPageNo());
-		map.put("total", pageList.getTotalPage());
-		map.put("records", pageList.getTotalRecord());
-		map.put("rows", pageList.getDataList());
-		return map;
-	}
+  @ResponseBody
+  @RequestMapping(value = "/list", method = RequestMethod.POST)
+  public Map<String, Object> list(TrainingItemDTO trainingItemDTO, Integer page, Integer rows, String sord, String sidx) {
+    trainingItemDTO.setDeleted(0);
+    QueryParam queryParam = new QueryParam();
+    queryParam.setOrderBy(sidx);
+    queryParam.setOrderType(sord);
+    queryParam.setPageNo(page);
+    queryParam.setPageSize(rows);
+    queryParam.setParam(trainingItemDTO);
+    PageList<TrainingItemDTO> pageList = trainingWebService.getListForPage(queryParam, TrainingItemDTO.class);
+    Map<String, Object> map = new HashMap<>();
+    map.put("page", pageList.getPageNo());
+    map.put("total", pageList.getTotalPage());
+    map.put("records", pageList.getTotalRecord());
+    map.put("rows", pageList.getDataList());
+    return map;
+  }
 
-	@RequestMapping(value = "/editBefore/{itemId}", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-	public String editBefore(@PathVariable Long itemId, Model model){
-		TrainingItemDTO trainingItemDTO = this.trainingWebService.getTrainingItem(itemId);
-		model.addAttribute("trainingItemDTO", trainingItemDTO);
-		return "management/training/editTrainingItem";
-	}
+  @RequestMapping(value = "/editBefore/{itemId}", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+  public String editBefore(@PathVariable Long itemId, Model model) {
+    TrainingItemDTO trainingItemDTO = this.trainingWebService.getTrainingItem(itemId);
+    model.addAttribute("trainingItemDTO", trainingItemDTO);
+    return "management/training/editTrainingItem";
+  }
 
-	@ResponseBody
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
-	public ResultMessage edit(@RequestBody TrainingItemDTO trainingItemDTO){
-		ResultMessage resultMessage = null;
-		try {
-			this.trainingWebService.updateTrainingItem(trainingItemDTO);
-			resultMessage = new ResultMessage("ok", "编辑");
-		} catch (ArgsException e) {
-			e.printStackTrace();
-			resultMessage = new ResultMessage("编辑", e.getCode(), e.getMessage());
-		} catch (Exception e) {
-			e.printStackTrace();
-			resultMessage = new ResultMessage("编辑", FailureCode.ERR_001);
-		}
-		return resultMessage;
-	}
+  @ResponseBody
+  @RequestMapping(value = "/edit", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+  public ResultMessage edit(@RequestBody TrainingItemDTO trainingItemDTO) {
+    ResultMessage resultMessage = null;
+    try {
+      this.trainingWebService.updateTrainingItem(trainingItemDTO);
+      resultMessage = new ResultMessage("ok", "编辑");
+    } catch (ArgsException e) {
+      e.printStackTrace();
+      resultMessage = new ResultMessage("编辑", e.getCode(), e.getMessage());
+    } catch (Exception e) {
+      e.printStackTrace();
+      resultMessage = new ResultMessage("编辑", FailureCode.ERR_001);
+    }
+    return resultMessage;
+  }
 
-	@ResponseBody
-	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
-	public ResultMessage add(@RequestBody TrainingItemDTO trainingItemDTO){
-		ResultMessage resultMessage = null;
-		try {
-			if (null != trainingItemDTO) {
-				trainingItemDTO.setCreateUser(getLoginUserName());
-			}
-			this.trainingWebService.saveTrainingItem(trainingItemDTO);
-			resultMessage = new ResultMessage("ok", "添加");
-		} catch (ArgsException e) {
-			e.printStackTrace();
-			resultMessage = new ResultMessage("添加", e.getCode(), e.getMessage());
-		} catch (Exception e) {
-			e.printStackTrace();
-			resultMessage = new ResultMessage("添加", FailureCode.ERR_001);
-		}
-		return resultMessage;
-	}
+  @ResponseBody
+  @RequestMapping(value = "/add", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+  public ResultMessage add(@RequestBody TrainingItemDTO trainingItemDTO) {
+    ResultMessage resultMessage = null;
+    try {
+      if (null != trainingItemDTO) {
+        trainingItemDTO.setCreateUser(getLoginUserName());
+      }
+      this.trainingWebService.saveTrainingItem(trainingItemDTO);
+      resultMessage = new ResultMessage("ok", "添加");
+    } catch (ArgsException e) {
+      e.printStackTrace();
+      resultMessage = new ResultMessage("添加", e.getCode(), e.getMessage());
+    } catch (Exception e) {
+      e.printStackTrace();
+      resultMessage = new ResultMessage("添加", FailureCode.ERR_001);
+    }
+    return resultMessage;
+  }
 
-	@ResponseBody
-	@RequestMapping(value = "/enabled", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
-	public ResultMessage enabled(@RequestParam String ids){
-		ResultMessage resultMessage = null;
-		try {
-			this.trainingWebService.enabledTrainingItem(ids);
-			resultMessage = new ResultMessage("ok", "启用");
-		} catch (ArgsException e) {
-			e.printStackTrace();
-			resultMessage = new ResultMessage("启用", e.getCode(), e.getMessage());
-		} catch (Exception e) {
-			e.printStackTrace();
-			resultMessage = new ResultMessage("启用", FailureCode.ERR_001);
-		}
-		return resultMessage;
-	}
+  @ResponseBody
+  @RequestMapping(value = "/enabled", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+  public ResultMessage enabled(@RequestParam String ids) {
+    ResultMessage resultMessage = null;
+    try {
+      this.trainingWebService.enabledTrainingItem(ids);
+      resultMessage = new ResultMessage("ok", "启用");
+    } catch (ArgsException e) {
+      e.printStackTrace();
+      resultMessage = new ResultMessage("启用", e.getCode(), e.getMessage());
+    } catch (Exception e) {
+      e.printStackTrace();
+      resultMessage = new ResultMessage("启用", FailureCode.ERR_001);
+    }
+    return resultMessage;
+  }
 
-	@ResponseBody
-	@RequestMapping(value = "/disabled", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
-	public ResultMessage disabled(@RequestParam String ids){
-		ResultMessage resultMessage = null;
-		try {
-			this.trainingWebService.disabledTrainingItem(ids);
-			resultMessage = new ResultMessage("ok", "禁用");
-		} catch (ArgsException e) {
-			e.printStackTrace();
-			resultMessage = new ResultMessage("禁用", e.getCode(), e.getMessage());
-		} catch (Exception e) {
-			e.printStackTrace();
-			resultMessage = new ResultMessage("禁用", FailureCode.ERR_001);
-		}
-		return resultMessage;
-	}
+  @ResponseBody
+  @RequestMapping(value = "/disabled", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+  public ResultMessage disabled(@RequestParam String ids) {
+    ResultMessage resultMessage = null;
+    try {
+      this.trainingWebService.disabledTrainingItem(ids);
+      resultMessage = new ResultMessage("ok", "禁用");
+    } catch (ArgsException e) {
+      e.printStackTrace();
+      resultMessage = new ResultMessage("禁用", e.getCode(), e.getMessage());
+    } catch (Exception e) {
+      e.printStackTrace();
+      resultMessage = new ResultMessage("禁用", FailureCode.ERR_001);
+    }
+    return resultMessage;
+  }
 
-	@ResponseBody
-	@RequestMapping(value = "/delete", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
-	public ResultMessage delete(@RequestParam String ids){
-		ResultMessage resultMessage = null;
-		try {
-			this.trainingWebService.deleteTrainingItem(ids);
-			resultMessage = new ResultMessage("ok", "删除");
-		} catch (ArgsException e) {
-			e.printStackTrace();
-			resultMessage = new ResultMessage("删除", e.getCode(), e.getMessage());
-		} catch (Exception e) {
-			e.printStackTrace();
-			resultMessage = new ResultMessage("删除", FailureCode.ERR_001);
-		}
-		return resultMessage;
-	}
+  @ResponseBody
+  @RequestMapping(value = "/delete", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+  public ResultMessage delete(@RequestParam String ids) {
+    ResultMessage resultMessage = null;
+    try {
+      this.trainingWebService.deleteTrainingItem(ids);
+      resultMessage = new ResultMessage("ok", "删除");
+    } catch (ArgsException e) {
+      e.printStackTrace();
+      resultMessage = new ResultMessage("删除", e.getCode(), e.getMessage());
+    } catch (Exception e) {
+      e.printStackTrace();
+      resultMessage = new ResultMessage("删除", FailureCode.ERR_001);
+    }
+    return resultMessage;
+  }
 
 }

@@ -32,6 +32,7 @@ public class TrainingItemDTO implements Serializable{
 	private String itemIds;
 	private String areaName;
 	private List<CouponRelationDTO> coupons;
+	private List<TrainingItemPriceDTO> prices;
 	
 	private boolean applied;
 	public String getAreaName() {
@@ -183,4 +184,12 @@ public class TrainingItemDTO implements Serializable{
 	public void setCoupons(List<CouponRelationDTO> coupons) {
 		this.coupons = coupons;
 	}
+
+  public List<TrainingItemPriceDTO> getPrices() {
+    return prices;
+  }
+
+  public void setPrices(List<TrainingItemPriceDTO> prices) {
+    this.prices = prices;
+  }
 }

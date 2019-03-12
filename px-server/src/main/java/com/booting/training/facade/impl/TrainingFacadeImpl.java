@@ -28,8 +28,11 @@ import com.booting.training.dto.TrainingItemDTO;
 import com.booting.training.entity.TrainingItemEntity;
 import com.booting.training.service.TrainingItemService;
 import com.booting.training.dto.TrainingItemPictureDTO;
+import com.booting.training.dto.TrainingItemPriceDTO;
 import com.booting.training.entity.TrainingItemPictureEntity;
+import com.booting.training.entity.TrainingItemPriceEntity;
 import com.booting.training.service.TrainingItemPictureService;
+import com.booting.training.service.TrainingItemPriceService;
 
 @Service("trainingFacade")
 public class TrainingFacadeImpl implements TrainingFacade {
@@ -52,6 +55,88 @@ public class TrainingFacadeImpl implements TrainingFacade {
 
   @Autowired
   private PromoterService promoterService;
+
+  @Autowired
+  private TrainingItemPriceService trainingItemPriceService;
+  
+  @Override
+  public Long saveTrainingItemPrice(TrainingItemPriceDTO trainingItemPriceDTO){
+      if (null == trainingItemPriceDTO) {
+          return null;
+      }
+      TrainingItemPriceEntity entity = toTrainingItemPriceEntity(trainingItemPriceDTO);
+      trainingItemPriceDTO = trainingItemPriceService.save(entity);
+      return trainingItemPriceDTO.getId();
+  }
+
+  @Override
+  public void batchSaveTrainingItemPrice(List<TrainingItemPriceDTO> dtos){
+      if (null == dtos || dtos.isEmpty()) {
+          return;
+      }
+      List<TrainingItemPriceEntity> entities = toTrainingItemPriceEntities(dtos);
+      trainingItemPriceService.batchSave(entities);
+  }
+
+  @Override
+  public int updateTrainingItemPrice(TrainingItemPriceDTO trainingItemPriceDTO){
+      trainingItemPriceDTO = trainingItemPriceService.updateBySql(trainingItemPriceDTO);
+      return 1;
+  }
+
+  @Override
+  public void batchUpdateTrainingItemPrice(List<TrainingItemPriceDTO> dtos){
+      if (null == dtos || dtos.isEmpty()) {
+          return;
+      }
+      trainingItemPriceService.batchUpdate(dtos);
+  }
+
+  @Override
+  public int deleteTrainingItemPrice(long id){
+      return trainingItemPriceService.delete(id);
+  }
+
+  @Override
+  public TrainingItemPriceDTO getTrainingItemPrice(long id){
+      return trainingItemPriceService.get(id);
+  }
+
+  @Override
+  public TrainingItemPriceDTO getTrainingItemPrice(TrainingItemPriceDTO trainingItemPriceDTO){
+      return trainingItemPriceService.get(trainingItemPriceDTO);
+  }
+
+  @Override
+  public List<TrainingItemPriceDTO> getTrainingItemPriceList(TrainingItemPriceDTO trainingItemPriceDTO){
+      return trainingItemPriceService.getSimpleList(trainingItemPriceDTO);
+  }
+
+  @Override
+  public PageList<TrainingItemPriceDTO> getTrainingItemPriceListForPage(TrainingItemPriceDTO trainingItemPriceDTO, int pageNumber, int pageSize){
+      return trainingItemPriceService.getSimpleListForPage(trainingItemPriceDTO, pageNumber, pageSize);
+  }
+
+  @Override
+  public PageList<TrainingItemPriceDTO> getTrainingItemPriceListForPage(QueryParam queryParam){
+      return trainingItemPriceService.getSimpleListForPage(queryParam);
+  }
+
+  @Override
+  public TrainingItemPriceEntity toTrainingItemPriceEntity(TrainingItemPriceDTO dto){
+      TrainingItemPriceEntity entity = new TrainingItemPriceEntity();
+      CglibBeanUtils.copy(dto, entity);
+      return entity;
+  }
+
+  @Override
+  public List<TrainingItemPriceEntity> toTrainingItemPriceEntities(List<TrainingItemPriceDTO> dtos){
+      List<TrainingItemPriceEntity> entities = new ArrayList<>();
+      for(TrainingItemPriceDTO dto : dtos){
+          entities.add(toTrainingItemPriceEntity(dto));
+      }
+      return entities;
+  }
 
   @Override
   public Long savePromoter(PromoterDTO promoterDTO) {
@@ -560,5 +645,10 @@ public class TrainingFacadeImpl implements TrainingFacade {
   @Override
   public void updateBySql(StudyAddressDTO dto) {
     this.studyAddressService.updateBySql(dto);
+  }
+
+  @Override
+  public void deleteTrainingItemPriceByItemId(Long itemId) {
+    this.trainingItemPriceService.deleteTrainingItemPriceByItemId(itemId);
   }
 }

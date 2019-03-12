@@ -86,8 +86,8 @@ $(function(){
 				required: true
 			},
 			price: {
-				required: true,
-				money: true
+			  required: true,
+			  money: true
 			},
 			address: {
 				required: true,
@@ -115,9 +115,9 @@ $(function(){
 				required: "必选"
 			},
 			price: {
-				required: "必填",
-				money: "价格有误"
-			},
+			  required: "必填",
+        money: "价格有误"
+      },
 			address: {
 				required: "必填",
 				rangelength: "长度在2至100个字"
@@ -145,10 +145,17 @@ $(function(){
 			var path=$(this).attr("data");
 			pictures.push({"picturePath": path});
 		});
+		var prices=new Array();
+		$("li .price").each(function(){
+		  var applyItemId=$(this).attr("applyItemId");
+		  var price=$(this).val();
+		  prices.push({"applyItemId": applyItemId, "price": price * 100});
+		});
 		params["beginTime"]=params.beginTime+" 00:00:00";
 		params["endTime"]=params.endTime+" 00:00:00";
-		params["price"]=params.price * 100;
+		//params["price"]=params.price * 100;
 		params["pictures"]=pictures;
+		params["prices"]=prices;
 		console.log(JSON.stringify(params));
 		$.ajax({
 			contentType:"application/json",
