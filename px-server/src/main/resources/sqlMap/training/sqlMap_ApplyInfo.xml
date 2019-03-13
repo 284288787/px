@@ -105,7 +105,7 @@
 				certificateCode, 
 				px_apply_info.createTime, 
 				sourceFrom, 
-				organizationName, px_apply_info.`status`,childName,childBirth,childAge,childSex,addrId,applyItemId,px_apply_info.promoterId,p.`name` promoter, p.mobile promoterMobile,
+				organizationName, px_apply_info.`status`,childName,childBirth,childAge,childSex,addrId,px_apply_info.applyItemId,px_apply_info.promoterId,p.`name` promoter, p.mobile promoterMobile,
 				(select a.addrName from px_study_address a where a.addrId = px_apply_info.addrId) addrName,
 				o.orderNo, w.transaction_id
 			FROM px_apply_info

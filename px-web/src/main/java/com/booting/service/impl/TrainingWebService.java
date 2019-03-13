@@ -420,6 +420,9 @@ public class TrainingWebService extends BaseWebService {
     trainingItemPriceDTO.setApplyItemId(applyItemId);
     trainingItemPriceDTO.setItemId(itemId);
     TrainingItemPriceDTO priceDTO = this.trainingFacade.getTrainingItemPrice(trainingItemPriceDTO);
+    if(null == priceDTO) {
+      return 0;
+    }
     return priceDTO.getPrice();
   }
 }

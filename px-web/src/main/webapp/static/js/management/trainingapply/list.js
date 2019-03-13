@@ -22,7 +22,7 @@ var trainingapplyHandle = new ListHandle({
   }
 });
 $(function(){
-	var colNames = [ '主键', '状态', '订单号', '交易单号', '培训项目', '上课地点', '家长姓名', '家长电话', '孩子姓名', '孩子性别', '孩子生日', '家庭地址', '推广员', '推广员电话', '创建时间'];
+	var colNames = [ '主键', '状态', '订单号', '交易单号', '培训项目', '上课地点', '家长姓名', '家长电话', '孩子姓名', '孩子性别', '孩子年龄', '家庭地址', '推广员', '推广员电话', '创建时间'];
 	var colModel = [
 		{name: 'applyId', index: 'applyId', width: 20, align: "center"}, 
 		{name: 'status', index: 'status', width: 60, align: "center", formatter: 'select', editoptions:{value:"1:待处理;2:已支付"}}, 
@@ -34,7 +34,7 @@ $(function(){
 		{name: 'mobile', index: 'mobile', width: 60, align: "center"}, 
 		{name: 'childName', index: 'childName', width: 60, align: "center"}, 
 		{name: 'childSex', index: 'childSex', width: 40, align: "center", formatter: 'select', editoptions:{value:"1:男;0:女"}}, 
-		{name: 'childBirth', index: 'childBirth', width: 60, align: "center", formatter:'date', formatoptions: {srcformat: 'Y-m-d H:i:s', newformat:'Y-m-d'}}, 
+		{name: 'childAge', index: 'childAge', width: 40, align: "center"}, 
 		{name: 'address', index: 'address', width: 120, align: "left"}, 
 		{name: 'promoter', index: 'promoter', width: 120, align: "center"}, 
 		{name: 'promoterMobile', index: 'promoter_mobile', width: 120, align: "center"}, 

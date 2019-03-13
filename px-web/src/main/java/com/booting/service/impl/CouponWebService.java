@@ -78,12 +78,13 @@ public class CouponWebService {
 			}
 		} else {
 			List<Card> cards = cardList.getCard_list();
-			for (Card card : cards) {
-				Map<String, Object> c = WeiXinUtil.getCardDetail(card.getCard_id());
-				c.put("cardId", card.getCard_id());
-				c.put("code", card.getCode());
-				res.add(c);
-			}
+			if(null != cards && !cards.isEmpty())
+  			for (Card card : cards) {
+  				Map<String, Object> c = WeiXinUtil.getCardDetail(card.getCard_id());
+  				c.put("cardId", card.getCard_id());
+  				c.put("code", card.getCode());
+  				res.add(c);
+  			}
 		}
 		return res;
 	}
