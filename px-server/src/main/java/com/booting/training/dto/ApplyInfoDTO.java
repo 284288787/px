@@ -22,6 +22,7 @@ public class ApplyInfoDTO implements Serializable {
 	//新增 下面6个字段
 	private String childName;
 	private Date childBirth;
+	private Integer childAge;
 	private Integer childSex;
 	private Long addrId;
     private Long applyItemId;
@@ -247,5 +248,13 @@ public class ApplyInfoDTO implements Serializable {
 
   public void setPromoterMobile(String promoterMobile) {
     this.promoterMobile = promoterMobile;
+  }
+
+  public Integer getChildAge() {
+    return childAge;
+  }
+
+  public void setChildAge(Integer childAge) {
+    this.childAge = childAge;
   }
 }

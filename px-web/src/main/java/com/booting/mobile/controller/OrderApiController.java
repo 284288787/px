@@ -37,6 +37,7 @@ public class OrderApiController extends ApiBaseController{
 		@ApiImplicitParam(name = "openId", value = "openId", paramType = "query", required = true, dataType = "String"),
 		@ApiImplicitParam(name = "type", value = "订单类型 1 报名培训项目", paramType = "query", required = true, dataType = "Integer", allowableValues = "1,2"),
 		@ApiImplicitParam(name = "businessId", value = "订单类型下的业务id", paramType = "query", required = true, dataType = "long"),
+		@ApiImplicitParam(name = "applyItemId", value = "报名项id", paramType = "query", required = true, dataType = "long"),
 		@ApiImplicitParam(name = "payType", value = "支付方式 1支付宝 2微信", paramType = "query", required = true, dataType = "Integer", allowableValues = "1,2"),
 		@ApiImplicitParam(name = "subject", value = "主题", paramType = "query", required = true, dataType = "String"),
 		@ApiImplicitParam(name = "remark", value = "备注", paramType = "query", required = false, dataType = "String"),

@@ -3,8 +3,8 @@
 
 	<sql id="insertApplyInfo" isRead="false" dsName="test-write">
 		<![CDATA[
-			INSERT INTO px_apply_info(itemId, address, `name`, type, mobile, applyId, certificateType, certificateCode, createTime, sourceFrom, organizationName,userId,childName,childBirth,childSex,addrId,applyItemId,promoterId) 
-			values (:itemId, :address, :name, :type, :mobile, :applyId, :certificateType, :certificateCode, :createTime, :sourceFrom, :organizationName, :userId,:childName,:childBirth,:childSex,:addrId,:applyItemId,:promoterId)
+			INSERT INTO px_apply_info(itemId, address, `name`, type, mobile, applyId, certificateType, certificateCode, createTime, sourceFrom, organizationName,userId,childName,childBirth,childAge,childSex,addrId,applyItemId,promoterId) 
+			values (:itemId, :address, :name, :type, :mobile, :applyId, :certificateType, :certificateCode, :createTime, :sourceFrom, :organizationName, :userId,:childName,:childBirth,:childAge,:childSex,:addrId,:applyItemId,:promoterId)
 		]]>
 	</sql>
 
@@ -105,7 +105,7 @@
 				certificateCode, 
 				px_apply_info.createTime, 
 				sourceFrom, 
-				organizationName, px_apply_info.`status`,childName,childBirth,childSex,addrId,applyItemId,px_apply_info.promoterId,p.`name` promoter, p.mobile promoterMobile,
+				organizationName, px_apply_info.`status`,childName,childBirth,childAge,childSex,addrId,applyItemId,px_apply_info.promoterId,p.`name` promoter, p.mobile promoterMobile,
 				(select a.addrName from px_study_address a where a.addrId = px_apply_info.addrId) addrName,
 				o.orderNo, w.transaction_id
 			FROM px_apply_info

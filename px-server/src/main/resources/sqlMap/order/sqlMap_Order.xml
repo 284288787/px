@@ -3,8 +3,8 @@
 
 	<sql id="insertOrder" isRead="false" dsName="test-write">
 		<![CDATA[
-			INSERT INTO order_info(subject, outTradeNo, orderNo, payType, type, userId, createTime, remark, payTime, `status`, totalMoney, businessId, couponMoney, couponCodes, couponCardIds) 
-			values (:subject, :outTradeNo, :orderNo, :payType, :type, :userId, now(), :remark, :payTime, :status, :totalMoney, :businessId, :couponMoney, :couponCodes, :couponCardIds)
+			INSERT INTO order_info(subject, outTradeNo, orderNo, payType, type, userId, createTime, remark, payTime, `status`, totalMoney, businessId, applyItemId, couponMoney, couponCodes, couponCardIds) 
+			values (:subject, :outTradeNo, :orderNo, :payType, :type, :userId, now(), :remark, :payTime, :status, :totalMoney, :businessId, :applyItemId, :couponMoney, :couponCodes, :couponCardIds)
 		]]>
 	</sql>
 
@@ -109,7 +109,7 @@
 				payTime, 
 				`status`, 
 				totalMoney,
-				businessId,couponMoney, couponCodes, couponCardIds
+				businessId, applyItemId,couponMoney, couponCodes, couponCardIds
 			FROM order_info
 			WHERE 1=1
 			<#if subject?exists && subject != "">
@@ -232,7 +232,7 @@
 				o.payTime, 
 				o.`status`, 
 				o.totalMoney,
-				businessId, couponMoney, couponCodes, couponCardIds
+				businessId, applyItemId, couponMoney, couponCodes, couponCardIds
 			FROM order_info o, px_member u
 			WHERE o.userId = u.memberId
 				<#if userName?exists && userName != "">

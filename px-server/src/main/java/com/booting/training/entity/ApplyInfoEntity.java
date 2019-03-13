@@ -31,6 +31,7 @@ public class ApplyInfoEntity implements Serializable {
   // 新增 下面 5个字段
   private String childName;
   private Date childBirth;
+  private Integer childAge;
   private Integer childSex;
   private Long addrId;
   private Long applyItemId;
@@ -131,7 +132,11 @@ public class ApplyInfoEntity implements Serializable {
   public Long getApplyItemId() {
     return applyItemId;
   }
-
+  @Column(name = "childAge")
+  public Integer getChildAge() {
+    return childAge;
+  }
+  
   public void setApplyId(Long applyId) {
     this.applyId = applyId;
   }
@@ -206,5 +211,9 @@ public class ApplyInfoEntity implements Serializable {
 
   public void setPromoterId(Long promoterId) {
     this.promoterId = promoterId;
+  }
+
+  public void setChildAge(Integer childAge) {
+    this.childAge = childAge;
   }
 }

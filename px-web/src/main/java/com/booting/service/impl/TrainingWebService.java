@@ -255,7 +255,7 @@ public class TrainingWebService extends BaseWebService {
   }
 
   public Long saveApplyInfo(ApplyInfoDTO applyInfoDTO) throws ArgsException {
-    if (null == applyInfoDTO || null == applyInfoDTO.getItemId() || StringUtils.isBlank(applyInfoDTO.getName()) || StringUtils.isBlank(applyInfoDTO.getChildName()) || null == applyInfoDTO.getChildBirth() || null == applyInfoDTO.getChildSex() || StringUtils.isBlank(applyInfoDTO.getOpenId()) || StringUtils.isBlank(applyInfoDTO.getMobile())) {
+    if (null == applyInfoDTO || null == applyInfoDTO.getItemId() || StringUtils.isBlank(applyInfoDTO.getChildName()) || null == applyInfoDTO.getChildAge() || null == applyInfoDTO.getChildSex() || StringUtils.isBlank(applyInfoDTO.getOpenId()) || StringUtils.isBlank(applyInfoDTO.getMobile())) {
       throw new ArgsException(FailureCode.ERR_002);
     }
     applyInfoDTO.setType(5);
@@ -413,5 +413,13 @@ public class TrainingWebService extends BaseWebService {
         }
       }
     }
+  }
+
+  public Integer getTrainingItemPrice(Long itemId, Long applyItemId) {
+    TrainingItemPriceDTO trainingItemPriceDTO = new TrainingItemPriceDTO();
+    trainingItemPriceDTO.setApplyItemId(applyItemId);
+    trainingItemPriceDTO.setItemId(itemId);
+    TrainingItemPriceDTO priceDTO = this.trainingFacade.getTrainingItemPrice(trainingItemPriceDTO);
+    return priceDTO.getPrice();
   }
 }

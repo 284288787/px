@@ -24,6 +24,7 @@ public class OrderDTO implements Serializable {
 	private String outTradeNo; //支付流水
 	private String remark;     //备注
 	private Long businessId;   
+	private Long applyItemId;   
 	private Integer couponMoney;   //优惠金额  * 100
 	private String couponCodes;    //优惠券codes
 	private String couponCardIds;  //优惠券cardid  
@@ -192,4 +193,12 @@ public class OrderDTO implements Serializable {
 	public void setCouponCardIds(String couponCardIds) {
 		this.couponCardIds = couponCardIds;
 	}
+
+  public Long getApplyItemId() {
+    return applyItemId;
+  }
+
+  public void setApplyItemId(Long applyItemId) {
+    this.applyItemId = applyItemId;
+  }
 }

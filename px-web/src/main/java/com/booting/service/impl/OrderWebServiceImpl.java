@@ -97,9 +97,12 @@ public class OrderWebServiceImpl extends BaseWebService implements OrderWebServi
 				  crds.addAll(item.getCoupons());
                 }
 				Integer price = item.getPrice();
-				if (null == price) {
-					price = 0;
-				}
+                if (null == price) {
+                    price = 0;
+                }
+				if (null != orderDTO.getApplyItemId()) {
+				  price = trainingWebService.getTrainingItemPrice(item.getItemId(), orderDTO.getApplyItemId());
+                }
 				orderDetailDTO.setPrice(price);
 				orderDetailDTO.setProductName(item.getTitle());
 				orderDetailDTO.setQuantity(1);
