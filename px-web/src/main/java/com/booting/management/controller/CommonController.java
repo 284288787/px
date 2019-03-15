@@ -64,9 +64,7 @@ public class CommonController {
       response.setHeader("Pragma", "no-cache");
       response.setHeader("Cache-Control", "no-cache");
       response.setDateHeader("Expires", 0);
-      String content = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx18e37c25035345e3"
-          + "&redirect_uri=http%3a%2f%2fpx.jytzn.com%2fpx%2ftraining%2ftraining.html&response_type=code"
-          + "&scope=snsapi_base&state=1a" + promoterId + "#wechat_redirect";
+      String content = "http://px.jytzn.com/px/training.html?state=1a" + promoterId;
       QrCodeUtil.create("http://px.jytzn.com/photo/logo.png", content, response.getOutputStream());
     } catch (Throwable e) {
       Throwable t = e.getCause();
