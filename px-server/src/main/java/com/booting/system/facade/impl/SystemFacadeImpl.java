@@ -68,6 +68,12 @@ public class SystemFacadeImpl implements SystemFacade {
 		if (null == userAccountDTO) {
 			return null;
 		}
+		UserAccountDTO dto = new UserAccountDTO();
+		dto.setAccount(userAccountDTO.getAccount());
+		UserAccountDTO temp = userAccountService.get(dto);
+		if (null != temp && null != temp.getUserId()) {
+          throw new ArgsException(FailureCode.ERR_002, "用户账号已经存在");
+        }
 		UserAccountEntity entity = toUserAccountEntity(userAccountDTO);
 		entity.setNonExpired(1);
 		entity.setNonLocked(1);
