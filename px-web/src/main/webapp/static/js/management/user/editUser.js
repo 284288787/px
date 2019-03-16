@@ -1,4 +1,5 @@
 var basePath=$("#basePath").val();
+var parentParams=artDialog.data('params'); 
 $(function(){
 	$("#editUserInfoForm").validate({
 		rules: {
@@ -41,7 +42,7 @@ $(function(){
 			dataType: 'json',
 			success: function(res){
 				if(res.status=='SUCCESS'){
-					parent.userHandle.query();
+				  parentParams.query(); 
 					art.dialog.close();
 				}else{
 					artDialog.alert(res.errorMessage)
