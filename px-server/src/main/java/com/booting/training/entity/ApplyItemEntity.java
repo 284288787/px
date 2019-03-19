@@ -15,6 +15,7 @@ public class ApplyItemEntity {
 
   private Long applyItemId;
   private String itemName;
+  private Double brokerageRate; //提成比率
   private Integer deleted;  //删除 1是 0否
   private Integer enabled;  //禁用 1是 0否
   private Date createTime;
@@ -36,6 +37,10 @@ public class ApplyItemEntity {
   public Integer getEnabled() {
     return enabled;
   }
+  @Column(name = "brokerageRate")
+  public Double getBrokerageRate() {
+    return brokerageRate;
+  }
   @Column(name = "createTime")
   public Date getCreateTime() {
     return createTime;
@@ -55,5 +60,8 @@ public class ApplyItemEntity {
   }
   public void setCreateTime(Date createTime) {
     this.createTime = createTime;
+  }
+  public void setBrokerageRate(Double brokerageRate) {
+    this.brokerageRate = brokerageRate;
   }
 }

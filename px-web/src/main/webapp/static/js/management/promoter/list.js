@@ -19,6 +19,17 @@ var promoterHandle = new ListHandle({
 },{ 
   downloadEwm: function(promoterId){
     window.open(basePath+'common/ewm/'+promoterId);
+  },
+  promotDetail: function(promoterId){
+    artDialog.data("params", {"promoterId":promoterId});
+    artDialog.open(basePath+'common/management/promoter/detail',{
+      title: "推广明细",
+      width : "800px",
+      height: "500px",
+      drag:true,
+      resize:false,
+      lock:true
+    });
   }
 }); 
 var utilsHandle = new UtilsHandle({ 
@@ -35,12 +46,19 @@ var utilsHandle = new UtilsHandle({
 	}, 
 }); 
 $(function(){ 
-	var colNames = ['id', '推广二维码', '姓名', '电话', '添加时间', '是否可用', '操作'];
+	var colNames = ['id', '推广二维码', '已推广人数', '总提成', '姓名', '电话', '添加时间', '是否可用', '操作'];
 	var colModel = [ 
 		{name: 'promoterId', index: 'promoterId', width: 30, align: 'center'}, 
 		{width: 140, align: 'center', formatter: function(cellvalue, options, rowObject){
 		  return '<a class="linetaga" href="javascript: promoterHandle.downloadEwm(\'' + rowObject.promoterId + '\');" >下载</a>'
 		}}, 
+		{name: 'count', index: 'count', width: 70, align: 'center', formatter: function(cellvalue, options, rowObject){
+		  if(cellvalue==0) return '<a class="linetaga">'+cellvalue+'</a>';
+      return '<a class="linetaga" href="javascript: promoterHandle.promotDetail(\'' + rowObject.promoterId + '\');" >'+cellvalue+'</a>'
+    }}, 
+    {name: 'totalTc', width: 70, align: 'center', formatter: function(cellvalue, options, rowObject){
+      return (cellvalue / 100.0).toFixed(4);
+    }}, 
 		{name: 'name', index: 'name', width: 70, align: 'center'}, 
 		{name: 'mobile', index: 'mobile', width: 110, align: 'center'}, 
 		{name: 'createTime', index: 'createTime', width: 140, align: 'center'}, 

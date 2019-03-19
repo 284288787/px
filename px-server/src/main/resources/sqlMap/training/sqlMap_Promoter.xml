@@ -60,14 +60,21 @@
 	<sql id="getSimplePromoterList">
 		<![CDATA[
 			SELECT 
-				`name`, 
-				promoterId, 
-				createTime, 
-				mobile, 
-				deleted, 
-				enabled
-			FROM px_promoter
-			WHERE 1=1
+        `name`, 
+        px_promoter.promoterId, 
+        createTime, 
+        mobile, 
+        deleted, 
+        enabled,
+        (select count(1) from px_apply_info where `status` = 2 and promoterId = px_promoter.promoterId) count,
+        ifnull(b.totalTc, 0) totalTc
+      FROM px_promoter 
+      left JOIN (select promoterId, ifnull(SUM(tc), 0) totalTc from (
+select a.applyItemId, o.totalMoney, a.promoterId, i.brokerageRate, o.totalMoney * i.brokerageRate tc from px_apply_info a 
+INNER JOIN order_info o on o.businessId = a.applyId
+INNER JOIN px_apply_item i on i.applyItemId = a.applyItemId
+where a.`status` = 2) t GROUP BY t.promoterId) b on b.promoterId = px_promoter.promoterId
+      WHERE 1=1
 			<#if name?exists && name != "">
 					AND `name` = :name
 				</#if>
@@ -137,7 +144,8 @@
 				createTime, 
 				mobile, 
 				deleted, 
-				enabled
+				enabled,
+        (select count(1) from px_apply_info where `status` = 2 and promoterId = px_promoter.promoterId) count
 			FROM px_promoter
 			WHERE 1=1
 			<#if name?exists && name != "">

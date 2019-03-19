@@ -105,13 +105,14 @@
 				certificateCode, 
 				px_apply_info.createTime, 
 				sourceFrom, 
-				organizationName, px_apply_info.`status`,childName,childBirth,childAge,childSex,addrId,px_apply_info.applyItemId,px_apply_info.promoterId,p.`name` promoter, p.mobile promoterMobile,
+				organizationName, px_apply_info.`status`,childName,childBirth,childAge,childSex,addrId,px_apply_info.applyItemId,i.itemName,i.brokerageRate,px_apply_info.promoterId,p.`name` promoter, p.mobile promoterMobile,
 				(select a.addrName from px_study_address a where a.addrId = px_apply_info.addrId) addrName,
-				o.orderNo, w.transaction_id
+				o.orderNo, w.transaction_id, w.total_fee totalFee
 			FROM px_apply_info
 			INNER JOIN order_info o on o.businessId = px_apply_info.applyId
 			INNER JOIN order_weixin w on o.orderNo = w.attach
 			INNER JOIN px_promoter p on p.promoterId = px_apply_info.promoterId
+      INNER JOIN px_apply_item i on i.applyItemId = px_apply_info.applyItemId
 			WHERE 1=1
 			<#if orderNo?exists && orderNo != "">
 					AND orderNo = :orderNo

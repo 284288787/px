@@ -49,7 +49,12 @@
 	}, "请输入正整数或0");
 	
 	jQuery.validator.addMethod("time", function(value, element) {
-		var moblieReg = new RegExp("^(([0-2][0-3])|([0-1][0-9])|([1-9])):[0-5][0-9]$");
-	    return this.optional(element) || (moblieReg.test(value));
+	  var moblieReg = new RegExp("^(([0-2][0-3])|([0-1][0-9])|([1-9])):[0-5][0-9]$");
+	  return this.optional(element) || (moblieReg.test(value));
 	}, "请输入时间");
+	
+	jQuery.validator.addMethod("within1", function(value, element) {
+		var moblieReg = new RegExp("^(0\\.\\d{1,2})|0$");
+	    return this.optional(element) || (moblieReg.test(value));
+	}, "须1以内的小数");
 }));

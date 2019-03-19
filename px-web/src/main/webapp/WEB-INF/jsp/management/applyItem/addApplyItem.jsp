@@ -20,7 +20,7 @@
 		<form action="" id="editApplyItemForm"> 
 		<ul> 
 			<li><strong>报名项：</strong><span><input type="text" name="itemName" placeholder="报名项" ></span></li>
-			</span></li> 
+			<li><strong>提成比率：</strong><span><input type="text" name="brokerageRate" placeholder="小于1的小数，0无提成" ></span></li>
 		</ul>
 		</form>
 		<div class="btnGroup"> 

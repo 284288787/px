@@ -22,13 +22,17 @@ var trainingapplyHandle = new ListHandle({
   }
 });
 $(function(){
-	var colNames = [ '主键', '状态', '订单号', '交易单号', '培训项目', '上课地点', '家长姓名', '家长电话', '孩子姓名', '孩子性别', '孩子年龄', '家庭地址', '推广员', '推广员电话', '创建时间'];
+	var colNames = [ '主键', '状态', '订单号', '交易单号', '金额', '培训项目', '上课地点', '家长姓名', '家长电话', '孩子姓名', '孩子性别', '孩子年龄', '家庭地址', '推广员', '推广员电话', '创建时间'];
 	var colModel = [
 		{name: 'applyId', index: 'applyId', width: 20, align: "center"}, 
 		{name: 'status', index: 'status', width: 60, align: "center", formatter: 'select', editoptions:{value:"1:待处理;2:已支付"}}, 
 		{name: 'orderNo', index: 'orderNo', width: 140, align: "center"}, 
 		{name: 'transactionId', index: 'transactionId', width: 150, align: "center"}, 
-		{name: 'applyItemId', index: 'applyItemId', width: 80, align: "center", formatter: 'select', editoptions:{value:"1:体质检测;2:2节体验课"}}, 
+		{name: 'totalFee', width: 80,editable: false, sortable: false, align: "center", formatter: function(cellvalue, options, rowObject){
+		  if(!cellvalue) return '';
+		  return (cellvalue / 100.0).toFixed(2);
+		}}, 
+		{name: 'itemName',  width: 80, align: "center",editable: false, sortable: false}, 
 		{name: 'addrName', index: 'addrName', width: 140, align: "center"}, 
 		{name: 'name', index: 'name', width: 60, align: "center"}, 
 		{name: 'mobile', index: 'mobile', width: 60, align: "center"}, 

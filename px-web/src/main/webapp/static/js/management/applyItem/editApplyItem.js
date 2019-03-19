@@ -62,18 +62,25 @@ $(function(){
 //		}); 
 //	}); 
 	$('#editApplyItemForm').validate({ 
-		rules: {
-			itemName: {
-			},
-			enabled: {
-			}
-		},
-		messages: { 
-			itemName: {
-			},
-			enabled: {
-			}
-		} 
+	  rules: {
+      itemName: {
+        required: true,
+        rangelength: [2, 10]
+      },
+      brokerageRate: {
+        required: true,
+        within1: true
+      }
+    },
+    messages: { 
+      itemName: {
+        required: true,
+        rangelength: "2至10个字"
+      },
+      brokerageRate: {
+        required: "必填",
+      }
+    } 
 	}); 
 	
 	$('#saveBtn').click(function(){ 

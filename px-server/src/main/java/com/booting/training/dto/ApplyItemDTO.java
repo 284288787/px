@@ -10,6 +10,7 @@ public class ApplyItemDTO {
 
   private Long applyItemId;
   private String itemName;
+  private Double brokerageRate; //提成比率 
   private Integer deleted;  //删除 1是 0否
   private Integer enabled;  //禁用 1是 0否
   private Date createTime;
@@ -57,5 +58,13 @@ public class ApplyItemDTO {
 
   public void setApplyItemIds(String applyItemIds) {
     this.applyItemIds = applyItemIds;
+  }
+
+  public Double getBrokerageRate() {
+    return brokerageRate;
+  }
+
+  public void setBrokerageRate(Double brokerageRate) {
+    this.brokerageRate = brokerageRate;
   }
 }

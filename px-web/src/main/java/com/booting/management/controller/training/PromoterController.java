@@ -48,7 +48,7 @@ public class PromoterController {
     map.put("rows", pageList.getDataList());
     return map;
   }
-
+  
   @RequestMapping(value = "/editBefore/{promoterId}", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
   public String editBefore(@PathVariable Long promoterId, Model model) {
     PromoterDTO promoterDTO = this.promoterWebService.getPromoter(promoterId);

@@ -33,10 +33,11 @@ var utilsHandle = new UtilsHandle({
 	}, 
 }); 
 $(function(){ 
-	var colNames = ['applyItemId', '报名项', '添加时间', '是否可用', '操作'];
+	var colNames = ['applyItemId', '报名项', '提成率', '添加时间', '是否可用', '操作'];
 	var colModel = [ 
 		{name: 'applyItemId', index: 'applyItemId', width: 30, align: 'center'}, 
 		{name: 'itemName', index: 'itemName', width: 70, align: 'center'}, 
+		{name: 'brokerageRate', index: 'brokerageRate', width: 70, align: 'center'}, 
 		{name: 'createTime', index: 'createTime', width: 50, align: 'center'}, 
 		{name: 'enabled', index: 'enabled', width: 30, align: 'center', formatter: 'select', editoptions:{value:'1:可用;0:禁用'}}, 
 		{width: 50, align: 'left', editable: false, sortable: false, formatter: function(cellvalue, options, rowObject){ 

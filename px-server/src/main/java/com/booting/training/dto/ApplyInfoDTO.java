@@ -27,6 +27,10 @@ public class ApplyInfoDTO implements Serializable {
 	private Long addrId;
     private Long applyItemId;
     private Long promoterId;
+    
+    private String itemName;
+    private Double brokerageRate;
+    private Long totalFee;
 	
     private String promoter;
     private String promoterMobile;
@@ -256,5 +260,29 @@ public class ApplyInfoDTO implements Serializable {
 
   public void setChildAge(Integer childAge) {
     this.childAge = childAge;
+  }
+
+  public String getItemName() {
+    return itemName;
+  }
+
+  public Double getBrokerageRate() {
+    return brokerageRate;
+  }
+
+  public void setItemName(String itemName) {
+    this.itemName = itemName;
+  }
+
+  public void setBrokerageRate(Double brokerageRate) {
+    this.brokerageRate = brokerageRate;
+  }
+
+  public Long getTotalFee() {
+    return totalFee;
+  }
+
+  public void setTotalFee(Long totalFee) {
+    this.totalFee = totalFee;
   }
 }

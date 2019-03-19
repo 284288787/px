@@ -16,8 +16,10 @@ public class PromoterDTO implements Serializable {
   private Integer deleted;  //删除 1是 0否
   private Integer enabled;  //禁用 1是 0否
   private Date createTime;
+  private Integer count;    //推广的人数
+  private Double totalTc;   //总提成
   private String promoterIds;
-    
+  
   public Long getPromoterId() {
     return promoterId;
   }
@@ -67,6 +69,22 @@ public class PromoterDTO implements Serializable {
 
   public void setPromoterIds(String promoterIds) {
     this.promoterIds = promoterIds;
+  }
+
+  public Integer getCount() {
+    return count;
+  }
+
+  public void setCount(Integer count) {
+    this.count = count;
+  }
+
+  public Double getTotalTc() {
+    return totalTc;
+  }
+
+  public void setTotalTc(Double totalTc) {
+    this.totalTc = totalTc;
   } 
   
 }
