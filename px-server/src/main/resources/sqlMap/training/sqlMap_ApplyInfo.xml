@@ -174,6 +174,17 @@
 		]]>
 	</sql>
 
+	<sql id="totalMoneyByPromoter">
+		<![CDATA[
+			select  
+        sum(o.totalMoney * i.brokerageRate) money, max(a.createTime) time
+        FROM px_apply_info a
+        INNER JOIN order_info o on o.businessId = a.applyId
+        INNER JOIN px_apply_item i on i.applyItemId = a.applyItemId
+      where a.promoterId = :promoterId and a.createTime > :beginDatePoint
+		]]>
+	</sql>
+
 	<sql id="getSimpleApplyInfoListCount">
 		<![CDATA[
 			SELECT COUNT(1) FROM px_apply_info

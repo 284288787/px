@@ -3,8 +3,8 @@
 
 	<sql id="insertPromoter" isRead="false" dsName="test-write">
 		<![CDATA[
-			INSERT INTO px_promoter(`name`, createTime, mobile, deleted, enabled) 
-			values (:name, :createTime, :mobile, :deleted, :enabled)
+			INSERT INTO px_promoter(`name`, createTime, mobile, deleted, enabled, wxNumber) 
+			values (:name, :createTime, :mobile, :deleted, :enabled, :wxNumber)
 		]]>
 	</sql>
 
@@ -22,6 +22,9 @@
 				</#if>
 				<#if enabled?exists && enabled != "">
 					, enabled = :enabled
+				</#if>
+				<#if wxNumber?exists && wxNumber != "">
+					, wxNumber = :wxNumber
 				</#if>
 			WHERE 
 				<#if promoterId?exists && promoterId != "">
@@ -65,7 +68,7 @@
         createTime, 
         mobile, 
         deleted, 
-        enabled,
+        enabled,wxNumber,
         (select count(1) from px_apply_info where `status` = 2 and promoterId = px_promoter.promoterId) count,
         ifnull(b.totalTc, 0) totalTc
       FROM px_promoter 
@@ -144,7 +147,7 @@ where a.`status` = 2) t GROUP BY t.promoterId) b on b.promoterId = px_promoter.p
 				createTime, 
 				mobile, 
 				deleted, 
-				enabled,
+				enabled,wxNumber,
         (select count(1) from px_apply_info where `status` = 2 and promoterId = px_promoter.promoterId) count
 			FROM px_promoter
 			WHERE 1=1

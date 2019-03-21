@@ -2,7 +2,9 @@
 package com.booting.training.facade;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.star.framework.jdbc.dao.result.PageList;
 import com.star.framework.jdbc.dao.result.QueryParam;
@@ -593,5 +595,9 @@ public interface TrainingFacade extends Serializable {
   public void deleteTrainingItemPriceByItemId(Long itemId);
 
   public void updateBySql(ApplyItemDTO dto);
+
+  public KickbackDetailDTO getLatestKickbackDetail(Long promoterId);
+
+  public Map<String, Object> totalMoneyByPromoter(Long promoterId, Date beginDatePoint);
 
 }

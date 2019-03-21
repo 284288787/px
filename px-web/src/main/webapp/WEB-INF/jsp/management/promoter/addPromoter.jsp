@@ -21,7 +21,7 @@
 		<ul> 
 			<li><strong>姓名：</strong><span><input type="text" name="name" placeholder="姓名" ></span></li>
 			<li><strong>电话：</strong><span><input type="text" name="mobile" placeholder="电话" ></span></li>
-			</span></li> 
+			<li><strong>微信号：</strong><span><input type="text" name="wxNumber" placeholder="微信号" ></span></li>
 		</ul>
 		</form>
 		<div class="btnGroup"> 

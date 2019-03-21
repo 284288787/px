@@ -13,4 +13,6 @@ import com.booting.training.entity.KickbackDetailEntity;
  */
 public interface KickbackDetailService extends BaseService<KickbackDetailEntity, KickbackDetailDTO> {
 
+  public KickbackDetailDTO getLatestKickbackDetail(Long promoterId);
+
 }

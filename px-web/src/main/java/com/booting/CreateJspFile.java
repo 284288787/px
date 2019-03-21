@@ -24,11 +24,11 @@ public class CreateJspFile {
 	
 	private String basePath, jsPath;
 	
-	private String moduleName = "applyItem";
-	private String dtoName = "ApplyItemDTO";
-	private String pkIdName = "applyItemId";
-	private String controllerMappingName = "applyItem";
-	private String dtoCaption = "报名项";
+	private String moduleName = "kickbackDetail";
+	private String dtoName = "kickbackDetailDTO";
+	private String pkIdName = "id";
+	private String controllerMappingName = "kickbackDetail";
+	private String dtoCaption = "回扣发放明细";
 	String methodSuffix = dtoName.replace("DTO", "");
 	String dtoVariable = firstToLower(dtoName);
 	
@@ -36,21 +36,20 @@ public class CreateJspFile {
 
 		private static final long serialVersionUID = 1L;
 		{
+		  add(new HashMap<String, String>(){
+		    private static final long serialVersionUID = 1L;
+		    {
+		      put("caption", "推广员");
+		      put("name", "promoterName");
+		      put("type", "text");
+		    }
+		  });
 			add(new HashMap<String, String>(){
 				private static final long serialVersionUID = 1L;
 				{
-					put("caption", "报名项");
-					put("name", "itemName");
+					put("caption", "交易流水号");
+					put("name", "wxOrderNumber");
 					put("type", "text");
-				}
-			});
-			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "是否可用");
-					put("name", "enabled");
-					put("type", "select");
-					put("options", "1:可用;0:禁用");
 				}
 			});
 		}
@@ -61,8 +60,8 @@ public class CreateJspFile {
 			add(new HashMap<String, String>(){
 				private static final long serialVersionUID = 1L;
 				{
-					put("caption", "applyItemId");
-					put("name", "applyItemId");
+					put("caption", "id");
+					put("name", "id");
 					put("width", "30");
 					put("type", "text");
 				}
@@ -70,29 +69,46 @@ public class CreateJspFile {
 			add(new HashMap<String, String>(){
 				private static final long serialVersionUID = 1L;
 				{
-					put("caption", "报名项");
-					put("name", "itemName");
+					put("caption", "推广员");
+					put("name", "promoterName");
 					put("width", "70");
 					put("type", "text");
 				}
 			});
 			add(new HashMap<String, String>(){
-				private static final long serialVersionUID = 1L;
-				{
-					put("caption", "添加时间");
-					put("name", "createTime");
-					put("width", "50");
-					put("type", "text");
-				}
+			  private static final long serialVersionUID = 1L;
+			  {
+			    put("caption", "发放金额");
+			    put("name", "money");
+			    put("width", "50");
+			    put("type", "text");
+			  }
+			});
+			add(new HashMap<String, String>(){
+			  private static final long serialVersionUID = 1L;
+			  {
+			    put("caption", "收款微信");
+			    put("name", "wxNumber");
+			    put("width", "50");
+			    put("type", "text");
+			  }
+			});
+			add(new HashMap<String, String>(){
+			  private static final long serialVersionUID = 1L;
+			  {
+			    put("caption", "交易流水号");
+			    put("name", "wxOrderNumber");
+			    put("width", "200");
+			    put("type", "text");
+			  }
 			});
 			add(new HashMap<String, String>(){
 				private static final long serialVersionUID = 1L;
 				{
-					put("caption", "是否可用");
-					put("name", "enabled");
-					put("width", "30");
-					put("type", "select");
-					put("options", "{value:'1:可用;0:禁用'}");
+					put("caption", "发放时间");
+					put("name", "createTime");
+					put("width", "50");
+					put("type", "text");
 				}
 			});
 		}
@@ -101,25 +117,42 @@ public class CreateJspFile {
 	private List<Map<String, String>> addCols = new ArrayList<Map<String, String>>(){
 		private static final long serialVersionUID = 1L;
 		{
+		  add(new HashMap<String, String>(){
+		    private static final long serialVersionUID = 1L;
+		    {
+		      put("caption", "推广员");
+		      put("name", "promoterName");
+		      put("width", "70");
+		      put("type", "text");
+		    }
+		  });
+		  add(new HashMap<String, String>(){
+		    private static final long serialVersionUID = 1L;
+		    {
+		      put("caption", "发放金额");
+		      put("name", "promoterName");
+		      put("width", "70");
+		      put("type", "text");
+		    }
+		  });
+		  add(new HashMap<String, String>(){
+		    private static final long serialVersionUID = 1L;
+		    {
+		      put("caption", "收款微信");
+		      put("name", "wxNumber");
+		      put("width", "70");
+		      put("type", "text");
+		    }
+		  });
 			add(new HashMap<String, String>(){
 				private static final long serialVersionUID = 1L;
 				{
-					put("caption", "报名项");
-					put("name", "itemName");
+					put("caption", "交易流水号");
+					put("name", "wxOrderNumber");
 					put("width", "70");
 					put("type", "text");
 				}
 			});
-			add(new HashMap<String, String>(){
-              private static final long serialVersionUID = 1L;
-              {
-                  put("caption", "前端显示");
-                  put("name", "enabled");
-                  put("width", "30");
-                  put("type", "select");
-                  put("options", "{value:'1:是;0:否'}");
-              }
-          });
 		}
 	};
 	
@@ -130,22 +163,39 @@ public class CreateJspFile {
 		  add(new HashMap<String, String>(){
             private static final long serialVersionUID = 1L;
             {
-                put("caption", "报名项");
-                put("name", "itemName");
-                put("width", "70");
-                put("type", "text");
+              put("caption", "推广员");
+              put("name", "promoterName");
+              put("width", "70");
+              put("type", "text");
             }
-        });
-        add(new HashMap<String, String>(){
-          private static final long serialVersionUID = 1L;
-          {
-              put("caption", "前端显示");
-              put("name", "enabled");
-              put("width", "30");
-              put("type", "select");
-              put("options", "{value:'1:是;0:否'}");
-          }
-      });
+          });
+          add(new HashMap<String, String>(){
+            private static final long serialVersionUID = 1L;
+            {
+              put("caption", "发放金额");
+              put("name", "promoterName");
+              put("width", "70");
+              put("type", "text");
+            }
+          });
+          add(new HashMap<String, String>(){
+            private static final long serialVersionUID = 1L;
+            {
+              put("caption", "收款微信");
+              put("name", "wxNumber");
+              put("width", "70");
+              put("type", "text");
+            }
+          });
+            add(new HashMap<String, String>(){
+                private static final long serialVersionUID = 1L;
+                {
+                    put("caption", "交易流水号");
+                    put("name", "wxOrderNumber");
+                    put("width", "70");
+                    put("type", "text");
+                }
+            });
 		}
 	};
 	

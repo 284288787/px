@@ -3,16 +3,22 @@
 
 	<sql id="insertKickbackDetail" isRead="false" dsName="test-write">
 		<![CDATA[
-			INSERT INTO px_kickback_detail(promoterId, createTime, money, createUser) 
-			values (:promoterId, :createTime, :money, :createUser)
+			INSERT INTO px_kickback_detail(promoterId, createTime, money, createUser, wxNumber, wxOrderNumber, pointBeginTime,pointEndTime,state,updateTime) 
+			values (:promoterId, :createTime, :money, :createUser, :wxNumber, :wxOrderNumber, :pointBeginTime, :pointEndTime,:state,:updateTime)
 		]]>
 	</sql>
 
 	<sql id="updateKickbackDetail" isRead="false" dsName="test-write">
 		<![CDATA[
-			UPDATE px_kickback_detail SET createTime = createTime
-				<#if money?exists && money != "">
-					, money = :money
+			UPDATE px_kickback_detail SET updateTime = now()
+				<#if wxNumber?exists && wxNumber != "">
+					, wxNumber = :wxNumber
+				</#if>
+				<#if wxOrderNumber?exists && wxOrderNumber != "">
+					, wxOrderNumber = :wxOrderNumber
+				</#if>
+				<#if state?exists && state != "">
+					, state = :state
 				</#if>
 			WHERE 
 				<#if id?exists && id != "">
@@ -45,31 +51,63 @@
 		]]>
 	</sql>
 
+	<sql id="getLatestKickbackDetail">
+		<![CDATA[
+			SELECT 
+				px_kickback_detail.id, 
+				px_kickback_detail.promoterId, 
+				px_kickback_detail.createTime, 
+				px_kickback_detail.money, 
+				px_kickback_detail.createUser, 
+        px_kickback_detail.wxNumber, 
+        px_kickback_detail.wxOrderNumber,
+        px_kickback_detail.pointBeginTime,
+        px_kickback_detail.pointEndTime,
+        px_kickback_detail.state,
+        px_kickback_detail.updateTime
+			FROM px_kickback_detail 
+      WHERE px_kickback_detail.promoterId = :promoterId
+      ORDER BY pointEndTime desc
+      LIMIT 1
+		]]>
+	</sql>
+  
 	<sql id="getSimpleKickbackDetailList">
 		<![CDATA[
 			SELECT 
-				id, 
-				promoterId, 
-				createTime, 
-				money, 
-				createUser
+				px_kickback_detail.id, 
+				px_kickback_detail.promoterId, 
+				px_kickback_detail.createTime, 
+				px_kickback_detail.money, 
+				px_kickback_detail.createUser, 
+        px_kickback_detail.wxNumber, 
+        px_kickback_detail.wxOrderNumber,
+        px_kickback_detail.pointBeginTime,
+        px_kickback_detail.pointEndTime,
+        px_kickback_detail.state,
+        px_kickback_detail.updateTime,
+        p.`name` promoterName
 			FROM px_kickback_detail
+      left join px_promoter p on p.promoterId = px_kickback_detail.promoterId
 			WHERE 1=1
-			<#if promoterId?exists && promoterId != "">
-					AND promoterId = :promoterId
+        <#if promoterId?exists && promoterId != "">
+					AND px_kickback_detail.promoterId = :promoterId
 				</#if>
 				<#if createTime?exists && createTime != "">
-					AND createTime = :createTime
+					AND px_kickback_detail.createTime = :createTime
 				</#if>
 				<#if money?exists && money != "">
-					AND money = :money
+					AND px_kickback_detail.money = :money
 				</#if>
 				<#if createUser?exists && createUser != "">
-					AND createUser = :createUser
+					AND px_kickback_detail.createUser = :createUser
 				</#if>
-			<#if id?exists && id != "">
-				AND id = :id
-			</#if>
+			  <#if id?exists && id != "">
+				  AND px_kickback_detail.id = :id
+			  </#if>
+        <#if state?exists && state != "">
+          AND px_kickback_detail.state = :state
+        </#if>
 			<#if orderBy?exists && orderBy !="" >
 				ORDER BY :orderBy
 				<#if orderType?exists && orderType !="" >
@@ -86,21 +124,24 @@
 		<![CDATA[
 			SELECT COUNT(1) FROM px_kickback_detail
 			WHERE 1=1
-			<#if promoterId?exists && promoterId != "">
-					AND promoterId = :promoterId
+			  <#if promoterId?exists && promoterId != "">
+					AND px_kickback_detail.promoterId = :promoterId
 				</#if>
 				<#if createTime?exists && createTime != "">
-					AND createTime = :createTime
+					AND px_kickback_detail.createTime = :createTime
 				</#if>
 				<#if money?exists && money != "">
-					AND money = :money
+					AND px_kickback_detail.money = :money
 				</#if>
 				<#if createUser?exists && createUser != "">
-					AND createUser = :createUser
+					AND px_kickback_detail.createUser = :createUser
 				</#if>
-			<#if id?exists && id != "">
-				AND id = :id
-			</#if>
+			  <#if id?exists && id != "">
+				  AND px_kickback_detail.id = :id
+			  </#if>
+        <#if state?exists && state != "">
+          AND px_kickback_detail.state = :state
+        </#if>
 			<#if orderBy?exists && orderBy !="" >
 				ORDER BY :orderBy
 				<#if orderType?exists && orderType !="" >
@@ -117,7 +158,7 @@
 				promoterId, 
 				createTime, 
 				money, 
-				createUser
+				createUser wxNumber, wxOrderNumber
 			FROM px_kickback_detail
 			WHERE 1=1
 			<#if promoterId?exists && promoterId != "">

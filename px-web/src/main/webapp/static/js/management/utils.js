@@ -47,7 +47,7 @@ function UtilsHandle(options, funcs){
 		}
 		console.log("url: " + url);
 		artDialog.open(options.basePath + url,{
-			title: options.title,
+			title: opts.title,
 			width : opts.width,
 			height: opts.height,
 			drag:true,

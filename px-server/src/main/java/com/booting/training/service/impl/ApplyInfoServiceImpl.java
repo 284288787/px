@@ -1,6 +1,8 @@
 /** create by auto at 2017-12-19 15:16:14**/
 package com.booting.training.service.impl;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -125,5 +127,13 @@ public class ApplyInfoServiceImpl extends JDBCSupport<ApplyInfoEntity, ApplyInfo
 	public <T> PageList<T> getListForPage(QueryParam queryParam, Class<T> clazz) {
 		return (PageList<T>) this.queryForPage("applyInfo.getApplyInfoListCount", "applyInfo.getApplyInfoList", queryParam, clazz);
 	}
+
+  @Override
+  public Map<String, Object> totalMoneyByPromoter(Long promoterId, Date beginDatePoint) {
+    Map<String, Object> param = new HashMap<>();
+    param.put("promoterId", promoterId);
+    param.put("beginDatePoint", beginDatePoint);
+    return this.queryForMap("applyInfo.totalMoneyByPromoter", param);
+  }
 
 }

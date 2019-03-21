@@ -16,6 +16,7 @@ public class PromoterDTO implements Serializable {
   private Integer deleted;  //删除 1是 0否
   private Integer enabled;  //禁用 1是 0否
   private Date createTime;
+  private String wxNumber;
   private Integer count;    //推广的人数
   private Double totalTc;   //总提成
   private String promoterIds;
@@ -85,6 +86,14 @@ public class PromoterDTO implements Serializable {
 
   public void setTotalTc(Double totalTc) {
     this.totalTc = totalTc;
+  }
+
+  public String getWxNumber() {
+    return wxNumber;
+  }
+
+  public void setWxNumber(String wxNumber) {
+    this.wxNumber = wxNumber;
   } 
   
 }

@@ -23,9 +23,15 @@ public class PromoterWebService {
   public PageList<PromoterDTO> getListForPagePromoter(QueryParam queryParam, Class<PromoterDTO> class1) {
     return trainingFacade.getPromoterListForPage(queryParam);
   }
-
+  
   public PromoterDTO getPromoter(Long promoterId) {
     return trainingFacade.getPromoter(promoterId);
+  }
+
+  public PromoterDTO getPromoterById(Long promoterId) {
+    PromoterDTO promoterDTO = new PromoterDTO();
+    promoterDTO.setPromoterId(promoterId);
+    return trainingFacade.getPromoter(promoterDTO);
   }
 
   public void updatePromoter(PromoterDTO promoterDTO) {
@@ -36,7 +42,8 @@ public class PromoterWebService {
   }
 
   public void savePromoter(PromoterDTO promoterDTO) {
-    if (null == promoterDTO || StringUtils.isBlank(promoterDTO.getName()) || StringUtils.isBlank(promoterDTO.getMobile())) {
+    if (null == promoterDTO || StringUtils.isBlank(promoterDTO.getName()) || 
+        StringUtils.isBlank(promoterDTO.getMobile())|| StringUtils.isBlank(promoterDTO.getWxNumber())) {
       throw new ArgsException(FailureCode.ERR_002);
     }
     promoterDTO.setEnabled(1);

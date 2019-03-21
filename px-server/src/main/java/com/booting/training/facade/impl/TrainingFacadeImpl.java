@@ -2,7 +2,9 @@
 package com.booting.training.facade.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -825,5 +827,15 @@ public class TrainingFacadeImpl implements TrainingFacade {
   @Override
   public void updateBySql(ApplyItemDTO dto) {
     this.applyItemService.updateBySql(dto);
+  }
+
+  @Override
+  public KickbackDetailDTO getLatestKickbackDetail(Long promoterId) {
+    return this.kickbackDetailService.getLatestKickbackDetail(promoterId);
+  }
+
+  @Override
+  public Map<String, Object> totalMoneyByPromoter(Long promoterId, Date beginDatePoint) {
+    return this.applyInfoService.totalMoneyByPromoter(promoterId, beginDatePoint);
   }
 }

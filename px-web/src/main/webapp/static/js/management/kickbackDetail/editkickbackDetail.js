@@ -61,38 +61,33 @@ $(function(){
 //				artDialog.alert2('<div style="width:'+w+'px;height:'+h+'px"><img src="'+$(this).attr("src")+'">') 
 //		}); 
 //	}); 
-	$('#editPromoterForm').validate({ 
+	$('#editkickbackDetailForm').validate({ 
 		rules: {
-			name: {
-			  required: true, 
-        rangelength: [1, 30]
+			promoterName: {
 			},
-			mobile: {
-			  required: true, 
-			  mobile: true
+			promoterName: {
 			},
-			wxNumber:{
-			  required: true, 
-        rangelength: [2, 20]
+			wxNumber: {
+			},
+			wxOrderNumber: {
 			}
 		},
 		messages: { 
-		  name: {
-        required: "必填", 
-      },
-      mobile: {
-        required: "必填", 
-      },
-      wxNumber:{
-        required: "必填", 
-      }
+			promoterName: {
+			},
+			promoterName: {
+			},
+			wxNumber: {
+			},
+			wxOrderNumber: {
+			}
 		} 
 	}); 
 	
 	$('#saveBtn').click(function(){ 
-		var flag = $('#editPromoterForm').valid();
+		var flag = $('#editkickbackDetailForm').valid();
 		if(! flag) return;
-		var data=$('#editPromoterForm').serializeArray(); 
+		var data=$('#editkickbackDetailForm').serializeArray(); 
 		var params = {};
 		$.each(data, function(i, field){
 			var name = field.name;
@@ -102,7 +97,7 @@ $(function(){
 		console.log(JSON.stringify(params));
 		$.ajax({
 			contentType:'application/json', 
-			url: basePath+'promoter/add', 
+			url: basePath+'kickbackDetail/edit', 
 			data: JSON.stringify(params), 
 			type: 'post', 
 			dataType: 'json', 

@@ -62,18 +62,31 @@ $(function(){
 //		}); 
 //	}); 
 	$('#editPromoterForm').validate({ 
-		rules: {
-			name: {
-			},
-			mobile: {
-			}
-		},
-		messages: { 
-			name: {
-			},
-			mobile: {
-			}
-		} 
+	  rules: {
+      name: {
+        required: true, 
+        rangelength: [1, 30]
+      },
+      mobile: {
+        required: true, 
+        mobile: true
+      },
+      wxNumber:{
+        required: true, 
+        rangelength: [2, 20]
+      }
+    },
+    messages: { 
+      name: {
+        required: "必填", 
+      },
+      mobile: {
+        required: "必填", 
+      },
+      wxNumber:{
+        required: "必填", 
+      }
+    } 
 	}); 
 	
 	$('#saveBtn').click(function(){ 

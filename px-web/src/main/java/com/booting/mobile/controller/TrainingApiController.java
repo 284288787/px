@@ -128,9 +128,9 @@ public class TrainingApiController {
     Map<String, Object> map = trainingWebService.applyTotal();
     return ParamHandler.objToString(map);
   }
-
+  
   @InterfaceVersion("1.0")
-  @RequestMapping(value = "/{version}/apply/for/promoter", method = { RequestMethod.POST, RequestMethod.GET }, produces = "text/html;charset=UTF-8")
+  @RequestMapping(value = "/{version}/promoter/info", method = { RequestMethod.POST, RequestMethod.GET }, produces = "text/html;charset=UTF-8")
   @ApiOperation(value = "推广员推广信息", notes = "推广员推广信息及提成", httpMethod = "POST", response = String.class, produces = "text/html;charset=UTF-8")
   @ApiImplicitParams({ @ApiImplicitParam(name = "promoterId", value = "推广员id", paramType = "query", required = true, dataType = "String"), })
   public String applyForPromoter(@ApiIgnore String params) throws Exception {
@@ -138,5 +138,20 @@ public class TrainingApiController {
     Long promoterId = paramHandler.getLong("promoterId");
     Map<String, Object> map = trainingWebService.applyForPromoter(promoterId);
     return ParamHandler.objToString(map);
+  }
+
+  @InterfaceVersion("1.0")
+  @RequestMapping(value = "/{version}/promoter/apply/kickback", method = { RequestMethod.POST, RequestMethod.GET }, produces = "text/html;charset=UTF-8")
+  @ApiOperation(value = "推广员申请提现", notes = "推广员申请提现", httpMethod = "POST", response = String.class, produces = "text/html;charset=UTF-8")
+  @ApiImplicitParams({ 
+    @ApiImplicitParam(name = "promoterId", value = "推广员id", paramType = "query", required = true, dataType = "long"), 
+    @ApiImplicitParam(name = "wxNumber", value = "微信号", paramType = "query", required = true, dataType = "String"), 
+  })
+  public String applyKickback(@ApiIgnore String params) throws Exception {
+    ParamHandler paramHandler = new ParamHandler(params);
+    Long promoterId = paramHandler.getLong("promoterId");
+    String wxNumber = paramHandler.getString("wxNumber");
+    trainingWebService.applyKickback(promoterId, wxNumber);
+    return null;
   }
 }

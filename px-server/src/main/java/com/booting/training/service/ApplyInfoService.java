@@ -2,6 +2,10 @@
 package com.booting.training.service;
 
 import com.star.framework.jdbc.service.BaseService;
+
+import java.util.Date;
+import java.util.Map;
+
 import com.booting.training.dto.ApplyInfoDTO;
 import com.booting.training.entity.ApplyInfoEntity;
 
@@ -12,5 +16,7 @@ import com.booting.training.entity.ApplyInfoEntity;
  *
  */
 public interface ApplyInfoService extends BaseService<ApplyInfoEntity, ApplyInfoDTO> {
+
+  public Map<String, Object> totalMoneyByPromoter(Long promoterId, Date beginDatePoint);
 
 }

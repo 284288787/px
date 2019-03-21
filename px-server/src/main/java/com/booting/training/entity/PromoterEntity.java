@@ -21,6 +21,7 @@ public class PromoterEntity implements Serializable {
   private Integer deleted;  //删除 1是 0否
   private Integer enabled;  //禁用 1是 0否
   private Date createTime;
+  private String wxNumber;
   
   @Id
   @Column(name = "promoterId")
@@ -47,6 +48,10 @@ public class PromoterEntity implements Serializable {
   public Date getCreateTime() {
     return createTime;
   }
+  @Column(name = "wxNumber")
+  public String getWxNumber() {
+    return wxNumber;
+  }
   
   public void setPromoterId(Long promoterId) {
     this.promoterId = promoterId;
@@ -65,6 +70,9 @@ public class PromoterEntity implements Serializable {
   }
   public void setCreateTime(Date createTime) {
     this.createTime = createTime;
+  }
+  public void setWxNumber(String wxNumber) {
+    this.wxNumber = wxNumber;
   } 
   
 }

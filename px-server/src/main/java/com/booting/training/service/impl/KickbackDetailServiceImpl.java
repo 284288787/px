@@ -1,6 +1,7 @@
 /** create by auto at 2019-03-21 10:42:29**/
 package com.booting.training.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -125,5 +126,12 @@ public class KickbackDetailServiceImpl extends JDBCSupport<KickbackDetailEntity,
 	public <T> PageList<T> getListForPage(QueryParam queryParam, Class<T> clazz) {
 		return (PageList<T>) this.queryForPage("kickbackDetail.getKickbackDetailListCount", "kickbackDetail.getKickbackDetailList", queryParam, clazz);
 	}
+
+  @Override
+  public KickbackDetailDTO getLatestKickbackDetail(Long promoterId) {
+    Map<String, Object> param = new HashMap<>();
+    param.put("promoterId", promoterId);
+    return this.queryForObject("kickbackDetail.getLatestKickbackDetail", param);
+  }
 
 }

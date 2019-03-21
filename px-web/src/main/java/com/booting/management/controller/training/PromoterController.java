@@ -72,6 +72,23 @@ public class PromoterController {
     }
     return resultMessage;
   }
+  
+  @ResponseBody
+  @RequestMapping(value = "/info/{promoterId}", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+  public ResultMessage info(@PathVariable Long promoterId) {
+    ResultMessage resultMessage = null;
+    try {
+      PromoterDTO promoter = this.promoterWebService.getPromoterById(promoterId);
+      resultMessage = new ResultMessage(promoter, "推广员信息");
+    } catch (ArgsException e) {
+      e.printStackTrace();
+      resultMessage = new ResultMessage("推广员信息", e.getCode(), e.getMessage());
+    } catch (Exception e) {
+      e.printStackTrace();
+      resultMessage = new ResultMessage("推广员信息", FailureCode.ERR_001);
+    }
+    return resultMessage;
+  }
 
   @ResponseBody
   @RequestMapping(value = "/add", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")

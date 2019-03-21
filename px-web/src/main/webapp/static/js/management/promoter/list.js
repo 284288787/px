@@ -5,7 +5,7 @@ var promoterHandle = new ListHandle({
 	pagerId: '#grid-pager',
 	formId: '#queryForm',
 	entityName: '推广员信息',
-	winWidth: '320px', 
+	winWidth: '400px', 
 	winHeight: '200px',
 	primaryKey: 'promoterId',
 	urls:{ 
@@ -46,7 +46,7 @@ var utilsHandle = new UtilsHandle({
 	}, 
 }); 
 $(function(){ 
-	var colNames = ['id', '推广二维码', '已推广人数', '总提成', '姓名', '电话', '添加时间', '是否可用', '操作'];
+	var colNames = ['id', '推广二维码', '已推广人数', '总提成', '姓名', '电话', '微信号', '添加时间', '是否可用', '操作'];
 	var colModel = [ 
 		{name: 'promoterId', index: 'promoterId', width: 30, align: 'center'}, 
 		{width: 140, align: 'center', formatter: function(cellvalue, options, rowObject){
@@ -61,6 +61,7 @@ $(function(){
     }}, 
 		{name: 'name', index: 'name', width: 70, align: 'center'}, 
 		{name: 'mobile', index: 'mobile', width: 110, align: 'center'}, 
+		{name: 'wxNumber', index: 'wxNumber', width: 110, align: 'center'}, 
 		{name: 'createTime', index: 'createTime', width: 140, align: 'center'}, 
 		{name: 'enabled', index: 'enabled', width: 30, align: 'center', formatter: 'select', editoptions:{value:'1:可用;0:禁用'}}, 
 		{width: 50, align: 'left', editable: false, sortable: false, formatter: function(cellvalue, options, rowObject){ 

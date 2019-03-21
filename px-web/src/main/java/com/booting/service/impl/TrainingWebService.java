@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.client.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,8 @@ import com.booting.pub.service.SmsIdentityService;
 import com.booting.training.dto.ApplyDetailDTO;
 import com.booting.training.dto.ApplyInfoDTO;
 import com.booting.training.dto.ApplyItemDTO;
+import com.booting.training.dto.KickbackDetailDTO;
+import com.booting.training.dto.PromoterDTO;
 import com.booting.training.dto.TrainingItemDTO;
 import com.booting.training.dto.TrainingItemPictureDTO;
 import com.booting.training.dto.TrainingItemPriceDTO;
@@ -444,5 +447,43 @@ public class TrainingWebService extends BaseWebService {
   public Map<String, Object> applyForPromoter(Long promoterId) {
     // TODO Auto-generated method stub
     return null;
+  }
+
+  public void applyKickback(Long promoterId, String wxNumber) {
+    if (null == promoterId || StringUtils.isBlank(wxNumber)) {
+      throw new ArgsException(FailureCode.ERR_002);
+    }
+    PromoterDTO promoter = this.trainingFacade.getPromoter(promoterId);
+    if (null == promoter || null == promoter.getPromoterId()) {
+      throw new ArgsException(FailureCode.ERR_002, "推广员不存在");
+    }
+    //得到他已经提现的金额和最后一次提现的时间
+    KickbackDetailDTO kickbackDetail = this.trainingFacade.getLatestKickbackDetail(promoterId);
+    Date beginDatePoint = DateUtils.parseDate("2019-01-01", new String[] {"yyyy-MM-dd"});
+    if (null != kickbackDetail && null != kickbackDetail.getPointEndTime()) {
+      beginDatePoint = kickbackDetail.getPointEndTime();
+    }
+    Map<String, Object> kickback = this.trainingFacade.totalMoneyByPromoter(promoterId, beginDatePoint);
+    Object m = kickback.get("money");
+    Object t = kickback.get("time");
+    if(null == m || null == t) {
+      throw new ArgsException(FailureCode.ERR_002, "暂无可提现的金额");
+    }
+    Integer money = Integer.parseInt(m.toString());
+    if (money < 200 * 100 * 0) {
+      throw new ArgsException(FailureCode.ERR_002, "暂无可提现的金额");
+    }
+    Date time = (Date) t;
+    KickbackDetailDTO kickbackDetailDTO = new KickbackDetailDTO();
+    kickbackDetailDTO.setCreateTime(new Date());
+    kickbackDetailDTO.setCreateUser(promoter.getName());
+    kickbackDetailDTO.setMoney(money);
+    kickbackDetailDTO.setPointBeginTime(beginDatePoint);
+    kickbackDetailDTO.setPointEndTime(time);
+    kickbackDetailDTO.setPromoterId(promoterId);
+    kickbackDetailDTO.setState(1);
+    kickbackDetailDTO.setUpdateTime(kickbackDetailDTO.getCreateTime());
+    kickbackDetailDTO.setWxNumber(wxNumber);
+    this.trainingFacade.saveKickbackDetail(kickbackDetailDTO);
   }
 }

@@ -17,12 +17,15 @@
 </head> 
 <body>
 	<div class="edit-container"> 
-		<form action="" id="editPromoterForm"> 
-		<input type="hidden" name="promoterId" value="${promoterDTO.promoterId}">
+		<form action="" id="editkickbackDetailForm"> 
 		<ul> 
-			<li><strong>姓名：</strong><span><input type="text" name="name" placeholder="姓名" value="${promoterDTO.name}"></span></li>
-			<li><strong>电话：</strong><span><input type="text" name="mobile" placeholder="电话" value="${promoterDTO.mobile}"></span></li>
-			<li><strong>微信号：</strong><span><input type="text" name="wxNumber" placeholder="微信号" value="${promoterDTO.wxNumber}"></span></li>
+			<li><strong>推广员：</strong><span><input type="text" name="promoterName" placeholder="推广员" >
+        <input type="hidden" name="promoterId">
+      </span></li>
+			<li><strong>发放金额：</strong><span><input type="text" name="money" placeholder="发放金额" ></span></li>
+			<li><strong>收款微信：</strong><span><input type="text" name="wxNumber" placeholder="收款微信" ></span></li>
+			<li><strong>交易流水号：</strong><span><input type="text" class="ipt300" name="wxOrderNumber" placeholder="交易流水号" ></span></li>
+			</span></li> 
 		</ul>
 		</form>
 		<div class="btnGroup"> 
@@ -43,6 +46,6 @@
 	<script type="text/javascript" src="${basePath}static/js/tools/jquery-validation-1.15.0/dist/additional-methods-local.js"></script>
 	<script type="text/javascript" src="${basePath}static/js/tools/My97DatePicker/WdatePicker.js"></script>
 	<script type="text/javascript" src="${basePath}static/js/management/utils.js"></script>
-	<script type="text/javascript" src="${basePath}static/js/management/promoter/editPromoter.js"></script> 
+	<script type="text/javascript" src="${basePath}static/js/management/kickbackDetail/addkickbackDetail.js"></script> 
 </body>
 </html>

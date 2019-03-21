@@ -13,6 +13,18 @@ var utilsHandle = new UtilsHandle({
 			$(':input[name=areaName]').val(areaName); 
 		} 
 	},
+	choose: [{
+    'title': '选择推广员',
+    'object': $('input[name=promoterName]'),
+    'url': 'common/management/kickbackDetail/promoters',
+    'width': '70%',
+    'height': '500px', 
+    'choosedId': $(':hidden[name=promoterId]'), 
+    'callback':function(promoter){ 
+      $(':hidden[name=promoterId]').val(promoter.promoterId); 
+      $(':input[name=promoterName]').val(promoter.name);
+    }
+  }], 
 //	kindEditor: { 
 //		object: 'textarea[name=notice]',
 //		width: '100%',
@@ -61,48 +73,55 @@ $(function(){
 //				artDialog.alert2('<div style="width:'+w+'px;height:'+h+'px"><img src="'+$(this).attr("src")+'">') 
 //		}); 
 //	}); 
-	$('#editPromoterForm').validate({ 
+	$('#editkickbackDetailForm').validate({ 
 		rules: {
-			name: {
+			promoterName: {
 			  required: true, 
-        rangelength: [1, 30]
 			},
-			mobile: {
+			money: {
 			  required: true, 
-			  mobile: true
+			  money: true
 			},
-			wxNumber:{
+			wxNumber: {
 			  required: true, 
-        rangelength: [2, 20]
+			  rangelength: [2, 20]
+			},
+			wxOrderNumber: {
+			  required: true, 
+        rangelength: [2, 80]
 			}
 		},
 		messages: { 
-		  name: {
-        required: "必填", 
-      },
-      mobile: {
-        required: "必填", 
-      },
-      wxNumber:{
-        required: "必填", 
-      }
+			promoterName: {
+			  required: "必选", 
+			},
+			money: {
+			  required: "必填", 
+			},
+			wxNumber: {
+			  required: "必填", 
+			},
+			wxOrderNumber: {
+			  required: "必填", 
+			}
 		} 
 	}); 
 	
 	$('#saveBtn').click(function(){ 
-		var flag = $('#editPromoterForm').valid();
+		var flag = $('#editkickbackDetailForm').valid();
 		if(! flag) return;
-		var data=$('#editPromoterForm').serializeArray(); 
+		var data=$('#editkickbackDetailForm').serializeArray(); 
 		var params = {};
 		$.each(data, function(i, field){
 			var name = field.name;
 			params[name] = field.value; 
 			console.log(name + '' + field.value)
 		}); 
+		params["money"] = (params.money * 1).toFixed(2) * 100;
 		console.log(JSON.stringify(params));
 		$.ajax({
 			contentType:'application/json', 
-			url: basePath+'promoter/add', 
+			url: basePath+'kickbackDetail/add', 
 			data: JSON.stringify(params), 
 			type: 'post', 
 			dataType: 'json', 
