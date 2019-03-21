@@ -17,14 +17,17 @@ import com.booting.training.entity.ApplyDetailEntity;
 import com.booting.training.service.ApplyDetailService;
 import com.booting.training.dto.ApplyInfoDTO;
 import com.booting.training.dto.ApplyItemDTO;
+import com.booting.training.dto.KickbackDetailDTO;
 import com.booting.training.dto.PromoterDTO;
 import com.booting.training.dto.StudyAddressDTO;
 import com.booting.training.entity.ApplyInfoEntity;
 import com.booting.training.entity.ApplyItemEntity;
+import com.booting.training.entity.KickbackDetailEntity;
 import com.booting.training.entity.PromoterEntity;
 import com.booting.training.entity.StudyAddressEntity;
 import com.booting.training.service.ApplyInfoService;
 import com.booting.training.service.ApplyItemService;
+import com.booting.training.service.KickbackDetailService;
 import com.booting.training.service.PromoterService;
 import com.booting.training.service.StudyAddressService;
 import com.booting.training.dto.TrainingItemDTO;
@@ -42,8 +45,11 @@ public class TrainingFacadeImpl implements TrainingFacade {
   private static final long serialVersionUID = 1L;
 
   @Autowired
+  private KickbackDetailService kickbackDetailService;
+
+  @Autowired
   private ApplyItemService applyItemService;
-  
+
   @Autowired
   private ApplyDetailService applyDetailService;
 
@@ -64,163 +70,242 @@ public class TrainingFacadeImpl implements TrainingFacade {
 
   @Autowired
   private TrainingItemPriceService trainingItemPriceService;
-  
+
   @Override
-  public Long saveApplyItem(ApplyItemDTO applyItemDTO){
-      if (null == applyItemDTO) {
-          return null;
-      }
-      ApplyItemEntity entity = toApplyItemEntity(applyItemDTO);
-      applyItemDTO = applyItemService.save(entity);
-      return applyItemDTO.getApplyItemId();
+  public Long saveKickbackDetail(KickbackDetailDTO kickbackDetailDTO) {
+    if (null == kickbackDetailDTO) {
+      return null;
+    }
+    KickbackDetailEntity entity = toKickbackDetailEntity(kickbackDetailDTO);
+    kickbackDetailDTO = kickbackDetailService.save(entity);
+    return kickbackDetailDTO.getId();
   }
 
   @Override
-  public void batchSaveApplyItem(List<ApplyItemDTO> dtos){
-      if (null == dtos || dtos.isEmpty()) {
-          return;
-      }
-      List<ApplyItemEntity> entities = toApplyItemEntities(dtos);
-      applyItemService.batchSave(entities);
+  public void batchSaveKickbackDetail(List<KickbackDetailDTO> dtos) {
+    if (null == dtos || dtos.isEmpty()) {
+      return;
+    }
+    List<KickbackDetailEntity> entities = toKickbackDetailEntities(dtos);
+    kickbackDetailService.batchSave(entities);
   }
 
   @Override
-  public int updateApplyItem(ApplyItemDTO applyItemDTO){
-      applyItemDTO = applyItemService.updateBySql(applyItemDTO);
-      return 1;
+  public int updateKickbackDetail(KickbackDetailDTO kickbackDetailDTO) {
+    kickbackDetailDTO = kickbackDetailService.updateBySql(kickbackDetailDTO);
+    return 1;
   }
 
   @Override
-  public void batchUpdateApplyItem(List<ApplyItemDTO> dtos){
-      if (null == dtos || dtos.isEmpty()) {
-          return;
-      }
-      applyItemService.batchUpdate(dtos);
+  public void batchUpdateKickbackDetail(List<KickbackDetailDTO> dtos) {
+    if (null == dtos || dtos.isEmpty()) {
+      return;
+    }
+    kickbackDetailService.batchUpdate(dtos);
   }
 
   @Override
-  public int deleteApplyItem(long applyItemId){
-      return applyItemService.delete(applyItemId);
+  public int deleteKickbackDetail(long id) {
+    return kickbackDetailService.delete(id);
   }
 
   @Override
-  public ApplyItemDTO getApplyItem(long applyItemId){
-      return applyItemService.get(applyItemId);
+  public KickbackDetailDTO getKickbackDetail(long id) {
+    return kickbackDetailService.get(id);
   }
 
   @Override
-  public ApplyItemDTO getApplyItem(ApplyItemDTO applyItemDTO){
-      return applyItemService.get(applyItemDTO);
+  public KickbackDetailDTO getKickbackDetail(KickbackDetailDTO kickbackDetailDTO) {
+    return kickbackDetailService.get(kickbackDetailDTO);
   }
 
   @Override
-  public List<ApplyItemDTO> getApplyItemList(ApplyItemDTO applyItemDTO){
-      return applyItemService.getSimpleList(applyItemDTO);
+  public List<KickbackDetailDTO> getKickbackDetailList(KickbackDetailDTO kickbackDetailDTO) {
+    return kickbackDetailService.getSimpleList(kickbackDetailDTO);
   }
 
   @Override
-  public PageList<ApplyItemDTO> getApplyItemListForPage(ApplyItemDTO applyItemDTO, int pageNumber, int pageSize){
-      return applyItemService.getSimpleListForPage(applyItemDTO, pageNumber, pageSize);
+  public PageList<KickbackDetailDTO> getKickbackDetailListForPage(KickbackDetailDTO kickbackDetailDTO, int pageNumber, int pageSize) {
+    return kickbackDetailService.getSimpleListForPage(kickbackDetailDTO, pageNumber, pageSize);
   }
 
   @Override
-  public PageList<ApplyItemDTO> getApplyItemListForPage(QueryParam queryParam){
-      return applyItemService.getSimpleListForPage(queryParam);
+  public PageList<KickbackDetailDTO> getKickbackDetailListForPage(QueryParam queryParam) {
+    return kickbackDetailService.getSimpleListForPage(queryParam);
   }
 
   @Override
-  public ApplyItemEntity toApplyItemEntity(ApplyItemDTO dto){
-      ApplyItemEntity entity = new ApplyItemEntity();
-      CglibBeanUtils.copy(dto, entity);
-      return entity;
+  public KickbackDetailEntity toKickbackDetailEntity(KickbackDetailDTO dto) {
+    KickbackDetailEntity entity = new KickbackDetailEntity();
+    CglibBeanUtils.copy(dto, entity);
+    return entity;
   }
 
   @Override
-  public List<ApplyItemEntity> toApplyItemEntities(List<ApplyItemDTO> dtos){
-      List<ApplyItemEntity> entities = new ArrayList<>();
-      for(ApplyItemDTO dto : dtos){
-          entities.add(toApplyItemEntity(dto));
-      }
-      return entities;
-  }
-  
-  @Override
-  public Long saveTrainingItemPrice(TrainingItemPriceDTO trainingItemPriceDTO){
-      if (null == trainingItemPriceDTO) {
-          return null;
-      }
-      TrainingItemPriceEntity entity = toTrainingItemPriceEntity(trainingItemPriceDTO);
-      trainingItemPriceDTO = trainingItemPriceService.save(entity);
-      return trainingItemPriceDTO.getId();
+  public List<KickbackDetailEntity> toKickbackDetailEntities(List<KickbackDetailDTO> dtos) {
+    List<KickbackDetailEntity> entities = new ArrayList<>();
+    for (KickbackDetailDTO dto : dtos) {
+      entities.add(toKickbackDetailEntity(dto));
+    }
+    return entities;
   }
 
   @Override
-  public void batchSaveTrainingItemPrice(List<TrainingItemPriceDTO> dtos){
-      if (null == dtos || dtos.isEmpty()) {
-          return;
-      }
-      List<TrainingItemPriceEntity> entities = toTrainingItemPriceEntities(dtos);
-      trainingItemPriceService.batchSave(entities);
+  public Long saveApplyItem(ApplyItemDTO applyItemDTO) {
+    if (null == applyItemDTO) {
+      return null;
+    }
+    ApplyItemEntity entity = toApplyItemEntity(applyItemDTO);
+    applyItemDTO = applyItemService.save(entity);
+    return applyItemDTO.getApplyItemId();
   }
 
   @Override
-  public int updateTrainingItemPrice(TrainingItemPriceDTO trainingItemPriceDTO){
-      trainingItemPriceDTO = trainingItemPriceService.updateBySql(trainingItemPriceDTO);
-      return 1;
+  public void batchSaveApplyItem(List<ApplyItemDTO> dtos) {
+    if (null == dtos || dtos.isEmpty()) {
+      return;
+    }
+    List<ApplyItemEntity> entities = toApplyItemEntities(dtos);
+    applyItemService.batchSave(entities);
   }
 
   @Override
-  public void batchUpdateTrainingItemPrice(List<TrainingItemPriceDTO> dtos){
-      if (null == dtos || dtos.isEmpty()) {
-          return;
-      }
-      trainingItemPriceService.batchUpdate(dtos);
+  public int updateApplyItem(ApplyItemDTO applyItemDTO) {
+    applyItemDTO = applyItemService.updateBySql(applyItemDTO);
+    return 1;
   }
 
   @Override
-  public int deleteTrainingItemPrice(long id){
-      return trainingItemPriceService.delete(id);
+  public void batchUpdateApplyItem(List<ApplyItemDTO> dtos) {
+    if (null == dtos || dtos.isEmpty()) {
+      return;
+    }
+    applyItemService.batchUpdate(dtos);
   }
 
   @Override
-  public TrainingItemPriceDTO getTrainingItemPrice(long id){
-      return trainingItemPriceService.get(id);
+  public int deleteApplyItem(long applyItemId) {
+    return applyItemService.delete(applyItemId);
   }
 
   @Override
-  public TrainingItemPriceDTO getTrainingItemPrice(TrainingItemPriceDTO trainingItemPriceDTO){
-      return trainingItemPriceService.get(trainingItemPriceDTO);
+  public ApplyItemDTO getApplyItem(long applyItemId) {
+    return applyItemService.get(applyItemId);
   }
 
   @Override
-  public List<TrainingItemPriceDTO> getTrainingItemPriceList(TrainingItemPriceDTO trainingItemPriceDTO){
-      return trainingItemPriceService.getSimpleList(trainingItemPriceDTO);
+  public ApplyItemDTO getApplyItem(ApplyItemDTO applyItemDTO) {
+    return applyItemService.get(applyItemDTO);
   }
 
   @Override
-  public PageList<TrainingItemPriceDTO> getTrainingItemPriceListForPage(TrainingItemPriceDTO trainingItemPriceDTO, int pageNumber, int pageSize){
-      return trainingItemPriceService.getSimpleListForPage(trainingItemPriceDTO, pageNumber, pageSize);
+  public List<ApplyItemDTO> getApplyItemList(ApplyItemDTO applyItemDTO) {
+    return applyItemService.getSimpleList(applyItemDTO);
   }
 
   @Override
-  public PageList<TrainingItemPriceDTO> getTrainingItemPriceListForPage(QueryParam queryParam){
-      return trainingItemPriceService.getSimpleListForPage(queryParam);
+  public PageList<ApplyItemDTO> getApplyItemListForPage(ApplyItemDTO applyItemDTO, int pageNumber, int pageSize) {
+    return applyItemService.getSimpleListForPage(applyItemDTO, pageNumber, pageSize);
   }
 
   @Override
-  public TrainingItemPriceEntity toTrainingItemPriceEntity(TrainingItemPriceDTO dto){
-      TrainingItemPriceEntity entity = new TrainingItemPriceEntity();
-      CglibBeanUtils.copy(dto, entity);
-      return entity;
+  public PageList<ApplyItemDTO> getApplyItemListForPage(QueryParam queryParam) {
+    return applyItemService.getSimpleListForPage(queryParam);
   }
 
   @Override
-  public List<TrainingItemPriceEntity> toTrainingItemPriceEntities(List<TrainingItemPriceDTO> dtos){
-      List<TrainingItemPriceEntity> entities = new ArrayList<>();
-      for(TrainingItemPriceDTO dto : dtos){
-          entities.add(toTrainingItemPriceEntity(dto));
-      }
-      return entities;
+  public ApplyItemEntity toApplyItemEntity(ApplyItemDTO dto) {
+    ApplyItemEntity entity = new ApplyItemEntity();
+    CglibBeanUtils.copy(dto, entity);
+    return entity;
+  }
+
+  @Override
+  public List<ApplyItemEntity> toApplyItemEntities(List<ApplyItemDTO> dtos) {
+    List<ApplyItemEntity> entities = new ArrayList<>();
+    for (ApplyItemDTO dto : dtos) {
+      entities.add(toApplyItemEntity(dto));
+    }
+    return entities;
+  }
+
+  @Override
+  public Long saveTrainingItemPrice(TrainingItemPriceDTO trainingItemPriceDTO) {
+    if (null == trainingItemPriceDTO) {
+      return null;
+    }
+    TrainingItemPriceEntity entity = toTrainingItemPriceEntity(trainingItemPriceDTO);
+    trainingItemPriceDTO = trainingItemPriceService.save(entity);
+    return trainingItemPriceDTO.getId();
+  }
+
+  @Override
+  public void batchSaveTrainingItemPrice(List<TrainingItemPriceDTO> dtos) {
+    if (null == dtos || dtos.isEmpty()) {
+      return;
+    }
+    List<TrainingItemPriceEntity> entities = toTrainingItemPriceEntities(dtos);
+    trainingItemPriceService.batchSave(entities);
+  }
+
+  @Override
+  public int updateTrainingItemPrice(TrainingItemPriceDTO trainingItemPriceDTO) {
+    trainingItemPriceDTO = trainingItemPriceService.updateBySql(trainingItemPriceDTO);
+    return 1;
+  }
+
+  @Override
+  public void batchUpdateTrainingItemPrice(List<TrainingItemPriceDTO> dtos) {
+    if (null == dtos || dtos.isEmpty()) {
+      return;
+    }
+    trainingItemPriceService.batchUpdate(dtos);
+  }
+
+  @Override
+  public int deleteTrainingItemPrice(long id) {
+    return trainingItemPriceService.delete(id);
+  }
+
+  @Override
+  public TrainingItemPriceDTO getTrainingItemPrice(long id) {
+    return trainingItemPriceService.get(id);
+  }
+
+  @Override
+  public TrainingItemPriceDTO getTrainingItemPrice(TrainingItemPriceDTO trainingItemPriceDTO) {
+    return trainingItemPriceService.get(trainingItemPriceDTO);
+  }
+
+  @Override
+  public List<TrainingItemPriceDTO> getTrainingItemPriceList(TrainingItemPriceDTO trainingItemPriceDTO) {
+    return trainingItemPriceService.getSimpleList(trainingItemPriceDTO);
+  }
+
+  @Override
+  public PageList<TrainingItemPriceDTO> getTrainingItemPriceListForPage(TrainingItemPriceDTO trainingItemPriceDTO, int pageNumber, int pageSize) {
+    return trainingItemPriceService.getSimpleListForPage(trainingItemPriceDTO, pageNumber, pageSize);
+  }
+
+  @Override
+  public PageList<TrainingItemPriceDTO> getTrainingItemPriceListForPage(QueryParam queryParam) {
+    return trainingItemPriceService.getSimpleListForPage(queryParam);
+  }
+
+  @Override
+  public TrainingItemPriceEntity toTrainingItemPriceEntity(TrainingItemPriceDTO dto) {
+    TrainingItemPriceEntity entity = new TrainingItemPriceEntity();
+    CglibBeanUtils.copy(dto, entity);
+    return entity;
+  }
+
+  @Override
+  public List<TrainingItemPriceEntity> toTrainingItemPriceEntities(List<TrainingItemPriceDTO> dtos) {
+    List<TrainingItemPriceEntity> entities = new ArrayList<>();
+    for (TrainingItemPriceDTO dto : dtos) {
+      entities.add(toTrainingItemPriceEntity(dto));
+    }
+    return entities;
   }
 
   @Override
