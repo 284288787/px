@@ -7,6 +7,7 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -424,5 +425,24 @@ public class TrainingWebService extends BaseWebService {
       return 0;
     }
     return priceDTO.getPrice();
+  }
+
+  public Map<String, Object> applyTotal() {
+    Map<String, Object> map = new HashMap<>();
+    QueryParam queryParam = new QueryParam();
+    queryParam.setPageNo(1);
+    queryParam.setPageSize(10);
+    queryParam.setOrderBy("createTime");
+    queryParam.setOrderType("desc");
+    queryParam.addParam("status", 2);
+    PageList<ApplyInfoDTO> pageList = this.trainingFacade.getApplyInfoListForPage(queryParam);
+    map.put("infos", pageList.getDataList());
+    map.put("totalNum", pageList.getTotalRecord());
+    return map;
+  }
+
+  public Map<String, Object> applyForPromoter(Long promoterId) {
+    // TODO Auto-generated method stub
+    return null;
   }
 }

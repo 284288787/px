@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="kickbackDetail" isRead="true" dsName="test-read">
+
+	<sql id="insertKickbackDetail" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO px_kickback_detail(promoterId, createTime, money, createUser) 
+			values (:promoterId, :createTime, :money, :createUser)
+		]]>
+	</sql>
+
+	<sql id="updateKickbackDetail" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE px_kickback_detail SET createTime = createTime
+				<#if money?exists && money != "">
+					, money = :money
+				</#if>
+			WHERE 
+				<#if id?exists && id != "">
+					id = :id
+				<#else>
+					id in (${ids})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteKickbackDetail" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM px_kickback_detail
+			WHERE 1=1
+			<#if promoterId?exists && promoterId != "">
+					AND promoterId = :promoterId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if money?exists && money != "">
+					AND money = :money
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleKickbackDetailList">
+		<![CDATA[
+			SELECT 
+				id, 
+				promoterId, 
+				createTime, 
+				money, 
+				createUser
+			FROM px_kickback_detail
+			WHERE 1=1
+			<#if promoterId?exists && promoterId != "">
+					AND promoterId = :promoterId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if money?exists && money != "">
+					AND money = :money
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleKickbackDetailListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM px_kickback_detail
+			WHERE 1=1
+			<#if promoterId?exists && promoterId != "">
+					AND promoterId = :promoterId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if money?exists && money != "">
+					AND money = :money
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getKickbackDetailList">
+		<![CDATA[
+			SELECT 
+				id, 
+				promoterId, 
+				createTime, 
+				money, 
+				createUser
+			FROM px_kickback_detail
+			WHERE 1=1
+			<#if promoterId?exists && promoterId != "">
+					AND promoterId = :promoterId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if money?exists && money != "">
+					AND money = :money
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getKickbackDetailListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM px_kickback_detail
+			WHERE 1=1
+			<#if promoterId?exists && promoterId != "">
+					AND promoterId = :promoterId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if money?exists && money != "">
+					AND money = :money
+				</#if>
+				<#if createUser?exists && createUser != "">
+					AND createUser = :createUser
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

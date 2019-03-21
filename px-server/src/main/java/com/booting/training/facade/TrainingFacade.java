@@ -10,10 +10,12 @@ import com.booting.training.dto.ApplyDetailDTO;
 import com.booting.training.entity.ApplyDetailEntity;
 import com.booting.training.dto.ApplyInfoDTO;
 import com.booting.training.dto.ApplyItemDTO;
+import com.booting.training.dto.KickbackDetailDTO;
 import com.booting.training.dto.PromoterDTO;
 import com.booting.training.dto.StudyAddressDTO;
 import com.booting.training.entity.ApplyInfoEntity;
 import com.booting.training.entity.ApplyItemEntity;
+import com.booting.training.entity.KickbackDetailEntity;
 import com.booting.training.entity.PromoterEntity;
 import com.booting.training.entity.StudyAddressEntity;
 import com.booting.training.dto.TrainingItemDTO;
@@ -24,6 +26,66 @@ import com.booting.training.entity.TrainingItemPictureEntity;
 import com.booting.training.entity.TrainingItemPriceEntity;
 
 public interface TrainingFacade extends Serializable {
+
+  /**
+   * 新增 回扣发放明细
+   */
+  public Long saveKickbackDetail(KickbackDetailDTO kickbackDetailDTO);
+
+  /**
+   * 批量新增 回扣发放明细
+   */
+  public void batchSaveKickbackDetail(List<KickbackDetailDTO> dtos);
+
+  /**
+   * 更新 回扣发放明细
+   */
+  public int updateKickbackDetail(KickbackDetailDTO kickbackDetailDTO);
+
+  /**
+   * 批量 回扣发放明细
+   */
+  public void batchUpdateKickbackDetail(List<KickbackDetailDTO> dtos);
+
+  /**
+   * 删除 回扣发放明细
+   */
+  public int deleteKickbackDetail(long id);
+
+  /**
+   * 根据主键获取 回扣发放明细
+   */
+  public KickbackDetailDTO getKickbackDetail(long id);
+
+  /**
+   * 根据条件获取一条 回扣发放明细
+   */
+  public KickbackDetailDTO getKickbackDetail(KickbackDetailDTO kickbackDetailDTO);
+
+  /**
+   * 查询满足条件的 回扣发放明细 列表(单表)
+   */
+  public List<KickbackDetailDTO> getKickbackDetailList(KickbackDetailDTO kickbackDetailDTO);
+
+  /**
+   * 查询满足条件的 回扣发放明细 列表(分页)(单表)
+   */
+  public PageList<KickbackDetailDTO> getKickbackDetailListForPage(KickbackDetailDTO kickbackDetailDTO, int pageNumber, int pageSize);
+
+  /**
+   * 查询满足条件的 回扣发放明细 列表(分页)(单表)
+   */
+  public PageList<KickbackDetailDTO> getKickbackDetailListForPage(QueryParam queryParam);
+
+  /**
+   * 回扣发放明细DTO 转换成 Entity
+   */
+  public KickbackDetailEntity toKickbackDetailEntity(KickbackDetailDTO kickbackDetailDTO);
+
+  /**
+   * 回扣发放明细DTOs 转换成 Entities
+   */
+  public List<KickbackDetailEntity> toKickbackDetailEntities(List<KickbackDetailDTO> dtoes);
 
   /**
    * 新增 报名项目
