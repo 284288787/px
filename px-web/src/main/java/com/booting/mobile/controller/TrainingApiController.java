@@ -127,17 +127,22 @@ public class TrainingApiController {
   @ApiOperation(value = "报名人数统计", notes = "报名人数统计及返回最新的10条报名记录", httpMethod = "POST", response = String.class, produces = "text/html;charset=UTF-8")
   public String applyTotal(@ApiIgnore String params) throws Exception {
     Map<String, Object> map = trainingWebService.applyTotal();
-    return ParamHandler.objToString(map);
+    ApiResult apiResult = new ApiResult(map);
+    return ParamHandler.objToString(apiResult);
   }
   
   @InterfaceVersion("1.0")
   @RequestMapping(value = "/{version}/promoter/info", method = { RequestMethod.POST, RequestMethod.GET }, produces = "text/html;charset=UTF-8")
   @ApiOperation(value = "推广员推广信息", notes = "推广员推广信息及提成", httpMethod = "POST", response = String.class, produces = "text/html;charset=UTF-8")
-  @ApiImplicitParams({ @ApiImplicitParam(name = "promoterId", value = "推广员id", paramType = "query", required = true, dataType = "String"), })
+  @ApiImplicitParams({ 
+    @ApiImplicitParam(name = "promoterId", value = "推广员id", paramType = "query", required = false, dataType = "String"), 
+    @ApiImplicitParam(name = "mobile", value = "推广员手机号", paramType = "query", required = false, dataType = "String"), 
+  })
   public String applyForPromoter(@ApiIgnore String params) throws Exception {
     ParamHandler paramHandler = new ParamHandler(params);
     Long promoterId = paramHandler.getLong("promoterId");
-    PromoterDTO promoter = trainingWebService.applyForPromoter(promoterId);
+    String mobile = paramHandler.getString("mobile");
+    PromoterDTO promoter = trainingWebService.applyForPromoter(promoterId, mobile);
     ApiResult apiResult = new ApiResult(promoter);
     return ParamHandler.objToString(apiResult);
   }

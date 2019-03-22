@@ -444,9 +444,13 @@ public class TrainingWebService extends BaseWebService {
     return map;
   }
 
-  public PromoterDTO applyForPromoter(Long promoterId) {
+  public PromoterDTO applyForPromoter(Long promoterId, String mobile) {
+    if(null == promoterId && StringUtils.isBlank(mobile)) {
+      throw new ArgsException(FailureCode.ERR_002);
+    }
     PromoterDTO promoterDTO = new PromoterDTO();
     promoterDTO.setPromoterId(promoterId);
+    promoterDTO.setMobile(mobile);
     promoterDTO = this.trainingFacade.getPromoter(promoterDTO);
     return promoterDTO;
   }
