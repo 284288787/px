@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.booting.service.impl.TrainingWebService;
 import com.booting.training.dto.ApplyInfoDTO;
+import com.booting.training.dto.PromoterDTO;
 import com.booting.training.dto.TrainingItemDTO;
 import com.star.framework.jdbc.dao.result.QueryParam;
 import com.star.framework.specification.FailureCode;
@@ -136,8 +137,9 @@ public class TrainingApiController {
   public String applyForPromoter(@ApiIgnore String params) throws Exception {
     ParamHandler paramHandler = new ParamHandler(params);
     Long promoterId = paramHandler.getLong("promoterId");
-    Map<String, Object> map = trainingWebService.applyForPromoter(promoterId);
-    return ParamHandler.objToString(map);
+    PromoterDTO promoter = trainingWebService.applyForPromoter(promoterId);
+    ApiResult apiResult = new ApiResult(promoter);
+    return ParamHandler.objToString(apiResult);
   }
 
   @InterfaceVersion("1.0")

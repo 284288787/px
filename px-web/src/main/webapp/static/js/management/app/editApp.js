@@ -1,4 +1,5 @@
 var basePath=$("#basePath").val();
+var parentParams=artDialog.data('params'); 
 $(function(){
 	$("#editAppVersionForm").validate({
 		rules: {
@@ -46,7 +47,7 @@ $(function(){
 			dataType: 'json',
 			success: function(res){
 				if(res.status=='SUCCESS'){
-					parent.appHandle.query();
+				  parentParams.query(); 
 					art.dialog.close();
 				}else{
 					artDialog.alert(res.errorMessage)

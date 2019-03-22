@@ -33,26 +33,27 @@ var utilsHandle = new UtilsHandle({
 	}, 
 }); 
 $(function(){ 
-	var colNames = ['id', '推广员', '发放金额', '收款微信', '交易流水号', '发放时间', '操作'];
+	var colNames = ['操作', 'id', '推广员', '申请金额', '申请时间', '收款微信', '金额时间范围起', '金额时间范围止', '交易流水号'];
 	var colModel = [ 
+	  {width: 50, align: 'left', editable: false, sortable: false, formatter: function(cellvalue, options, rowObject){ 
+      var temp = ''; 
+      if(rowObject.state == 1){
+        temp += '<a class="linetaga" href="javascript: kickbackDetailHandle.edit(\'' + rowObject.id + '\');" >填写交易流水号</a>'; 
+      }else{
+        temp += '<span class="linetaga">已完成</span>';
+      }
+      return '<span class="listBtnsSpan">'+temp+'</span>'; 
+    }},
 		{name: 'id', index: 'id', width: 30, align: 'center'}, 
 		{name: 'promoterName', index: 'promoterName', width: 70, align: 'center'}, 
 		{name: 'money', index: 'money', width: 50, align: 'center', formatter: function(cellvalue, options, rowObject){ 
       return (cellvalue / 100.0).toFixed(2); 
     }}, 
+    {name: 'createTime', index: 'createTime', width: 50, align: 'center'}, 
 		{name: 'wxNumber', index: 'wxNumber', width: 50, align: 'center'}, 
+		{name: 'pointBeginTime', editable: false, sortable: false, width: 50, align: 'center'}, 
+		{name: 'pointEndTime', editable: false, sortable: false, width: 50, align: 'center'}, 
 		{name: 'wxOrderNumber', index: 'wxOrderNumber', width: 200, align: 'center'}, 
-		{name: 'createTime', index: 'createTime', width: 50, align: 'center'}, 
-		{width: 50, align: 'left', editable: false, sortable: false, formatter: function(cellvalue, options, rowObject){ 
-			var temp = ''; 
-			temp += '<a class="linetaga" href="javascript: kickbackDetailHandle.edit(\'' + rowObject.id + '\');" >编辑</a>'; 
-			if(rowObject.enabled==1){
-				temp += '<a class="linetaga" href="javascript: kickbackDetailHandle.disabled(\'' + rowObject.id + '\');" >禁用</a>'; 
-			}else{ 
-				temp += '<a class="linetaga" href="javascript: kickbackDetailHandle.enabled(\'' + rowObject.id + '\');" >启用</a>';
-			}
-			return '<span class="listBtnsSpan">'+temp+'</span>'; 
-		}} 
 	]; 
 	var rowList = [10, 20, 30, 50];
 	var rownumbers = true; 

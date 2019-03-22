@@ -444,9 +444,11 @@ public class TrainingWebService extends BaseWebService {
     return map;
   }
 
-  public Map<String, Object> applyForPromoter(Long promoterId) {
-    // TODO Auto-generated method stub
-    return null;
+  public PromoterDTO applyForPromoter(Long promoterId) {
+    PromoterDTO promoterDTO = new PromoterDTO();
+    promoterDTO.setPromoterId(promoterId);
+    promoterDTO = this.trainingFacade.getPromoter(promoterDTO);
+    return promoterDTO;
   }
 
   public void applyKickback(Long promoterId, String wxNumber) {
@@ -469,7 +471,7 @@ public class TrainingWebService extends BaseWebService {
     if(null == m || null == t) {
       throw new ArgsException(FailureCode.ERR_002, "暂无可提现的金额");
     }
-    Integer money = Integer.parseInt(m.toString());
+    Double money = Double.parseDouble(m.toString());
     if (money < 200 * 100 * 0) {
       throw new ArgsException(FailureCode.ERR_002, "暂无可提现的金额");
     }
@@ -477,7 +479,7 @@ public class TrainingWebService extends BaseWebService {
     KickbackDetailDTO kickbackDetailDTO = new KickbackDetailDTO();
     kickbackDetailDTO.setCreateTime(new Date());
     kickbackDetailDTO.setCreateUser(promoter.getName());
-    kickbackDetailDTO.setMoney(money);
+    kickbackDetailDTO.setMoney(money.intValue());
     kickbackDetailDTO.setPointBeginTime(beginDatePoint);
     kickbackDetailDTO.setPointEndTime(time);
     kickbackDetailDTO.setPromoterId(promoterId);

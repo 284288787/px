@@ -18,7 +18,8 @@ public class PromoterDTO implements Serializable {
   private Date createTime;
   private String wxNumber;
   private Integer count;    //推广的人数
-  private Double totalTc;   //总提成
+  private Double totalKickback;   //到账或正在到账的总提成
+  private Double totalUnKickback; //未申请的提成
   private String promoterIds;
   
   public Long getPromoterId() {
@@ -80,20 +81,28 @@ public class PromoterDTO implements Serializable {
     this.count = count;
   }
 
-  public Double getTotalTc() {
-    return totalTc;
-  }
-
-  public void setTotalTc(Double totalTc) {
-    this.totalTc = totalTc;
-  }
-
   public String getWxNumber() {
     return wxNumber;
   }
 
   public void setWxNumber(String wxNumber) {
     this.wxNumber = wxNumber;
+  }
+
+  public Double getTotalKickback() {
+    return totalKickback;
+  }
+
+  public Double getTotalUnKickback() {
+    return totalUnKickback;
+  }
+
+  public void setTotalKickback(Double totalKickback) {
+    this.totalKickback = totalKickback;
+  }
+
+  public void setTotalUnKickback(Double totalUnKickback) {
+    this.totalUnKickback = totalUnKickback;
   } 
   
 }

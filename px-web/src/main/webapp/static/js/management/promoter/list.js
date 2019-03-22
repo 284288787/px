@@ -46,7 +46,7 @@ var utilsHandle = new UtilsHandle({
 	}, 
 }); 
 $(function(){ 
-	var colNames = ['id', '推广二维码', '已推广人数', '总提成', '姓名', '电话', '微信号', '添加时间', '是否可用', '操作'];
+	var colNames = ['id', '推广二维码', '已推广人数', '累积提成', '已到账/正在到账的提成和', '未申请的提成和', '姓名', '电话', '微信号', '添加时间', '是否可用', '操作'];
 	var colModel = [ 
 		{name: 'promoterId', index: 'promoterId', width: 30, align: 'center'}, 
 		{width: 140, align: 'center', formatter: function(cellvalue, options, rowObject){
@@ -56,7 +56,13 @@ $(function(){
 		  if(cellvalue==0) return '<a class="linetaga">'+cellvalue+'</a>';
       return '<a class="linetaga" href="javascript: promoterHandle.promotDetail(\'' + rowObject.promoterId + '\');" >'+cellvalue+'</a>'
     }}, 
-    {name: 'totalTc', width: 70, align: 'center', formatter: function(cellvalue, options, rowObject){
+    {width: 70, align: 'center', formatter: function(cellvalue, options, rowObject){
+      return ((rowObject.totalKickback + rowObject.totalUnKickback) / 100.0).toFixed(4);
+    }}, 
+    {name: 'totalKickback', width: 70, align: 'center', formatter: function(cellvalue, options, rowObject){
+      return (cellvalue / 100.0).toFixed(4);
+    }}, 
+    {name: 'totalUnKickback', width: 70, align: 'center', formatter: function(cellvalue, options, rowObject){
       return (cellvalue / 100.0).toFixed(4);
     }}, 
 		{name: 'name', index: 'name', width: 70, align: 'center'}, 

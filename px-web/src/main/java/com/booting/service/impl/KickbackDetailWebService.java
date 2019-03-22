@@ -3,6 +3,7 @@ package com.booting.service.impl;
 
 import java.util.Date;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,17 +29,21 @@ public class KickbackDetailWebService {
   }
 
   public KickbackDetailDTO getKickbackDetail(Long id) {
-    return trainingFacade.getKickbackDetail(id);
+    KickbackDetailDTO kickbackDetailDTO = new KickbackDetailDTO();
+    kickbackDetailDTO.setId(id);
+    return trainingFacade.getKickbackDetail(kickbackDetailDTO);
   }
 
   public void updateKickbackDetail(KickbackDetailDTO kickbackDetailDTO) {
     if (null == kickbackDetailDTO || null == kickbackDetailDTO.getId() ||
-        null == kickbackDetailDTO.getMoney()) {
+        StringUtils.isBlank(kickbackDetailDTO.getWxOrderNumber())) {
       throw new ArgsException(FailureCode.ERR_002);
     }
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     String createUser = ((StarUserInfo) auth.getPrincipal()).getName();
     kickbackDetailDTO.setCreateUser(createUser);
+    kickbackDetailDTO.setUpdateTime(new Date());
+    kickbackDetailDTO.setState(2);
     trainingFacade.updateKickbackDetail(kickbackDetailDTO);
   }
 

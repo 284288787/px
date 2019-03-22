@@ -70,31 +70,35 @@
         deleted, 
         enabled,wxNumber,
         (select count(1) from px_apply_info where `status` = 2 and promoterId = px_promoter.promoterId) count,
-        ifnull(b.totalTc, 0) totalTc
+        (select ifnull(sum(k.money), 0) from px_kickback_detail k where k.promoterId = px_promoter.promoterId) totalKickback,
+        ifnull(b.totalTc, 0) totalUnKickback
       FROM px_promoter 
-      left JOIN (select promoterId, ifnull(SUM(tc), 0) totalTc from (
-select a.applyItemId, o.totalMoney, a.promoterId, i.brokerageRate, o.totalMoney * i.brokerageRate tc from px_apply_info a 
+      left join (select promoterId, ifnull(SUM(tc), 0) totalTc from (
+select a.promoterId, i.brokerageRate, o.totalMoney * i.brokerageRate tc
+from px_apply_info a 
 INNER JOIN order_info o on o.businessId = a.applyId
 INNER JOIN px_apply_item i on i.applyItemId = a.applyItemId
-where a.`status` = 2) t GROUP BY t.promoterId) b on b.promoterId = px_promoter.promoterId
+where a.`status` = 2 and a.createTime >  
+ifnull((select j.createTime from px_kickback_detail j where j.promoterId = a.promoterId order by j.createTime desc limit 1), '2019-01-01 00:00:00')
+) t GROUP BY t.promoterId) b on px_promoter.promoterId = b.promoterId
       WHERE 1=1
 			<#if name?exists && name != "">
-					AND `name` = :name
+					AND px_promoter.`name` = :name
 				</#if>
 				<#if createTime?exists && createTime != "">
-					AND createTime = :createTime
+					AND px_promoter.createTime = :createTime
 				</#if>
 				<#if mobile?exists && mobile != "">
-					AND mobile = :mobile
+					AND px_promoter.mobile = :mobile
 				</#if>
 				<#if deleted?exists && deleted != "">
-					AND deleted = :deleted
+					AND px_promoter.deleted = :deleted
 				</#if>
 				<#if enabled?exists && enabled != "">
-					AND enabled = :enabled
+					AND px_promoter.enabled = :enabled
 				</#if>
 			<#if promoterId?exists && promoterId != "">
-				AND promoterId = :promoterId
+				AND px_promoter.promoterId = :promoterId
 			</#if>
 			<#if orderBy?exists && orderBy !="" >
 				ORDER BY :orderBy
@@ -113,22 +117,22 @@ where a.`status` = 2) t GROUP BY t.promoterId) b on b.promoterId = px_promoter.p
 			SELECT COUNT(1) FROM px_promoter
 			WHERE 1=1
 			<#if name?exists && name != "">
-					AND `name` = :name
+					AND px_promoter.`name` = :name
 				</#if>
 				<#if createTime?exists && createTime != "">
-					AND createTime = :createTime
+					AND px_promoter.createTime = :createTime
 				</#if>
 				<#if mobile?exists && mobile != "">
-					AND mobile = :mobile
+					AND px_promoter.mobile = :mobile
 				</#if>
 				<#if deleted?exists && deleted != "">
-					AND deleted = :deleted
+					AND px_promoter.deleted = :deleted
 				</#if>
 				<#if enabled?exists && enabled != "">
-					AND enabled = :enabled
+					AND px_promoter.enabled = :enabled
 				</#if>
 			<#if promoterId?exists && promoterId != "">
-				AND promoterId = :promoterId
+				AND px_promoter.promoterId = :promoterId
 			</#if>
 			<#if orderBy?exists && orderBy !="" >
 				ORDER BY :orderBy

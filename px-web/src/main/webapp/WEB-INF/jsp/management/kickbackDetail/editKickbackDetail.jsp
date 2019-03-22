@@ -20,10 +20,10 @@
 		<form action="" id="editkickbackDetailForm"> 
 		<input type="hidden" name="id" value="${kickbackDetailDTO.id}">
 		<ul> 
-			<li><strong>推广员：</strong><span><input type="text" name="promoterName" placeholder="推广员" value="${kickbackDetailDTO.promoterName}"></span></li>
-			<li><strong>发放金额：</strong><span><input type="text" name="promoterName" placeholder="发放金额" value="${kickbackDetailDTO.promoterName}"></span></li>
-			<li><strong>收款微信：</strong><span><input type="text" name="wxNumber" placeholder="收款微信" value="${kickbackDetailDTO.wxNumber}"></span></li>
-			<li><strong>交易流水号：</strong><span><input type="text" name="wxOrderNumber" placeholder="交易流水号" value="${kickbackDetailDTO.wxOrderNumber}"></span></li>
+			<li><strong>推广员：</strong><span>${kickbackDetailDTO.promoterName}</span></li>
+			<li><strong>发放金额：</strong><span><fmt:formatNumber value="${kickbackDetailDTO.money/100}" pattern="##.00"></fmt:formatNumber></span></li>
+			<li><strong>收款微信：</strong><span>${kickbackDetailDTO.wxNumber}</span></li>
+			<li><strong>交易流水号：</strong><span><input type="text" class="ipt300" name="wxOrderNumber" placeholder="交易流水号" value="${kickbackDetailDTO.wxOrderNumber}"></span></li>
 			</span></li> 
 		</ul>
 		</form>
