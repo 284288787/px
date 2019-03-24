@@ -79,7 +79,7 @@ from px_apply_info a
 INNER JOIN order_info o on o.businessId = a.applyId
 INNER JOIN px_apply_item i on i.applyItemId = a.applyItemId
 where a.`status` = 2 and a.createTime >  
-ifnull((select j.createTime from px_kickback_detail j where j.promoterId = a.promoterId order by j.createTime desc limit 1), '2019-01-01 00:00:00')
+ifnull((select j.pointEndTime from px_kickback_detail j where j.promoterId = a.promoterId order by j.createTime desc limit 1), '2019-01-01 00:00:00')
 ) t GROUP BY t.promoterId) b on px_promoter.promoterId = b.promoterId
       WHERE 1=1
 			<#if name?exists && name != "">

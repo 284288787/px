@@ -444,32 +444,44 @@ public class TrainingWebService extends BaseWebService {
     return map;
   }
 
-  public PromoterDTO applyForPromoter(Long promoterId, String mobile) {
-    if(null == promoterId && StringUtils.isBlank(mobile)) {
+  public PromoterDTO applyForPromoter(String openId) {
+    if(StringUtils.isBlank(openId)) {
       throw new ArgsException(FailureCode.ERR_002);
     }
+    String mobile = getMobile(openId);
+    if (StringUtils.isBlank(mobile)) {
+      throw new ArgsException(FailureCode.ERR_002, "请先绑定手机号");
+    }
     PromoterDTO promoterDTO = new PromoterDTO();
-    promoterDTO.setPromoterId(promoterId);
     promoterDTO.setMobile(mobile);
     promoterDTO = this.trainingFacade.getPromoter(promoterDTO);
+    if (null == promoterDTO) {
+      throw new ArgsException(FailureCode.ERR_002, "你不是推广员");
+    }
     return promoterDTO;
   }
 
-  public void applyKickback(Long promoterId, String wxNumber) {
-    if (null == promoterId || StringUtils.isBlank(wxNumber)) {
+  public void applyKickback(String openId, String wxNumber) {
+    if (StringUtils.isBlank(openId) || StringUtils.isBlank(wxNumber)) {
       throw new ArgsException(FailureCode.ERR_002);
     }
-    PromoterDTO promoter = this.trainingFacade.getPromoter(promoterId);
-    if (null == promoter || null == promoter.getPromoterId()) {
-      throw new ArgsException(FailureCode.ERR_002, "推广员不存在");
+    String mobile = getMobile(openId);
+    if (StringUtils.isBlank(mobile)) {
+      throw new ArgsException(FailureCode.ERR_002, "请先绑定手机号");
+    }
+    PromoterDTO promoter = new PromoterDTO();
+    promoter.setMobile(mobile);
+    promoter = this.trainingFacade.getPromoter(promoter);
+    if (null == promoter) {
+      throw new ArgsException(FailureCode.ERR_002, "你不是推广员");
     }
     //得到他已经提现的金额和最后一次提现的时间
-    KickbackDetailDTO kickbackDetail = this.trainingFacade.getLatestKickbackDetail(promoterId);
+    KickbackDetailDTO kickbackDetail = this.trainingFacade.getLatestKickbackDetail(promoter.getPromoterId());
     Date beginDatePoint = DateUtils.parseDate("2019-01-01", new String[] {"yyyy-MM-dd"});
     if (null != kickbackDetail && null != kickbackDetail.getPointEndTime()) {
       beginDatePoint = kickbackDetail.getPointEndTime();
     }
-    Map<String, Object> kickback = this.trainingFacade.totalMoneyByPromoter(promoterId, beginDatePoint);
+    Map<String, Object> kickback = this.trainingFacade.totalMoneyByPromoter(promoter.getPromoterId(), beginDatePoint);
     Object m = kickback.get("money");
     Object t = kickback.get("time");
     if(null == m || null == t) {
@@ -486,10 +498,34 @@ public class TrainingWebService extends BaseWebService {
     kickbackDetailDTO.setMoney(money.intValue());
     kickbackDetailDTO.setPointBeginTime(beginDatePoint);
     kickbackDetailDTO.setPointEndTime(time);
-    kickbackDetailDTO.setPromoterId(promoterId);
+    kickbackDetailDTO.setPromoterId(promoter.getPromoterId());
     kickbackDetailDTO.setState(1);
     kickbackDetailDTO.setUpdateTime(kickbackDetailDTO.getCreateTime());
     kickbackDetailDTO.setWxNumber(wxNumber);
     this.trainingFacade.saveKickbackDetail(kickbackDetailDTO);
+  }
+
+  public ApiResult kickbackList(String openId, QueryParam queryParam) {
+    if (StringUtils.isBlank(openId)) {
+      throw new ArgsException(FailureCode.ERR_002);
+    }
+    String mobile = getMobile(openId);
+    if (StringUtils.isBlank(mobile)) {
+      throw new ArgsException(FailureCode.ERR_002, "请先绑定手机号");
+    }
+    PromoterDTO promoter = new PromoterDTO();
+    promoter.setMobile(mobile);
+    promoter = this.trainingFacade.getPromoter(promoter);
+    if (null == promoter) {
+      throw new ArgsException(FailureCode.ERR_002, "你不是推广员");
+    }
+    queryParam.addParam("promoterId", promoter.getPromoterId());
+    PageList<KickbackDetailDTO> pageList = this.trainingFacade.getKickbackDetailListForPage(queryParam);
+    List<KickbackDetailDTO> list = pageList.getDataList();
+    ApiResult apiResult = new ApiResult();
+    apiResult.setData(list);
+    PageInfo pageInfo = new PageInfo(pageList.getPageNo(), pageList.getPageSize(), pageList.getTotalRecord());
+    apiResult.setPageInfo(pageInfo);
+    return apiResult;
   }
 }

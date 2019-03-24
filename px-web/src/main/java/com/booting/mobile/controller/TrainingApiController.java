@@ -103,7 +103,10 @@ public class TrainingApiController {
 
   @InterfaceVersion("1.0")
   @RequestMapping(value = "/{version}/getApplyInfos", method = { RequestMethod.POST, RequestMethod.GET }, produces = "text/html;charset=UTF-8")
-  @ApiImplicitParams({ @ApiImplicitParam(name = "openId", value = "微信唯一标识", paramType = "query", required = true, dataType = "String"), @ApiImplicitParam(name = "pageNo", value = "页码 默认1", paramType = "query", required = false, dataType = "int"), @ApiImplicitParam(name = "pageSize", value = "一页最大记录数 默认10", paramType = "query", required = false, dataType = "int"), })
+  @ApiImplicitParams({ 
+    @ApiImplicitParam(name = "openId", value = "微信唯一标识", paramType = "query", required = true, dataType = "String"),
+    @ApiImplicitParam(name = "pageNo", value = "页码 默认1", paramType = "query", required = false, dataType = "int"), 
+    @ApiImplicitParam(name = "pageSize", value = "一页最大记录数 默认10", paramType = "query", required = false, dataType = "int"), })
   @ApiOperation(value = "获取某人所有的已报名项目列表", notes = "获取某人所有的已报名项目列表", httpMethod = "POST", response = String.class, produces = "text/html;charset=UTF-8")
   public String getApplyInfos(@ApiIgnore String params) throws Exception {
     ParamHandler paramHandler = new ParamHandler(params);
@@ -135,30 +138,52 @@ public class TrainingApiController {
   @RequestMapping(value = "/{version}/promoter/info", method = { RequestMethod.POST, RequestMethod.GET }, produces = "text/html;charset=UTF-8")
   @ApiOperation(value = "推广员推广信息", notes = "推广员推广信息及提成", httpMethod = "POST", response = String.class, produces = "text/html;charset=UTF-8")
   @ApiImplicitParams({ 
-    @ApiImplicitParam(name = "promoterId", value = "推广员id", paramType = "query", required = false, dataType = "String"), 
-    @ApiImplicitParam(name = "mobile", value = "推广员手机号", paramType = "query", required = false, dataType = "String"), 
+    @ApiImplicitParam(name = "openId", value = "openId", paramType = "query", required = true, dataType = "String"), 
   })
   public String applyForPromoter(@ApiIgnore String params) throws Exception {
     ParamHandler paramHandler = new ParamHandler(params);
-    Long promoterId = paramHandler.getLong("promoterId");
-    String mobile = paramHandler.getString("mobile");
-    PromoterDTO promoter = trainingWebService.applyForPromoter(promoterId, mobile);
+    String openId = paramHandler.getString("openId");
+    PromoterDTO promoter = trainingWebService.applyForPromoter(openId);
     ApiResult apiResult = new ApiResult(promoter);
     return ParamHandler.objToString(apiResult);
   }
-
+  
   @InterfaceVersion("1.0")
   @RequestMapping(value = "/{version}/promoter/apply/kickback", method = { RequestMethod.POST, RequestMethod.GET }, produces = "text/html;charset=UTF-8")
   @ApiOperation(value = "推广员申请提现", notes = "推广员申请提现", httpMethod = "POST", response = String.class, produces = "text/html;charset=UTF-8")
   @ApiImplicitParams({ 
-    @ApiImplicitParam(name = "promoterId", value = "推广员id", paramType = "query", required = true, dataType = "long"), 
-    @ApiImplicitParam(name = "wxNumber", value = "微信号", paramType = "query", required = true, dataType = "String"), 
+    @ApiImplicitParam(name = "openId", value = "openId", paramType = "query", required = true, dataType = "String"), 
+    @ApiImplicitParam(name = "wxNumber", value = "wxNumber", paramType = "query", required = true, dataType = "String"), 
   })
   public String applyKickback(@ApiIgnore String params) throws Exception {
     ParamHandler paramHandler = new ParamHandler(params);
-    Long promoterId = paramHandler.getLong("promoterId");
+    String openId = paramHandler.getString("openId");
     String wxNumber = paramHandler.getString("wxNumber");
-    trainingWebService.applyKickback(promoterId, wxNumber);
+    trainingWebService.applyKickback(openId, wxNumber);
     return null;
+  }
+
+  @InterfaceVersion("1.0")
+  @RequestMapping(value = "/{version}/promoter/kickback/list", method = { RequestMethod.POST, RequestMethod.GET }, produces = "text/html;charset=UTF-8")
+  @ApiOperation(value = "推广员提现记录", notes = "推广员提现记录", httpMethod = "POST", response = String.class, produces = "text/html;charset=UTF-8")
+  @ApiImplicitParams({ 
+    @ApiImplicitParam(name = "openId", value = "openId", paramType = "query", required = true, dataType = "String"), 
+    @ApiImplicitParam(name = "pageNo", value = "页码 默认1", paramType = "query", required = false, dataType = "int"), 
+    @ApiImplicitParam(name = "pageSize", value = "一页最大记录数 默认10", paramType = "query", required = false, dataType = "int")
+  })
+  public String kickbackList(@ApiIgnore String params) throws Exception {
+    ParamHandler paramHandler = new ParamHandler(params);
+    String openId = paramHandler.getString("openId");
+    Integer pageNo = paramHandler.getInteger("pageNo");
+    Integer pageSize = paramHandler.getInteger("pageSize");
+    QueryParam queryParam = new QueryParam();
+    if (null != pageNo) {
+      queryParam.setPageNo(pageNo);
+    }
+    if (null != pageSize) {
+      queryParam.setPageSize(pageSize);
+    }
+    ApiResult apiResult = trainingWebService.kickbackList(openId, queryParam);
+    return ParamHandler.objToString(apiResult);
   }
 }
