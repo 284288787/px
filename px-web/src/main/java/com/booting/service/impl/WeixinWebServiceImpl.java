@@ -45,16 +45,14 @@ public class WeixinWebServiceImpl {
 		if (null == accessToken) {
 			String temp = requestGet(String.format(accessTokenUrl, code));
 			accessToken = mapper.readValue(temp, AccessToken.class);
-			Map<String, Object> info = WeiXinUtil.getWxUserInfo(accessToken.getOpenid());
-			accessToken.setSubscribe((boolean) info.get("subscribe"));
+			Map<String, Object> info = WeiXinUtil.getWxUserInfo2(accessToken.getAccess_token(), accessToken.getOpenid());
 			accessToken.setNickname(info.get("nickname").toString());
 			accessToken.setHeadimgurl(info.get("headimgurl").toString());
 			accessTokens.put(code, accessToken);
 		}else if (! accessToken.isExpires()) {
 			String temp = requestGet(String.format(refreshAccessTokenUrl, accessToken.getRefresh_token()));
 			accessToken = mapper.readValue(temp, AccessToken.class);
-			Map<String, Object> info = WeiXinUtil.getWxUserInfo(accessToken.getOpenid());
-			accessToken.setSubscribe((boolean) info.get("subscribe"));
+			Map<String, Object> info = WeiXinUtil.getWxUserInfo2(accessToken.getAccess_token(), accessToken.getOpenid());
 			accessToken.setNickname(info.get("nickname").toString());
 			accessToken.setHeadimgurl(info.get("headimgurl").toString());
 			accessTokens.put(code, accessToken);

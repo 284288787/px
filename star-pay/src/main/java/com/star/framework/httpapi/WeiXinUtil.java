@@ -36,6 +36,7 @@ public class WeiXinUtil {
 	private static final String jsapiTicketUrl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=%s&type=jsapi";
 	private static final String apiTicketUrl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=%s&type=wx_card";
 	private static final String getUserInfoUrl = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=%s&openid=%s&lang=zh_CN";
+	private static final String getUserInfoUrl2 = "https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s&lang=zh_CN";
 	
 	private static final String getCardListUrl = "https://api.weixin.qq.com/card/user/getcardlist?access_token=%s";
 	private static final String modifystockUrl = "https://api.weixin.qq.com/card/modifystock?access_token=%s";
@@ -60,6 +61,30 @@ public class WeiXinUtil {
 			response.close();
 		}
 		return accessToken.getAccess_token();
+	}
+	
+	public static Map<String, Object> getWxUserInfo2(String accessToken, String openId) throws IOException {
+	  Request request = new Request.Builder().url(String.format(getUserInfoUrl2, accessToken, openId)).build();
+	  Response response = httpClient.newCall(request).execute();
+	  String temp = response.body().string();
+	  System.out.println("wx_user_info:" + temp);
+	  Map<String, Object> map = mapper.readValue(temp, new TypeReference<Map<String, Object>>() {});
+	  Map<String, Object> result = new HashMap<>();
+	  Object nickname = "";
+	  Object headimgurl = "";
+	  if (null != map) {
+	    nickname = map.get("nickname");
+	    headimgurl = map.get("headimgurl");
+	    if (null == nickname) {
+	      nickname = "";
+	    }
+	    if (null == headimgurl) {
+	      headimgurl = "";
+	    }
+	  }
+	  result.put("nickname", nickname);
+	  result.put("headimgurl", headimgurl);
+	  return result;
 	}
 	
 	public static Map<String, Object> getWxUserInfo(String openId) throws IOException {
