@@ -66,6 +66,7 @@ public class WeiXinUtil {
 		Request request = new Request.Builder().url(String.format(getUserInfoUrl, getAccessToken(), openId)).build();
 		Response response = httpClient.newCall(request).execute();
 		String temp = response.body().string();
+		System.out.println("wx_user_info:" + temp);
 		Map<String, Object> map = mapper.readValue(temp, new TypeReference<Map<String, Object>>() {});
 		Map<String, Object> result = new HashMap<>();
 		boolean bool = false;
