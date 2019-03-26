@@ -269,6 +269,10 @@ public class KindergartenWebService extends BaseWebService {
         parentId = this.kindergartenFacade.saveParent(parentDTO);
       } else {
         parentId = parentDTO.getParentId();
+        if (StringUtils.isNotBlank(studentDTO.getGuardianName()) && ! studentDTO.getGuardianName().equals(parentDTO.getName())) {
+          parentDTO.setName(studentDTO.getGuardianName());
+          this.kindergartenFacade.updateParent(parentDTO);
+        }
       }
       StudentParentRelationDTO studentParentRelationDTO = getStudentParentRelation(parentId, studentDTO.getStudentId());
       if (null == studentParentRelationDTO) {
