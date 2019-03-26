@@ -135,17 +135,17 @@ $(function(){
 			},
 			doubleJump: {
 				required: true,
-				weight: true,
+				money: true,
 				rangelength: [1, 4]
 			},
 			run10: {
 				required: true,
-				weight: true,
+				money: true,
 				rangelength: [1, 4]
 			},
 			balance: {
 				required: true,
-				weight: true,
+				money: true,
 				rangelength: [1, 4]
 			},
 			testTime: {
@@ -186,17 +186,17 @@ $(function(){
 			},
 			doubleJump: {
 				required: '必填',
-				weight: '错误的值',
+				money: '错误的值',
 				rangelength: '错误的值'
 			},
 			run10: {
 				required: '必填',
-				weight: '错误的值',
+				money: '错误的值',
 				rangelength: '错误的值'
 			},
 			balance: {
 				required: '必填',
-				weight: '错误的值',
+				money: '错误的值',
 				rangelength: '错误的值'
 			},
 			testTime: {

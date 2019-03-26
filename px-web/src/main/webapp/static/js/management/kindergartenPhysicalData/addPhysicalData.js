@@ -139,21 +139,21 @@ $(function(){
 			throwTennis: {
 				required: true,
 				weight: true,
-				rangelength: [1, 4]
+				rangelength: [1, 6]
 			},
 			doubleJump: {
 				required: true,
-				weight: true,
-				rangelength: [1, 4]
+				money: true,
+				rangelength: [1, 6]
 			},
 			run10: {
 				required: true,
-				weight: true,
-				rangelength: [1, 4]
+				money: true,
+				rangelength: [1, 6]
 			},
 			balance: {
 				required: true,
-				weight: true,
+				money: true,
 				rangelength: [1, 4]
 			},
 			testTime: {
@@ -194,17 +194,17 @@ $(function(){
 			},
 			doubleJump: {
 				required: '必填',
-				weight: '错误的值',
+				money: '错误的值',
 				rangelength: '错误的值'
 			},
 			run10: {
 				required: '必填',
-				weight: '错误的值',
+				money: '错误的值',
 				rangelength: '错误的值'
 			},
 			balance: {
 				required: '必填',
-				weight: '错误的值',
+				money: '错误的值',
 				rangelength: '错误的值'
 			},
 			testTime: {
