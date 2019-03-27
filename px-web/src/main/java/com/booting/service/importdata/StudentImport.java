@@ -69,7 +69,11 @@ public class StudentImport extends AbstractDataImport<StudentDTO> {
 			try {
 				kindergartenWebService.saveStudent(studentDTO);
 			} catch (Exception e) {
-				errorIdx.put(i, "保存失败：" + e.getMessage());
+			  String msg = e.getMessage();
+			  if (msg.indexOf("Duplicate") != -1) {
+                msg = "学生信息已存在";
+              }
+				errorIdx.put(i, "保存失败：" + msg);
 				e.printStackTrace();
 			}
 		}
