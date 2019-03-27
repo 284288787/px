@@ -80,7 +80,8 @@
 				(select i.teacherName from kindergarten_teacher i where i.teacherId = kindergarten_class.teacherId) teacherName, 
 				(select i.teacherMobile from kindergarten_teacher i where i.teacherId = kindergarten_class.teacherId) teacherMobile,
 				(select i.name from kindergarten_info i where i.schoolId = kindergarten_class.schoolId) schoolName,
-				(select GROUP_CONCAT(e.teacherName) from kindergarten_teacher e where e.teacherId in (SELECT DISTINCT t.teacherId FROM `kindergarten_class_teacher` t where t.classId = kindergarten_class.classId) order by e.teacherId) otherTeacherNames
+				(select GROUP_CONCAT(e.teacherName) from kindergarten_teacher e where e.teacherId in (SELECT DISTINCT t.teacherId FROM `kindergarten_class_teacher` t where t.classId = kindergarten_class.classId) order by e.teacherId) otherTeacherNames,
+        (SELECT count(1) FROM `kindergarten_student` s where s.classId = kindergarten_class.classId) count
 			FROM kindergarten_class
 			WHERE 1=1
 			<#if name?exists && name != "">

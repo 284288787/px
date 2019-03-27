@@ -306,7 +306,9 @@ public class KindergartenWebService extends BaseWebService {
   }
 
   public void saveStudent(StudentDTO studentDTO) throws ArgsException {
-    if (null == studentDTO || StringUtils.isBlank(studentDTO.getName())) {
+    if (null == studentDTO || StringUtils.isBlank(studentDTO.getName()) || StringUtils.isBlank(studentDTO.getGuardianName()) || 
+        StringUtils.isBlank(studentDTO.getGuardianMobile()) || null == studentDTO.getSex() || null == studentDTO.getBirth() || 
+        null == studentDTO.getGuardianType()) {
       throw new ArgsException(FailureCode.ERR_002);
     }
     studentDTO.setCreateTime(new Date());

@@ -24,6 +24,7 @@ public class ClassDTO implements Serializable {
 	
 	private String classIds;
 	private String otherTeacherNames;
+	private Integer count;  //班级人数
 	
 	public String getOtherTeacherNames() {
 		return otherTeacherNames;
@@ -121,4 +122,12 @@ public class ClassDTO implements Serializable {
 	public void setSchoolName(String schoolName) {
 		this.schoolName = schoolName;
 	}
+
+  public Integer getCount() {
+    return count;
+  }
+
+  public void setCount(Integer count) {
+    this.count = count;
+  }
 }
