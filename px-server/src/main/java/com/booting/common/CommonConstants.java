@@ -212,6 +212,10 @@ public class CommonConstants {
         age--;
       }
     }
+    //三岁以下的，按三岁算
+    if (age < 3) {
+      age = 3;
+    }
     return age + temp;
   }
 
