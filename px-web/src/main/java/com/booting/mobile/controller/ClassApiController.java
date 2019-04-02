@@ -35,6 +35,7 @@ public class ClassApiController {
   @ApiImplicitParams({
     @ApiImplicitParam(name = "schoolId", value = "学校id", paramType = "query", required = true, dataType = "Long"),
     @ApiImplicitParam(name = "teacherId", value = "班主任id", paramType = "query", required = true, dataType = "Long"),
+    @ApiImplicitParam(name = "coachId", value = "教练id", paramType = "query", required = true, dataType = "Long"),
     @ApiImplicitParam(name = "name", value = "班级名称", paramType = "query", required = true, dataType = "String"),
     @ApiImplicitParam(name = "intro", value = "班级简介", paramType = "query", required = false, dataType = "String"),
   })

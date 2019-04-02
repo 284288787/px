@@ -131,7 +131,13 @@ public class KindergartenWebService extends BaseWebService {
     classDTO.setCreateTime(new Date());
     classDTO.setEnabled(1);
     classDTO.setDeleted(0);
-    kindergartenFacade.saveClass(classDTO);
+    Long classId = kindergartenFacade.saveClass(classDTO);
+    if (null != classDTO.getCoachId()) {
+      ClassCoachRelationDTO classCoachRelationDTO = new ClassCoachRelationDTO();
+      classCoachRelationDTO.setClassId(classId);
+      classCoachRelationDTO.setCoachIds(classDTO.getCoachId() + "");
+      saveRelationByClassCoach(classCoachRelationDTO);
+    }
   }
 
   public void enabledClass(String ids) throws ArgsException {
@@ -306,8 +312,8 @@ public class KindergartenWebService extends BaseWebService {
   }
 
   public void saveStudent(StudentDTO studentDTO) throws ArgsException {
-    if (null == studentDTO || StringUtils.isBlank(studentDTO.getName()) || StringUtils.isBlank(studentDTO.getGuardianName()) || 
-        StringUtils.isBlank(studentDTO.getGuardianMobile()) || null == studentDTO.getSex() || null == studentDTO.getBirth() || 
+    if (null == studentDTO || StringUtils.isBlank(studentDTO.getName()) || null == studentDTO.getBirth() || 
+        StringUtils.isBlank(studentDTO.getGuardianMobile()) || null == studentDTO.getSex() || 
         null == studentDTO.getGuardianType()) {
       throw new ArgsException(FailureCode.ERR_002);
     }
@@ -330,6 +336,9 @@ public class KindergartenWebService extends BaseWebService {
           parentDTO.setName(studentDTO.getGuardianName());
           this.kindergartenFacade.updateParent(parentDTO);
         }
+      }
+      if (null == studentDTO.getGuardianType()) {
+        studentDTO.setGuardianType(ParentType.other.getType());
       }
       StudentParentRelationDTO studentParentRelationDTO = new StudentParentRelationDTO();
       studentParentRelationDTO.setParentId(parentId);
