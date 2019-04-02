@@ -44,9 +44,9 @@
 			SELECT 
 				id, 
 				coachId, 
-				classId
-			FROM kindergarten_class_coach
-			WHERE 1=1
+				kindergarten_class_coach.classId
+      FROM kindergarten_class_coach, kindergarten_class c
+			WHERE kindergarten_class_coach.classId = c.classId and c.deleted = 0
 			<#if coachId?exists && coachId != "">
 					AND coachId = :coachId
 				</#if>
@@ -70,8 +70,8 @@
 
 	<sql id="getSimpleClassCoachRelationListCount">
 		<![CDATA[
-			SELECT COUNT(1) FROM kindergarten_class_coach
-			WHERE 1=1
+			SELECT COUNT(1) FROM kindergarten_class_coach, kindergarten_class c
+      WHERE kindergarten_class_coach.classId = c.classId and c.deleted = 0
 			<#if coachId?exists && coachId != "">
 					AND coachId = :coachId
 				</#if>
