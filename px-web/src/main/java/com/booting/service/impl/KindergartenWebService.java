@@ -313,9 +313,15 @@ public class KindergartenWebService extends BaseWebService {
 
   public void saveStudent(StudentDTO studentDTO) throws ArgsException {
     if (null == studentDTO || StringUtils.isBlank(studentDTO.getName()) || null == studentDTO.getBirth() || 
-        StringUtils.isBlank(studentDTO.getGuardianMobile()) || null == studentDTO.getSex() || 
-        null == studentDTO.getGuardianType()) {
+        StringUtils.isBlank(studentDTO.getGuardianMobile()) || null == studentDTO.getSex()) {
       throw new ArgsException(FailureCode.ERR_002);
+    }
+    if (null != studentDTO.getClassId()) {
+      ClassDTO classDTO = this.kindergartenFacade.getClass(studentDTO.getClassId());
+      if (null == classDTO) {
+        throw new ArgsException(FailureCode.ERR_002, "班级不存在");
+      }
+      studentDTO.setSchoolId(classDTO.getSchoolId());
     }
     studentDTO.setCreateTime(new Date());
     studentDTO.setEnabled(1);
@@ -1189,6 +1195,8 @@ public class KindergartenWebService extends BaseWebService {
       queryParam.setPageSize(pageSize);
     }
     queryParam.addParam("classId", classId);
+    queryParam.addParam("deleted", 0);
+    queryParam.addParam("enabled", 1);
     PageList<StudentDTO> pageList = kindergartenFacade.getStudentListForPage(queryParam);
     List<StudentDTO> students = pageList.getDataList();
     for (StudentDTO studentDTO : students) {
