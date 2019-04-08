@@ -179,6 +179,18 @@ public class CommonConstants {
       physical60.add("stature", new Temp(-100.00, 107, 1), new Temp(107, 112, 2), new Temp(112, 116.7, 3), new Temp(116.7, 121.7, 4), new Temp(121.7, 1000.00, 5));
       physical60.add("weight", new Temp(1, 0.50, 1), new Temp(0.50, 0.30, 2), new Temp(0.30, 0.20, 3), new Temp(0.20, 0.10, 4), new Temp(.10, 0., 5));
       put("6_0", physical60);
+      
+      /** 6.5岁女   6岁以上的标准 **/
+      Physical physical65 = new Physical();
+      physical65.add("run10", new Temp(1000.00, 004.80, 1), new Temp(004.80, 004.60, 2), new Temp(004.60, 004.30, 3), new Temp(004.30, 004.10, 4), new Temp(004.10, -100.00, 5));
+      physical65.add("jump", new Temp(1000.00, 001.28, 1), new Temp(001.28, 001.35, 2), new Temp(001.35, 001.38, 3), new Temp(001.38, 001.40, 4), new Temp(001.40, -100.00, 5));
+      physical65.add("throwTennis", new Temp(-100.00, 002.40, 1), new Temp(002.40, 002.90, 2), new Temp(002.90, 003.30, 3), new Temp(003.30, 003.60, 4), new Temp(003.60, 1000.00, 5));
+      physical65.add("doubleJump", new Temp(1000.00, 006.30, 1), new Temp(006.30, 006.15, 2), new Temp(006.15, 006.00, 3), new Temp(006.00, 005.50, 4), new Temp(005.50, -100.00, 5));
+      physical65.add("sitReach", new Temp(-100.00, -03.30, 1), new Temp(-03.30, -02.20, 2), new Temp(-02.20, -01.00, 3), new Temp(-01.00, -00.20, 4), new Temp(-00.20, 1000.00, 5));
+      physical65.add("balance", new Temp(1000.00, 008.00, 1), new Temp(008.00, 007.50, 2), new Temp(007.50, 007.00, 3), new Temp(007.00, 006.50, 4), new Temp(006.00, -100.00, 5));
+      physical65.add("stature", new Temp(-100.00, 112.50, 1), new Temp(112.50, 118.20, 2), new Temp(118.20, 123.90, 3), new Temp(123.90, 129.60, 4), new Temp(129.60, 1000.00, 5));
+      physical65.add("weight", new Temp(-100.00, 015.25, 1), new Temp(015.25, 019.30, 2), new Temp(019.30, 023.35, 3), new Temp(023.35, 027.40, 4), new Temp(027.40, 1000.00, 5));
+      put("65_0", physical65);
     }
   };
 
@@ -215,6 +227,11 @@ public class CommonConstants {
     //三岁以下的，按三岁算
     if (age < 3) {
       age = 3;
+    }
+    //6岁以上 按统一标准算 65_0
+    if(age > 6) {
+      age = 6;
+      temp = "5";
     }
     return age + temp;
   }

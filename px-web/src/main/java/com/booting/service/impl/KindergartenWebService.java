@@ -553,6 +553,9 @@ public class KindergartenWebService extends BaseWebService {
   public String getSexAndAge(StudentDTO studentDTO) {
     Date birth = studentDTO.getBirth();
     String age = CommonConstants.getAge(birth);
+    if (age.indexOf("65") != -1) { //6岁以上 按统一标准算 65_0
+      return "65_0";
+    }
     return age + "_" + studentDTO.getSex();
   }
 
