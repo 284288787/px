@@ -662,4 +662,6 @@ public interface TrainingFacade extends Serializable {
 
   public Map<String, Object> totalMoneyByPromoter(Long promoterId, Date beginDatePoint);
 
+  public void updateBySql(PhysicalClassDTO dto);
+
 }

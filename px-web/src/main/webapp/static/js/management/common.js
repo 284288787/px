@@ -133,18 +133,20 @@ function ListHandle(options, funcs){
 		return temp;
 	}
 	handle.query = function(){
-		 var data=$(options.formId).serializeArray();
-		 var params = {};
-		 $.each(data, function(i, field){
-			 var name = field.name;
-			 params[name] = field.value;
-			 console.log(name + "  " + field.value)
-		 });
+		var data=$(options.formId).serializeArray();
+		var params = {};
+		$.each(data, function(i, field){
+		  var name = field.name;
+		  if(field.value){
+			  params[name] = field.value;
+			  console.log(name + "  " + field.value)
+			}
+		});
 		$(options.tableId).jqGrid('setGridParam',{
 			datatype:'json',
 			postData: params,
 			page:1
-		}).trigger("reloadGrid");
+		}, true).trigger("reloadGrid");
 	}
 	handle.reset = function(){
 		$(options.formId+" input[type='text']").each(function(i){

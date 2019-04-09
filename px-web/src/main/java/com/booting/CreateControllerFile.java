@@ -16,11 +16,11 @@ public class CreateControllerFile {
 	
 	public static void main(String[] args) throws IOException {
 		String moduleName = "training";
-		String controllerName = "KickbackDetailController";
-		String webServiceName = "KickbackDetailWebService";
-		String dtoName = "KickbackDetailDTO";
-		String pkIdName = "id";
-		String jspPath = "management/kickbackDetail/";
+		String controllerName = "PhysicalClassController";
+		String webServiceName = "PhysicalClassWebService";
+		String dtoName = "PhysicalClassDTO";
+		String pkIdName = "physicalClassId";
+		String jspPath = "management/physicalClass/";
 		CreateControllerFile ccf = new CreateControllerFile();
 		ccf.create(moduleName, controllerName, webServiceName, dtoName, pkIdName, jspPath);
 	}

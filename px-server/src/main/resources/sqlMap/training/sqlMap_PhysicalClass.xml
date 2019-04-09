@@ -10,9 +10,9 @@
 
 	<sql id="updatePhysicalClass" isRead="false" dsName="test-write">
 		<![CDATA[
-			UPDATE px_physical_class SET address = :address
-				<#if createTime?exists && createTime != "">
-					, createTime = :createTime
+			UPDATE px_physical_class SET createTime = createTime
+				<#if address?exists && address != "">
+					, address = :address
 				</#if>
 				<#if deleted?exists && deleted != "">
 					, deleted = :deleted
@@ -66,8 +66,8 @@
 				<#if title?exists && title != "">
 					AND title = :title
 				</#if>
-				<#if schoolTime?exists && schoolTime != "">
-					AND schoolTime = :schoolTime
+				<#if beginSchoolTime?exists && beginSchoolTime != "">
+					AND schoolTime >= :beginSchoolTime
 				</#if>
 			<#if physicalClassId?exists && physicalClassId != "">
 				AND physicalClassId = :physicalClassId
@@ -110,9 +110,9 @@
 				<#if title?exists && title != "">
 					AND title = :title
 				</#if>
-				<#if schoolTime?exists && schoolTime != "">
-					AND schoolTime = :schoolTime
-				</#if>
+				<#if beginSchoolTime?exists && beginSchoolTime != "">
+          AND schoolTime >= :beginSchoolTime
+        </#if>
 			<#if physicalClassId?exists && physicalClassId != "">
 				AND physicalClassId = :physicalClassId
 			</#if>

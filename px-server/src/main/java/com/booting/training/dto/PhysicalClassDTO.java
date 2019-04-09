@@ -19,8 +19,10 @@ public class PhysicalClassDTO implements Serializable {
   private Integer enabled;
   private Integer deleted;
   private Date createTime;
+  private String physicalClassIds;
   
-    
+  private String beginSchoolTime;
+  
   public Long getPhysicalClassId() {
     return physicalClassId;
   }
@@ -83,5 +85,21 @@ public class PhysicalClassDTO implements Serializable {
   }
   public void setCreateTime(Date createTime) {
     this.createTime = createTime;
+  }
+
+  public String getPhysicalClassIds() {
+    return physicalClassIds;
+  }
+
+  public void setPhysicalClassIds(String physicalClassIds) {
+    this.physicalClassIds = physicalClassIds;
+  }
+
+  public String getBeginSchoolTime() {
+    return beginSchoolTime;
+  }
+
+  public void setBeginSchoolTime(String beginSchoolTime) {
+    this.beginSchoolTime = beginSchoolTime;
   }
 }

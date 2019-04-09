@@ -923,4 +923,9 @@ public class TrainingFacadeImpl implements TrainingFacade {
   public Map<String, Object> totalMoneyByPromoter(Long promoterId, Date beginDatePoint) {
     return this.applyInfoService.totalMoneyByPromoter(promoterId, beginDatePoint);
   }
+
+  @Override
+  public void updateBySql(PhysicalClassDTO dto) {
+    this.physicalClassService.updateBySql(dto);
+  }
 }
