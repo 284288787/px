@@ -13,11 +13,13 @@ import com.booting.training.entity.ApplyDetailEntity;
 import com.booting.training.dto.ApplyInfoDTO;
 import com.booting.training.dto.ApplyItemDTO;
 import com.booting.training.dto.KickbackDetailDTO;
+import com.booting.training.dto.PhysicalClassDTO;
 import com.booting.training.dto.PromoterDTO;
 import com.booting.training.dto.StudyAddressDTO;
 import com.booting.training.entity.ApplyInfoEntity;
 import com.booting.training.entity.ApplyItemEntity;
 import com.booting.training.entity.KickbackDetailEntity;
+import com.booting.training.entity.PhysicalClassEntity;
 import com.booting.training.entity.PromoterEntity;
 import com.booting.training.entity.StudyAddressEntity;
 import com.booting.training.dto.TrainingItemDTO;
@@ -28,6 +30,66 @@ import com.booting.training.entity.TrainingItemPictureEntity;
 import com.booting.training.entity.TrainingItemPriceEntity;
 
 public interface TrainingFacade extends Serializable {
+
+  /**
+   * 新增 体测课
+   */
+  public Long savePhysicalClass(PhysicalClassDTO physicalClassDTO);
+
+  /**
+   * 批量新增 体测课
+   */
+  public void batchSavePhysicalClass(List<PhysicalClassDTO> dtos);
+
+  /**
+   * 更新 体测课
+   */
+  public int updatePhysicalClass(PhysicalClassDTO physicalClassDTO);
+
+  /**
+   * 批量 体测课
+   */
+  public void batchUpdatePhysicalClass(List<PhysicalClassDTO> dtos);
+
+  /**
+   * 删除 体测课
+   */
+  public int deletePhysicalClass(long physicalClassId);
+
+  /**
+   * 根据主键获取 体测课
+   */
+  public PhysicalClassDTO getPhysicalClass(long physicalClassId);
+
+  /**
+   * 根据条件获取一条 体测课
+   */
+  public PhysicalClassDTO getPhysicalClass(PhysicalClassDTO physicalClassDTO);
+
+  /**
+   * 查询满足条件的 体测课 列表(单表)
+   */
+  public List<PhysicalClassDTO> getPhysicalClassList(PhysicalClassDTO physicalClassDTO);
+
+  /**
+   * 查询满足条件的 体测课 列表(分页)(单表)
+   */
+  public PageList<PhysicalClassDTO> getPhysicalClassListForPage(PhysicalClassDTO physicalClassDTO, int pageNumber, int pageSize);
+
+  /**
+   * 查询满足条件的 体测课 列表(分页)(单表)
+   */
+  public PageList<PhysicalClassDTO> getPhysicalClassListForPage(QueryParam queryParam);
+
+  /**
+   * 体测课DTO 转换成 Entity
+   */
+  public PhysicalClassEntity toPhysicalClassEntity(PhysicalClassDTO physicalClassDTO);
+
+  /**
+   * 体测课DTOs 转换成 Entities
+   */
+  public List<PhysicalClassEntity> toPhysicalClassEntities(List<PhysicalClassDTO> dtoes);
 
   /**
    * 新增 回扣发放明细

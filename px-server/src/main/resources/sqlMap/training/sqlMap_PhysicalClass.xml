@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="physicalClass" isRead="true" dsName="test-read">
+
+	<sql id="insertPhysicalClass" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO px_physical_class(address, physicalClassId, createTime, deleted, enabled, price, deadlineTime, title, schoolTime) 
+			values (:address, :physicalClassId, :createTime, :deleted, :enabled, :price, :deadlineTime, :title, :schoolTime)
+		]]>
+	</sql>
+
+	<sql id="updatePhysicalClass" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE px_physical_class SET address = :address
+				<#if createTime?exists && createTime != "">
+					, createTime = :createTime
+				</#if>
+				<#if deleted?exists && deleted != "">
+					, deleted = :deleted
+				</#if>
+				<#if enabled?exists && enabled != "">
+					, enabled = :enabled
+				</#if>
+				<#if price?exists && price != "">
+					, price = :price
+				</#if>
+				<#if deadlineTime?exists && deadlineTime != "">
+					, deadlineTime = :deadlineTime
+				</#if>
+				<#if title?exists && title != "">
+					, title = :title
+				</#if>
+				<#if schoolTime?exists && schoolTime != "">
+					, schoolTime = :schoolTime
+				</#if>
+			WHERE 
+				<#if physicalClassId?exists && physicalClassId != "">
+					physicalClassId = :physicalClassId
+				<#else>
+					physicalClassId in (${physicalClassIds})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deletePhysicalClass" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM px_physical_class
+			WHERE 1=1
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+				<#if deadlineTime?exists && deadlineTime != "">
+					AND deadlineTime = :deadlineTime
+				</#if>
+				<#if title?exists && title != "">
+					AND title = :title
+				</#if>
+				<#if schoolTime?exists && schoolTime != "">
+					AND schoolTime = :schoolTime
+				</#if>
+			<#if physicalClassId?exists && physicalClassId != "">
+				AND physicalClassId = :physicalClassId
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimplePhysicalClassList">
+		<![CDATA[
+			SELECT 
+				address, 
+				physicalClassId, 
+				createTime, 
+				deleted, 
+				enabled, 
+				price, 
+				deadlineTime, 
+				title, 
+				schoolTime
+			FROM px_physical_class
+			WHERE 1=1
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+				<#if deadlineTime?exists && deadlineTime != "">
+					AND deadlineTime = :deadlineTime
+				</#if>
+				<#if title?exists && title != "">
+					AND title = :title
+				</#if>
+				<#if schoolTime?exists && schoolTime != "">
+					AND schoolTime = :schoolTime
+				</#if>
+			<#if physicalClassId?exists && physicalClassId != "">
+				AND physicalClassId = :physicalClassId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimplePhysicalClassListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM px_physical_class
+			WHERE 1=1
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+				<#if deadlineTime?exists && deadlineTime != "">
+					AND deadlineTime = :deadlineTime
+				</#if>
+				<#if title?exists && title != "">
+					AND title = :title
+				</#if>
+				<#if schoolTime?exists && schoolTime != "">
+					AND schoolTime = :schoolTime
+				</#if>
+			<#if physicalClassId?exists && physicalClassId != "">
+				AND physicalClassId = :physicalClassId
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getPhysicalClassList">
+		<![CDATA[
+			SELECT 
+				address, 
+				physicalClassId, 
+				createTime, 
+				deleted, 
+				enabled, 
+				price, 
+				deadlineTime, 
+				title, 
+				schoolTime
+			FROM px_physical_class
+			WHERE 1=1
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+				<#if deadlineTime?exists && deadlineTime != "">
+					AND deadlineTime = :deadlineTime
+				</#if>
+				<#if title?exists && title != "">
+					AND title = :title
+				</#if>
+				<#if schoolTime?exists && schoolTime != "">
+					AND schoolTime = :schoolTime
+				</#if>
+			<#if physicalClassId?exists && physicalClassId != "">
+				AND physicalClassId = :physicalClassId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getPhysicalClassListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM px_physical_class
+			WHERE 1=1
+			<#if address?exists && address != "">
+					AND address = :address
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if deleted?exists && deleted != "">
+					AND deleted = :deleted
+				</#if>
+				<#if enabled?exists && enabled != "">
+					AND enabled = :enabled
+				</#if>
+				<#if price?exists && price != "">
+					AND price = :price
+				</#if>
+				<#if deadlineTime?exists && deadlineTime != "">
+					AND deadlineTime = :deadlineTime
+				</#if>
+				<#if title?exists && title != "">
+					AND title = :title
+				</#if>
+				<#if schoolTime?exists && schoolTime != "">
+					AND schoolTime = :schoolTime
+				</#if>
+			<#if physicalClassId?exists && physicalClassId != "">
+				AND physicalClassId = :physicalClassId
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

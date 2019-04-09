@@ -20,16 +20,19 @@ import com.booting.training.service.ApplyDetailService;
 import com.booting.training.dto.ApplyInfoDTO;
 import com.booting.training.dto.ApplyItemDTO;
 import com.booting.training.dto.KickbackDetailDTO;
+import com.booting.training.dto.PhysicalClassDTO;
 import com.booting.training.dto.PromoterDTO;
 import com.booting.training.dto.StudyAddressDTO;
 import com.booting.training.entity.ApplyInfoEntity;
 import com.booting.training.entity.ApplyItemEntity;
 import com.booting.training.entity.KickbackDetailEntity;
+import com.booting.training.entity.PhysicalClassEntity;
 import com.booting.training.entity.PromoterEntity;
 import com.booting.training.entity.StudyAddressEntity;
 import com.booting.training.service.ApplyInfoService;
 import com.booting.training.service.ApplyItemService;
 import com.booting.training.service.KickbackDetailService;
+import com.booting.training.service.PhysicalClassService;
 import com.booting.training.service.PromoterService;
 import com.booting.training.service.StudyAddressService;
 import com.booting.training.dto.TrainingItemDTO;
@@ -45,6 +48,9 @@ import com.booting.training.service.TrainingItemPriceService;
 @Service("trainingFacade")
 public class TrainingFacadeImpl implements TrainingFacade {
   private static final long serialVersionUID = 1L;
+
+  @Autowired
+  private PhysicalClassService physicalClassService;
 
   @Autowired
   private KickbackDetailService kickbackDetailService;
@@ -72,6 +78,85 @@ public class TrainingFacadeImpl implements TrainingFacade {
 
   @Autowired
   private TrainingItemPriceService trainingItemPriceService;
+
+  @Override
+  public Long savePhysicalClass(PhysicalClassDTO physicalClassDTO) {
+    if (null == physicalClassDTO) {
+      return null;
+    }
+    PhysicalClassEntity entity = toPhysicalClassEntity(physicalClassDTO);
+    physicalClassDTO = physicalClassService.save(entity);
+    return physicalClassDTO.getPhysicalClassId();
+  }
+
+  @Override
+  public void batchSavePhysicalClass(List<PhysicalClassDTO> dtos) {
+    if (null == dtos || dtos.isEmpty()) {
+      return;
+    }
+    List<PhysicalClassEntity> entities = toPhysicalClassEntities(dtos);
+    physicalClassService.batchSave(entities);
+  }
+
+  @Override
+  public int updatePhysicalClass(PhysicalClassDTO physicalClassDTO) {
+    physicalClassDTO = physicalClassService.updateBySql(physicalClassDTO);
+    return 1;
+  }
+
+  @Override
+  public void batchUpdatePhysicalClass(List<PhysicalClassDTO> dtos) {
+    if (null == dtos || dtos.isEmpty()) {
+      return;
+    }
+    physicalClassService.batchUpdate(dtos);
+  }
+
+  @Override
+  public int deletePhysicalClass(long physicalClassId) {
+    return physicalClassService.delete(physicalClassId);
+  }
+
+  @Override
+  public PhysicalClassDTO getPhysicalClass(long physicalClassId) {
+    return physicalClassService.get(physicalClassId);
+  }
+
+  @Override
+  public PhysicalClassDTO getPhysicalClass(PhysicalClassDTO physicalClassDTO) {
+    return physicalClassService.get(physicalClassDTO);
+  }
+
+  @Override
+  public List<PhysicalClassDTO> getPhysicalClassList(PhysicalClassDTO physicalClassDTO) {
+    return physicalClassService.getSimpleList(physicalClassDTO);
+  }
+
+  @Override
+  public PageList<PhysicalClassDTO> getPhysicalClassListForPage(PhysicalClassDTO physicalClassDTO, int pageNumber, int pageSize) {
+    return physicalClassService.getSimpleListForPage(physicalClassDTO, pageNumber, pageSize);
+  }
+
+  @Override
+  public PageList<PhysicalClassDTO> getPhysicalClassListForPage(QueryParam queryParam) {
+    return physicalClassService.getSimpleListForPage(queryParam);
+  }
+
+  @Override
+  public PhysicalClassEntity toPhysicalClassEntity(PhysicalClassDTO dto) {
+    PhysicalClassEntity entity = new PhysicalClassEntity();
+    CglibBeanUtils.copy(dto, entity);
+    return entity;
+  }
+
+  @Override
+  public List<PhysicalClassEntity> toPhysicalClassEntities(List<PhysicalClassDTO> dtos) {
+    List<PhysicalClassEntity> entities = new ArrayList<>();
+    for (PhysicalClassDTO dto : dtos) {
+      entities.add(toPhysicalClassEntity(dto));
+    }
+    return entities;
+  }
 
   @Override
   public Long saveKickbackDetail(KickbackDetailDTO kickbackDetailDTO) {
