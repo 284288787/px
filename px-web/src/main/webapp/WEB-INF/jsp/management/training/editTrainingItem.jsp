@@ -21,6 +21,16 @@
 		<input type="hidden" name="itemId" value="${trainingItemDTO.itemId}">
 		<input type="hidden" name="areaId" value="${trainingItemDTO.areaId}">
 		<ul>
+      <li><strong>项目类型：</strong><span>
+      <select name="subType">
+        <option value="1" <c:if test="${trainingItemDTO.subType==1}">selected</c:if> >普通项目</option>
+        <option value="2" <c:if test="${trainingItemDTO.subType==2}">selected</c:if> >体测课项目</option>
+      </select>
+      </span></li>
+      <li style="display:none"><strong>体测课：</strong><span>
+        <input type="text" class="ipt300" name="physicalClassName" placeholder="选择体测课" value="${trainingItemDTO.physicalClassName}" readonly>
+        <input type="hidden" name="physicalClassId" value="${trainingItemDTO.physicalClassId}">
+      </span></li>
 			<li><strong>标题：</strong><span><input type="text" class="ipt400" name="title" placeholder="项目标题" value="${trainingItemDTO.title}"></span></li>
 			<li><strong>地区：</strong><span><input type="text" name="areaName" placeholder="选择地区" value="${trainingItemDTO.areaName}" readonly></span></li>
 			<li><strong>详细地址：</strong><span><input class="ipt400" type="text" name="address" placeholder="输入详细地址" value="${trainingItemDTO.address}"></span></li>

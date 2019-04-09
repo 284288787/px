@@ -20,9 +20,10 @@ var trainingHandle = new ListHandle({
 	
 });
 $(function(){
-	var colNames = [ 'itemId', '标题', '类型', '地区', '课程介绍', '是否可用', '开始时间', '结束时间','创建时间', '操作' ];
+	var colNames = [ 'itemId', '项目类型', '标题', '类型', '地区', '课程介绍', '是否可用', '开始时间', '结束时间','创建时间', '操作' ];
 	var colModel = [
 		{name: 'itemId', index: 'itemId', width: 20, align: "center"}, 
+		{name: 'subType', index: 'subType', width: 60, align: "center", formatter: 'select', editoptions:{value:"1:普通项目;2:体测课项目"}}, 
 		{name: 'title', index: 'title', width: 70, align: "center"}, 
 		{name: 'type', index: 'type', width: 60, align: "center", formatter: 'select', editoptions:{value:"1:幼儿园足球体能发开课程;2:青少年足球培训;3:教练员培训"}}, 
 		{name: 'areaName', index: 'areaName', width: 60, align: "center"}, 

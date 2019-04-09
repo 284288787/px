@@ -3,8 +3,8 @@
 
 	<sql id="insertTrainingItem" isRead="false" dsName="test-write">
 		<![CDATA[
-			INSERT INTO px_training_item(type, notice, endTime, itemId, createUser, intro, title, beginTime, createTime, areaId, price, address) 
-			values (:type, :notice, :endTime, :itemId, :createUser, :intro, :title, :beginTime, :createTime, :areaId)
+			INSERT INTO px_training_item(type, notice, endTime, itemId, createUser, intro, title, beginTime, createTime, areaId, price, address, subType, physicalClassId) 
+			values (:type, :notice, :endTime, :itemId, :createUser, :intro, :title, :beginTime, :createTime, :areaId, :subType, :physicalClassId)
 		]]>
 	</sql>
 
@@ -46,6 +46,12 @@
 				</#if>
 				<#if address?exists && address != "">
 					, address = :address
+				</#if>
+				<#if subType?exists && subType != "">
+					, subType = :subType
+				</#if>
+				<#if physicalClassId?exists && physicalClassId != "">
+					, physicalClassId = :physicalClassId
 				</#if>
 			WHERE 
 				<#if itemId?exists && itemId != "">
@@ -105,7 +111,7 @@
 				title, 
 				beginTime, 
 				createTime, 
-				areaId, enabled, deleted, price, address,
+				areaId, enabled, deleted, price, address, subType, physicalClassId, 
 				(select shortName from pub_area a where a.areaId = px_training_item.areaId) areaName
 			FROM px_training_item
 			WHERE 1=1
@@ -144,6 +150,12 @@
 				</#if>
 				<#if itemId?exists && itemId != "">
 					AND itemId = :itemId
+				</#if>
+				<#if subType?exists && subType != "">
+					AND subType = :subType
+				</#if>
+				<#if physicalClassId?exists && physicalClassId != "">
+					AND physicalClassId = :physicalClassId
 				</#if>
 			ORDER BY itemId desc
 			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
@@ -192,6 +204,12 @@
 			<#if itemId?exists && itemId != "">
 				AND itemId = :itemId
 			</#if>
+			<#if subType?exists && subType != "">
+				AND subType = :subType
+			</#if>
+			<#if physicalClassId?exists && physicalClassId != "">
+				AND physicalClassId = :physicalClassId
+			</#if>
 			<#if orderBy?exists && orderBy !="" >
 				ORDER BY :orderBy
 				<#if orderType?exists && orderType !="" >
@@ -212,7 +230,7 @@
 				intro, 
 				title, 
 				beginTime, 
-				createTime, price, address, 
+				createTime, price, address, subType, physicalClassId, 
 				areaId, enabled, deleted,
 				(select shortName from pub_area a where a.areaId = px_training_item.areaId) areaName
 			FROM px_training_item
@@ -252,6 +270,12 @@
 				</#if>
 			<#if itemId?exists && itemId != "">
 				AND itemId = :itemId
+			</#if>
+			<#if subType?exists && subType != "">
+				AND subType = :subType
+			</#if>
+			<#if physicalClassId?exists && physicalClassId != "">
+				AND physicalClassId = :physicalClassId
 			</#if>
 			ORDER BY itemId desc
 			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
@@ -299,6 +323,12 @@
 				</#if>
 			<#if itemId?exists && itemId != "">
 				AND itemId = :itemId
+			</#if>
+			<#if physicalClassId?exists && physicalClassId != "">
+				AND physicalClassId = :physicalClassId
+			</#if>
+			<#if subType?exists && subType != "">
+				AND subType = :subType
 			</#if>
 			<#if orderBy?exists && orderBy!="" && orderType?exists>
 				ORDER BY :orderBy :orderType

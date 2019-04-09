@@ -67,11 +67,26 @@ $(function(){
 				artDialog.alert2('<div style="width:'+w+'px;height:'+h+'px"><img src="'+$(this).attr("src")+'">')
 		});
 	});
+	$("select[name=subType]").change(function(){
+    var val = $(this).val();
+    if(val == 2){
+      $("input[name=physicalClassId]").parents("li").show();
+    }else{
+      $("input[name=physicalClassId]").parents("li").hide();
+    }
+  });
+  $("select[name=subType]").change();
 	$("#editTrainingItemForm").validate({
 		rules: {
-			title: {
+		  title: {
+		    required: true,
+		    rangelength: [2, 50]
+		  },
+		  physicalClassName: {
 				required: true,
-				rangelength: [2, 50]
+			},
+			subType: {
+			  required: true
 			},
 			areaName: {
 				required: true
@@ -98,9 +113,15 @@ $(function(){
 			}
 		},
 		messages: {
-			title: {
+		  title: {
+		    required: "必填",
+		    rangelength: "长度在2至8个字"
+		  },
+		  physicalClassName: {
 				required: "必填",
-				rangelength: "长度在2至8个字"
+			},
+			subType: {
+			  required: "必选"
 			},
 			areaName: {
 				required: "必选"

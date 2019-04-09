@@ -26,7 +26,11 @@ public class TrainingItemDTO implements Serializable{
 	private Integer deleted;       //是否删除 1已删除     0未删除
 	private Integer price;         //* 100
 	private String address;
+	private Integer subType; // 项目类型 1普通项目 2体测项目
+	private Long physicalClassId;  //体测课id
+	
 	private String cardIds;        //优惠券id,多个逗号分隔
+	private String physicalClassName;  //体测课名称 
 	
 	private List<TrainingItemPictureDTO> pictures;
 	private String itemIds;
@@ -191,5 +195,29 @@ public class TrainingItemDTO implements Serializable{
 
   public void setPrices(List<TrainingItemPriceDTO> prices) {
     this.prices = prices;
+  }
+
+  public Integer getSubType() {
+    return subType;
+  }
+
+  public void setSubType(Integer subType) {
+    this.subType = subType;
+  }
+
+  public Long getPhysicalClassId() {
+    return physicalClassId;
+  }
+
+  public void setPhysicalClassId(Long physicalClassId) {
+    this.physicalClassId = physicalClassId;
+  }
+
+  public String getPhysicalClassName() {
+    return physicalClassName;
+  }
+
+  public void setPhysicalClassName(String physicalClassName) {
+    this.physicalClassName = physicalClassName;
   }
 }
