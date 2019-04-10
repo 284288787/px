@@ -113,7 +113,8 @@
         px_training_item.createTime, 
         px_training_item.areaId, px_training_item.enabled, px_training_item.deleted, 
         px_training_item.price, px_training_item.address, subType, 
-        px_training_item.physicalClassId, c.title physicalClassName,
+        px_training_item.physicalClassId, c.title physicalClassName, 
+        c.schoolTime physicalClassSchoolTime, if(now() > c.schoolTime, 2, 1) physicalClassState,
         a.shortName areaName
       FROM px_training_item
       inner join pub_area a on a.areaId = px_training_item.areaId

@@ -33,13 +33,17 @@ var utilsHandle = new UtilsHandle({
 	}, 
 }); 
 $(function(){ 
-	var colNames = ['id', '课程标题', '上课时间', '报名截止时间', '价格', '上课地点', '是否可用', '创建时间', '操作'];
+	var colNames = ['id', '课程标题', '报名截止时间', '上课时间', '状态', '价格', '上课地点', '是否可用', '创建时间', '操作'];
 	var colModel = [ 
 		{name: 'physicalClassId', index: 'physicalClassId', width: 30, align: 'center'}, 
 		{name: 'title', index: 'title', width: 70, align: 'center'}, 
-		{name: 'schoolTime', index: 'schoolTime', width: 50, align: 'center'}, 
 		{name: 'deadlineTime', index: 'deadlineTime', width: 50, align: 'center'}, 
-		{name: 'price', index: 'price', width: 50, align: 'center'}, 
+		{name: 'schoolTime', index: 'schoolTime', width: 50, align: 'center'}, 
+		{name: 'state', editable: false, sortable: false, width: 50, align: 'center', formatter: 'select', editoptions:{value:'1:未开始;2:已开始'}}, 
+		{name: 'price', index: 'price', width: 50, align: 'center', formatter: function(cellvalue, options, rowObject){
+      if(!cellvalue) return '';
+      return (cellvalue / 100.0).toFixed(2);
+    }},
 		{name: 'address', index: 'address', width: 200, align: 'center'}, 
 		{name: 'enabled', index: 'enabled', width: 30, align: 'center', formatter: 'select', editoptions:{value:'1:可用;0:禁用'}}, 
 		{name: 'createTime', index: 'createTime', width: 50, align: 'center'}, 

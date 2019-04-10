@@ -86,7 +86,8 @@
 				price, 
 				deadlineTime, 
 				title, 
-				schoolTime
+				schoolTime,
+        if(now() > schoolTime, 2, 1) state
 			FROM px_physical_class
 			WHERE 1=1
 			<#if address?exists && address != "">
@@ -112,6 +113,9 @@
 				</#if>
 				<#if beginSchoolTime?exists && beginSchoolTime != "">
           AND schoolTime >= :beginSchoolTime
+        </#if>
+				<#if state?exists && state != "">
+          AND if(now() > schoolTime, 2, 1) = :state
         </#if>
 			<#if physicalClassId?exists && physicalClassId != "">
 				AND physicalClassId = :physicalClassId
@@ -156,6 +160,9 @@
 				<#if schoolTime?exists && schoolTime != "">
 					AND schoolTime = :schoolTime
 				</#if>
+        <#if state?exists && state != "">
+          AND if(now() > schoolTime, 2, 1) = :state
+        </#if>
 			<#if physicalClassId?exists && physicalClassId != "">
 				AND physicalClassId = :physicalClassId
 			</#if>

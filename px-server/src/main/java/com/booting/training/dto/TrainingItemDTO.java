@@ -30,7 +30,9 @@ public class TrainingItemDTO implements Serializable{
 	private Long physicalClassId;  //体测课id
 	
 	private String cardIds;        //优惠券id,多个逗号分隔
-	private String physicalClassName;  //体测课名称 
+	private String physicalClassName;  //体测课名称
+	private Date physicalClassSchoolTime;
+	private Integer physicalClassState;
 	
 	private List<TrainingItemPictureDTO> pictures;
 	private String itemIds;
@@ -219,5 +221,21 @@ public class TrainingItemDTO implements Serializable{
 
   public void setPhysicalClassName(String physicalClassName) {
     this.physicalClassName = physicalClassName;
+  }
+
+  public Date getPhysicalClassSchoolTime() {
+    return physicalClassSchoolTime;
+  }
+
+  public Integer getPhysicalClassState() {
+    return physicalClassState;
+  }
+
+  public void setPhysicalClassSchoolTime(Date physicalClassSchoolTime) {
+    this.physicalClassSchoolTime = physicalClassSchoolTime;
+  }
+
+  public void setPhysicalClassState(Integer physicalClassState) {
+    this.physicalClassState = physicalClassState;
   }
 }

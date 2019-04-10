@@ -20,7 +20,7 @@ public class PhysicalClassDTO implements Serializable {
   private Integer deleted;
   private Date createTime;
   private String physicalClassIds;
-  
+  private Integer state;        //1未开始 2已开始
   private String beginSchoolTime;
   
   public Long getPhysicalClassId() {
@@ -101,5 +101,13 @@ public class PhysicalClassDTO implements Serializable {
 
   public void setBeginSchoolTime(String beginSchoolTime) {
     this.beginSchoolTime = beginSchoolTime;
+  }
+
+  public Integer getState() {
+    return state;
+  }
+
+  public void setState(Integer state) {
+    this.state = state;
   }
 }

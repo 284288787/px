@@ -2,6 +2,7 @@
 package com.booting.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import com.star.framework.jdbc.dao.result.PageList;
 import com.star.framework.jdbc.dao.result.QueryParam;
 import com.star.framework.specification.FailureCode;
 import com.star.framework.specification.exception.ArgsException;
+import com.star.framework.specification.result.PageInfo;
+import com.star.framework.specification.result.v2.ApiResult;
 
 @Service
 public class PhysicalClassWebService {
@@ -76,6 +79,16 @@ public class PhysicalClassWebService {
     dto.setDeleted(1);
     dto.setPhysicalClassIds(ids);
     trainingFacade.updateBySql(dto);
+  }
+
+  public ApiResult searchPhysicalClasses(QueryParam queryParam) {
+    PageList<PhysicalClassDTO> pageList = this.trainingFacade.getPhysicalClassListForPage(queryParam);
+    List<PhysicalClassDTO> list = pageList.getDataList();
+    ApiResult apiResult = new ApiResult();
+    apiResult.setData(list);
+    PageInfo pageInfo = new PageInfo(pageList.getPageNo(), pageList.getPageSize(), pageList.getTotalRecord());
+    apiResult.setPageInfo(pageInfo);
+    return apiResult;
   }
 
 }

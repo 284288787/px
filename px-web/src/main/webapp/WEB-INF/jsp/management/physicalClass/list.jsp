@@ -22,6 +22,7 @@
 			<form action="${basePath}" id="queryForm"> 
 				<span>课程标题：<input type="text" name="title" placeholder="输入课程标题" > </span> 
 				<span>上课时间大于：<input type="text" name="beginSchoolTime" placeholder="选择时间" class="Wdate" onclick="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})"> </span> 
+				<span>状态：<select name="state"><option value="">全部</option><option value="1" >未开始</option><option value="2" >已开始</option></select> </span> 
 				<span>是否可用：<select name="enabled"><option value="">全部</option><option value="1" >可用</option><option value="0" >禁用</option></select> </span> 
 				<a onclick="physicalClassHandle.query()" class="button blue">查询</a> 
 				<a onclick="physicalClassHandle.reset()" class="button grey">清空</a> 
