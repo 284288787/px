@@ -3,8 +3,10 @@
 
 	<sql id="insertStudent" isRead="false" dsName="test-write">
 		<![CDATA[
-			INSERT INTO kindergarten_student(`name`, enabled, deleted, classId, schoolId, createTime, studentId, stature, weight, birth, sex, guardianMobile, braceletMac) 
-			values (:name, :enabled, :deleted, :classId, :schoolId, :createTime, :studentId, :stature, :weight, :birth, :sex, :guardianMobile, :braceletMac)
+			INSERT INTO kindergarten_student(`name`, enabled, deleted, classId, schoolId, createTime, studentId, stature, weight, 
+      birth, sex, guardianMobile, braceletMac, type, physicalClassId) 
+			values (:name, :enabled, :deleted, :classId, :schoolId, :createTime, :studentId, :stature, :weight, :birth, :sex, 
+      :guardianMobile, :braceletMac, :type, :physicalClassId)
 		]]>
 	</sql>
 
@@ -13,6 +15,12 @@
 			UPDATE kindergarten_student SET createTime = createTime
 				<#if enabled?exists && enabled != "">
 					, enabled = :enabled
+				</#if>
+				<#if type?exists && type != "">
+					, type = :type
+				</#if>
+				<#if physicalClassId?exists && physicalClassId != "">
+					, physicalClassId = :physicalClassId
 				</#if>
 				<#if deleted?exists && deleted != "">
 					, deleted = :deleted
@@ -118,7 +126,8 @@
 				weight, 
 				birth, 
 				sex, 
-				guardianMobile,braceletMac,
+				guardianMobile,braceletMac, type, physicalClassId,
+        (select pc.title from px_physical_class pc where pc.physicalClassId = kindergarten_student.physicalClassId) physicalClassName,
 				(select t.name from kindergarten_parent t, kindergarten_student_parent s where t.parentId = s.parentId and s.studentId = kindergarten_student.studentId and t.mobile = kindergarten_student.guardianMobile) guardianName,
 				(select s.type from kindergarten_parent t, kindergarten_student_parent s where t.parentId = s.parentId and s.studentId = kindergarten_student.studentId and t.mobile = kindergarten_student.guardianMobile) guardianType,
 				(select t.name from kindergarten_info t where t.schoolId = kindergarten_student.schoolId) schoolName,
@@ -156,6 +165,12 @@
 				</#if>
 				<#if sex?exists && sex != "">
 					AND sex = :sex
+				</#if>
+				<#if physicalClassId?exists && physicalClassId != "">
+					AND physicalClassId = :physicalClassId
+				</#if>
+				<#if type?exists && type != "">
+					AND type = :type
 				</#if>
 				<#if guardianMobile?exists && guardianMobile != "">
 					AND guardianMobile = :guardianMobile
@@ -220,6 +235,12 @@
 				<#if sex?exists && sex != "">
 					AND sex = :sex
 				</#if>
+        <#if physicalClassId?exists && physicalClassId != "">
+          AND physicalClassId = :physicalClassId
+        </#if>
+        <#if type?exists && type != "">
+          AND type = :type
+        </#if>
 				<#if guardianMobile?exists && guardianMobile != "">
 					AND guardianMobile = :guardianMobile
 				</#if>

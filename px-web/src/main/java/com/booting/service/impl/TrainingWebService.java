@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,6 +25,7 @@ import com.booting.common.CouponBusinessType;
 import com.booting.common.PxConstants.ApplyStatus;
 import com.booting.coupon.dto.CouponRelationDTO;
 import com.booting.coupon.facade.CouponFacade;
+import com.booting.kindergarten.dto.StudentDTO;
 import com.booting.member.dto.MemberDTO;
 import com.booting.pub.dto.SmsIdentityDTO;
 import com.booting.pub.service.SmsIdentityService;
@@ -30,6 +33,7 @@ import com.booting.training.dto.ApplyDetailDTO;
 import com.booting.training.dto.ApplyInfoDTO;
 import com.booting.training.dto.ApplyItemDTO;
 import com.booting.training.dto.KickbackDetailDTO;
+import com.booting.training.dto.PhysicalClassDTO;
 import com.booting.training.dto.PromoterDTO;
 import com.booting.training.dto.TrainingItemDTO;
 import com.booting.training.dto.TrainingItemPictureDTO;
@@ -53,6 +57,8 @@ public class TrainingWebService extends BaseWebService {
   private SmsIdentityService smsIdentityService;
   @Autowired
   private CouponFacade couponFacade;
+  @Autowired
+  private KindergartenWebService kindergartenWebService;
 
   public PageList<TrainingItemDTO> getListForPage(QueryParam queryParam, Class<TrainingItemDTO> class1) {
     return trainingFacade.getTrainingItemListForPage(queryParam);
@@ -259,7 +265,9 @@ public class TrainingWebService extends BaseWebService {
   }
 
   public Long saveApplyInfo(ApplyInfoDTO applyInfoDTO) throws ArgsException {
-    if (null == applyInfoDTO || null == applyInfoDTO.getItemId() || StringUtils.isBlank(applyInfoDTO.getChildName()) || null == applyInfoDTO.getChildAge() || null == applyInfoDTO.getChildSex() || StringUtils.isBlank(applyInfoDTO.getOpenId()) || StringUtils.isBlank(applyInfoDTO.getMobile())) {
+    if (null == applyInfoDTO || null == applyInfoDTO.getItemId() || StringUtils.isBlank(applyInfoDTO.getChildName()) || 
+        null == applyInfoDTO.getChildAge() || null == applyInfoDTO.getChildSex() || StringUtils.isBlank(applyInfoDTO.getOpenId()) || 
+        StringUtils.isBlank(applyInfoDTO.getMobile())) {
       throw new ArgsException(FailureCode.ERR_002);
     }
     applyInfoDTO.setType(5);
@@ -284,6 +292,25 @@ public class TrainingWebService extends BaseWebService {
     if (null == itemDTO) {
       throw new ArgsException(FailureCode.ERR_002.getCode(), "项目不存在");
     }
+    if (itemDTO.getSubType() == 1) {
+      TrainingItemPriceDTO trainingItemPriceDTO = new TrainingItemPriceDTO();
+      trainingItemPriceDTO.setItemId(itemDTO.getItemId());
+      trainingItemPriceDTO.setApplyItemId(applyInfoDTO.getApplyItemId());
+      TrainingItemPriceDTO price = this.trainingFacade.getTrainingItemPrice(trainingItemPriceDTO);
+      if (null == price || 0 == price.getPrice()) {
+        applyInfoDTO.setStatus(ApplyStatus.yzf.getStatus());
+      } else {
+        applyInfoDTO.setStatus(ApplyStatus.dfk.getStatus());
+      }
+    }else {
+      PhysicalClassDTO physicalClass = this.trainingFacade.getPhysicalClass(itemDTO.getPhysicalClassId());
+      if (null != physicalClass && null != physicalClass.getPrice() && physicalClass.getPrice() > 0) {
+        applyInfoDTO.setStatus(ApplyStatus.dfk.getStatus());
+      }else {
+        applyInfoDTO.setStatus(ApplyStatus.yzf.getStatus());
+      }
+    }
+    
     // ApplyInfoDTO params = new ApplyInfoDTO();
     // params.setType(applyInfoDTO.getType());
     // params.setMobile(applyInfoDTO.getMobile());
@@ -292,15 +319,20 @@ public class TrainingWebService extends BaseWebService {
     // throw new ArgsException(FailureCode.ERR_702);
     // }
     applyInfoDTO.setCreateTime(new Date());
-    if (null == itemDTO.getPrice() || 0 == itemDTO.getPrice()) {
-      applyInfoDTO.setStatus(ApplyStatus.yzf.getStatus());
-    } else {
-      applyInfoDTO.setStatus(ApplyStatus.dfk.getStatus());
-    }
     applyInfoDTO.setUserId(memberDTO.getMemberId());
     Long applyId = this.trainingFacade.saveApplyInfo(applyInfoDTO);
     if (null != applyInfoDTO.getDetails() && applyInfoDTO.getType() == 4) {
       this.trainingFacade.batchSaveApplyDetail(applyInfoDTO.getDetails());
+    }
+    if (itemDTO.getSubType() == 2) {
+      StudentDTO studentDTO = new StudentDTO();
+      studentDTO.setBirth(Date.from(LocalDate.now().minusYears(applyInfoDTO.getChildAge()).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+      studentDTO.setGuardianMobile(applyInfoDTO.getMobile());
+      studentDTO.setGuardianName(applyInfoDTO.getName());
+      studentDTO.setName(applyInfoDTO.getChildName());
+      studentDTO.setSex(applyInfoDTO.getChildSex());
+      studentDTO.setType(2);
+      kindergartenWebService.saveStudent(studentDTO);
     }
     return applyId;
   }

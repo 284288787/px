@@ -25,7 +25,10 @@ public class StudentDTO implements Serializable {
   private Integer enabled; // 是否有效 1有效 0无效
   private Integer deleted; // 是否删除 1已删除 0未删除
   private String braceletMac; // 手环mac地址
-
+  private Integer type; // 类型 1正式 2临时
+  private Long physicalClassId; //通过体测课报名的学员
+  private String physicalClassName;
+  
   private String schoolName;
   private String className;
   private String teacherName;
@@ -257,5 +260,29 @@ public class StudentDTO implements Serializable {
 
   public void setPhysicalData(PhysicalDataDTO physicalData) {
     this.physicalData = physicalData;
+  }
+
+  public Integer getType() {
+    return type;
+  }
+
+  public Long getPhysicalClassId() {
+    return physicalClassId;
+  }
+
+  public String getPhysicalClassName() {
+    return physicalClassName;
+  }
+
+  public void setType(Integer type) {
+    this.type = type;
+  }
+
+  public void setPhysicalClassId(Long physicalClassId) {
+    this.physicalClassId = physicalClassId;
+  }
+
+  public void setPhysicalClassName(String physicalClassName) {
+    this.physicalClassName = physicalClassName;
   }
 }

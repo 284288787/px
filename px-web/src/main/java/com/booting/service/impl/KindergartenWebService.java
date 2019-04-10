@@ -326,6 +326,9 @@ public class KindergartenWebService extends BaseWebService {
     studentDTO.setCreateTime(new Date());
     studentDTO.setEnabled(1);
     studentDTO.setDeleted(0);
+    if (null == studentDTO.getType()) {
+      studentDTO.setType(1);
+    }
     Long studentId = kindergartenFacade.saveStudent(studentDTO);
     if (StringUtils.isNotBlank(studentDTO.getGuardianMobile())) {
       ParentDTO parentDTO = getParent(studentDTO.getGuardianMobile());
