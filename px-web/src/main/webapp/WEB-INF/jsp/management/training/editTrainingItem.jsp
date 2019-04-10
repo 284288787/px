@@ -43,7 +43,7 @@
 			</select>
 			</span></li>
       <c:forEach items="${trainingItemDTO.prices}" var="price">
-			<li><strong>${price.itemName}价格：</strong><span><input type="text" class="price" applyItemId="${price.applyItemId}" name="price" placeholder="输入${price.itemName}价格" value="<fmt:formatNumber value="${price.price/100}" pattern="##.00"></fmt:formatNumber>"></span></li>
+			<li class="priceli"><strong>${price.itemName}价格：</strong><span><input type="text" class="price" applyItemId="${price.applyItemId}" name="price" placeholder="输入${price.itemName}价格" value="<fmt:formatNumber value="${price.price/100}" pattern="##.00"></fmt:formatNumber>"></span></li>
       </c:forEach>
 			<%-- <li><strong>2节体验课价格：</strong><span><input type="text" name="pricetyk" placeholder="输入2节体验课价格" value="<fmt:formatNumber value="${trainingItemDTO.price/100}" pattern="##.00"></fmt:formatNumber>"></span></li> --%>
 			<li><strong>优惠券id：</strong><span><input type="text" name="cardIds" placeholder="多个用英文逗号分隔" value="${trainingItemDTO.cardIds}"></span></li>

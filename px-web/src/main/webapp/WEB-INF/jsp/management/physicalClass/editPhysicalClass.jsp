@@ -20,11 +20,11 @@
 		<form action="" id="editPhysicalClassForm"> 
 		<input type="hidden" name="physicalClassId" value="${physicalClassDTO.physicalClassId}">
 		<ul> 
-			<li><strong>课程标题：</strong><span><input type="text" name="title" placeholder="课程标题" value="${physicalClassDTO.title}"></span></li>
-			<li><strong>上课时间：</strong><span><input type="text" id="schoolTime" name="schoolTime" placeholder="上课时间" value="${physicalClassDTO.schoolTime}" class="Wdate" onclick="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})"></span></li>
-			<li><strong>报名截止时间：</strong><span><input type="text" name="deadlineTime" placeholder="不填则至上课时间截止报名" value="${physicalClassDTO.deadlineTime}" class="Wdate" onclick="WdatePicker({maxDate:'#F{$dp.$D(\'schoolTime\')}',isShowClear:false,readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})"></span></li>
+			<li><strong>课程标题：</strong><span><input type="text" class="ipt300" name="title" placeholder="课程标题" value="${physicalClassDTO.title}"></span></li>
+			<li><strong>上课时间：</strong><span><input type="text" id="schoolTime" name="schoolTime" placeholder="上课时间" value="<fmt:formatDate value="${physicalClassDTO.schoolTime}" pattern="yyyy-MM-dd HH:mm:ss"/>" class="Wdate" onclick="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})"></span></li>
+			<li><strong>报名截止时间：</strong><span><input type="text" name="deadlineTime" placeholder="不填则至上课时间截止报名" value="<fmt:formatDate value="${physicalClassDTO.deadlineTime}" pattern="yyyy-MM-dd HH:mm:ss"/>" class="Wdate" onclick="WdatePicker({maxDate:'#F{$dp.$D(\'schoolTime\')}',isShowClear:false,readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})"></span></li>
 			<li><strong>价格：</strong><span><input type="text" name="price" placeholder="价格" value="${physicalClassDTO.price}"></span></li>
-			<li><strong>上课地点：</strong><span><input type="text" name="address" placeholder="上课地点" value="${physicalClassDTO.address}"></span></li>
+			<li><strong>上课地点：</strong><span><input type="text" class="ipt400" name="address" placeholder="上课地点" value="${physicalClassDTO.address}"></span></li>
 			</span></li> 
 		</ul>
 		</form>

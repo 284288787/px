@@ -102,21 +102,25 @@
 	<sql id="getSimpleTrainingItemList">
 		<![CDATA[
 			SELECT 
-				type, 
-				notice, 
-				endTime, 
-				itemId, 
-				createUser, 
-				intro, 
-				title, 
-				beginTime, 
-				createTime, 
-				areaId, enabled, deleted, price, address, subType, physicalClassId, 
-				(select shortName from pub_area a where a.areaId = px_training_item.areaId) areaName
-			FROM px_training_item
-			WHERE 1=1
+        px_training_item.type, 
+        notice, 
+        endTime, 
+        itemId, 
+        createUser, 
+        intro, 
+        px_training_item.title, 
+        beginTime, 
+        px_training_item.createTime, 
+        px_training_item.areaId, px_training_item.enabled, px_training_item.deleted, 
+        px_training_item.price, px_training_item.address, subType, 
+        px_training_item.physicalClassId, c.title physicalClassName,
+        a.shortName areaName
+      FROM px_training_item
+      inner join pub_area a on a.areaId = px_training_item.areaId
+      left join px_physical_class c on c.physicalClassId = px_training_item.physicalClassId
+      WHERE 1=1
 				<#if type?exists && type != "">
-					AND type = :type
+					AND px_training_item.type = :type
 				</#if>
 				<#if notice?exists && notice != "">
 					AND notice = :notice
@@ -131,7 +135,7 @@
 					AND intro = :intro
 				</#if>
 				<#if title?exists && title != "">
-					AND title = :title
+					AND px_training_item.title = :title
 				</#if>
 				<#if beginTime?exists && beginTime != "">
 					AND beginTime = :beginTime
@@ -140,13 +144,13 @@
 					AND createTime = :createTime
 				</#if>
 				<#if areaId?exists && areaId != "">
-					AND areaId = :areaId
+					AND px_training_item.areaId = :areaId
 				</#if>
 				<#if deleted?exists && deleted != "">
-					AND deleted = :deleted
+					AND px_training_item.deleted = :deleted
 				</#if>
 				<#if enabled?exists && enabled != "">
-					AND enabled = :enabled
+					AND px_training_item.enabled = :enabled
 				</#if>
 				<#if itemId?exists && itemId != "">
 					AND itemId = :itemId
@@ -155,7 +159,7 @@
 					AND subType = :subType
 				</#if>
 				<#if physicalClassId?exists && physicalClassId != "">
-					AND physicalClassId = :physicalClassId
+					AND px_training_item.physicalClassId = :physicalClassId
 				</#if>
 			ORDER BY itemId desc
 			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
@@ -169,7 +173,7 @@
 			SELECT COUNT(1) FROM px_training_item
 			WHERE 1=1
 			<#if type?exists && type != "">
-					AND type = :type
+					AND px_training_item.type = :type
 				</#if>
 				<#if notice?exists && notice != "">
 					AND notice = :notice
@@ -184,31 +188,31 @@
 					AND intro = :intro
 				</#if>
 				<#if title?exists && title != "">
-					AND title = :title
+					AND px_training_item.title = :title
 				</#if>
 				<#if beginTime?exists && beginTime != "">
 					AND beginTime = :beginTime
 				</#if>
 				<#if createTime?exists && createTime != "">
-					AND createTime = :createTime
+					AND px_training_item.createTime = :createTime
 				</#if>
 				<#if areaId?exists && areaId != "">
-					AND areaId = :areaId
+					AND px_training_item.areaId = :areaId
 				</#if>
 				<#if deleted?exists && deleted != "">
-					AND deleted = :deleted
+					AND px_training_item.deleted = :deleted
 				</#if>
 				<#if enabled?exists && enabled != "">
-					AND enabled = :enabled
+					AND px_training_item.enabled = :enabled
 				</#if>
 			<#if itemId?exists && itemId != "">
-				AND itemId = :itemId
+				AND px_training_item.itemId = :itemId
 			</#if>
 			<#if subType?exists && subType != "">
 				AND subType = :subType
 			</#if>
 			<#if physicalClassId?exists && physicalClassId != "">
-				AND physicalClassId = :physicalClassId
+				AND px_training_item.physicalClassId = :physicalClassId
 			</#if>
 			<#if orderBy?exists && orderBy !="" >
 				ORDER BY :orderBy

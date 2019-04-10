@@ -21,6 +21,7 @@
 		<div class="search-container">
 			<form action="${basePath}" id="queryForm">
 				<span>是否可用：<select name="enabled"><option value="">全部</option><option value="1">可用</option><option value="0">禁用</option></select> </span>
+				<span>项目类型：<select name="subType"><option value="">全部</option><option value="1">普通项目</option><option value="2">体测课项目</option></select> </span>
 				<span>身份：<select name="type"><option value="">全部</option><option value="1">幼儿园足球体能发开课程</option><option value="2">青少年足球培训</option><option value="3">教练员培训</option></select> </span>
 				<a onclick="trainingHandle.query()" class="button blue">查询</a>
 				<a onclick="trainingHandle.reset()" class="button grey">清空</a>

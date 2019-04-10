@@ -28,7 +28,7 @@
       </select>
       </span></li>
 			<li style="display:none"><strong>体测课：</strong><span>
-        <input type="text" class="ipt300" name="physicalClassName" placeholder="选择体测课" value="${trainingItemDTO.physicalClassName}">
+        <input type="text" class="ipt300" name="physicalClassName" placeholder="选择体测课" value="${trainingItemDTO.physicalClassName}" readonly>
         <input type="hidden" name="physicalClassId" value="${trainingItemDTO.physicalClassId}">
       </span></li>
 			<li><strong>标题：</strong><span><input type="text" class="ipt400" name="title" placeholder="项目标题" value="${trainingItemDTO.title}"></span></li>
@@ -43,7 +43,7 @@
 			</select>
 			</span></li>
       <c:forEach items="${items}" var="price">
-      <li><strong>${price.itemName}价格：</strong><span><input type="text" class="price" applyItemId="${price.applyItemId}" name="price" placeholder="输入${price.itemName}价格"></span></li>
+      <li class="priceli"><strong>${price.itemName}价格：</strong><span><input type="text" class="price" applyItemId="${price.applyItemId}" name="price" placeholder="输入${price.itemName}价格"></span></li>
       </c:forEach>
 			<%-- <li><strong>价格：</strong><span><input type="text" name="price" placeholder="输入价格"></span></li> --%>
 			<li><strong>优惠券id：</strong><span><input type="text" name="cardIds" placeholder="多个用英文逗号分隔"></span></li>

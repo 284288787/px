@@ -3,6 +3,18 @@ var basePath=$("#basePath").val();
 var parentParams=artDialog.data("params");
 var utilsHandle = new UtilsHandle({
 	basePath: basePath,
+	choose: [{
+    'title': '选择体测课',
+    'object': $('input[name=physicalClassName]'),
+    'url': '/common/management/physicalClass/choosePhysicalClass',
+    'width': '70%',
+    'height': '500px', 
+    'choosedId': $(':hidden[name=physicalClassId]'), 
+    'callback':function(physicalClass){ 
+      $(':hidden[name=physicalClassId]').val(physicalClass.physicalClassId); 
+      $(':input[name=physicalClassName]').val("[价格："+physicalClass.price+"元] " + physicalClass.title);
+    }
+  }], 
 	chooseCity: {
 		"object": $("input[name=areaName]"),
 		"width": "70%",
@@ -73,8 +85,10 @@ $(function(){
     var val = $(this).val();
     if(val == 2){
       $("input[name=physicalClassId]").parents("li").show();
+      $("li.priceli").hide();
     }else{
       $("input[name=physicalClassId]").parents("li").hide();
+      $("li.priceli").show();
     }
   });
 	$("#editTrainingItemForm").validate({
