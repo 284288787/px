@@ -117,6 +117,9 @@
 				<#if state?exists && state != "">
           AND if(now() > schoolTime, 2, 1) = :state
         </#if>
+				<#if coachIds?exists && coachIds != "">
+          AND EXISTS (select * from px_physical_class_coach c where px_physical_class.physicalClassId = c.physicalClassId and c.coachId in (${coachIds}))
+        </#if>
 			<#if physicalClassId?exists && physicalClassId != "">
 				AND physicalClassId = :physicalClassId
 			</#if>
@@ -162,6 +165,9 @@
 				</#if>
         <#if state?exists && state != "">
           AND if(now() > schoolTime, 2, 1) = :state
+        </#if>
+        <#if coachIds?exists && coachIds != "">
+          AND EXISTS (select * from px_physical_class_coach c where px_physical_class.physicalClassId = c.physicalClassId and c.coachId in (${coachIds}))
         </#if>
 			<#if physicalClassId?exists && physicalClassId != "">
 				AND physicalClassId = :physicalClassId

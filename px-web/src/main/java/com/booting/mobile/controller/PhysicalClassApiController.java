@@ -31,6 +31,7 @@ public class PhysicalClassApiController {
   @InterfaceVersion("1.0")
   @RequestMapping(value = "/{version}/list", method = { RequestMethod.POST, RequestMethod.GET }, produces = "text/html;charset=UTF-8")
   @ApiImplicitParams({
+    @ApiImplicitParam(name = "coachIds", value = "教练ids(英文逗号分隔),如果只查看该教练相关的体测课可以传这个参数", paramType = "query", required = false, dataType = "long"), 
     @ApiImplicitParam(name = "title", value = "体测课标题", paramType = "query", required = false, dataType = "String"), 
     @ApiImplicitParam(name = "beginSchoolTime", value = "上课时间大于，格式：yyyy-MM-dd HH:mm:ss", paramType = "query", required = false, dataType = "String"), 
     @ApiImplicitParam(name = "state", value = "状态 1未开始 2已开始", paramType = "query", required = false, dataType = "int"), 
