@@ -39,6 +39,7 @@ public class TrainingItemDTO implements Serializable{
 	private String areaName;
 	private List<CouponRelationDTO> coupons;
 	private List<TrainingItemPriceDTO> prices;
+	private PhysicalClassDTO physicalClass;
 	
 	private boolean applied;
 	public String getAreaName() {
@@ -237,5 +238,13 @@ public class TrainingItemDTO implements Serializable{
 
   public void setPhysicalClassState(Integer physicalClassState) {
     this.physicalClassState = physicalClassState;
+  }
+
+  public PhysicalClassDTO getPhysicalClass() {
+    return physicalClass;
+  }
+
+  public void setPhysicalClass(PhysicalClassDTO physicalClass) {
+    this.physicalClass = physicalClass;
   }
 }

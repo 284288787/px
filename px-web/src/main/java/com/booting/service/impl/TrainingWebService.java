@@ -101,6 +101,12 @@ public class TrainingWebService extends BaseWebService {
           trainingItemDTO.setCardIds(cardIds.substring(1));
         }
       }
+      if (trainingItemDTO.getSubType() == 2) {
+        PhysicalClassDTO physicalClassDTO = new PhysicalClassDTO();
+        physicalClassDTO.setPhysicalClassId(trainingItemDTO.getPhysicalClassId());
+        physicalClassDTO = this.trainingFacade.getPhysicalClass(physicalClassDTO);
+        trainingItemDTO.setPhysicalClass(physicalClassDTO);
+      }
     }
     return trainingItemDTO;
   }
