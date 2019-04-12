@@ -46,6 +46,10 @@ public class StudentDTO implements Serializable {
   
   private PhysicalDataDTO physicalData;
 
+  private Integer attendanceState;
+  private Integer attendanceRemark;
+  private Date attendanceTime;
+  
   public Long getStudentId() {
     return studentId;
   }
@@ -284,5 +288,29 @@ public class StudentDTO implements Serializable {
 
   public void setPhysicalClassName(String physicalClassName) {
     this.physicalClassName = physicalClassName;
+  }
+
+  public Integer getAttendanceState() {
+    return attendanceState;
+  }
+
+  public Integer getAttendanceRemark() {
+    return attendanceRemark;
+  }
+
+  public Date getAttendanceTime() {
+    return attendanceTime;
+  }
+
+  public void setAttendanceState(Integer attendanceState) {
+    this.attendanceState = attendanceState;
+  }
+
+  public void setAttendanceRemark(Integer attendanceRemark) {
+    this.attendanceRemark = attendanceRemark;
+  }
+
+  public void setAttendanceTime(Date attendanceTime) {
+    this.attendanceTime = attendanceTime;
   }
 }

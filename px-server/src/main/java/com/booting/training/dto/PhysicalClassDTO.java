@@ -3,7 +3,9 @@ package com.booting.training.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+import com.booting.kindergarten.dto.StudentDTO;
 import com.star.framework.aop.annotation.Description;
 
 @Description(name = "体测课")
@@ -22,6 +24,8 @@ public class PhysicalClassDTO implements Serializable {
   private String physicalClassIds;
   private Integer state;        //1未开始 2已开始
   private String beginSchoolTime;
+  
+  private List<StudentDTO> students;
   
   public Long getPhysicalClassId() {
     return physicalClassId;
@@ -109,5 +113,13 @@ public class PhysicalClassDTO implements Serializable {
 
   public void setState(Integer state) {
     this.state = state;
+  }
+
+  public List<StudentDTO> getStudents() {
+    return students;
+  }
+
+  public void setStudents(List<StudentDTO> students) {
+    this.students = students;
   }
 }

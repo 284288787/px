@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.booting.service.impl.PhysicalClassWebService;
+import com.booting.training.dto.AttendanceDTO;
 import com.booting.training.dto.PhysicalClassDTO;
 import com.star.framework.jdbc.dao.result.QueryParam;
 import com.star.framework.specification.result.v2.ApiResult;
@@ -54,5 +55,42 @@ public class PhysicalClassApiController {
     queryParam.setParam(physicalClassDTO);
     ApiResult apiResult = physicalClassWebService.searchPhysicalClasses(queryParam);
     return ParamHandler.objToString(apiResult);
+  }
+  
+  @InterfaceVersion("1.0")
+  @RequestMapping(value = "/{version}/detail", method = { RequestMethod.POST, RequestMethod.GET }, produces = "text/html;charset=UTF-8")
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "physicalClassId", value = "体测课Id", paramType = "query", required = true, dataType = "long"), 
+  })
+  @ApiOperation(value = "体测课详细", notes = "体测课详细", httpMethod = "POST", response = String.class, produces = "text/html;charset=UTF-8")
+  public String detail(@ApiIgnore String params) throws Exception {
+    ParamHandler paramHandler = new ParamHandler(params);
+    Long physicalClassId = paramHandler.getLong("physicalClassId");
+    PhysicalClassDTO physicalClassDTO = this.physicalClassWebService.getPhysicalClass(physicalClassId);
+    ApiResult apiResult = new ApiResult(physicalClassDTO);
+    return ParamHandler.objToString(apiResult);
+  }
+  
+  @InterfaceVersion("1.0")
+  @RequestMapping(value = "/{version}/attendance", method = { RequestMethod.POST, RequestMethod.GET }, produces = "text/html;charset=UTF-8")
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "physicalClassId", value = "体测课Id", paramType = "query", required = true, dataType = "long"), 
+    @ApiImplicitParam(name = "studentId", value = "学生Id", paramType = "query", required = true, dataType = "long"), 
+    @ApiImplicitParam(name = "state", value = "1签到 2迟到 3请假 4其他", paramType = "query", required = true, dataType = "int"), 
+    @ApiImplicitParam(name = "remark", value = "备注说明，空则填状态值 签到 迟到 等", paramType = "query", required = true, dataType = "String"), 
+  })
+  @ApiOperation(value = "签到出席", notes = "签到出席", httpMethod = "POST", response = String.class, produces = "text/html;charset=UTF-8")
+  public String attendance(@ApiIgnore String params) throws Exception {
+    ParamHandler paramHandler = new ParamHandler(params);
+    Long physicalClassId = paramHandler.getLong("physicalClassId");
+    Long studentId = paramHandler.getLong("studentId");
+    AttendanceDTO attendance = paramHandler.getDTO(AttendanceDTO.class);
+    if (null != attendance) {
+      attendance.setBusinessId(physicalClassId);
+      attendance.setAttendanceId(studentId);
+      attendance.setType(1);
+    }
+    this.physicalClassWebService.attendance(attendance);
+    return null;
   }
 }

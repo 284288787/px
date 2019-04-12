@@ -6,9 +6,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.booting.bracelet.dto.BraceletDTO;
 import com.booting.bracelet.facade.BraceletFacade;
 import com.booting.common.CommonConstants;
@@ -1232,5 +1234,15 @@ public class KindergartenWebService extends BaseWebService {
     }
     studentDTO.setBraceletMac("");
     this.kindergartenFacade.updateStudent(studentDTO);
+  }
+  
+  public ApiResult searchStudents(QueryParam queryParam) {
+    PageList<StudentDTO> pageList = this.kindergartenFacade.getStudentListForPage(queryParam);
+    List<StudentDTO> list = pageList.getDataList();
+    ApiResult apiResult = new ApiResult();
+    apiResult.setData(list);
+    PageInfo pageInfo = new PageInfo(pageList.getPageNo(), pageList.getPageSize(), pageList.getTotalRecord());
+    apiResult.setPageInfo(pageInfo);
+    return apiResult;
   }
 }

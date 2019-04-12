@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="physicalClassCoach" isRead="true" dsName="test-read">
+
+	<sql id="insertPhysicalClassCoach" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO px_physical_class_coach(id, physicalClassId, createTime, coachId) 
+			values (:id, :physicalClassId, :createTime, :coachId)
+		]]>
+	</sql>
+
+	<sql id="updatePhysicalClassCoach" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE px_physical_class_coach SET physicalClassId = :physicalClassId
+				<#if createTime?exists && createTime != "">
+					, createTime = :createTime
+				</#if>
+				<#if coachId?exists && coachId != "">
+					, coachId = :coachId
+				</#if>
+			WHERE 
+				<#if id?exists && id != "">
+					id = :id
+				<#else>
+					id in (${ids})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deletePhysicalClassCoach" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM px_physical_class_coach
+			WHERE 1=1
+			<#if physicalClassId?exists && physicalClassId != "">
+					AND physicalClassId = :physicalClassId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if coachId?exists && coachId != "">
+					AND coachId = :coachId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimplePhysicalClassCoachList">
+		<![CDATA[
+			SELECT 
+				id, 
+				physicalClassId, 
+				createTime, 
+				coachId
+			FROM px_physical_class_coach
+			WHERE 1=1
+			<#if physicalClassId?exists && physicalClassId != "">
+					AND physicalClassId = :physicalClassId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if coachId?exists && coachId != "">
+					AND coachId = :coachId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimplePhysicalClassCoachListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM px_physical_class_coach
+			WHERE 1=1
+			<#if physicalClassId?exists && physicalClassId != "">
+					AND physicalClassId = :physicalClassId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if coachId?exists && coachId != "">
+					AND coachId = :coachId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getPhysicalClassCoachList">
+		<![CDATA[
+			SELECT 
+				id, 
+				physicalClassId, 
+				createTime, 
+				coachId
+			FROM px_physical_class_coach
+			WHERE 1=1
+			<#if physicalClassId?exists && physicalClassId != "">
+					AND physicalClassId = :physicalClassId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if coachId?exists && coachId != "">
+					AND coachId = :coachId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getPhysicalClassCoachListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM px_physical_class_coach
+			WHERE 1=1
+			<#if physicalClassId?exists && physicalClassId != "">
+					AND physicalClassId = :physicalClassId
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if coachId?exists && coachId != "">
+					AND coachId = :coachId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

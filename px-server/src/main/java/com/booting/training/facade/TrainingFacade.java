@@ -12,13 +12,17 @@ import com.booting.training.dto.ApplyDetailDTO;
 import com.booting.training.entity.ApplyDetailEntity;
 import com.booting.training.dto.ApplyInfoDTO;
 import com.booting.training.dto.ApplyItemDTO;
+import com.booting.training.dto.AttendanceDTO;
 import com.booting.training.dto.KickbackDetailDTO;
+import com.booting.training.dto.PhysicalClassCoachDTO;
 import com.booting.training.dto.PhysicalClassDTO;
 import com.booting.training.dto.PromoterDTO;
 import com.booting.training.dto.StudyAddressDTO;
 import com.booting.training.entity.ApplyInfoEntity;
 import com.booting.training.entity.ApplyItemEntity;
+import com.booting.training.entity.AttendanceEntity;
 import com.booting.training.entity.KickbackDetailEntity;
+import com.booting.training.entity.PhysicalClassCoachEntity;
 import com.booting.training.entity.PhysicalClassEntity;
 import com.booting.training.entity.PromoterEntity;
 import com.booting.training.entity.StudyAddressEntity;
@@ -30,6 +34,126 @@ import com.booting.training.entity.TrainingItemPictureEntity;
 import com.booting.training.entity.TrainingItemPriceEntity;
 
 public interface TrainingFacade extends Serializable {
+
+  /**
+   * 新增 体测课教练
+   */
+  public Long savePhysicalClassCoach(PhysicalClassCoachDTO physicalClassCoachDTO);
+
+  /**
+   * 批量新增 体测课教练
+   */
+  public void batchSavePhysicalClassCoach(List<PhysicalClassCoachDTO> dtos);
+
+  /**
+   * 更新 体测课教练
+   */
+  public int updatePhysicalClassCoach(PhysicalClassCoachDTO physicalClassCoachDTO);
+
+  /**
+   * 批量 体测课教练
+   */
+  public void batchUpdatePhysicalClassCoach(List<PhysicalClassCoachDTO> dtos);
+
+  /**
+   * 删除 体测课教练
+   */
+  public int deletePhysicalClassCoach(long id);
+
+  /**
+   * 根据主键获取 体测课教练
+   */
+  public PhysicalClassCoachDTO getPhysicalClassCoach(long id);
+
+  /**
+   * 根据条件获取一条 体测课教练
+   */
+  public PhysicalClassCoachDTO getPhysicalClassCoach(PhysicalClassCoachDTO physicalClassCoachDTO);
+
+  /**
+   * 查询满足条件的 体测课教练 列表(单表)
+   */
+  public List<PhysicalClassCoachDTO> getPhysicalClassCoachList(PhysicalClassCoachDTO physicalClassCoachDTO);
+
+  /**
+   * 查询满足条件的 体测课教练 列表(分页)(单表)
+   */
+  public PageList<PhysicalClassCoachDTO> getPhysicalClassCoachListForPage(PhysicalClassCoachDTO physicalClassCoachDTO, int pageNumber, int pageSize);
+
+  /**
+   * 查询满足条件的 体测课教练 列表(分页)(单表)
+   */
+  public PageList<PhysicalClassCoachDTO> getPhysicalClassCoachListForPage(QueryParam queryParam);
+
+  /**
+   * 体测课教练DTO 转换成 Entity
+   */
+  public PhysicalClassCoachEntity toPhysicalClassCoachEntity(PhysicalClassCoachDTO physicalClassCoachDTO);
+
+  /**
+   * 体测课教练DTOs 转换成 Entities
+   */
+  public List<PhysicalClassCoachEntity> toPhysicalClassCoachEntities(List<PhysicalClassCoachDTO> dtoes);
+
+  /**
+   * 新增 签到
+   */
+  public Long saveAttendance(AttendanceDTO attendanceDTO);
+
+  /**
+   * 批量新增 签到
+   */
+  public void batchSaveAttendance(List<AttendanceDTO> dtos);
+
+  /**
+   * 更新 签到
+   */
+  public int updateAttendance(AttendanceDTO attendanceDTO);
+
+  /**
+   * 批量 签到
+   */
+  public void batchUpdateAttendance(List<AttendanceDTO> dtos);
+
+  /**
+   * 删除 签到
+   */
+  public int deleteAttendance(long id);
+
+  /**
+   * 根据主键获取 签到
+   */
+  public AttendanceDTO getAttendance(long id);
+
+  /**
+   * 根据条件获取一条 签到
+   */
+  public AttendanceDTO getAttendance(AttendanceDTO attendanceDTO);
+
+  /**
+   * 查询满足条件的 签到 列表(单表)
+   */
+  public List<AttendanceDTO> getAttendanceList(AttendanceDTO attendanceDTO);
+
+  /**
+   * 查询满足条件的 签到 列表(分页)(单表)
+   */
+  public PageList<AttendanceDTO> getAttendanceListForPage(AttendanceDTO attendanceDTO, int pageNumber, int pageSize);
+
+  /**
+   * 查询满足条件的 签到 列表(分页)(单表)
+   */
+  public PageList<AttendanceDTO> getAttendanceListForPage(QueryParam queryParam);
+
+  /**
+   * 签到DTO 转换成 Entity
+   */
+  public AttendanceEntity toAttendanceEntity(AttendanceDTO attendanceDTO);
+
+  /**
+   * 签到DTOs 转换成 Entities
+   */
+  public List<AttendanceEntity> toAttendanceEntities(List<AttendanceDTO> dtoes);
 
   /**
    * 新增 体测课

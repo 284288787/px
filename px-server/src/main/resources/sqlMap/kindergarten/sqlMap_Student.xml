@@ -115,28 +115,33 @@
         p.distancePoint,
         (select l.`name` from point_level l where l.`level` = p.`level`) levelName,
         (select l.icon from point_level l where l.`level` = p.`level`) levelIcon,
-				`name`, 
-				enabled, 
-				deleted, 
-				classId, 
-				schoolId, 
-				createTime, 
-				kindergarten_student.studentId, 
-				stature, 
-				weight, 
-				birth, 
-				sex, 
-				guardianMobile,braceletMac, type, physicalClassId,
+        `name`, 
+        enabled, 
+        deleted, 
+        classId, 
+        schoolId, 
+        kindergarten_student.createTime, 
+        kindergarten_student.studentId, 
+        stature, 
+        weight, 
+        birth, 
+        sex, 
+        guardianMobile,braceletMac, kindergarten_student.type, physicalClassId,
         (select pc.title from px_physical_class pc where pc.physicalClassId = kindergarten_student.physicalClassId) physicalClassName,
-				(select t.name from kindergarten_parent t, kindergarten_student_parent s where t.parentId = s.parentId and s.studentId = kindergarten_student.studentId and t.mobile = kindergarten_student.guardianMobile) guardianName,
-				(select s.type from kindergarten_parent t, kindergarten_student_parent s where t.parentId = s.parentId and s.studentId = kindergarten_student.studentId and t.mobile = kindergarten_student.guardianMobile) guardianType,
-				(select t.name from kindergarten_info t where t.schoolId = kindergarten_student.schoolId) schoolName,
-				(select t.name from kindergarten_class t where t.classId = kindergarten_student.classId) className,
-				(select t.teacherName from kindergarten_class c, kindergarten_teacher t where c.teacherId = t.teacherId and c.classId = kindergarten_student.classId) teacherName
-			FROM kindergarten_student
+        (select t.name from kindergarten_parent t, kindergarten_student_parent s where t.parentId = s.parentId and s.studentId = kindergarten_student.studentId and t.mobile = kindergarten_student.guardianMobile) guardianName,
+        (select s.type from kindergarten_parent t, kindergarten_student_parent s where t.parentId = s.parentId and s.studentId = kindergarten_student.studentId and t.mobile = kindergarten_student.guardianMobile) guardianType,
+        (select t.name from kindergarten_info t where t.schoolId = kindergarten_student.schoolId) schoolName,
+        (select t.name from kindergarten_class t where t.classId = kindergarten_student.classId) className,
+        (select t.teacherName from kindergarten_class c, kindergarten_teacher t where c.teacherId = t.teacherId and c.classId = kindergarten_student.classId) teacherName,
+        att.state attendanceState, att.remark attendanceRemark, att.createTime attendanceTime
+      FROM kindergarten_student
       LEFT JOIN student_point p on p.studentId = kindergarten_student.studentId
-			WHERE 1=1
-			<#if name?exists && name != "">
+      LEFT JOIN px_attendance att on att.type = 1 and kindergarten_student.studentId = att.attendanceId
+      WHERE 1=1
+			  <#if attendanceState?exists && attendanceState != "">
+					AND att.state = :attendanceState
+				</#if>
+			  <#if name?exists && name != "">
 					AND `name` = :name
 				</#if>
 				<#if enabled?exists && enabled != "">
@@ -150,9 +155,6 @@
 				</#if>
 				<#if schoolId?exists && schoolId != "">
 					AND schoolId = :schoolId
-				</#if>
-				<#if createTime?exists && createTime != "">
-					AND createTime = :createTime
 				</#if>
 				<#if stature?exists && stature != "">
 					AND stature = :stature
@@ -170,7 +172,7 @@
 					AND physicalClassId = :physicalClassId
 				</#if>
 				<#if type?exists && type != "">
-					AND type = :type
+					AND kindergarten_student.type = :type
 				</#if>
 				<#if guardianMobile?exists && guardianMobile != "">
 					AND guardianMobile = :guardianMobile
@@ -204,7 +206,11 @@
 		<![CDATA[
 			SELECT COUNT(1) FROM kindergarten_student
       LEFT JOIN student_point p on p.studentId = kindergarten_student.studentId
+      LEFT JOIN px_attendance att on att.type = 1 and kindergarten_student.studentId = att.attendanceId
 			WHERE 1=1
+      <#if attendanceState?exists && attendanceState != "">
+        AND att.state = :attendanceState
+      </#if>
 			<#if name?exists && name != "">
 					AND `name` = :name
 				</#if>
@@ -219,9 +225,6 @@
 				</#if>
 				<#if schoolId?exists && schoolId != "">
 					AND schoolId = :schoolId
-				</#if>
-				<#if createTime?exists && createTime != "">
-					AND createTime = :createTime
 				</#if>
 				<#if stature?exists && stature != "">
 					AND stature = :stature
@@ -239,7 +242,7 @@
           AND physicalClassId = :physicalClassId
         </#if>
         <#if type?exists && type != "">
-          AND type = :type
+          AND kindergarten_student.type = :type
         </#if>
 				<#if guardianMobile?exists && guardianMobile != "">
 					AND guardianMobile = :guardianMobile

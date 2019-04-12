@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="attendance" isRead="true" dsName="test-read">
+
+	<sql id="insertAttendance" isRead="false" dsName="test-write">
+		<![CDATA[
+			INSERT INTO px_attendance(id, state, type, createTime, remark, businessId, attendanceId) 
+			values (:id, :state, :type, :createTime, :remark, :businessId, :attendanceId)
+		]]>
+	</sql>
+
+	<sql id="updateAttendance" isRead="false" dsName="test-write">
+		<![CDATA[
+			UPDATE px_attendance SET createTime = now()
+				<#if state?exists && state != "">
+					, state = :state
+				</#if>
+				<#if type?exists && type != "">
+					, type = :type
+				</#if>
+				<#if remark?exists && remark != "">
+					, remark = :remark
+				</#if>
+				<#if businessId?exists && businessId != "">
+					, businessId = :businessId
+				</#if>
+				<#if attendanceId?exists && attendanceId != "">
+					, attendanceId = :attendanceId
+				</#if>
+			WHERE 
+				<#if id?exists && id != "">
+					id = :id
+				<#else>
+					id in (${ids})
+				</#if>
+		]]>
+	</sql>
+
+	<sql id="deleteAttendance" isRead="false" dsName="test-write">
+		<![CDATA[
+			DELETE FROM px_attendance
+			WHERE 1=1
+			<#if state?exists && state != "">
+					AND state = :state
+				</#if>
+				<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if remark?exists && remark != "">
+					AND remark = :remark
+				</#if>
+				<#if businessId?exists && businessId != "">
+					AND businessId = :businessId
+				</#if>
+				<#if attendanceId?exists && attendanceId != "">
+					AND attendanceId = :attendanceId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleAttendanceList">
+		<![CDATA[
+			SELECT 
+				id, 
+				state, 
+				type, 
+				createTime, 
+				remark, 
+				businessId, 
+				attendanceId
+			FROM px_attendance
+			WHERE 1=1
+			<#if state?exists && state != "">
+					AND state = :state
+				</#if>
+				<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if remark?exists && remark != "">
+					AND remark = :remark
+				</#if>
+				<#if businessId?exists && businessId != "">
+					AND businessId = :businessId
+				</#if>
+				<#if attendanceId?exists && attendanceId != "">
+					AND attendanceId = :attendanceId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getSimpleAttendanceListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM px_attendance
+			WHERE 1=1
+			<#if state?exists && state != "">
+					AND state = :state
+				</#if>
+				<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if remark?exists && remark != "">
+					AND remark = :remark
+				</#if>
+				<#if businessId?exists && businessId != "">
+					AND businessId = :businessId
+				</#if>
+				<#if attendanceId?exists && attendanceId != "">
+					AND attendanceId = :attendanceId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy !="" >
+				ORDER BY :orderBy
+				<#if orderType?exists && orderType !="" >
+					:orderType
+				</#if>
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getAttendanceList">
+		<![CDATA[
+			SELECT 
+				id, 
+				state, 
+				type, 
+				createTime, 
+				remark, 
+				businessId, 
+				attendanceId
+			FROM px_attendance
+			WHERE 1=1
+			<#if state?exists && state != "">
+					AND state = :state
+				</#if>
+				<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if remark?exists && remark != "">
+					AND remark = :remark
+				</#if>
+				<#if businessId?exists && businessId != "">
+					AND businessId = :businessId
+				</#if>
+				<#if attendanceId?exists && attendanceId != "">
+					AND attendanceId = :attendanceId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+			<#if startIndex?exists && startIndex !="" && maxCount?exists && maxCount !="" >
+				LIMIT :startIndex,:maxCount
+			</#if>
+		]]>
+	</sql>
+
+	<sql id="getAttendanceListCount">
+		<![CDATA[
+			SELECT COUNT(1) FROM px_attendance
+			WHERE 1=1
+			<#if state?exists && state != "">
+					AND state = :state
+				</#if>
+				<#if type?exists && type != "">
+					AND type = :type
+				</#if>
+				<#if createTime?exists && createTime != "">
+					AND createTime = :createTime
+				</#if>
+				<#if remark?exists && remark != "">
+					AND remark = :remark
+				</#if>
+				<#if businessId?exists && businessId != "">
+					AND businessId = :businessId
+				</#if>
+				<#if attendanceId?exists && attendanceId != "">
+					AND attendanceId = :attendanceId
+				</#if>
+			<#if id?exists && id != "">
+				AND id = :id
+			</#if>
+			<#if orderBy?exists && orderBy!="" && orderType?exists>
+				ORDER BY :orderBy :orderType
+			</#if>
+		]]>
+	</sql>
+
+</sqlMap>

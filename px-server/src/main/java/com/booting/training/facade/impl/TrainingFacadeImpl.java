@@ -19,19 +19,25 @@ import com.booting.training.entity.ApplyDetailEntity;
 import com.booting.training.service.ApplyDetailService;
 import com.booting.training.dto.ApplyInfoDTO;
 import com.booting.training.dto.ApplyItemDTO;
+import com.booting.training.dto.AttendanceDTO;
 import com.booting.training.dto.KickbackDetailDTO;
+import com.booting.training.dto.PhysicalClassCoachDTO;
 import com.booting.training.dto.PhysicalClassDTO;
 import com.booting.training.dto.PromoterDTO;
 import com.booting.training.dto.StudyAddressDTO;
 import com.booting.training.entity.ApplyInfoEntity;
 import com.booting.training.entity.ApplyItemEntity;
+import com.booting.training.entity.AttendanceEntity;
 import com.booting.training.entity.KickbackDetailEntity;
+import com.booting.training.entity.PhysicalClassCoachEntity;
 import com.booting.training.entity.PhysicalClassEntity;
 import com.booting.training.entity.PromoterEntity;
 import com.booting.training.entity.StudyAddressEntity;
 import com.booting.training.service.ApplyInfoService;
 import com.booting.training.service.ApplyItemService;
+import com.booting.training.service.AttendanceService;
 import com.booting.training.service.KickbackDetailService;
+import com.booting.training.service.PhysicalClassCoachService;
 import com.booting.training.service.PhysicalClassService;
 import com.booting.training.service.PromoterService;
 import com.booting.training.service.StudyAddressService;
@@ -48,6 +54,12 @@ import com.booting.training.service.TrainingItemPriceService;
 @Service("trainingFacade")
 public class TrainingFacadeImpl implements TrainingFacade {
   private static final long serialVersionUID = 1L;
+
+  @Autowired
+  private PhysicalClassCoachService physicalClassCoachService;
+
+  @Autowired
+  private AttendanceService attendanceService;
 
   @Autowired
   private PhysicalClassService physicalClassService;
@@ -78,6 +90,164 @@ public class TrainingFacadeImpl implements TrainingFacade {
 
   @Autowired
   private TrainingItemPriceService trainingItemPriceService;
+
+  @Override
+  public Long savePhysicalClassCoach(PhysicalClassCoachDTO physicalClassCoachDTO) {
+    if (null == physicalClassCoachDTO) {
+      return null;
+    }
+    PhysicalClassCoachEntity entity = toPhysicalClassCoachEntity(physicalClassCoachDTO);
+    physicalClassCoachDTO = physicalClassCoachService.save(entity);
+    return physicalClassCoachDTO.getId();
+  }
+
+  @Override
+  public void batchSavePhysicalClassCoach(List<PhysicalClassCoachDTO> dtos) {
+    if (null == dtos || dtos.isEmpty()) {
+      return;
+    }
+    List<PhysicalClassCoachEntity> entities = toPhysicalClassCoachEntities(dtos);
+    physicalClassCoachService.batchSave(entities);
+  }
+
+  @Override
+  public int updatePhysicalClassCoach(PhysicalClassCoachDTO physicalClassCoachDTO) {
+    physicalClassCoachDTO = physicalClassCoachService.updateBySql(physicalClassCoachDTO);
+    return 1;
+  }
+
+  @Override
+  public void batchUpdatePhysicalClassCoach(List<PhysicalClassCoachDTO> dtos) {
+    if (null == dtos || dtos.isEmpty()) {
+      return;
+    }
+    physicalClassCoachService.batchUpdate(dtos);
+  }
+
+  @Override
+  public int deletePhysicalClassCoach(long id) {
+    return physicalClassCoachService.delete(id);
+  }
+
+  @Override
+  public PhysicalClassCoachDTO getPhysicalClassCoach(long id) {
+    return physicalClassCoachService.get(id);
+  }
+
+  @Override
+  public PhysicalClassCoachDTO getPhysicalClassCoach(PhysicalClassCoachDTO physicalClassCoachDTO) {
+    return physicalClassCoachService.get(physicalClassCoachDTO);
+  }
+
+  @Override
+  public List<PhysicalClassCoachDTO> getPhysicalClassCoachList(PhysicalClassCoachDTO physicalClassCoachDTO) {
+    return physicalClassCoachService.getSimpleList(physicalClassCoachDTO);
+  }
+
+  @Override
+  public PageList<PhysicalClassCoachDTO> getPhysicalClassCoachListForPage(PhysicalClassCoachDTO physicalClassCoachDTO, int pageNumber, int pageSize) {
+    return physicalClassCoachService.getSimpleListForPage(physicalClassCoachDTO, pageNumber, pageSize);
+  }
+
+  @Override
+  public PageList<PhysicalClassCoachDTO> getPhysicalClassCoachListForPage(QueryParam queryParam) {
+    return physicalClassCoachService.getSimpleListForPage(queryParam);
+  }
+
+  @Override
+  public PhysicalClassCoachEntity toPhysicalClassCoachEntity(PhysicalClassCoachDTO dto) {
+    PhysicalClassCoachEntity entity = new PhysicalClassCoachEntity();
+    CglibBeanUtils.copy(dto, entity);
+    return entity;
+  }
+
+  @Override
+  public List<PhysicalClassCoachEntity> toPhysicalClassCoachEntities(List<PhysicalClassCoachDTO> dtos) {
+    List<PhysicalClassCoachEntity> entities = new ArrayList<>();
+    for (PhysicalClassCoachDTO dto : dtos) {
+      entities.add(toPhysicalClassCoachEntity(dto));
+    }
+    return entities;
+  }
+
+  @Override
+  public Long saveAttendance(AttendanceDTO attendanceDTO) {
+    if (null == attendanceDTO) {
+      return null;
+    }
+    AttendanceEntity entity = toAttendanceEntity(attendanceDTO);
+    attendanceDTO = attendanceService.save(entity);
+    return attendanceDTO.getId();
+  }
+
+  @Override
+  public void batchSaveAttendance(List<AttendanceDTO> dtos) {
+    if (null == dtos || dtos.isEmpty()) {
+      return;
+    }
+    List<AttendanceEntity> entities = toAttendanceEntities(dtos);
+    attendanceService.batchSave(entities);
+  }
+
+  @Override
+  public int updateAttendance(AttendanceDTO attendanceDTO) {
+    attendanceDTO = attendanceService.updateBySql(attendanceDTO);
+    return 1;
+  }
+
+  @Override
+  public void batchUpdateAttendance(List<AttendanceDTO> dtos) {
+    if (null == dtos || dtos.isEmpty()) {
+      return;
+    }
+    attendanceService.batchUpdate(dtos);
+  }
+
+  @Override
+  public int deleteAttendance(long id) {
+    return attendanceService.delete(id);
+  }
+
+  @Override
+  public AttendanceDTO getAttendance(long id) {
+    return attendanceService.get(id);
+  }
+
+  @Override
+  public AttendanceDTO getAttendance(AttendanceDTO attendanceDTO) {
+    return attendanceService.get(attendanceDTO);
+  }
+
+  @Override
+  public List<AttendanceDTO> getAttendanceList(AttendanceDTO attendanceDTO) {
+    return attendanceService.getSimpleList(attendanceDTO);
+  }
+
+  @Override
+  public PageList<AttendanceDTO> getAttendanceListForPage(AttendanceDTO attendanceDTO, int pageNumber, int pageSize) {
+    return attendanceService.getSimpleListForPage(attendanceDTO, pageNumber, pageSize);
+  }
+
+  @Override
+  public PageList<AttendanceDTO> getAttendanceListForPage(QueryParam queryParam) {
+    return attendanceService.getSimpleListForPage(queryParam);
+  }
+
+  @Override
+  public AttendanceEntity toAttendanceEntity(AttendanceDTO dto) {
+    AttendanceEntity entity = new AttendanceEntity();
+    CglibBeanUtils.copy(dto, entity);
+    return entity;
+  }
+
+  @Override
+  public List<AttendanceEntity> toAttendanceEntities(List<AttendanceDTO> dtos) {
+    List<AttendanceEntity> entities = new ArrayList<>();
+    for (AttendanceDTO dto : dtos) {
+      entities.add(toAttendanceEntity(dto));
+    }
+    return entities;
+  }
 
   @Override
   public Long savePhysicalClass(PhysicalClassDTO physicalClassDTO) {

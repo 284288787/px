@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.booting.training.dto.AttendanceDTO;
 import com.booting.training.dto.PhysicalClassDTO;
 import com.booting.training.facade.TrainingFacade;
 import com.star.framework.jdbc.dao.result.PageList;
@@ -22,13 +23,26 @@ public class PhysicalClassWebService {
 
   @Autowired
   private TrainingFacade trainingFacade;
+//  @Autowired
+//  private KindergartenFacade kindergartenFacade;
   
   public PageList<PhysicalClassDTO> getListForPagePhysicalClass(QueryParam queryParam, Class<PhysicalClassDTO> class1) {
     return trainingFacade.getPhysicalClassListForPage(queryParam);
   }
 
   public PhysicalClassDTO getPhysicalClass(Long physicalClassId) {
+    if (null == physicalClassId) {
+      throw new ArgsException("physicalClassId 必填");
+    }
     PhysicalClassDTO physicalClass = trainingFacade.getPhysicalClass(physicalClassId);
+    if (null == physicalClass) {
+      throw new ArgsException("没有找到体测课");
+    }
+//    StudentDTO studentDTO = new StudentDTO();
+//    studentDTO.setType(2);
+//    studentDTO.setPhysicalClassId(physicalClassId);
+//    List<StudentDTO> students = kindergartenFacade.getStudentList(studentDTO);
+//    physicalClass.setStudents(students);
     return physicalClass;
   }
 
@@ -89,6 +103,17 @@ public class PhysicalClassWebService {
     PageInfo pageInfo = new PageInfo(pageList.getPageNo(), pageList.getPageSize(), pageList.getTotalRecord());
     apiResult.setPageInfo(pageInfo);
     return apiResult;
+  }
+
+  public void attendance(AttendanceDTO attendance) {
+    if (null == attendance || null == attendance.getAttendanceId() || 
+        null == attendance.getBusinessId() || null == attendance.getState() ||
+        StringUtils.isBlank(attendance.getRemark())) {
+      throw new ArgsException("studentId physicalClassId state remark 必填");
+    }
+    attendance.setCreateTime(new Date());
+    attendance.setType(1);
+    this.trainingFacade.saveAttendance(attendance);
   }
 
 }

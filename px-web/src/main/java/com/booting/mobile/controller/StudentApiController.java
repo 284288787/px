@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.booting.kindergarten.dto.StudentDTO;
 import com.booting.service.impl.KindergartenWebService;
+import com.star.framework.jdbc.dao.result.QueryParam;
+import com.star.framework.specification.result.v2.ApiResult;
 import com.star.framework.specification.utils.ParamHandler;
 import com.star.framework.version.InterfaceVersion;
 
@@ -18,7 +20,7 @@ import io.swagger.annotations.ApiOperation;
 import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
-@RequestMapping("/api/student/")
+@RequestMapping("/api/student")
 @Api(value = "学生", description = "学生")
 public class StudentApiController {
 
@@ -36,6 +38,7 @@ public class StudentApiController {
     @ApiImplicitParam(name = "guardianMobile", value = "监护人手机", paramType = "query", required = true, dataType = "String"),
     @ApiImplicitParam(name = "guardianType", value = "监护人关系: 1父亲 2母亲 3爷爷 4奶奶 5外公 6外婆 7其他", paramType = "query", required = true, dataType = "int"),
     @ApiImplicitParam(name = "braceletMac", value = "手环mac地址", paramType = "query", required = false, dataType = "String"),
+    @ApiImplicitParam(name = "type", value = "1正式 2临时 默认正式", paramType = "query", required = false, dataType = "String"),
   })
   @ApiOperation(value = "添加学生信息", notes = "添加学生信息", httpMethod = "POST", response = String.class, produces = "text/html;charset=UTF-8")
   public String add(@ApiIgnore String params) throws Exception {
@@ -64,5 +67,34 @@ public class StudentApiController {
     StudentDTO studentDTO = paramHandler.getDTO(StudentDTO.class);
     kindergartenWebService.updateStudent(studentDTO);
     return null;
+  }
+  
+  @InterfaceVersion("1.0")
+  @RequestMapping(value = "/{version}/list", method = { RequestMethod.POST, RequestMethod.GET }, produces = "text/html;charset=UTF-8")
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "physicalClassId", value = "体测课Id", paramType = "query", required = false, dataType = "String"), 
+    @ApiImplicitParam(name = "type", value = "1正式 2临时", paramType = "query", required = false, dataType = "int"), 
+    @ApiImplicitParam(name = "attendanceState", value = "1签到 2迟到 3请假 4其他", paramType = "query", required = false, dataType = "int"), 
+    @ApiImplicitParam(name = "pageNo", value = "页码 默认1", paramType = "query", required = false, dataType = "int"), 
+    @ApiImplicitParam(name = "pageSize", value = "一页最大记录数 默认10", paramType = "query", required = false, dataType = "int"), 
+  })
+  @ApiOperation(value = "体测课列表", notes = "体测课列表", httpMethod = "POST", response = String.class, produces = "text/html;charset=UTF-8")
+  public String list(@ApiIgnore String params) throws Exception {
+    ParamHandler paramHandler = new ParamHandler(params);
+    Integer pageNo = paramHandler.getInteger("pageNo");
+    Integer pageSize = paramHandler.getInteger("pageSize");
+    StudentDTO studentDTO = paramHandler.getDTO(StudentDTO.class);
+    studentDTO.setDeleted(0);
+    studentDTO.setEnabled(1);
+    QueryParam queryParam = new QueryParam();
+    if (null != pageNo) {
+      queryParam.setPageNo(pageNo);
+    }
+    if (null != pageSize) {
+      queryParam.setPageSize(pageSize);
+    }
+    queryParam.setParam(studentDTO);
+    ApiResult apiResult = kindergartenWebService.searchStudents(queryParam);
+    return ParamHandler.objToString(apiResult);
   }
 }
