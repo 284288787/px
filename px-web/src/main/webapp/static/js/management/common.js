@@ -132,6 +132,13 @@ function ListHandle(options, funcs){
 		var temp = historyIds.substring(1, historyIds.length-1);
 		return temp;
 	}
+	handle.getSelectedRows = function() {
+    return selectedRows;
+  }
+	handle.resetSelectedIds = function() {
+    selectedRows = {};
+    historyIds = ",";
+  }
 	handle.query = function(){
 		var data=$(options.formId).serializeArray();
 		var params = {};

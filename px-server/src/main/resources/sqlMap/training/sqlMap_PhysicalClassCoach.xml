@@ -48,7 +48,8 @@
 				id, 
 				physicalClassId, 
 				createTime, 
-				coachId
+				coachId,
+        (select c.`name` from kindergarten_coach c where c.coachId = px_physical_class_coach.coachId) coachName
 			FROM px_physical_class_coach
 			WHERE 1=1
 			<#if physicalClassId?exists && physicalClassId != "">

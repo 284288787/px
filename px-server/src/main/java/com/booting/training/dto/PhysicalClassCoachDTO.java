@@ -15,7 +15,7 @@ public class PhysicalClassCoachDTO implements Serializable {
   private Long coachId;
   private Date createTime;
   
-    
+  private String coachName;
   public Long getId() {
     return id;
   }
@@ -42,5 +42,13 @@ public class PhysicalClassCoachDTO implements Serializable {
   }
   public void setCoachId(Long coachId) {
     this.coachId = coachId;
+  }
+
+  public String getCoachName() {
+    return coachName;
+  }
+
+  public void setCoachName(String coachName) {
+    this.coachName = coachName;
   }
 }

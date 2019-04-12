@@ -25,7 +25,10 @@
 			<li><strong>报名截止时间：</strong><span><input type="text" name="deadlineTime" placeholder="不填则至上课时间截止报名" value="<fmt:formatDate value="${physicalClassDTO.deadlineTime}" pattern="yyyy-MM-dd HH:mm:ss"/>" class="Wdate" onclick="WdatePicker({maxDate:'#F{$dp.$D(\'schoolTime\')}',isShowClear:false,readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})"></span></li>
 			<li><strong>价格：</strong><span><input type="text" name="price" placeholder="价格" value="${physicalClassDTO.price}"></span></li>
 			<li><strong>上课地点：</strong><span><input type="text" class="ipt400" name="address" placeholder="上课地点" value="${physicalClassDTO.address}"></span></li>
-			</span></li> 
+			<li><strong>选择教练：</strong><span>
+        <input type="text" class="ipt300" name="coachNames" placeholder="选择教练" readonly value="${physicalClassDTO.coachNames}">
+        <input type="hidden" name="coachIds" value="${physicalClassDTO.coachIds}">
+      </span></li>
 		</ul>
 		</form>
 		<div class="btnGroup"> 

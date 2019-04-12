@@ -3,6 +3,28 @@ var basePath=$('#basePath').val();
 var parentParams=artDialog.data('params'); 
 var utilsHandle = new UtilsHandle({
 	basePath: basePath, 
+	choose: [{
+	  'multiselect': true,
+    'title': '选择教练',
+    'object': $('input[name=coachNames]'),
+    'url': '/common/management/kindergartenCoach/chooseKindergartenCoach',
+    'width': '70%',
+    'height': '500px', 
+    'choosedId': $(':hidden[name=coachNames]'), 
+    'callback':function(items){
+      var ids = "";
+      var names = "";
+      for(var o in items){
+        var item = items[o];
+        names += item.name + " ";
+        ids += "," + item.coachId;
+      }
+      if(ids){
+        $(':hidden[name=coachIds]').val(ids.substring(1)); 
+        $(':input[name=coachNames]').val(names);
+      }
+    }
+  }], 
 	chooseCity: { 
 		'object': $('input[name=areaName]'),
 		'width': '70%', 

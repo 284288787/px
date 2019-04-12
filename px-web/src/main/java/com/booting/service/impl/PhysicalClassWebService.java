@@ -41,6 +41,15 @@ public class PhysicalClassWebService {
     if (null == physicalClass) {
       throw new ArgsException("没有找到体测课");
     }
+    PhysicalClassCoachDTO physicalClassCoachDTO = new PhysicalClassCoachDTO();
+    physicalClassCoachDTO.setPhysicalClassId(physicalClassId);
+    List<PhysicalClassCoachDTO> coachs = trainingFacade.getPhysicalClassCoachList(physicalClassCoachDTO);
+    if (null != coachs && ! coachs.isEmpty()) {
+      String names = coachs.stream().map(coach -> coach.getCoachName()).collect(Collectors.joining(","));
+      String ids = coachs.stream().map(coach -> String.valueOf(coach.getCoachId())).collect(Collectors.joining(","));
+      physicalClass.setCoachIds(ids);
+      physicalClass.setCoachNames(names);
+    }
 //    StudentDTO studentDTO = new StudentDTO();
 //    studentDTO.setType(2);
 //    studentDTO.setPhysicalClassId(physicalClassId);
