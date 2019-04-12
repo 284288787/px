@@ -65,6 +65,9 @@ public class TrainingWebService extends BaseWebService {
   }
 
   public TrainingItemDTO getTrainingItem(Long itemId) {
+    if (null == itemId) {
+      throw new ArgsException("itemId 必填");
+    }
     TrainingItemDTO params = new TrainingItemDTO();
     params.setItemId(itemId);
     TrainingItemDTO trainingItemDTO = this.trainingFacade.getTrainingItem(params);
