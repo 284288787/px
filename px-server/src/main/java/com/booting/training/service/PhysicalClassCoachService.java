@@ -13,4 +13,6 @@ import com.booting.training.entity.PhysicalClassCoachEntity;
  */
 public interface PhysicalClassCoachService extends BaseService<PhysicalClassCoachEntity, PhysicalClassCoachDTO> {
 
+  public void deletePhysicalClassCoachByClassId(Long physicalClassId);
+
 }

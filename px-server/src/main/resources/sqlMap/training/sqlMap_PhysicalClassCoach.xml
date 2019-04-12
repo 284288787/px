@@ -33,9 +33,6 @@
 			<#if physicalClassId?exists && physicalClassId != "">
 					AND physicalClassId = :physicalClassId
 				</#if>
-				<#if createTime?exists && createTime != "">
-					AND createTime = :createTime
-				</#if>
 				<#if coachId?exists && coachId != "">
 					AND coachId = :coachId
 				</#if>

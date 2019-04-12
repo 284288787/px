@@ -1,6 +1,7 @@
 /** create by auto at 2019-04-12 15:10:57**/
 package com.booting.training.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -125,5 +126,12 @@ public class PhysicalClassCoachServiceImpl extends JDBCSupport<PhysicalClassCoac
 	public <T> PageList<T> getListForPage(QueryParam queryParam, Class<T> clazz) {
 		return (PageList<T>) this.queryForPage("physicalClassCoach.getPhysicalClassCoachListCount", "physicalClassCoach.getPhysicalClassCoachList", queryParam, clazz);
 	}
+
+  @Override
+  public void deletePhysicalClassCoachByClassId(Long physicalClassId) {
+    Map<String, Object> param = new HashMap<>();
+    param.put("physicalClassId", physicalClassId);
+    this.execute("physicalClassCoach.deletePhysicalClassCoach", param);
+  }
 
 }

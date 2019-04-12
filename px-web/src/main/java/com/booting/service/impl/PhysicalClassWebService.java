@@ -1,14 +1,17 @@
 /**create by liuhua at 2019年4月9日 上午10:55:56**/
 package com.booting.service.impl;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.booting.training.dto.AttendanceDTO;
+import com.booting.training.dto.PhysicalClassCoachDTO;
 import com.booting.training.dto.PhysicalClassDTO;
 import com.booting.training.facade.TrainingFacade;
 import com.star.framework.jdbc.dao.result.PageList;
@@ -51,6 +54,17 @@ public class PhysicalClassWebService {
       throw new ArgsException(FailureCode.ERR_002);
     }
     this.trainingFacade.updatePhysicalClass(physicalClassDTO);
+    if (StringUtils.isNotBlank(physicalClassDTO.getCoachIds())) {
+      this.trainingFacade.deletePhysicalClassCoachByClassId(physicalClassDTO.getPhysicalClassId());
+      List<PhysicalClassCoachDTO> list = Arrays.stream(physicalClassDTO.getCoachIds().split(",")).distinct().map(id ->{
+        PhysicalClassCoachDTO dto = new PhysicalClassCoachDTO();
+        dto.setCoachId(Long.parseLong(id));
+        dto.setPhysicalClassId(physicalClassDTO.getPhysicalClassId());
+        dto.setCreateTime(new Date());
+        return dto;
+      }).collect(Collectors.toList());
+      this.trainingFacade.batchSavePhysicalClassCoach(list);
+    }
   }
 
   public void savePhysicalClass(PhysicalClassDTO physicalClassDTO) {
@@ -62,7 +76,17 @@ public class PhysicalClassWebService {
     physicalClassDTO.setDeleted(0);
     physicalClassDTO.setEnabled(1);
     physicalClassDTO.setCreateTime(new Date());
-    this.trainingFacade.savePhysicalClass(physicalClassDTO);
+    Long physicalClassId = this.trainingFacade.savePhysicalClass(physicalClassDTO);
+    if (StringUtils.isNotBlank(physicalClassDTO.getCoachIds())) {
+      List<PhysicalClassCoachDTO> list = Arrays.stream(physicalClassDTO.getCoachIds().split(",")).distinct().map(id ->{
+        PhysicalClassCoachDTO dto = new PhysicalClassCoachDTO();
+        dto.setCoachId(Long.parseLong(id));
+        dto.setPhysicalClassId(physicalClassId);
+        dto.setCreateTime(new Date());
+        return dto;
+      }).collect(Collectors.toList());
+      this.trainingFacade.batchSavePhysicalClassCoach(list);
+    }
   }
 
   public void enabledPhysicalClass(String ids) {

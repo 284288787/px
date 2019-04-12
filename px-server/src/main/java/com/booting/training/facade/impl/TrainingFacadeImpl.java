@@ -1098,4 +1098,9 @@ public class TrainingFacadeImpl implements TrainingFacade {
   public void updateBySql(PhysicalClassDTO dto) {
     this.physicalClassService.updateBySql(dto);
   }
+
+  @Override
+  public void deletePhysicalClassCoachByClassId(Long physicalClassId) {
+    physicalClassCoachService.deletePhysicalClassCoachByClassId(physicalClassId);
+  }
 }

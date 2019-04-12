@@ -788,4 +788,6 @@ public interface TrainingFacade extends Serializable {
 
   public void updateBySql(PhysicalClassDTO dto);
 
+  public void deletePhysicalClassCoachByClassId(Long physicalClassId);
+
 }

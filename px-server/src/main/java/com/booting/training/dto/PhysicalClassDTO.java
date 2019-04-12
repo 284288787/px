@@ -25,6 +25,8 @@ public class PhysicalClassDTO implements Serializable {
   private Integer state;        //1未开始 2已开始
   private String beginSchoolTime;
   
+  private String coachIds;
+  
   private List<StudentDTO> students;
   
   public Long getPhysicalClassId() {
@@ -121,5 +123,13 @@ public class PhysicalClassDTO implements Serializable {
 
   public void setStudents(List<StudentDTO> students) {
     this.students = students;
+  }
+
+  public String getCoachIds() {
+    return coachIds;
+  }
+
+  public void setCoachIds(String coachIds) {
+    this.coachIds = coachIds;
   }
 }
