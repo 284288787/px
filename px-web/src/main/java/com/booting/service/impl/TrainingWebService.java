@@ -341,6 +341,7 @@ public class TrainingWebService extends BaseWebService {
       studentDTO.setName(applyInfoDTO.getChildName());
       studentDTO.setSex(applyInfoDTO.getChildSex());
       studentDTO.setType(2);
+      studentDTO.setPhysicalClassId(itemDTO.getPhysicalClassId());
       kindergartenWebService.saveStudent(studentDTO);
     }
     return applyId;

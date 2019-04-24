@@ -10,6 +10,7 @@ import com.booting.kindergarten.dto.CoachDTO;
 import com.booting.kindergarten.dto.StudentDTO;
 import com.booting.service.impl.KindergartenWebService;
 import com.star.framework.jdbc.dao.result.PageList;
+import com.star.framework.specification.result.PageInfo;
 import com.star.framework.specification.result.v2.ApiResult;
 import com.star.framework.specification.utils.ParamHandler;
 import com.star.framework.version.InterfaceVersion;
@@ -102,8 +103,11 @@ public class CoachApiController extends ApiBaseController{
         Long classId = paramHandler.getLong("classId");
         Integer pageNo = paramHandler.getInteger("pageNo");
         Integer pageSize = paramHandler.getInteger("pageSize");
-        PageList<StudentDTO> list = this.kindergartenWebService.studentList(classId, pageNo, pageSize);
-        ApiResult apiResult = new ApiResult(list);
+        PageList<StudentDTO> pageList = this.kindergartenWebService.studentList(classId, pageNo, pageSize);
+        ApiResult apiResult = new ApiResult();
+        apiResult.setData(pageList.getDataList());
+        PageInfo pageInfo = new PageInfo(pageList.getPageNo(), pageList.getPageSize(), pageList.getTotalRecord());
+        apiResult.setPageInfo(pageInfo);
         return ParamHandler.objToString(apiResult);
     }
     
