@@ -13,6 +13,7 @@ public class ApplyInfoDTO implements Serializable {
 
 	private Long applyId;
 	private Long itemId;
+	private String title;
 	private Long userId;
 	private Integer type;           //类型 1幼儿园管理员 2青少年 3教练员 4团体
 	private String organizationName;//团体名称
@@ -284,5 +285,13 @@ public class ApplyInfoDTO implements Serializable {
 
   public void setTotalFee(Long totalFee) {
     this.totalFee = totalFee;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
   }
 }

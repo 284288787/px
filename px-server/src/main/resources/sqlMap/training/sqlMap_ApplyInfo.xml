@@ -95,25 +95,27 @@
 		<![CDATA[
 			SELECT 
 				px_apply_info.address, 
-				itemId,
-				px_apply_info.`name`, 
-				px_apply_info.userId,
-				px_apply_info.type, 
-				px_apply_info.mobile, 
-				applyId, 
-				certificateType, 
-				certificateCode, 
-				px_apply_info.createTime, 
-				sourceFrom, 
-				organizationName, px_apply_info.`status`,childName,childBirth,childAge,childSex,addrId,px_apply_info.applyItemId,i.itemName,i.brokerageRate,px_apply_info.promoterId,p.`name` promoter, p.mobile promoterMobile,
-				(select a.addrName from px_study_address a where a.addrId = px_apply_info.addrId) addrName,
-				o.orderNo, w.transaction_id, w.total_fee totalFee
-			FROM px_apply_info
-			INNER JOIN order_info o on o.businessId = px_apply_info.applyId
-			INNER JOIN order_weixin w on o.orderNo = w.attach
-			INNER JOIN px_promoter p on p.promoterId = px_apply_info.promoterId
-      INNER JOIN px_apply_item i on i.applyItemId = px_apply_info.applyItemId
-			WHERE 1=1
+        px_apply_info.itemId,
+        t.title,
+        px_apply_info.`name`, 
+        px_apply_info.userId,
+        px_apply_info.type, 
+        px_apply_info.mobile, 
+        applyId, 
+        certificateType, 
+        certificateCode, 
+        px_apply_info.createTime, 
+        sourceFrom, 
+        organizationName, px_apply_info.`status`,childName,childBirth,childAge,childSex,addrId,px_apply_info.applyItemId,i.itemName,i.brokerageRate,px_apply_info.promoterId,p.`name` promoter, p.mobile promoterMobile,
+        (select a.addrName from px_study_address a where a.addrId = px_apply_info.addrId) addrName,
+        o.orderNo, w.transaction_id, w.total_fee totalFee
+      FROM px_apply_info
+      INNER JOIN px_training_item t on t.itemId = px_apply_info.itemId
+      LEFT JOIN order_info o on o.businessId = px_apply_info.applyId
+      LEFT JOIN order_weixin w on o.orderNo = w.attach
+      LEFT JOIN px_promoter p on p.promoterId = px_apply_info.promoterId
+      LEFT JOIN px_apply_item i on i.applyItemId = px_apply_info.applyItemId
+      WHERE 1=1
 			<#if orderNo?exists && orderNo != "">
 					AND orderNo = :orderNo
 				</#if>
@@ -160,7 +162,7 @@
 				AND applyId = :applyId
 			</#if>
 			<#if itemId?exists && itemId != "">
-				AND itemId = :itemId
+				AND px_apply_info.itemId = :itemId
 			</#if>
 			<#if orderBy?exists && orderBy !="" >
 				ORDER BY :orderBy
@@ -187,11 +189,14 @@
 
 	<sql id="getSimpleApplyInfoListCount">
 		<![CDATA[
-			SELECT COUNT(1) FROM px_apply_info
-			INNER JOIN order_info o on o.businessId = px_apply_info.applyId
-			INNER JOIN order_weixin w on o.orderNo = w.attach
-			INNER JOIN px_promoter p on p.promoterId = px_apply_info.promoterId
-			WHERE 1=1
+			SELECT COUNT(1) 
+			FROM px_apply_info
+      INNER JOIN px_training_item t on t.itemId = px_apply_info.itemId
+      LEFT JOIN order_info o on o.businessId = px_apply_info.applyId
+      LEFT JOIN order_weixin w on o.orderNo = w.attach
+      LEFT JOIN px_promoter p on p.promoterId = px_apply_info.promoterId
+      LEFT JOIN px_apply_item i on i.applyItemId = px_apply_info.applyItemId
+      WHERE 1=1
 			<#if orderNo?exists && orderNo != "">
 					AND orderNo = :orderNo
 				</#if>
@@ -235,7 +240,7 @@
 				AND applyId = :applyId
 			</#if>
 			<#if itemId?exists && itemId != "">
-				AND itemId = :itemId
+				AND px_apply_info.itemId = :itemId
 			</#if>
 			<#if promoterId?exists && promoterId != "">
 					AND px_apply_info.promoterId = :promoterId

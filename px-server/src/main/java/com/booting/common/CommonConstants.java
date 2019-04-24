@@ -12,7 +12,7 @@ public class CommonConstants {
   public static boolean zbxq = true;
 
   public static void main(String[] args) {
-    int i = standard.get("3_1").getScore("weight", 0.24);
+    int i = standard.get("65_0").getScore("stature", 137);
     System.out.println(i);
   }
 
