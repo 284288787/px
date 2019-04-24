@@ -3,8 +3,8 @@
 
 	<sql id="insertPhysicalClass" isRead="false" dsName="test-write">
 		<![CDATA[
-			INSERT INTO px_physical_class(address, physicalClassId, createTime, deleted, enabled, price, deadlineTime, title, schoolTime) 
-			values (:address, :physicalClassId, :createTime, :deleted, :enabled, :price, :deadlineTime, :title, :schoolTime)
+			INSERT INTO px_physical_class(address, physicalClassId, createTime, deleted, enabled, price, deadlineTime, title, schoolTime, finished) 
+			values (:address, :physicalClassId, :createTime, :deleted, :enabled, :price, :deadlineTime, :title, :schoolTime, 0)
 		]]>
 	</sql>
 
@@ -31,6 +31,9 @@
 				</#if>
 				<#if schoolTime?exists && schoolTime != "">
 					, schoolTime = :schoolTime
+				</#if>
+				<#if finished?exists && finished != "">
+					, finished = :finished
 				</#if>
 			WHERE 
 				<#if physicalClassId?exists && physicalClassId != "">
@@ -87,7 +90,7 @@
 				deadlineTime, 
 				title, 
 				schoolTime,
-        if(now() > schoolTime, 2, 1) state
+        if(finished = 0, if(now() > schoolTime, 2, 1), 3) state
 			FROM px_physical_class
 			WHERE 1=1
 			<#if address?exists && address != "">
@@ -115,7 +118,7 @@
           AND schoolTime >= :beginSchoolTime
         </#if>
 				<#if state?exists && state != "">
-          AND if(now() > schoolTime, 2, 1) = :state
+          AND if(finished = 0, if(now() > schoolTime, 2, 1), 3) = :state
         </#if>
 				<#if coachIds?exists && coachIds != "">
           AND EXISTS (select * from px_physical_class_coach c where px_physical_class.physicalClassId = c.physicalClassId and c.coachId in (${coachIds}))

@@ -94,4 +94,17 @@ public class PhysicalClassApiController {
     this.physicalClassWebService.attendance(attendance);
     return null;
   }
+  
+  @InterfaceVersion("1.0")
+  @RequestMapping(value = "/{version}/finish", method = { RequestMethod.POST, RequestMethod.GET }, produces = "text/html;charset=UTF-8")
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "physicalClassId", value = "体测课Id", paramType = "query", required = true, dataType = "long"), 
+  })
+  @ApiOperation(value = "结束体测课", notes = "结束体测课", httpMethod = "POST", response = String.class, produces = "text/html;charset=UTF-8")
+  public String finish(@ApiIgnore String params) throws Exception {
+    ParamHandler paramHandler = new ParamHandler(params);
+    Long physicalClassId = paramHandler.getLong("physicalClassId");
+    this.physicalClassWebService.finished(physicalClassId);
+    return null;
+  }
 }

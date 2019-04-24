@@ -37,7 +37,9 @@ public class PhysicalClassWebService {
     if (null == physicalClassId) {
       throw new ArgsException("physicalClassId 必填");
     }
-    PhysicalClassDTO physicalClass = trainingFacade.getPhysicalClass(physicalClassId);
+    PhysicalClassDTO dto = new PhysicalClassDTO();
+    dto.setPhysicalClassId(physicalClassId);
+    PhysicalClassDTO physicalClass = this.trainingFacade.getPhysicalClass(dto);
     if (null == physicalClass) {
       throw new ArgsException("没有找到体测课");
     }
@@ -147,6 +149,25 @@ public class PhysicalClassWebService {
     attendance.setCreateTime(new Date());
     attendance.setType(1);
     this.trainingFacade.saveAttendance(attendance);
+  }
+
+  public void finished(Long physicalClassId) {
+    if(null == physicalClassId) {
+      throw new ArgsException(FailureCode.ERR_002, "physicalClassId必填");
+    }
+    PhysicalClassDTO dto = new PhysicalClassDTO();
+    dto.setPhysicalClassId(physicalClassId);
+    dto = this.trainingFacade.getPhysicalClass(dto);
+    if (null == dto || null == dto.getPhysicalClassId()) {
+      throw new ArgsException(FailureCode.ERR_002, "记录不存");
+    }
+    if (dto.getState() == 3) {
+      throw new ArgsException(FailureCode.ERR_002, "该项目已经结束，不需要再次结束");
+    }
+    PhysicalClassDTO dto1 = new PhysicalClassDTO();
+    dto1.setFinished(1);
+    dto1.setPhysicalClassId(physicalClassId);
+    trainingFacade.updateBySql(dto1);
   }
 
 }

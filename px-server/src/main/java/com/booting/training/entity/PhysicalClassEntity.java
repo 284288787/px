@@ -23,6 +23,7 @@ public class PhysicalClassEntity implements Serializable {
   private Integer price;         //* 100
   private Integer enabled;
   private Integer deleted;
+  private Integer finished;      //1已完成 0未完成
   private Date createTime;
   
   @Id
@@ -62,6 +63,10 @@ public class PhysicalClassEntity implements Serializable {
   public Date getCreateTime() {
     return createTime;
   }
+  @Column(name = "finished")
+  public Integer getFinished() {
+    return finished;
+  }
   
   public void setPhysicalClassId(Long physicalClassId) {
     this.physicalClassId = physicalClassId;
@@ -89,5 +94,8 @@ public class PhysicalClassEntity implements Serializable {
   }
   public void setCreateTime(Date createTime) {
     this.createTime = createTime;
+  }
+  public void setFinished(Integer finished) {
+    this.finished = finished;
   }
 }

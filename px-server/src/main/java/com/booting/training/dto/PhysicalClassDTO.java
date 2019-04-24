@@ -22,7 +22,8 @@ public class PhysicalClassDTO implements Serializable {
   private Integer deleted;
   private Date createTime;
   private String physicalClassIds;
-  private Integer state;        //1未开始 2已开始
+  private Integer finished;
+  private Integer state;        //1未开始 2已开始 3已结束
   private String beginSchoolTime;
   
   private String coachNames;
@@ -140,5 +141,13 @@ public class PhysicalClassDTO implements Serializable {
 
   public void setCoachNames(String coachNames) {
     this.coachNames = coachNames;
+  }
+
+  public Integer getFinished() {
+    return finished;
+  }
+
+  public void setFinished(Integer finished) {
+    this.finished = finished;
   }
 }
