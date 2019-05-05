@@ -12,7 +12,7 @@ public class CommonConstants {
   public static boolean zbxq = true;
 
   public static void main(String[] args) {
-    int i = standard.get("65_0").getScore("stature", 137);
+    int i = standard.get("65_0").getScore("jump", 105);
     System.out.println(i);
   }
 
@@ -175,7 +175,7 @@ public class CommonConstants {
       physical60.add("throwTennis", new Temp(-100.00, 03.50, 1), new Temp(03.50, 05.00, 2), new Temp(05.00, 06.50, 3), new Temp(06.50, 08.00, 4), new Temp(08.00, 1000.00, 5));
       physical60.add("doubleJump", new Temp(1000.00, 08.30, 1), new Temp(08.30, 06.20, 2), new Temp(06.20, 05.20, 3), new Temp(05.20, 04.60, 4), new Temp(04.60, -100.00, 5));
       physical60.add("sitReach", new Temp(-100.00, 05.40, 1), new Temp(05.40, 09.60, 2), new Temp(09.60, 13.00, 3), new Temp(13.00, 16.70, 4), new Temp(16.70, 1000.00, 5));
-      physical60.add("balance", new Temp(1000.00, 10.70, 1), new Temp(10.70, 06.10, 2), new Temp(06.10, 42.00, 3), new Temp(42.00, 03.00, 4), new Temp(03.00, -100.00, 5));
+      physical60.add("balance", new Temp(1000.00, 10.70, 1), new Temp(10.70, 06.10, 2), new Temp(06.10, 4.20, 3), new Temp(4.20, 03.00, 4), new Temp(03.00, -100.00, 5));
       physical60.add("stature", new Temp(-100.00, 107, 1), new Temp(107, 112, 2), new Temp(112, 116.7, 3), new Temp(116.7, 121.7, 4), new Temp(121.7, 1000.00, 5));
       physical60.add("weight", new Temp(1, 0.50, 1), new Temp(0.50, 0.30, 2), new Temp(0.30, 0.20, 3), new Temp(0.20, 0.10, 4), new Temp(.10, 0., 5));
       put("6_0", physical60);
