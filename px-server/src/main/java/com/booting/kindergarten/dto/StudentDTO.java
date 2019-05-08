@@ -47,7 +47,7 @@ public class StudentDTO implements Serializable {
   private PhysicalDataDTO physicalData;
 
   private Integer attendanceState;
-  private Integer attendanceRemark;
+  private String attendanceRemark;
   private Date attendanceTime;
   
   public Long getStudentId() {
@@ -294,7 +294,7 @@ public class StudentDTO implements Serializable {
     return attendanceState;
   }
 
-  public Integer getAttendanceRemark() {
+  public String getAttendanceRemark() {
     return attendanceRemark;
   }
 
@@ -306,7 +306,7 @@ public class StudentDTO implements Serializable {
     this.attendanceState = attendanceState;
   }
 
-  public void setAttendanceRemark(Integer attendanceRemark) {
+  public void setAttendanceRemark(String attendanceRemark) {
     this.attendanceRemark = attendanceRemark;
   }
 
