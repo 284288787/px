@@ -130,7 +130,7 @@ $(function(){
 			},
 			throwTennis: {
 				required: true,
-				weight: true,
+				money: true,
 				rangelength: [1, 4]
 			},
 			doubleJump: {
