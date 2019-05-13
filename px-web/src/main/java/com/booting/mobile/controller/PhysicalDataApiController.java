@@ -1,13 +1,16 @@
 /** create by auto at 2018-01-15 10:25:41**/
 package com.booting.mobile.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.booting.kindergarten.dto.PhysicalDataRequestDTO;
+import com.booting.kindergarten.dto.PhysicalDataDTO;
 import com.booting.service.impl.KindergartenWebService;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.star.framework.specification.result.v2.ApiResult;
 import com.star.framework.specification.utils.ParamHandler;
 import com.star.framework.version.InterfaceVersion;
@@ -35,7 +38,7 @@ public class PhysicalDataApiController{
     public String postData(@ApiIgnore String params) throws Exception {
       ParamHandler paramHandler = new ParamHandler(params);
       String datas = paramHandler.getString("datas");
-      PhysicalDataRequestDTO request = ParamHandler.strToObj(datas, PhysicalDataRequestDTO.class);
+      List<PhysicalDataDTO> request = ParamHandler.strToObj(datas, new TypeReference<List<PhysicalDataDTO>>() {});
       this.kindergartenWebService.postData(request);
       ApiResult apiResult = new ApiResult("ok");
       return ParamHandler.objToString(apiResult);

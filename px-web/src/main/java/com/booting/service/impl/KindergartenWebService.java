@@ -25,7 +25,6 @@ import com.booting.kindergarten.dto.CoachDTO;
 import com.booting.kindergarten.dto.KindergartenDTO;
 import com.booting.kindergarten.dto.ParentDTO;
 import com.booting.kindergarten.dto.PhysicalDataDTO;
-import com.booting.kindergarten.dto.PhysicalDataRequestDTO;
 import com.booting.kindergarten.dto.StudentDTO;
 import com.booting.kindergarten.dto.StudentParentRelationDTO;
 import com.booting.kindergarten.dto.TeacherDTO;
@@ -1247,11 +1246,11 @@ public class KindergartenWebService extends BaseWebService {
     return apiResult;
   }
 
-  public void postData(PhysicalDataRequestDTO request) {
-    if (null == request || null == request.getDatas() || request.getDatas().isEmpty()) {
+  public void postData(List<PhysicalDataDTO> request) {
+    if (null == request || request.isEmpty()) {
       throw new ArgsException(FailureCode.ERR_002);
     }
-    request.getDatas().forEach(physicalDataDTO -> {
+    request.forEach(physicalDataDTO -> {
       savePhysicalData(physicalDataDTO);
     });
   }

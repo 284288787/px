@@ -33,7 +33,7 @@ public class BraceletApiController extends ApiBaseController{
     @InterfaceVersion("1.0")
     @RequestMapping(value = "/{version}/bracelet/postData", method = {RequestMethod.POST, RequestMethod.GET}, produces = "text/html;charset=UTF-8")
     @ApiImplicitParams({
-      @ApiImplicitParam(name = "datas", value = "数组[{factoryCode:'', deviceName: '', mac: '', stepNum: 123, heartRate: 12, calorie: 21, distance: 123, quantity: '电量', other: '', studentId: 学生id},{}]", paramType = "query", required = true, dataType = "array"),
+      @ApiImplicitParam(name = "datas", value = "数组", paramType = "query", required = true, dataType = "array"),
     })
 	@ApiOperation(value = "传输手环运动数据", notes = "传输手环运动数据", httpMethod = "POST", response = String.class, produces = "text/html;charset=UTF-8")
 	public String postData(@ApiIgnore String params) throws Exception {
