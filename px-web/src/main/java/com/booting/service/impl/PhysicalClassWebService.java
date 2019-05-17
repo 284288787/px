@@ -86,6 +86,7 @@ public class PhysicalClassWebService {
     }
     physicalClassDTO.setDeleted(0);
     physicalClassDTO.setEnabled(1);
+    physicalClassDTO.setFinished(0);
     physicalClassDTO.setCreateTime(new Date());
     Long physicalClassId = this.trainingFacade.savePhysicalClass(physicalClassDTO);
     if (StringUtils.isNotBlank(physicalClassDTO.getCoachIds())) {
