@@ -553,6 +553,9 @@ public class KindergartenWebService extends BaseWebService {
     physicalDataDTO.setBalanceScore(balance);
     physicalDataDTO.setStatureScore(statureScore);
     physicalDataDTO.setWeightScore(weightScore);
+    if(null == physicalDataDTO.getTestTime()) {
+      physicalDataDTO.setTestTime(new Date());
+    }
   }
 
   public String getSexAndAge(StudentDTO studentDTO) {
