@@ -161,8 +161,11 @@
 				k.schoolId schoolId,
 				c.classId,
 				c.`name` className
-			FROM kindergarten_physical_data, kindergarten_student s, kindergarten_info k, kindergarten_class c
-			WHERE s.studentId = kindergarten_physical_data.studentId and s.schoolId = k.schoolId and s.classId = c.classId
+			FROM kindergarten_physical_data
+      INNER JOIN kindergarten_student s on kindergarten_physical_data.studentId = s.studentId
+      LEFT JOIN kindergarten_info k on s.schoolId = k.schoolId
+      LEFT JOIN kindergarten_class c on s.classId = c.classId
+      WHERE 1=1
 				<#if beginTime?exists && beginTime != "">
 					AND kindergarten_physical_data.testTime >= :beginTime
 				</#if>
@@ -244,8 +247,11 @@
 	<sql id="getSimplePhysicalDataListCount">
 		<![CDATA[
 			SELECT COUNT(1) 
-			FROM kindergarten_physical_data, kindergarten_student s, kindergarten_info k, kindergarten_class c
-			WHERE s.studentId = kindergarten_physical_data.studentId and s.schoolId = k.schoolId and s.classId = c.classId
+			FROM kindergarten_physical_data
+      INNER JOIN kindergarten_student s on kindergarten_physical_data.studentId = s.studentId
+      LEFT JOIN kindergarten_info k on s.schoolId = k.schoolId
+      LEFT JOIN kindergarten_class c on s.classId = c.classId
+      WHERE 1=1
 				<#if beginTime?exists && beginTime != "">
 					AND kindergarten_physical_data.testTime >= :beginTime
 				</#if>
