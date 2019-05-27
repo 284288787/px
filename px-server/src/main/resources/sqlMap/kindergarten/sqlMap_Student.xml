@@ -56,7 +56,11 @@
 				<#if studentId?exists && studentId != "">
 					studentId = :studentId
 				<#else>
-					studentId in (${studentIds})
+          <#if guardianMobile?exists && guardianMobile != "">
+            false
+          <#else>
+            studentId in (${studentIds})
+          </#if>
 				</#if>
 		]]>
 	</sql>
