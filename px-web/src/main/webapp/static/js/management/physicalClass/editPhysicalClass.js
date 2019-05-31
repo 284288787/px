@@ -86,6 +86,7 @@ $(function(){
     if(!params.deadlineTime){
       params.deadlineTime = params.schoolTime;
     }
+    params.price = params.price * 100;
 		console.log(JSON.stringify(params));
 		$.ajax({
 			contentType:'application/json', 
