@@ -147,9 +147,20 @@ public class PhysicalClassWebService {
         StringUtils.isBlank(attendance.getRemark())) {
       throw new ArgsException("studentId physicalClassId state remark 必填");
     }
-    attendance.setCreateTime(new Date());
-    attendance.setType(1);
-    this.trainingFacade.saveAttendance(attendance);
+    AttendanceDTO dto = new AttendanceDTO();
+    dto.setBusinessId(attendance.getBusinessId());
+    dto.setType(attendance.getType());
+    dto.setAttendanceId(attendance.getAttendanceId());
+    AttendanceDTO old = this.trainingFacade.getAttendance(dto);
+    if (null == old) {
+      attendance.setCreateTime(new Date());
+      this.trainingFacade.saveAttendance(attendance);
+    }else {
+      old.setCreateTime(new Date());
+      old.setState(attendance.getState());
+      old.setRemark(attendance.getRemark());
+      this.trainingFacade.updateAttendance(old);
+    }
   }
 
   public void finished(Long physicalClassId) {

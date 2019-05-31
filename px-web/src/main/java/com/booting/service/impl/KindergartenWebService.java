@@ -747,7 +747,7 @@ public class KindergartenWebService extends BaseWebService {
   public ApiResult lookupBaseData(Integer pageNo, ParentDTO parentDTO) throws ArgsException {
     String openId = parentDTO.getOpenId();
     Long studentId = parentDTO.getStudentId();
-    if (null == studentId || StringUtils.isBlank(openId)) {
+    if (null == studentId) {
       throw new ArgsException(FailureCode.ERR_002);
     }
     if (null == pageNo) {
@@ -757,21 +757,23 @@ public class KindergartenWebService extends BaseWebService {
     if (null == student) {
       throw new ArgsException(FailureCode.ERR_803);
     }
-    MemberDTO member = getMember(parentDTO.getOpenId());
-    if (null == member) {
-      throw new ArgsException(FailureCode.ERR_701);
-    }
-    String mobile = member.getMobile();
-    if (StringUtils.isBlank(mobile)) {
-      throw new ArgsException(FailureCode.ERR_701);
-    }
-    ParentDTO parent = getParent(mobile);
-    if (null == parent) {
-      throw new ArgsException(FailureCode.ERR_801);
-    }
-    StudentParentRelationDTO relation = getStudentParentRelation(parent.getParentId(), studentId);
-    if (null == relation) {
-      throw new ArgsException(FailureCode.ERR_802);
+    if(StringUtils.isNotBlank(openId)) {
+      MemberDTO member = getMember(parentDTO.getOpenId());
+      if (null == member) {
+        throw new ArgsException(FailureCode.ERR_701);
+      }
+      String mobile = member.getMobile();
+      if (StringUtils.isBlank(mobile)) {
+        throw new ArgsException(FailureCode.ERR_701);
+      }
+      ParentDTO parent = getParent(mobile);
+      if (null == parent) {
+        throw new ArgsException(FailureCode.ERR_801);
+      }
+      StudentParentRelationDTO relation = getStudentParentRelation(parent.getParentId(), studentId);
+      if (null == relation) {
+        throw new ArgsException(FailureCode.ERR_802);
+      }
     }
     QueryParam queryParam = new QueryParam();
     queryParam.setPageNo(pageNo);
