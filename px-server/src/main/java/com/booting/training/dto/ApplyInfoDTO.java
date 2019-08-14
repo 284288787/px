@@ -48,6 +48,7 @@ public class ApplyInfoDTO implements Serializable {
 	
 	private TrainingItemDTO trainingItem; //培训项目
 	private List<ApplyDetailDTO> details; //团体明细
+	private String code;
 	
 	public Long getApplyId() {
 		return applyId;
@@ -293,5 +294,13 @@ public class ApplyInfoDTO implements Serializable {
 
   public void setTitle(String title) {
     this.title = title;
+  }
+
+  public String getCode() {
+    return code;
+  }
+
+  public void setCode(String code) {
+    this.code = code;
   }
 }

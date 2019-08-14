@@ -280,7 +280,89 @@ public class TrainingWebService extends BaseWebService {
       throw new ArgsException(FailureCode.ERR_002);
     }
     applyInfoDTO.setType(5);
+    
+    String openId = applyInfoDTO.getOpenId();
+    MemberDTO memberDTO = new MemberDTO();
+    memberDTO.setOpenId(openId);
+    memberDTO = memberFacade.getMember(memberDTO);
+    if (null == memberDTO || null == memberDTO.getMemberId()) {
+      memberDTO = new MemberDTO();
+      memberDTO.setOpenId(openId);
+      memberDTO.setMobile(applyInfoDTO.getMobile());
+      memberDTO.setCreateTime(new Date());
+      memberFacade.saveMember(memberDTO);
+    } else {
+      if (StringUtils.isBlank(memberDTO.getMobile())) {
+        memberDTO.setMobile(applyInfoDTO.getMobile());
+        memberFacade.updateMember(memberDTO);
+      }
+    }
+    TrainingItemDTO itemDTO = this.trainingFacade.getTrainingItem(applyInfoDTO.getItemId());
+    if (null == itemDTO) {
+      throw new ArgsException(FailureCode.ERR_002.getCode(), "项目不存在");
+    }
+    if (itemDTO.getSubType() == 1) {
+      TrainingItemPriceDTO trainingItemPriceDTO = new TrainingItemPriceDTO();
+      trainingItemPriceDTO.setItemId(itemDTO.getItemId());
+      trainingItemPriceDTO.setApplyItemId(applyInfoDTO.getApplyItemId());
+      TrainingItemPriceDTO price = this.trainingFacade.getTrainingItemPrice(trainingItemPriceDTO);
+      if (null == price || 0 == price.getPrice()) {
+        applyInfoDTO.setStatus(ApplyStatus.yzf.getStatus());
+      } else {
+        applyInfoDTO.setStatus(ApplyStatus.dfk.getStatus());
+      }
+    }else {
+      PhysicalClassDTO physicalClass = this.trainingFacade.getPhysicalClass(itemDTO.getPhysicalClassId());
+      if (null != physicalClass && null != physicalClass.getPrice() && physicalClass.getPrice() > 0) {
+        applyInfoDTO.setStatus(ApplyStatus.dfk.getStatus());
+      }else {
+        applyInfoDTO.setStatus(ApplyStatus.yzf.getStatus());
+      }
+    }
+    
+    // ApplyInfoDTO params = new ApplyInfoDTO();
+    // params.setType(applyInfoDTO.getType());
+    // params.setMobile(applyInfoDTO.getMobile());
+    // List<ApplyInfoDTO> list = this.trainingFacade.getApplyInfoList(params);
+    // if (null != list && !list.isEmpty()) {
+    // throw new ArgsException(FailureCode.ERR_702);
+    // }
+    applyInfoDTO.setCreateTime(new Date());
+    applyInfoDTO.setUserId(memberDTO.getMemberId());
+    Long applyId = this.trainingFacade.saveApplyInfo(applyInfoDTO);
+    if (null != applyInfoDTO.getDetails() && applyInfoDTO.getType() == 4) {
+      this.trainingFacade.batchSaveApplyDetail(applyInfoDTO.getDetails());
+    }
+    if (itemDTO.getSubType() == 2) {
+      StudentDTO studentDTO = new StudentDTO();
+      studentDTO.setBirth(Date.from(LocalDate.now().minusYears(applyInfoDTO.getChildAge()).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+      studentDTO.setGuardianMobile(applyInfoDTO.getMobile());
+      studentDTO.setGuardianName(applyInfoDTO.getName());
+      studentDTO.setName(applyInfoDTO.getChildName());
+      studentDTO.setSex(applyInfoDTO.getChildSex());
+      studentDTO.setType(2);
+      studentDTO.setPhysicalClassId(itemDTO.getPhysicalClassId());
+      kindergartenWebService.saveStudent(studentDTO);
+    }
+    return applyId;
+  }
+  
+  public Long saveApplyInfo2(ApplyInfoDTO applyInfoDTO) throws ArgsException {
+    if (null == applyInfoDTO || StringUtils.isBlank(applyInfoDTO.getChildName()) || StringUtils.isBlank(applyInfoDTO.getCode()) || 
+        null == applyInfoDTO.getChildAge() || null == applyInfoDTO.getChildSex() || StringUtils.isBlank(applyInfoDTO.getOpenId()) || 
+        StringUtils.isBlank(applyInfoDTO.getMobile())) {
+      throw new ArgsException(FailureCode.ERR_002, "childName, childAge, childSex, openId, mobile code, 必填");
+    }
+    applyInfoDTO.setType(5);
 
+  //校验短信
+    SmsIdentityDTO dto = getSmsIdentity(applyInfoDTO.getMobile(), 6);
+    if (null == dto || ! applyInfoDTO.getCode().equals(dto.getCode())) {
+        throw new ArgsException("102", "验证码错误");
+    }
+    smsIdentityService.delete(dto.getId());
+    
+    applyInfoDTO.setItemId(1L);
     String openId = applyInfoDTO.getOpenId();
     MemberDTO memberDTO = new MemberDTO();
     memberDTO.setOpenId(openId);
