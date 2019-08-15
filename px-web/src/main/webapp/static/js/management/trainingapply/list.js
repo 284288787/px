@@ -22,6 +22,11 @@ var trainingapplyHandle = new ListHandle({
   }
 });
 $(function(){
+  var now = new Date();
+  $("#endCreateTime").val(now.format("yyyy-MM-dd 00:00:00"));
+  now.setDate(now.getDate() - 1);
+  $("#beginCreateTime").val(now.format("yyyy-MM-dd 00:00:00"));
+  
 	var colNames = [ '主键', '状态', '订单号', '交易单号', '金额', '项目标题', '培训项目', '上课地点', '家长姓名', '家长电话', '孩子姓名', '孩子性别', '孩子年龄', '家庭地址', '推广员', '推广员电话', '创建时间'];
 	var colModel = [
 		{name: 'applyId', index: 'applyId', width: 20, align: "center"}, 

@@ -116,9 +116,9 @@
       LEFT JOIN px_promoter p on p.promoterId = px_apply_info.promoterId
       LEFT JOIN px_apply_item i on i.applyItemId = px_apply_info.applyItemId
       WHERE 1=1
-			<#if orderNo?exists && orderNo != "">
+			 <#if orderNo?exists && orderNo != "">
 					AND orderNo = :orderNo
-				</#if>
+        </#if>
 			<#if transactionId?exists && transactionId != "">
 					AND transaction_id = :transactionId
 				</#if>
@@ -164,6 +164,18 @@
 			<#if itemId?exists && itemId != "">
 				AND px_apply_info.itemId = :itemId
 			</#if>
+      <#if promoter?exists && promoter != "">
+        AND p.`name` = :promoter
+      </#if>
+      <#if promoterMobile?exists && promoterMobile != "">
+        AND p.mobile = :promoterMobile
+      </#if>
+      <#if beginCreateTime?exists && beginCreateTime != "">
+        and px_apply_info.createTime >= :beginCreateTime
+      </#if>
+      <#if endCreateTime?exists && endCreateTime != "">
+        and px_apply_info.createTime <= :endCreateTime
+      </#if>
 			<#if orderBy?exists && orderBy !="" >
 				ORDER BY :orderBy
 				<#if orderType?exists && orderType !="" >

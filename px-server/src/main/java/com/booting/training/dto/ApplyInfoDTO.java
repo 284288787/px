@@ -50,6 +50,9 @@ public class ApplyInfoDTO implements Serializable {
 	private List<ApplyDetailDTO> details; //团体明细
 	private String code;
 	
+	private String beginCreateTime;
+	private String endCreateTime;
+	
 	public Long getApplyId() {
 		return applyId;
 	}
@@ -302,5 +305,21 @@ public class ApplyInfoDTO implements Serializable {
 
   public void setCode(String code) {
     this.code = code;
+  }
+
+  public String getBeginCreateTime() {
+    return beginCreateTime;
+  }
+
+  public String getEndCreateTime() {
+    return endCreateTime;
+  }
+
+  public void setBeginCreateTime(String beginCreateTime) {
+    this.beginCreateTime = beginCreateTime;
+  }
+
+  public void setEndCreateTime(String endCreateTime) {
+    this.endCreateTime = endCreateTime;
   }
 }
