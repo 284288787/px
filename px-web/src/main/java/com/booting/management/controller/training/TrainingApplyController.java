@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -40,6 +41,12 @@ public class TrainingApplyController {
     queryParam.setOrderType(sord);
     queryParam.setPageNo(page);
     queryParam.setPageSize(rows);
+    if(StringUtils.isNotBlank(applyInfoDTO.getBeginCreateTime())) {
+      applyInfoDTO.setBeginCreateTime(applyInfoDTO.getBeginCreateTime() + " 00:00:00");
+    }
+    if(StringUtils.isNotBlank(applyInfoDTO.getEndCreateTime())) {
+      applyInfoDTO.setEndCreateTime(applyInfoDTO.getEndCreateTime() + " 23:59:59");
+    }
     queryParam.setParam(applyInfoDTO);
     PageList<ApplyInfoDTO> pageList = trainingWebService.getListForPageApplyInfo(queryParam, ApplyInfoDTO.class);
     Map<String, Object> map = new HashMap<>();

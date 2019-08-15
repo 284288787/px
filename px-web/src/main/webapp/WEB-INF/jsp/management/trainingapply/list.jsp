@@ -24,9 +24,9 @@
 				<span>推广员： <input type="text" name="promoter" placeholder="推广员姓名"></span>
 				<span>报名时间： 
           <input type="text" class="Wdate" id="beginCreateTime" name="beginCreateTime" placeholder="起始日期" 
-                onclick="WdatePicker({startDate:'%y-%M-%d %H:%m:%s',isShowClear:true,readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss',alwaysUseStartDate:true})"> 
+                onclick="WdatePicker({startDate:'%y-%M-%d',isShowClear:true,readOnly:true,dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true})"> 
           <input type="text" class="Wdate" id="endCreateTime" name="endCreateTime" placeholder="终止日期" 
-                onclick="WdatePicker({minDate:'#F{$dp.$D(\'beginCreateTime\')}',isShowClear:true,readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})"> 
+                onclick="WdatePicker({minDate:'#F{$dp.$D(\'beginCreateTime\')}',isShowClear:true,readOnly:true,dateFmt:'yyyy-MM-dd'})"> 
         </span>
         <span>推广员电话： <input type="text" name="promoterMobile" placeholder="推广员电话"></span>
 				<span>状态： 
