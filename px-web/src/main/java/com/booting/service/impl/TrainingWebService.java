@@ -431,7 +431,7 @@ public class TrainingWebService extends BaseWebService {
       String filename = "已付款报名信息.xlsx";
       filename = URLEncoder.encode(filename, "UTF-8");
       response.setHeader("Content-Disposition", "attachment; filename=" + filename);
-      String[] titles = new String[] { "订单号", "交易单号", "推广员", "推广员手机", "家长姓名", "家长手机", "报名时间" };
+      String[] titles = new String[] { "订单号", "交易单号", "推广员", "推广员手机", "家长姓名", "家长手机", "孩子姓名", "孩子性别", "报名时间" };
       ApplyInfoDTO applyInfoDTO = new ApplyInfoDTO();
       List<ApplyInfoDTO> list = trainingFacade.getApplyInfoList(applyInfoDTO);
       List<String[]> datas = list.stream().map(info -> {
@@ -443,7 +443,9 @@ public class TrainingWebService extends BaseWebService {
         record[3] = info.getPromoterMobile();
         record[4] = info.getName();
         record[5] = info.getMobile();
-        record[6] = sdf.format(info.getCreateTime());
+        record[6] = info.getChildName();
+        record[7] = info.getChildSex() == 1 ? "男" : "女";
+        record[8] = sdf.format(info.getCreateTime());
         return record;
       }).collect(Collectors.toList());
       DataExportUtil.createXlsxExcelFile2(os, "已付款报名信息", titles, datas);
