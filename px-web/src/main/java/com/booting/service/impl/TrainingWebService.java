@@ -273,6 +273,67 @@ public class TrainingWebService extends BaseWebService {
     return null;
   }
 
+  public Long saveApplyInfo3(ApplyInfoDTO applyInfoDTO) throws ArgsException {
+    if (null == applyInfoDTO || StringUtils.isBlank(applyInfoDTO.getChildName()) || 
+        null == applyInfoDTO.getChildAge() || null == applyInfoDTO.getChildSex() || StringUtils.isBlank(applyInfoDTO.getOpenId()) || 
+        StringUtils.isBlank(applyInfoDTO.getMobile())) {
+      throw new ArgsException(FailureCode.ERR_002);
+    }
+    applyInfoDTO.setItemId(1L);
+    applyInfoDTO.setType(5);
+    
+    String openId = applyInfoDTO.getOpenId();
+    MemberDTO memberDTO = new MemberDTO();
+    memberDTO.setOpenId(openId);
+    memberDTO = memberFacade.getMember(memberDTO);
+    if (null == memberDTO || null == memberDTO.getMemberId()) {
+      memberDTO = new MemberDTO();
+      memberDTO.setOpenId(openId);
+      memberDTO.setMobile(applyInfoDTO.getMobile());
+      memberDTO.setCreateTime(new Date());
+      memberFacade.saveMember(memberDTO);
+    } else {
+      if (StringUtils.isBlank(memberDTO.getMobile())) {
+        memberDTO.setMobile(applyInfoDTO.getMobile());
+        memberFacade.updateMember(memberDTO);
+      }
+    }
+    TrainingItemDTO itemDTO = this.trainingFacade.getTrainingItem(applyInfoDTO.getItemId());
+    if (null == itemDTO) {
+      throw new ArgsException(FailureCode.ERR_002.getCode(), "项目不存在");
+    }
+    if (itemDTO.getSubType() == 1) {
+      TrainingItemPriceDTO trainingItemPriceDTO = new TrainingItemPriceDTO();
+      trainingItemPriceDTO.setItemId(itemDTO.getItemId());
+      trainingItemPriceDTO.setApplyItemId(applyInfoDTO.getApplyItemId());
+      TrainingItemPriceDTO price = this.trainingFacade.getTrainingItemPrice(trainingItemPriceDTO);
+      if (null == price || 0 == price.getPrice()) {
+        applyInfoDTO.setStatus(ApplyStatus.yzf.getStatus());
+      } else {
+        applyInfoDTO.setStatus(ApplyStatus.dfk.getStatus());
+      }
+    }
+    
+    applyInfoDTO.setCreateTime(new Date());
+    applyInfoDTO.setUserId(memberDTO.getMemberId());
+    Long applyId = this.trainingFacade.saveApplyInfo(applyInfoDTO);
+    if (null != applyInfoDTO.getDetails() && applyInfoDTO.getType() == 4) {
+      this.trainingFacade.batchSaveApplyDetail(applyInfoDTO.getDetails());
+    }
+    if (itemDTO.getSubType() == 2) {
+      StudentDTO studentDTO = new StudentDTO();
+      studentDTO.setBirth(Date.from(LocalDate.now().minusYears(applyInfoDTO.getChildAge()).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+      studentDTO.setGuardianMobile(applyInfoDTO.getMobile());
+      studentDTO.setGuardianName(applyInfoDTO.getName());
+      studentDTO.setName(applyInfoDTO.getChildName());
+      studentDTO.setSex(applyInfoDTO.getChildSex());
+      studentDTO.setType(2);
+      studentDTO.setPhysicalClassId(itemDTO.getPhysicalClassId());
+      kindergartenWebService.saveStudent(studentDTO);
+    }
+    return applyId;
+  }
+  
   public Long saveApplyInfo(ApplyInfoDTO applyInfoDTO) throws ArgsException {
     if (null == applyInfoDTO || null == applyInfoDTO.getItemId() || StringUtils.isBlank(applyInfoDTO.getChildName()) || 
         null == applyInfoDTO.getChildAge() || null == applyInfoDTO.getChildSex() || StringUtils.isBlank(applyInfoDTO.getOpenId()) || 
@@ -513,7 +574,7 @@ public class TrainingWebService extends BaseWebService {
       String filename = "已付款报名信息.xlsx";
       filename = URLEncoder.encode(filename, "UTF-8");
       response.setHeader("Content-Disposition", "attachment; filename=" + filename);
-      String[] titles = new String[] { "订单号", "交易单号", "推广员", "推广员手机", "家长姓名", "家长手机", "报名时间" };
+      String[] titles = new String[] { "订单号", "交易单号", "推广员", "推广员手机", "家长姓名", "家长手机", "孩子姓名", "孩子性别", "报名时间" };
       ApplyInfoDTO applyInfoDTO = new ApplyInfoDTO();
       List<ApplyInfoDTO> list = trainingFacade.getApplyInfoList(applyInfoDTO);
       List<String[]> datas = list.stream().map(info -> {
@@ -525,7 +586,9 @@ public class TrainingWebService extends BaseWebService {
         record[3] = info.getPromoterMobile();
         record[4] = info.getName();
         record[5] = info.getMobile();
-        record[6] = sdf.format(info.getCreateTime());
+        record[6] = info.getChildName();
+        record[7] = info.getChildSex() == 1 ? "男" : "女";
+        record[8] = sdf.format(info.getCreateTime());
         return record;
       }).collect(Collectors.toList());
       DataExportUtil.createXlsxExcelFile2(os, "已付款报名信息", titles, datas);
