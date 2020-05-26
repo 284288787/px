@@ -17,9 +17,6 @@ public class SmsUtil {
 
     private static final String product = "Dysmsapi";
     private static final String domain = "dysmsapi.aliyuncs.com";
-
-    private static final String accessKeyId = "LTAIskNr1fYUcd8c5bEa";
-    private static final String accessKeySecret = "yRklHcegQw0jaVKs6vio8XJiBMdichbZaVab";
 	
     private static SendSmsResponse sendSms(String mobiles, String templateCode, String templateParam) throws ClientException {
         //可自助调整超时时间
