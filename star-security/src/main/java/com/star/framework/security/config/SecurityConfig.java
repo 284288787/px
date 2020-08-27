@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity web) throws Exception {
 		// 设置不拦截规则
 //		web.ignoring().antMatchers("/static/**", "/swagger/**", "/**/*.jsp", "/bui/*.css", "/bui/*.js", "/bui/**/*.css", "/bui/**/*.js");
-		web.ignoring().antMatchers("/*.txt", "/swagger-resources/**", "/swagger-ui.html","/webjars/**", "/common/**", "/intro**", "/lottery**", "/o**", "/policy**", "/api/**", "/index**", "/index/**", "/petitioner/**", "/v2/api-docs", "/favicon.ico", "/static/**", "/px/**", "/swagger/**", "/**/*.jsp", "/bui/*?/**/*.*");
+		web.ignoring().antMatchers("/*.txt", "/swagger-resources/**", "/swagger-ui.html","/webjars/**", "/common/**", "/intro**", "/lottery**", "/o**", "/policy**", "/api/**", "/index**", "/index/**", "/petitioner/**", "/v2/api-docs", "/favicon.ico", "/static/**", "/px/**", "/em/**", "/swagger/**", "/**/*.jsp", "/bui/*?/**/*.*");
 	}
 
 	// @Override
