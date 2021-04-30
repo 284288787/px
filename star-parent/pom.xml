@@ -10,7 +10,7 @@
 		<tomcat.version>2.2</tomcat.version>
 		<servlet.version>3.1.0</servlet.version>
 		<jstl.version>1.2</jstl.version>
-		<spring.version>4.3.8.RELEASE</spring.version>
+		<spring.version>4.3.29.RELEASE</spring.version>
 	</properties>
 
 	<!-- 统⼀一管理 Spring 的版本 -->
